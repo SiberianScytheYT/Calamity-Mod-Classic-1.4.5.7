@@ -1,0 +1,68 @@
+using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+
+namespace CalRD.Projectiles.Rogue
+{
+    public class MetalChunk : ModProjectile
+    {
+        public override string Texture => "CalRD/Items/Weapons/Rogue/MetalMonstrosity";
+
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Metal Chunk"); //Metal Chungus - Shucks
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 32;
+            Projectile.height = 32;
+            Projectile.friendly = true;
+            Projectile.Calamity().rogue = true;
+            Projectile.ignoreWater = true; //Its hella heavy so ofc
+            Projectile.extraUpdates = 1;
+        }
+
+        public override void AI()
+        { 
+            //Gravity 
+            Projectile.velocity.Y += 0.11f;
+            if (Projectile.velocity.Y > 16f)
+                Projectile.velocity.Y = 16f;
+            //Rotation
+            Projectile.rotation += 0.14f * Projectile.direction;
+            if (Projectile.Calamity().stealthStrike)
+            {
+                Projectile.ai[0]++;
+                if(Projectile.ai[0] >= 10f)
+                {
+                    Vector2 speed = new Vector2(Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-6f, 6f));
+                    Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center, speed, ModContent.ProjectileType<MetalShard>(), (int)(Projectile.damage * 0.3f), 0f, Projectile.owner, 0f, 0f);
+                    Projectile.ai[0] = 0f;
+                }
+            }
+        }
+
+        public override void OnKill(int timeLeft)
+        {
+            SoundEngine.PlaySound(SoundID.NPCHit42, Projectile.Center);
+            for (int i = 0; i < 3; i++)
+            {
+                Vector2 S1 = new Vector2(-Projectile.velocity.X, -Projectile.velocity.Y).RotatedBy(MathHelper.ToRadians(Main.rand.Next(-45, 46)));
+                int proj = Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center, S1, ProjectileID.SpikyBall, (int)(Projectile.damage * 0.3), 0f, Projectile.owner, 0f, 0f);
+                Main.projectile[proj].timeLeft = 600;
+                Main.projectile[proj].usesLocalNPCImmunity = true;
+                Main.projectile[proj].localNPCHitCooldown = 20;
+                S1 = new Vector2(-Projectile.velocity.X * 0.7f, -Projectile.velocity.Y*0.7f).RotatedBy(MathHelper.ToRadians(Main.rand.Next(-45, 46)));
+                Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center, S1, ModContent.ProjectileType<MetalShard>(), (int)(Projectile.damage * 0.3), 0f, Projectile.owner, 0f, 0f);
+            }
+            //Dust
+            for (int i = 0; i < 20; i++)
+            {
+                Dust.NewDust(Projectile.Center, 1, 1, DustID.Lead, 0f, 0f, 0, default, 1.1f);
+            }
+        }
+    }
+}

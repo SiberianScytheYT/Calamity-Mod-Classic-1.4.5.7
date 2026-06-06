@@ -1,0 +1,48 @@
+using CalRD.CalPlayer;
+using System.Collections.Generic;
+using Terraria;
+using Terraria.ModLoader;
+
+namespace CalRD.Items.Accessories
+{
+    public class MomentumCapacitor : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Momentum Capacitor");
+/*
+            Tooltip.SetDefault("TOOLTIP LINE HERE\n" +
+                               "Rogue projectiles that enter the field get a constant acceleration and 15% damage boost\n" +
+                               "These boosts can only happen to a projectile once\n" +
+                               "There can only be one field");
+*/
+        }
+
+        public override void SetDefaults()
+        {
+            Item.width = 28;
+            Item.height = 32;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.accessory = true;
+            Item.rare = 5;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            string hotkey = CalRD.MomentumCapacitatorHotkey.TooltipHotkeyString();
+            foreach (TooltipLine line2 in list)
+            {
+                if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
+                {
+                    line2.Text = "Press " + hotkey + " to consume 30% of your maximum stealth to create an energy field at the cursor position";
+                }
+            }
+        }
+
+        public override void UpdateAccessory(Player player, bool hideVisual)
+        {
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.momentumCapacitor = true;
+        }
+    }
+}

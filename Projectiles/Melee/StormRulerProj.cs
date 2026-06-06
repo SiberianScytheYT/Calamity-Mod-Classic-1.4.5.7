@@ -1,0 +1,73 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalRD.Projectiles.Melee
+{
+    public class StormRulerProj : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Ruler");
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = 1;
+            Projectile.alpha = 255;
+            Projectile.timeLeft = 600;
+        }
+
+        public override void AI()
+        {
+            Lighting.AddLight(Projectile.Center, 0f, 0.25f, 0.25f);
+            if (Projectile.localAI[0] == 0f)
+            {
+                Projectile.scale -= 0.02f;
+                Projectile.alpha += 30;
+                if (Projectile.alpha >= 250)
+                {
+                    Projectile.alpha = 255;
+                    Projectile.localAI[0] = 1f;
+                }
+            }
+            else if (Projectile.localAI[0] == 1f)
+            {
+                Projectile.scale += 0.02f;
+                Projectile.alpha -= 30;
+                if (Projectile.alpha <= 0)
+                {
+                    Projectile.alpha = 0;
+                    Projectile.localAI[0] = 0f;
+                }
+            }
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 1.57f;
+        }
+
+        public override void OnKill(int timeLeft)
+        {
+            if (Projectile.owner == Main.myPlayer)
+            {
+                Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<StormMark>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+            }
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+			if (Projectile.timeLeft > 595)
+				return false;
+
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(Projectile, lightColor, ProjectileID.Sets.TrailingMode[Projectile.type], 1);
+            return false;
+        }
+    }
+}

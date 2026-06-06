@@ -1,0 +1,70 @@
+using CalRD.Items.Materials;
+using CalRD.Projectiles.Rogue;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+
+namespace CalRD.Items.Weapons.Rogue
+{
+    public class PhantomLance : RogueWeapon
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Phantom Lance");
+/*
+            Tooltip.SetDefault("Fires a spectral javelin that rapidly releases lost souls\n"
+                               +"Fades away and slows down over time\n"
+                               +"Lost souls released later deal less damage\n"
+                               +"Stealth strikes don't slow down and souls always deal full damage");
+*/
+        }
+
+        public override void SafeSetDefaults()
+        {
+            Item.damage = 70;
+            Item.knockBack = 5f;
+
+            Item.width = 62;
+            Item.height = 68;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+
+            Item.value = Item.buyPrice(0, 0, 50, 0);
+            Item.rare = 8;
+            Item.useTime = 23;
+            Item.useAnimation = 23;
+            Item.maxStack = 999;
+            Item.UseSound = SoundID.Item1;
+            Item.consumable = true;
+            Item.Calamity().rogue = true;
+
+            Item.autoReuse = true;
+            Item.shootSpeed = 10f;
+            Item.shoot = ModContent.ProjectileType<PhantomLanceProj>();
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
+            {
+                int stealth = Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), type, damage, Item.knockBack, player.whoAmI, 0f, 0f);
+                Main.projectile[stealth].Calamity().stealthStrike = true;
+                return false;
+            }
+            return true;
+        }
+
+        public override void AddRecipes()
+        {
+            Recipe recipe = CreateRecipe(100);
+            recipe.AddIngredient(ItemID.SpectreBar, 2);
+            recipe.AddIngredient(ModContent.ItemType<CruptixBar>());
+            recipe.AddIngredient(ModContent.ItemType<CalamityDust>(), 2);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.Register();
+        }
+    }
+}

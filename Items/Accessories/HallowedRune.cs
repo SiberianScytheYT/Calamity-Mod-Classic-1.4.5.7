@@ -1,0 +1,45 @@
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalRD.Items.Accessories
+{
+	public class HallowedRune : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Hallowed Rune");
+/*
+            Tooltip.SetDefault("Whenever your minions hit an enemy you will gain a random buff\n" +
+                "These buffs will either boost your defense, summon damage, or life regen for a while\n" +
+                "If you have the offensive boost, enemies hit by minions will sometimes be hit by stars");
+*/
+        }
+
+        public override void SetDefaults()
+        {
+            Item.width = 26;
+            Item.height = 26;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = 5;
+            Item.accessory = true;
+        }
+
+        public override void UpdateAccessory(Player player, bool hideVisual)
+        {
+            player.Calamity().hallowedRune = true;
+        }
+
+        public override void AddRecipes()
+        {
+            Recipe recipe = CreateRecipe();
+            recipe.AddIngredient(ModContent.ItemType<SpiritGenerator>());
+            recipe.AddIngredient(ItemID.HallowedBar, 18);
+            recipe.AddIngredient(ItemID.SoulofFright, 5);
+            recipe.AddIngredient(ItemID.SoulofMight, 5);
+            recipe.AddIngredient(ItemID.SoulofSight, 5);
+			recipe.AddTile(TileID.MythrilAnvil);
+            recipe.Register();
+        }
+    }
+}

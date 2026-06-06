@@ -1,0 +1,74 @@
+using CalRD.Buffs.DamageOverTime;
+using CalRD.Buffs.StatDebuffs;
+using CalRD.Dusts;
+using CalRD.Projectiles.Summon;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
+namespace CalRD.Projectiles.Ranged
+{
+    public class CorrodedShell : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Shell");
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.arrow = true;
+            Projectile.penetrate = 6;
+            Projectile.timeLeft = 600;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.aiStyle = 1;
+        }
+
+        public override void AI()
+        {
+            Projectile.velocity.X *= 0.9995f;
+            Projectile.velocity.Y *= 0.9995f;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+
+            if (Projectile.timeLeft % 3 == 0)
+            {
+                if (Projectile.owner == Main.myPlayer)
+                {
+                    int aura = Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<IrradiatedAura>(), (int)(Projectile.damage * 0.15), Projectile.knockBack, Projectile.owner, 0f, 0f);
+					Main.projectile[aura].Calamity().forceRanged = true;
+					Main.projectile[aura].timeLeft = 40;
+                }
+            }
+        }
+
+        public override void OnKill(int timeLeft)
+        {
+            Projectile.position = Projectile.Center;
+            Projectile.width = Projectile.height = 32;
+            Projectile.position = Projectile.position - Projectile.Size / 2f;
+            Projectile.maxPenetrate = -1;
+            Projectile.penetrate = -1;
+            Projectile.Damage();
+            SoundEngine.PlaySound(SoundID.Item92, Projectile.Center);
+            int count = Main.rand.Next(6, 15);
+            for (int i = 0; i < count; i++)
+            {
+                int idx = Dust.NewDust(Projectile.Center - Projectile.velocity / 2f, 0, 0, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 100, default, 2f);
+                Main.dust[idx].velocity *= 2f;
+                Main.dust[idx].noGravity = true;
+            }
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+			target.AddBuff(ModContent.BuffType<Irradiated>(), 60);
+			target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 30);
+        }
+    }
+}

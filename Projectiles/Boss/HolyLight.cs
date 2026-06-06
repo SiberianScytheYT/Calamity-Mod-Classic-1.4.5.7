@@ -1,0 +1,133 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
+using Terraria.ModLoader;
+using Terraria.ID;
+
+namespace CalRD.Projectiles.Boss
+{
+    public class HolyLight : ModProjectile
+    {
+        public override string Texture => "CalRD/Projectiles/StarProj";
+
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Holy Light");
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.hostile = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+			Projectile.alpha = 255;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 200;
+        }
+
+        public override void AI()
+        {
+			if (Projectile.ai[0] < 240f)
+			{
+				Projectile.ai[0] += 1f;
+
+				if (Projectile.timeLeft < 160)
+					Projectile.timeLeft = 160;
+			}
+
+			bool expertMode = Main.expertMode;
+
+			if (Projectile.velocity.Length() < 16f)
+				Projectile.velocity *= 1.01f;
+
+			int index = Player.FindClosest(Projectile.position, Projectile.width, Projectile.height);
+			Player player = Main.player[index];
+			if (player is null)
+				return;
+
+			float playerDist = Vector2.Distance(player.Center, Projectile.Center);
+			if (playerDist < 50f && !player.dead && Projectile.position.X < player.position.X + player.width && Projectile.position.X + Projectile.width > player.position.X && Projectile.position.Y < player.position.Y + player.height && Projectile.position.Y + Projectile.height > player.position.Y)
+            {
+                int healAmt = (int)Projectile.ai[1];
+				player.HealEffect(healAmt, false);
+                player.statLife += healAmt;
+                if (player.statLife > player.statLifeMax2)
+                {
+                    player.statLife = player.statLifeMax2;
+                }
+                NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, index, healAmt);
+                Projectile.Kill();
+            }
+        }
+
+		public override bool PreDraw(ref Color lightColor)
+		{
+			Texture2D value = TextureAssets.Projectile[Projectile.type].Value;
+			Color baseColor = new Color(100, 255, 100, 255);
+			Color color33 = baseColor * 0.5f;
+			color33.A = 0;
+			Vector2 vector28 = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
+			Color color34 = color33;
+			Vector2 origin5 = value.Size() / 2f;
+			Color color35 = color33 * 0.5f;
+			float num162 = CalamityUtils.GetLerpValue(15f, 30f, Projectile.timeLeft, clamped: true) * CalamityUtils.GetLerpValue(240f, 200f, Projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTimeWrappedHourly % 30f / 0.5f * ((float)Math.PI * 2f) * 3f)) * 0.8f;
+			Vector2 vector29 = new Vector2(0.5f, 1f) * num162;
+			Vector2 vector30 = new Vector2(0.5f, 1f) * num162;
+			color34 *= num162;
+			color35 *= num162;
+
+			int num163 = 0;
+			Vector2 position3 = vector28 + Projectile.velocity.SafeNormalize(Vector2.Zero) * CalamityUtils.GetLerpValue(0.5f, 1f, Projectile.localAI[0] / 60f, clamped: true) * num163;
+
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (Projectile.spriteDirection == -1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			Main.EntitySpriteDraw(value, position3, null, color34, (float)Math.PI / 2f, origin5, vector29, spriteEffects, 0);
+			Main.EntitySpriteDraw(value, position3, null, color34, 0f, origin5, vector30, spriteEffects, 0);
+			Main.EntitySpriteDraw(value, position3, null, color35, (float)Math.PI / 2f, origin5, vector29 * 0.6f, spriteEffects, 0);
+			Main.EntitySpriteDraw(value, position3, null, color35, 0f, origin5, vector30 * 0.6f, spriteEffects, 0);
+
+			Main.EntitySpriteDraw(value, position3, null, color34, MathHelper.PiOver4, origin5, vector29 * 0.6f, spriteEffects, 0);
+			Main.EntitySpriteDraw(value, position3, null, color34, MathHelper.PiOver4 * 3f, origin5, vector30 * 0.6f, spriteEffects, 0);
+			Main.EntitySpriteDraw(value, position3, null, color35, MathHelper.PiOver4, origin5, vector29 * 0.36f, spriteEffects, 0);
+			Main.EntitySpriteDraw(value, position3, null, color35, MathHelper.PiOver4 * 3f, origin5, vector30 * 0.36f, spriteEffects, 0);
+
+			return false;
+		}
+
+		public override void OnKill(int timeLeft)
+        {
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+            Projectile.position.X = Projectile.position.X + (Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y + (Projectile.height / 2);
+            Projectile.width = 50;
+            Projectile.height = 50;
+            Projectile.position.X = Projectile.position.X - (Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (Projectile.height / 2);
+            for (int num621 = 0; num621 < 10; num621++)
+            {
+                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 2f);
+                Main.dust[num622].velocity *= 3f;
+                if (Main.rand.NextBool(2))
+                {
+                    Main.dust[num622].scale = 0.5f;
+                    Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                }
+            }
+            for (int num623 = 0; num623 < 15; num623++)
+            {
+                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 247, 0f, 0f, 100, default, 3f);
+                Main.dust[num624].noGravity = true;
+                Main.dust[num624].velocity *= 5f;
+                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 2f);
+                Main.dust[num624].velocity *= 2f;
+            }
+        }
+    }
+}

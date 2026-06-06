@@ -1,0 +1,117 @@
+using CalRD.CalPlayer;
+using CalRD.Items.Materials;
+using CalRD.World;
+using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.Graphics.Shaders;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalRD.Items.Accessories.Wings
+{
+    [AutoloadEquip(EquipType.Wings)]
+    public class ElysianTracers : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Elysian Tracers");
+/*
+            Tooltip.SetDefault("Ludicrous speed!\n" +
+				"Counts as wings\n" +
+                "Horizontal speed: 10.5\n" +
+                "Acceleration multiplier: 2.75\n" +
+                "Great vertical speed\n" +
+                "Flight time: 160\n" +
+                "36% increased running acceleration\n" +
+                "Greater mobility on ice\n" +
+                "Water and lava walking\n" +
+                "Temporary immunity to lava");
+*/
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(160, 2.75f, 10.5f);
+        }
+
+        public override void SetDefaults()
+        {
+            Item.width = 36;
+            Item.height = 32;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.accessory = true;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.Mod == "Terraria" && line2.Name == "Tooltip9")
+					{
+						line2.Text = "Temporary immunity to lava\n" +
+						"Provides heat protection in Death Mode";
+					}
+				}
+			}
+        }
+
+        public override void UpdateAccessory(Player player, bool hideVisual)
+        {
+            if (player.controlJump && player.wingTime > 0f &&  !VanillaExtraJump.CloudInABottle.CanStart(player) && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
+            {
+                int num59 = 4;
+                if (player.direction == 1)
+                {
+                    num59 = -40;
+                }
+                int num60 = Dust.NewDust(new Vector2(player.position.X + (float)(player.width / 2) + (float)num59, player.position.Y + (float)(player.height / 2) - 15f), 30, 30, Main.rand.NextBool(2) ? 206 : 173, 0f, 0f, 100, default, 2.4f);
+                Main.dust[num60].noGravity = true;
+                Main.dust[num60].velocity *= 0.3f;
+                if (Main.rand.NextBool(10))
+                {
+                    Main.dust[num60].fadeIn = 2f;
+                }
+                Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
+            }
+            CalamityPlayer modPlayer = player.Calamity();
+            player.accRunSpeed = 10.5f;
+            player.rocketBoots = 3;
+            player.moveSpeed += 0.36f;
+            player.iceSkate = true;
+            player.waterWalk = true;
+            player.fireWalk = true;
+            player.lavaMax += 240;
+            player.wingTimeMax = 160;
+            player.noFallDmg = true;
+            modPlayer.IBoots = !hideVisual;
+            modPlayer.elysianFire = !hideVisual;
+            modPlayer.eTracers = true;
+        }
+
+        public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
+        {
+            ascentWhenFalling = 0.95f; //0.85
+            ascentWhenRising = 0.15f;
+            maxCanAscendMultiplier = 1.1f; //1
+            maxAscentMultiplier = 3.15f; //3
+            constantAscend = 0.135f;
+        }
+
+        public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
+        {
+            speed = 10.5f;
+            acceleration *= 2.75f;
+        }
+
+        public override void AddRecipes()
+        {
+            Recipe recipe = CreateRecipe();
+            recipe.AddIngredient(ModContent.ItemType<InfinityBoots>());
+            recipe.AddIngredient(ModContent.ItemType<ElysianWings>());
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.Register();
+        }
+    }
+}

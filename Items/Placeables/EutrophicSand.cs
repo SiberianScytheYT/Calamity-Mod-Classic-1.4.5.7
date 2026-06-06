@@ -1,0 +1,37 @@
+using CalRD.Items.Placeables.Walls;
+using Terraria;
+using Terraria.ModLoader;
+using Terraria.ID;
+
+namespace CalRD.Items.Placeables
+{
+    public class EutrophicSand : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Eutrophic Sand");
+        }
+
+        public override void SetDefaults()
+        {
+            Item.createTile = ModContent.TileType<Tiles.SunkenSea.EutrophicSand>();
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.autoReuse = true;
+            Item.consumable = true;
+            Item.width = 13;
+            Item.height = 10;
+            Item.maxStack = 999;
+        }
+
+        public override void AddRecipes()
+        {
+            Recipe recipe = CreateRecipe();
+            recipe.AddIngredient(ModContent.ItemType<EutrophicSandWallSafe>(), 4);
+            recipe.AddTile(TileID.WorkBenches);
+            recipe.Register();
+        }
+    }
+}

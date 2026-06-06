@@ -1,0 +1,48 @@
+using CalRD.Projectiles.Summon;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+namespace CalRD.Items.Weapons.Summon
+{
+    public class FuelCellBundle : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Fuel Cell Bundle");
+/*
+            Tooltip.SetDefault("Releases a small, special variant of the plaguebringers");
+*/
+        }
+
+        public override void SetDefaults()
+        {
+            Item.mana = 10;
+            Item.damage = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.width = 32;
+            Item.height = 32;
+            Item.useTime = Item.useAnimation = 20;
+            Item.noMelee = true;
+            Item.knockBack = 7f;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = 8;
+            Item.UseSound = SoundID.Item106;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
+            Item.shoot = ModContent.ProjectileType<PlaguebringerMK2>(); //not the flask, so this weapon works w/ minion targetting
+            Item.shootSpeed = 11f;
+            Item.DamageType = DamageClass.Summon;
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            if (player.altFunctionUse != 2) //throws a flask
+            {
+                Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), ModContent.ProjectileType<MK2FlaskSummon>(), damage, Item.knockBack, player.whoAmI);
+            }
+            return false;
+        }
+    }
+}

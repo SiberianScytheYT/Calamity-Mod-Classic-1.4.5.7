@@ -1,0 +1,577 @@
+using CalRD.CalPlayer;
+using CalRD.Events;
+using CalRD.Items.Potions;
+using CalRD.Items.TreasureBags;
+using CalRD.Projectiles.Environment;
+using CalRD.Tiles.Abyss;
+using CalRD.Tiles.Astral;
+using CalRD.Tiles.AstralDesert;
+using CalRD.Tiles.Crags;
+using CalRD.Tiles.DraedonStructures;
+using CalRD.Tiles.Ores;
+using CalRD.Tiles.SunkenSea;
+using CalRD.World;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalRD.Tiles
+{
+	public class CalamityGlobalTile : GlobalTile
+	{
+		public static ushort[] PlantTypes = new ushort[]
+		{
+			TileID.Plants,
+			TileID.CorruptPlants,
+			TileID.JunglePlants,
+			TileID.MushroomPlants,
+			TileID.Plants2,
+			TileID.JunglePlants2,
+			TileID.HallowedPlants,
+			TileID.HallowedPlants2,
+			TileID.CrimsonPlants,
+			(ushort)ModContent.TileType<AstralShortPlants>(),
+			(ushort)ModContent.TileType<AstralTallPlants>()
+		};
+
+		public static List<int> GrowthTiles = new List<int>
+		{
+			(ushort)ModContent.TileType<SeaPrism>(),
+			(ushort)ModContent.TileType<Navystone>(),
+			(ushort)ModContent.TileType<Voidstone>()
+		};
+
+		public override bool PreHitWire(int i, int j, int type)
+		{
+			return !BossRushEvent.BossRushActive;
+		}
+
+		public override bool TileFrame(int i, int j, int type, ref bool resetFrame, ref bool noBreak)
+		{
+			// Custom plant framing
+			for (int k = 0; k < PlantTypes.Length; k++)
+				if (type == PlantTypes[k])
+				{
+					TileFraming.PlantFrame(i, j);
+					return false;
+				}
+
+			// Custom vine framing
+			if (type == TileID.Vines || type == TileID.CrimsonVines || type == TileID.HallowedVines || type == ModContent.TileType<AstralVines>())
+			{
+				TileFraming.VineFrame(i, j);
+				return false;
+			}
+			return base.TileFrame(i, j, type, ref resetFrame, ref noBreak);
+		}
+
+		public override void PostDraw(int i, int j, int type, SpriteBatch spriteBatch)
+		{
+			// Guaranteed not null at this point
+			Tile tile = Main.tile[i, j];
+
+			// This function is only for Astral Cactus. If the tile isn't even cactus, forget about it.
+			if (type != TileID.Cactus)
+				return;
+
+			Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
+			if (Main.drawToScreen)
+				zero = Vector2.Zero;
+			int frameX = tile.TileFrameX;
+			int frameY = tile.TileFrameY;
+
+			// Search down the cactus to find out whether the block it is planted in is Astral Sand.
+			int xTile = i;
+			if (frameX == 36) // Cactus segment which splits left
+				xTile--;
+			if (frameX == 54) // Cactus segment which splits right
+				xTile++;
+			if (frameX == 108) // Cactus segment which splits both directions
+				xTile += (frameY == 18) ? -1 : 1;
+
+			int yTile = j;
+			bool slidingDownCactus = Main.tile[xTile, yTile] != null && Main.tile[xTile, yTile].TileType == TileID.Cactus && Main.tile[xTile, yTile].HasTile;
+			while (!Main.tile[xTile, yTile].HasTile || !Main.tileSolid[Main.tile[xTile, yTile].TileType] || !slidingDownCactus)
+			{ 
+				if (Main.tile[xTile, yTile].TileType == TileID.Cactus && Main.tile[xTile, yTile].HasTile)
+				{
+					slidingDownCactus = true;
+				}
+				yTile++;
+				// Cacti are assumed to be no more than 20 blocks tall.
+				if (yTile > i + 20)
+					break;
+			}
+			bool astralCactus = Main.tile[xTile, yTile].TileType == (ushort)ModContent.TileType<AstralSand>();
+
+			// If it is actually astral cactus, then draw its glowmask.
+			if (astralCactus)
+			{
+				spriteBatch.Draw(CalRD.AstralCactusGlowTexture.Value, new Vector2((float)(i * 16 - (int)Main.screenPosition.X), (float)(j * 16 - (int)Main.screenPosition.Y)) + zero, new Rectangle((int)frameX, (int)frameY, 16, 18), Color.White * 0.75f, 0f, default, 1f, SpriteEffects.None, 0f);
+			}
+		}
+
+		// This function exists only to shatter adjacent Lumenyl or Sea Prism crystals when a neighboring solid tile is destroyed.
+		public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
+		{
+			Tile tile = Main.tile[i, j];
+
+			if (tile == null)
+				return;
+
+			// Helper function to shatter crystals attached to neighboring solid tiles.
+			void CheckShatterCrystal(int xPos, int yPos)
+			{
+				if (xPos < 0 || xPos >= Main.maxTilesX || yPos < 0 || yPos >= Main.maxTilesY)
+					return;
+				Tile t = Main.tile[xPos, yPos];
+				if (t != null && t.HasTile && (t.TileType == ModContent.TileType<LumenylCrystals>() || (t.TileType == ModContent.TileType<SeaPrismCrystals>() && CalamityWorld.downedDesertScourge)))
+				{
+					WorldGen.KillTile(xPos, yPos, false, false, false);
+					if (!Main.tile[xPos, yPos].HasTile && Main.netMode != NetmodeID.SinglePlayer)
+						NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, xPos, yPos, 0f, 0, 0, 0);
+				}
+			}
+			
+			// CONSIDER -- Lumenyl Crystals and Sea Prism Crystals aren't solid. They shouldn't need to be checked here.
+			if (Main.tileSolid[tile.TileType] && tile.TileType != ModContent.TileType<LumenylCrystals>() && tile.TileType != ModContent.TileType<SeaPrismCrystals>())
+			{
+				CheckShatterCrystal(i + 1, j);
+				CheckShatterCrystal(i - 1, j);
+				CheckShatterCrystal(i, j + 1);
+				CheckShatterCrystal(i, j - 1);
+			}
+		}
+
+		// LATER -- clean up copied decompiled pot code here
+		public override void Drop(int i, int j, int type)/* tModPorter Suggestion: Use CanDrop to decide if items can drop, use this method to drop additional items. See documentation. */
+		{
+			Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(i, j);
+			if (tileAtPosition.TileFrameX % 36 == 0 && tileAtPosition.TileFrameY % 36 == 0)
+			{
+				if (type == ModContent.TileType<AbyssalPots>())
+				{
+					Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ModContent.ItemType<AbyssalTreasure>());
+
+					for (int k = 0; k < Main.rand.Next(1, 2 + 1); k++)
+					{
+						if (Main.netMode != NetmodeID.Server)
+						{
+							Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.Find<ModGore>("AbyssPotGore1").Type);
+							Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.Find<ModGore>("AbyssPotGore2").Type);
+						}
+					}
+				}
+				else if (type == ModContent.TileType<SulphurousPots>())
+				{
+					Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ModContent.ItemType<SulphuricTreasure>());
+
+					for (int k = 0; k < Main.rand.Next(1, 2 + 1); k++)
+					{
+						if (Main.netMode != NetmodeID.Server)
+						{
+							Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.Find<ModGore>("SulphPotGore1").Type);
+							Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.Find<ModGore>("SulphPotGore2").Type);
+						}
+					}
+				}
+			}
+
+			// This is old pot code, kept here for legacy reasons with old worlds. Should be removed in a future update after a sufficient amount of time.
+			if (type == TileID.Pots)
+			{
+				int x = Main.maxTilesX;
+				int y = Main.maxTilesY;
+				int genLimit = x / 2;
+				int abyssChasmSteps = y / 4;
+				int abyssChasmY = y - abyssChasmSteps + (int)(y * 0.055); //132 = 1932 large
+				if (y < 1500)
+				{
+					abyssChasmY = y - abyssChasmSteps + (int)(y * 0.095); //114 = 1014 small
+				}
+				else if (y < 2100)
+				{
+					abyssChasmY = y - abyssChasmSteps + (int)(y * 0.0735); //132 = 1482 medium
+				}
+				int abyssChasmX = CalamityWorld.abyssSide ? genLimit - (genLimit - 135) : genLimit + (genLimit - 135);
+
+				bool abyssPosX = false;
+				bool sulphurPosX = false;
+				bool abyssPosY = j <= abyssChasmY;
+				if (CalamityWorld.abyssSide)
+				{
+					if (i < 380)
+					{
+						sulphurPosX = true;
+					}
+					if (i < abyssChasmX + 80)
+					{
+						abyssPosX = true;
+					}
+				}
+				else
+				{
+					if (i > Main.maxTilesX - 380)
+					{
+						sulphurPosX = true;
+					}
+					if (i > abyssChasmX - 80)
+					{
+						abyssPosX = true;
+					}
+				}
+				if (abyssPosX && abyssPosY)
+				{
+					if (Main.rand.NextBool(10))
+					{
+						int potionType = Utils.SelectRandom(WorldGen.genRand, new int[]
+						{
+							ItemID.SpelunkerPotion,
+							ItemID.MagicPowerPotion,
+							ItemID.ShinePotion,
+							ItemID.WaterWalkingPotion,
+							ItemID.ObsidianSkinPotion,
+							ItemID.WaterWalkingPotion,
+							ItemID.GravitationPotion,
+							ItemID.RegenerationPotion,
+							ModContent.ItemType<TriumphPotion>(),
+							ModContent.ItemType<AnechoicCoating>(),
+							ItemID.GillsPotion,
+							ItemID.EndurancePotion,
+							ItemID.HeartreachPotion,
+							ItemID.FlipperPotion,
+							ItemID.LifeforcePotion,
+							ItemID.InfernoPotion
+						});
+						Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, potionType, 1, false, 0, false, false);
+					}
+					else
+					{
+						int lootType = Main.rand.Next(10); //0 to 9
+						if (lootType == 0) //spelunker glowsticks
+						{
+							int sglowstickAmt = Main.rand.Next(2, 6);
+							if (Main.expertMode)
+							{
+								sglowstickAmt += Main.rand.Next(1, 7);
+							}
+							Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.SpelunkerGlowstick, sglowstickAmt, false, 0, false, false);
+						}
+						else if (lootType == 1) //hellfire arrows
+						{
+							int arrowAmt = Main.rand.Next(10, 21);
+							Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.HellfireArrow, arrowAmt, false, 0, false, false);
+						}
+						else if (lootType == 2) //stew
+						{
+							Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ModContent.ItemType<SunkenStew>(), 1, false, 0, false, false);
+						}
+						else if (lootType == 3) //sticky dynamite
+						{
+							Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.StickyDynamite, 1, false, 0, false, false);
+						}
+						else //money
+						{
+							float num13 = (float)(5000 + WorldGen.genRand.Next(-100, 101));
+							while ((int)num13 > 0)
+							{
+								if (num13 > 1000000f)
+								{
+									int ptCoinAmt = (int)(num13 / 1000000f);
+									if (ptCoinAmt > 50 && Main.rand.NextBool(2))
+									{
+										ptCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									if (Main.rand.NextBool(2))
+									{
+										ptCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									num13 -= (float)(1000000 * ptCoinAmt);
+									Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.PlatinumCoin, ptCoinAmt, false, 0, false, false);
+								}
+								else if (num13 > 10000f)
+								{
+									int auCoinAmt = (int)(num13 / 10000f);
+									if (auCoinAmt > 50 && Main.rand.NextBool(2))
+									{
+										auCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									if (Main.rand.NextBool(2))
+									{
+										auCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									num13 -= (float)(10000 * auCoinAmt);
+									Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.GoldCoin, auCoinAmt, false, 0, false, false);
+								}
+								else if (num13 > 100f)
+								{
+									int agCoinAmt = (int)(num13 / 100f);
+									if (agCoinAmt > 50 && Main.rand.NextBool(2))
+									{
+										agCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									if (Main.rand.NextBool(2))
+									{
+										agCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									num13 -= (float)(100 * agCoinAmt);
+									Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.SilverCoin, agCoinAmt, false, 0, false, false);
+								}
+								else
+								{
+									int cuCoinAmt = (int)num13;
+									if (cuCoinAmt > 50 && Main.rand.NextBool(2))
+									{
+										cuCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									if (Main.rand.NextBool(2))
+									{
+										cuCoinAmt /= Main.rand.Next(4) + 1;
+									}
+									if (cuCoinAmt < 1)
+									{
+										cuCoinAmt = 1;
+									}
+									num13 -= (float)cuCoinAmt;
+									Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.CopperCoin, cuCoinAmt, false, 0, false, false);
+								}
+							}
+						}
+					}
+				}
+				else if (sulphurPosX)
+				{
+					if (Main.rand.NextBool(15))
+					{
+						int potionType = Utils.SelectRandom(WorldGen.genRand, new int[]
+						{
+							ItemID.SpelunkerPotion,
+							ItemID.MagicPowerPotion,
+							ItemID.ShinePotion,
+							ItemID.WaterWalkingPotion,
+							ItemID.ObsidianSkinPotion,
+							ItemID.WaterWalkingPotion,
+							ItemID.GravitationPotion,
+							ItemID.RegenerationPotion,
+							ModContent.ItemType<TriumphPotion>(),
+							ModContent.ItemType<AnechoicCoating>(),
+							ItemID.GillsPotion,
+							ItemID.EndurancePotion,
+							ItemID.HeartreachPotion,
+							ItemID.FlipperPotion,
+							ItemID.LifeforcePotion,
+							ItemID.InfernoPotion
+						});
+						Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, potionType, 1, false, 0, false, false);
+					}
+					else
+					{
+						int lootType = Main.rand.Next(10); //0 to 9
+						if (lootType == 0) //glowsticks
+						{
+							int glowstickAmt = Main.rand.Next(2, 6);
+							if (Main.expertMode)
+							{
+								glowstickAmt += Main.rand.Next(1, 7);
+							}
+							Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.Glowstick, glowstickAmt, false, 0, false, false);
+						}
+						else if (lootType == 1) //jesters arrows
+						{
+							int jArrowAmt = Main.rand.Next(10, 21);
+							Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.JestersArrow, jArrowAmt, false, 0, false, false);
+						}
+						else if (lootType == 2) //potion
+						{
+							Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.HealingPotion, 1, false, 0, false, false);
+						}
+						else if (lootType == 3) //bomb
+						{
+							int bombAmt = Main.rand.Next(5, 9);
+							Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.Bomb, bombAmt, false, 0, false, false);
+						}
+						else //money
+						{
+							float num13 = (float)(5000 + WorldGen.genRand.Next(-100, 101));
+							while ((int)num13 > 0)
+							{
+								if (num13 > 1000000f)
+								{
+									int ptCoinAmt = (int)(num13 / 1000000f);
+									if (ptCoinAmt > 50 && Main.rand.NextBool(2))
+									{
+										ptCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									if (Main.rand.NextBool(2))
+									{
+										ptCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									num13 -= (float)(1000000 * ptCoinAmt);
+									Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.PlatinumCoin, ptCoinAmt, false, 0, false, false);
+								}
+								else if (num13 > 10000f)
+								{
+									int auCoinAmt = (int)(num13 / 10000f);
+									if (auCoinAmt > 50 && Main.rand.NextBool(2))
+									{
+										auCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									if (Main.rand.NextBool(2))
+									{
+										auCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									num13 -= (float)(10000 * auCoinAmt);
+									Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.GoldCoin, auCoinAmt, false, 0, false, false);
+								}
+								else if (num13 > 100f)
+								{
+									int agCoinAmt = (int)(num13 / 100f);
+									if (agCoinAmt > 50 && Main.rand.NextBool(2))
+									{
+										agCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									if (Main.rand.NextBool(2))
+									{
+										agCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									num13 -= (float)(100 * agCoinAmt);
+									Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.SilverCoin, agCoinAmt, false, 0, false, false);
+								}
+								else
+								{
+									int cuCoinAmt = (int)num13;
+									if (cuCoinAmt > 50 && Main.rand.NextBool(2))
+									{
+										cuCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									if (Main.rand.NextBool(2))
+									{
+										cuCoinAmt /= Main.rand.Next(4) + 1;
+									}
+									if (cuCoinAmt < 1)
+									{
+										cuCoinAmt = 1;
+									}
+									num13 -= (float)cuCoinAmt;
+									Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.CopperCoin, cuCoinAmt, false, 0, false, false);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		public override void NearbyEffects(int i, int j, int type, bool closer)
+		{
+			if (i > 20 && i < Main.maxTilesX - 20 && j > Main.maxTilesY - 160 && j < Main.maxTilesY - 40)
+			{
+				if (type == TileID.Ash || type == TileID.Hellstone || type == ModContent.TileType<BrimstoneSlag>() || type == ModContent.TileType<CharredOre>())
+				{
+					if (Main.gamePaused || !CalamityWorld.death || CalamityPlayer.areThereAnyDamnBosses || !closer || Main.tile[i, j] == null || Main.tile[i, j - 1] == null)
+						return;
+
+					Tile tileAbove = Main.tile[i, j - 1];
+					if (tileAbove.LiquidType == 1 && !tileAbove.HasTile)
+					{
+						bool shootFlames = Main.rand.NextBool(750);
+						if (shootFlames)
+						{
+							int lavaTilesAbove = 0;
+							int lavaTopY = 0;
+							for (int k = j - 1; k > Main.maxTilesY - 180; k--)
+							{
+								if (Main.tile[i, k] == null)
+								{
+									shootFlames = false;
+									break;
+								}
+
+								if (!Main.tile[i, k].HasTile && Main.tile[i, k].LiquidType == 1)
+								{
+									if (lavaTilesAbove < 5)
+										lavaTilesAbove++;
+								}
+								else
+								{
+									if (lavaTilesAbove == 5)
+										lavaTopY = k - 1;
+									else
+										shootFlames = false;
+
+									break;
+								}
+							}
+							if (shootFlames)
+							{
+								for (int l = lavaTopY; l > lavaTopY - 5; l--)
+								{
+									if (Main.tile[i, l] == null)
+									{
+										shootFlames = false;
+										break;
+									}
+									if (Main.tile[i, l].HasTile)
+									{
+										shootFlames = false;
+										break;
+									}
+								}
+							}
+						}
+						if (shootFlames && Main.netMode != NetmodeID.MultiplayerClient)
+						{
+							float ai0 = 0f;
+							if (type == ModContent.TileType<BrimstoneSlag>() || type == ModContent.TileType<CharredOre>())
+								ai0 = 1f;
+							int projectileType = ModContent.ProjectileType<GeyserTelegraph>();
+							int proj = Projectile.NewProjectile(new EntitySource_TileUpdate(i, j), i * 16, j * 16, 0f, 0f, projectileType, 0, 0f, Main.myPlayer, ai0, 0f);
+							Main.projectile[proj].netUpdate = true;
+						}
+					}
+				}
+			}
+		}
+
+		public override int[] AdjTiles (int type)
+		{
+			// Ashen, Ancient and Profaned Sinks all count as a lava source instead of a water source
+			if (type == ModContent.TileType<FurnitureAncient.AncientSink>() || 
+				type == ModContent.TileType<FurnitureAshen.AshenSink>() || 
+				type == ModContent.TileType<FurnitureProfaned.ProfanedSink>())
+			{
+				Main.LocalPlayer.adjLava = true;
+			}
+			// Botanic Sink counts as a honey source instead of a water source
+			if (type == ModContent.TileType<FurnitureBotanic.BotanicSink>())
+			{
+				Main.LocalPlayer.adjHoney = true;
+			}
+
+			return new int[0];
+		}
+		public override bool CanKillTile(int i, int j, int type, ref bool blockDamaged)
+		{
+			int[] invincibleTiles = new int[]
+			{
+				ModContent.TileType<DraedonLabTurret>(),
+				ModContent.TileType<AstralBeacon>()
+			};
+			// Prevent tiles below invincible tiles from being destroyed. This is like chests in vanilla.
+			if (CalamityUtils.ParanoidTileRetrieval(i, j - 1).HasTile &&
+				CalamityUtils.ParanoidTileRetrieval(i, j).TileType !=
+				CalamityUtils.ParanoidTileRetrieval(i, j - 1).TileType &&
+				invincibleTiles.Contains(CalamityUtils.ParanoidTileRetrieval(i, j - 1).TileType))
+			{
+				return false;
+			}
+			return base.CanKillTile(i, j, type, ref blockDamaged);
+		}
+	}
+}

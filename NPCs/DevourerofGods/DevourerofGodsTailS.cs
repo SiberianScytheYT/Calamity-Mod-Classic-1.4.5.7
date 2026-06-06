@@ -1,0 +1,360 @@
+using CalRD.Buffs.DamageOverTime;
+using CalRD.Buffs.StatDebuffs;
+using CalRD.Dusts;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System.IO;
+using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
+
+namespace CalRD.NPCs.DevourerofGods
+{
+	[AutoloadBossHead]
+    public class DevourerofGodsTailS : ModNPC
+    {
+        private int invinceTime = 720;
+        private bool setAlpha = false;
+
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("The Devourer of Gods");
+        }
+
+        internal void setInvulTime(int time)
+        {
+            invinceTime = time;
+        }
+
+        public override void SetDefaults()
+        {
+			NPC.GetNPCDamage();
+			NPC.npcSlots = 5f;
+            NPC.width = 80;
+            NPC.height = 140;
+            NPC.defense = 50;
+            NPC.LifeMaxNERB(1150000, 1350000, 9200000);
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
+            NPC.takenDamageMultiplier = 1.25f;
+            NPC.aiStyle = -1;
+            AIType = -1;
+            NPC.knockBackResist = 0f;
+            NPC.alpha = 255;
+            NPC.behindTiles = true;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.canGhostHeal = false;
+			NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.netAlways = true;
+            NPC.boss = true;
+            for (int k = 0; k < NPC.buffImmune.Length; k++)
+            {
+                NPC.buffImmune[k] = true;
+            }
+            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
+            if (CalamityModMusic != null)
+                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/DevourerofGodsPhase2");
+            else
+                Music = MusicID.LunarBoss;
+            NPC.dontCountMe = true;
+        }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(invinceTime);
+            writer.Write(setAlpha);
+            writer.Write(NPC.dontTakeDamage);
+            writer.Write(NPC.alpha);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            invinceTime = reader.ReadInt32();
+            setAlpha = reader.ReadBoolean();
+            NPC.dontTakeDamage = reader.ReadBoolean();
+            NPC.alpha = reader.ReadInt32();
+        }
+
+        public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
+        {
+            return false;
+        }
+
+        public override void BossHeadRotation(ref float rotation)
+        {
+            rotation = NPC.rotation;
+        }
+
+        public override void AI()
+        {
+            if (invinceTime > 0)
+            {
+                invinceTime--;
+                NPC.dontTakeDamage = true;
+            }
+            else
+            {
+                NPC.dontTakeDamage = Main.npc[(int)NPC.ai[2]].dontTakeDamage;
+            }
+			if (Main.npc[(int)NPC.ai[2]].dontTakeDamage)
+			{
+				invinceTime = 240;
+			}
+            if (NPC.ai[3] > 0f)
+            {
+                NPC.realLife = (int)NPC.ai[3];
+            }
+
+			// Target
+			if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
+				NPC.TargetClosest(true);
+
+			Player player = Main.player[NPC.target];
+
+			NPC.velocity.Length();
+            if (NPC.velocity.X < 0f)
+            {
+                NPC.spriteDirection = -1;
+            }
+            else if (NPC.velocity.X > 0f)
+            {
+                NPC.spriteDirection = 1;
+            }
+            bool flag = false;
+            if (NPC.ai[1] <= 0f)
+            {
+                flag = true;
+            }
+            else if (Main.npc[(int)NPC.ai[1]].life <= 0)
+            {
+                flag = true;
+            }
+            if (flag)
+            {
+                NPC.life = 0;
+                NPC.HitEffect(0, 10.0);
+                NPC.checkDead();
+            }
+            if (CalamityGlobalNPC.DoGHead < 0 || !Main.npc[CalamityGlobalNPC.DoGHead].active)
+            {
+                NPC.active = false;
+            }
+            Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
+            if (Main.npc[(int)NPC.ai[1]].alpha < 128 && !setAlpha)
+            {
+                NPC.alpha -= 42;
+                if (NPC.alpha <= 0 && invinceTime <= 0)
+                {
+                    setAlpha = true;
+                    NPC.alpha = 0;
+                }
+            }
+            else
+            {
+                NPC.alpha = Main.npc[(int)NPC.ai[2]].alpha;
+            }
+            if (player.dead)
+            {
+                NPC.TargetClosest(false);
+            }
+            Vector2 vector18 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+            float num191 = player.position.X + (float)(player.width / 2);
+            float num192 = player.position.Y + (float)(player.height / 2);
+            num191 = (float)((int)(num191 / 16f) * 16);
+            num192 = (float)((int)(num192 / 16f) * 16);
+            vector18.X = (float)((int)(vector18.X / 16f) * 16);
+            vector18.Y = (float)((int)(vector18.Y / 16f) * 16);
+            num191 -= vector18.X;
+            num192 -= vector18.Y;
+            float num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
+            if (NPC.ai[1] > 0f && NPC.ai[1] < (float)Main.npc.Length)
+            {
+                try
+                {
+                    vector18 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+                    num191 = Main.npc[(int)NPC.ai[1]].position.X + (float)(Main.npc[(int)NPC.ai[1]].width / 2) - vector18.X;
+                    num192 = Main.npc[(int)NPC.ai[1]].position.Y + (float)(Main.npc[(int)NPC.ai[1]].height / 2) - vector18.Y;
+                } catch
+                {
+                }
+                NPC.rotation = (float)System.Math.Atan2((double)num192, (double)num191) + 1.57f;
+                num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
+                int num194 = NPC.width;
+                num193 = (num193 - (float)num194) / num193;
+                num191 *= num193;
+                num192 *= num193;
+                NPC.velocity = Vector2.Zero;
+                NPC.position.X = NPC.position.X + num191;
+                NPC.position.Y = NPC.position.Y + num192;
+                if (num191 < 0f)
+                {
+                    NPC.spriteDirection = -1;
+                }
+                else if (num191 > 0f)
+                {
+                    NPC.spriteDirection = 1;
+                }
+            }
+        }
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+		{
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (NPC.spriteDirection == 1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
+			Vector2 vector11 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / 2));
+
+			Vector2 vector43 = NPC.Center - Main.screenPosition;
+			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * NPC.scale / 2f;
+			vector43 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
+			spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+
+			if (!NPC.dontTakeDamage)
+			{
+				texture2D15 = ModContent.Request<Texture2D>("CalRD/NPCs/DevourerofGods/DevourerofGodsTailSGlow").Value;
+				Color color37 = Color.Lerp(Color.White, Color.Fuchsia, 0.5f);
+
+				spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+
+				texture2D15 = ModContent.Request<Texture2D>("CalRD/NPCs/DevourerofGods/DevourerofGodsTailSGlow2").Value;
+				color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
+
+				spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+			}
+
+			return false;
+		}
+
+		// Can only hit the target if within certain distance
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+        {
+            cooldownSlot = 0;
+
+            Rectangle targetHitbox = target.Hitbox;
+
+            float dist1 = Vector2.Distance(NPC.Center, targetHitbox.TopLeft());
+            float dist2 = Vector2.Distance(NPC.Center, targetHitbox.TopRight());
+            float dist3 = Vector2.Distance(NPC.Center, targetHitbox.BottomLeft());
+            float dist4 = Vector2.Distance(NPC.Center, targetHitbox.BottomRight());
+
+            float minDist = dist1;
+            if (dist2 < minDist)
+                minDist = dist2;
+            if (dist3 < minDist)
+                minDist = dist3;
+            if (dist4 < minDist)
+                minDist = dist4;
+
+            return minDist <= 70f && NPC.alpha == 0;
+        }
+
+        // Projectiles can only hit within certain distance
+        /*public override bool? CanBeHitByProjectile(Projectile projectile)
+        {
+            Rectangle projectileHitbox = projectile.Hitbox;
+
+            float dist1 = Vector2.Distance(npc.Center, projectileHitbox.TopLeft());
+            float dist2 = Vector2.Distance(npc.Center, projectileHitbox.TopRight());
+            float dist3 = Vector2.Distance(npc.Center, projectileHitbox.BottomLeft());
+            float dist4 = Vector2.Distance(npc.Center, projectileHitbox.BottomRight());
+
+            float minDist = dist1;
+            if (dist2 < minDist) minDist = dist2;
+            if (dist3 < minDist) minDist = dist3;
+            if (dist4 < minDist) minDist = dist4;
+
+            return minDist <= 70f;
+        }*/
+
+        public override void HitEffect(NPC.HitInfo hit)
+        {
+            if (NPC.soundDelay == 0)
+            {
+                NPC.soundDelay = 8;
+                SoundEngine.PlaySound(new SoundStyle("CalRD/Sounds/NPCHit/OtherworldlyHit"), NPC.Center);
+            }
+            if (NPC.life <= 0)
+            {
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_FromThis(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DoGS3").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_FromThis(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DoGS4").Type, 1f);
+                }
+                NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
+                NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
+                NPC.width = 50;
+                NPC.height = 50;
+                NPC.position.X = NPC.position.X - (float)(NPC.width / 2);
+                NPC.position.Y = NPC.position.Y - (float)(NPC.height / 2);
+                for (int num621 = 0; num621 < 10; num621++)
+                {
+                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
+                    Main.dust[num622].velocity *= 3f;
+                    if (Main.rand.NextBool(2))
+                    {
+                        Main.dust[num622].scale = 0.5f;
+                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    }
+                }
+                for (int num623 = 0; num623 < 20; num623++)
+                {
+                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 3f);
+                    Main.dust[num624].noGravity = true;
+                    Main.dust[num624].velocity *= 5f;
+                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
+                    Main.dust[num624].velocity *= 2f;
+                }
+            }
+        }
+
+        public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
+        {
+            if (modifiers.FinalDamage.Base >= NPC.lifeMax * 0.5f)
+            {
+                modifiers.SetMaxDamage(0);
+            }
+        }
+
+        public override bool CheckActive()
+        {
+            return false;
+        }
+
+        public override bool PreKill()
+        {
+            return false;
+        }
+
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */
+        {
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * balance);
+            NPC.damage = (int)(NPC.damage * NPC.GetExpertDamageMultiplier());
+        }
+
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
+        {
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180, true);
+            target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 240, true);
+            target.AddBuff(BuffID.Frostburn, 180, true);
+
+			if (target.Calamity().dogTextCooldown <= 0)
+			{
+				string text = Utils.SelectRandom(Main.rand, new string[]
+				{
+					"Are you honestly that bad at dodging?",
+					"Of all my segments to get hit by..."
+				});
+				Color messageColor = Color.Cyan;
+				Rectangle location = new Microsoft.Xna.Framework.Rectangle((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height);
+				CombatText.NewText(location, messageColor, Language.GetTextValue(text), true);
+                target.Calamity().dogTextCooldown = 60;
+			}
+        }
+    }
+}

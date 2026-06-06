@@ -1,0 +1,74 @@
+using CalRD.ILEditing;
+using CalRD.Items.Placeables.DraedonStructures;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.Enums;
+using Terraria.GameContent.ObjectInteractions;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
+using Terraria.ObjectData;
+
+namespace CalRD.Tiles.DraedonStructures
+{
+    public class LaboratoryDoorOpen : ModTile
+    {
+        public override void SetStaticDefaults()
+        {
+            Main.tileFrameImportant[Type] = true;
+            Main.tileBlockLight[Type] = true;
+            Main.tileSolid[Type] = false;
+            Main.tileNoAttach[Type] = true;
+            Main.tileLavaDeath[Type] = false;
+            Main.tileWaterDeath[Type] = false;
+            TileID.Sets.NotReallySolid[Type] = true;
+            TileID.Sets.DrawsWalls[Type] = true;
+            TileID.Sets.HasOutlines[Type] = true;
+            TileObjectData.newTile.Width = 1;
+            TileObjectData.newTile.Height = 4;
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
+            TileObjectData.newTile.CoordinateWidth = 16;
+            TileObjectData.newTile.CoordinatePadding = 2;
+            TileObjectData.newTile.Origin = new Point16(0, 3);
+            TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.UsesCustomCanPlace = true;
+            TileObjectData.newTile.LavaDeath = false;
+            TileObjectData.addTile(Type);
+            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
+
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Laboratory Door");
+            AddMapEntry(Color.DarkSlateGray, name);
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.OpenDoor };
+            DustType = 8;
+            TileID.Sets.CloseDoorID[Type] = ModContent.TileType<LaboratoryDoorClosed>();
+        }
+
+        public override bool Slope(int i, int j) => false;
+
+        public override bool CanExplode(int i, int j) => false;
+
+        public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
+
+        public override void NumDust(int i, int j, bool fail, ref int num)
+        {
+            num = fail ? 1 : 3;
+        }
+
+        /*public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, ModContent.ItemType<LaboratoryDoorItem>());
+        }*/
+
+        public override void MouseOver(int i, int j)
+        {
+            Player player = Main.LocalPlayer;
+            player.noThrow = 2;
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<LaboratoryDoorItem>();
+        }
+    }
+}

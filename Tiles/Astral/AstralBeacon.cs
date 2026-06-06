@@ -1,0 +1,105 @@
+using CalRD.Dusts;
+using CalRD.Items.Materials;
+using CalRD.Items.Placeables.Furniture;
+using CalRD.Items.SummonItems;
+using CalRD.NPCs.AstrumDeus;
+using CalRD.Projectiles.Boss;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
+using Terraria.ObjectData;
+
+namespace CalRD.Tiles.Astral
+{
+    public class AstralBeacon : ModTile
+    {
+        public const int Width = 5;
+        public const int Height = 4;
+        public static readonly Color FailColor = new Color(237, 93, 83);
+        public override void SetStaticDefaults()
+        {
+            Main.tileFrameImportant[Type] = true;
+            Main.tileNoAttach[Type] = true;
+            Main.tileSpelunker[Type] = true;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style5x4);
+            TileObjectData.addTile(Type);
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Astral Beacon");
+            AddMapEntry(new Color(128, 128, 158), name);
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            MinPick = 200;
+        }
+
+        public override bool CanExplode(int i, int j) => false;
+
+        public override bool CreateDust(int i, int j, ref int type)
+        {
+            type = Utils.SelectRandom(Main.rand, ModContent.DustType<AstralBlue>(), ModContent.DustType<AstralOrange>());
+            return true;
+        }
+
+        /*public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, Width * 16, Height * 16, ModContent.ItemType<AstralBeaconItem>());
+        }*/
+
+        public override bool RightClick(int i, int j)
+        {
+            Tile tile = Main.tile[i, j];
+
+            int left = i - tile.TileFrameX / 18;
+            int top = j - tile.TileFrameY / 18;
+
+            if (!Main.LocalPlayer.HasItem(ModContent.ItemType<TitanHeart>()) &&
+                !Main.LocalPlayer.HasItem(ModContent.ItemType<Starcore>()))
+                return true;
+
+            if (NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHeadSpectral>()))
+                return true;
+
+            if (CalamityUtils.CountProjectiles(ModContent.ProjectileType<DeusRitualDrama>()) > 0)
+                return true;
+
+            bool usingStarcore = Main.LocalPlayer.HasItem(ModContent.ItemType<Starcore>());
+
+            if (Main.dayTime)
+            {
+                CalamityUtils.DisplayLocalizedText("The god of the stars rejects your offering. The ritual can only be performed at night.", FailColor);
+                return false;
+            }
+
+            Vector2 ritualSpawnPosition = new Vector2(left + Width / 2, top).ToWorldCoordinates();
+            ritualSpawnPosition += new Vector2(0f, -24f);
+
+            SoundEngine.PlaySound(new SoundStyle("CalRD/Sounds/Custom/AstralBeaconUse"), ritualSpawnPosition);
+            Projectile.NewProjectile(new EntitySource_WorldEvent(), ritualSpawnPosition, Vector2.Zero, ModContent.ProjectileType<DeusRitualDrama>(), 0, 0f, Main.myPlayer);
+
+            if (!usingStarcore)
+                Main.LocalPlayer.ConsumeItem(ModContent.ItemType<TitanHeart>(), true);
+
+            return true;
+        }
+
+        public override void MouseOver(int i, int j)
+        {
+            Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<TitanHeart>();
+            if (Main.LocalPlayer.HasItem(ModContent.ItemType<Starcore>()))
+                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<Starcore>();
+            Main.LocalPlayer.noThrow = 2;
+            Main.LocalPlayer.cursorItemIconEnabled = true;
+        }
+
+        public override void MouseOverFar(int i, int j)
+        {
+            Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<TitanHeart>();
+            if (Main.LocalPlayer.HasItem(ModContent.ItemType<Starcore>()))
+                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<Starcore>();
+            Main.LocalPlayer.noThrow = 2;
+            Main.LocalPlayer.cursorItemIconEnabled = true;
+        }
+    }
+}

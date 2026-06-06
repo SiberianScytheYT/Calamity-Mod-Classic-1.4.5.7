@@ -1,0 +1,104 @@
+using Microsoft.Xna.Framework;
+using System;
+using Terraria;
+using Terraria.ModLoader;
+using CalRD.Projectiles.Melee;
+using CalRD.Buffs.DamageOverTime;
+
+namespace CalRD.Projectiles.Rogue
+{
+	public class EpidemicShredderProjectile : ModProjectile
+    {
+        public override string Texture => "CalRD/Items/Weapons/Rogue/EpidemicShredder";
+
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Epidemic Shredder");
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 34;
+            Projectile.height = 34;
+            Projectile.friendly = true;
+            Projectile.penetrate = 6;
+            Projectile.timeLeft = 600;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 40;
+            Projectile.Calamity().rogue = true;
+            Projectile.ignoreWater = true;
+        }
+
+        public override void AI()
+        {
+            Projectile.rotation += Math.Sign(Projectile.velocity.X) * MathHelper.ToRadians(10f);
+            if (Projectile.ai[0] > 0f)
+            {
+                Projectile.ai[0] -= 1f;
+            }
+            if (Projectile.timeLeft < 580f)
+            {
+                Projectile.velocity = (Projectile.velocity * 18f + Projectile.DirectionTo(Main.player[Projectile.owner].Center) * 18f) / 19f;
+                if (Main.player[Projectile.owner].Hitbox.Intersects(Projectile.Hitbox))
+                {
+                    Projectile.Kill();
+                }
+            }
+            if (Projectile.timeLeft % 5 == 0 && Projectile.Calamity().stealthStrike)
+            {
+                int projIndex2 = Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center, (Projectile.velocity * -1f).RotatedByRandom(MathHelper.ToRadians(15f)), ModContent.ProjectileType<PlagueSeeker>(), (int)(Projectile.damage * 0.25f), 2f, Projectile.owner);
+                Main.projectile[projIndex2].Calamity().forceRogue = true;
+            }
+        }
+
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            if (Projectile.penetrate > 1)
+            {
+                if (Projectile.velocity.X != oldVelocity.X)
+                {
+                    Projectile.velocity.X = -oldVelocity.X;
+                }
+                if (Projectile.velocity.Y != oldVelocity.Y)
+                {
+                    Projectile.velocity.Y = -oldVelocity.Y;
+                }
+                if (Projectile.ai[0] == 0f)
+                {
+                    int projIndex1 = Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<PlagueSeeker>(), (int)(Projectile.damage * 0.25f), 2f, Projectile.owner);
+                    Main.projectile[projIndex1].Calamity().forceRogue = true;
+                    Projectile.ai[0] = 12f; //0.2th of a second cooldown
+                }
+                Projectile.penetrate--;
+            }
+            else
+                Projectile.tileCollide = false;
+
+            return false;
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (Projectile.ai[0] == 0f)
+            {
+                int projectileIndex = Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<PlagueSeeker>(), (int)(Projectile.damage * 0.25f), 2f, Projectile.owner);
+                Main.projectile[projectileIndex].Calamity().forceRogue = true;
+                Projectile.ai[0] = 12f; //0.2th of a second cooldown
+            }
+            target.AddBuff(ModContent.BuffType<Plague>(), 300);
+        }
+
+        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        /*
+        {
+            if (Projectile.ai[0] == 0f)
+            {
+                int projectileIndex = Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<PlagueSeeker>(), (int)(Projectile.damage * 0.25f), 2f, Projectile.owner);
+                Main.projectile[projectileIndex].Calamity().forceRogue = true;
+                Projectile.ai[0] = 12f; //0.2th of a second cooldown
+            }
+            target.AddBuff(ModContent.BuffType<Plague>(), 300);
+        }
+        */
+    }
+}

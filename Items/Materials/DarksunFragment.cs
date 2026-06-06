@@ -1,0 +1,52 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent;
+using Terraria.ModLoader;
+
+namespace CalRD.Items.Materials
+{
+    public class DarksunFragment : ModItem
+    {
+		public int frameCounter = 0;
+		public int frame = 0;
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Darksun Fragment");
+/*
+            Tooltip.SetDefault("A shard of lunar and solar energy");
+*/
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 8));
+        }
+
+        public override void SetDefaults()
+        {
+            Item.width = 28;
+            Item.height = 32;
+            Item.maxStack = 999;
+            Item.rare = 10;
+            Item.value = Item.sellPrice(gold: 12);
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+        }
+
+		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+		{
+			Texture2D texture = TextureAssets.Item[Item.type].Value;
+			spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 6, 8), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+			return false;
+		}
+
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			Texture2D texture = ModContent.Request<Texture2D>("CalRD/Items/Materials/DarksunFragmentGlow").Value;
+			spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 6, 8, false), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+		}
+
+        public override void Update(ref float gravity, ref float maxFallSpeed)
+        {
+            float brightness = Main.essScale * Main.rand.NextFloat(0.9f, 1.1f);
+            Lighting.AddLight(Item.Center, 0.5f * brightness, 0.5f * brightness, 0.5f * brightness);
+        }
+    }
+}

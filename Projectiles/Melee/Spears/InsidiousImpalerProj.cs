@@ -1,0 +1,49 @@
+using CalRD.Buffs.DamageOverTime;
+using System;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+using CalRD.Projectiles.BaseProjectiles;
+namespace CalRD.Projectiles.Melee.Spears
+{
+    public class InsidiousImpalerProj : BaseSpearProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Insidious Impaler");
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 40;
+            // Projectile.aiStyle = 19;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.timeLeft = 90;
+            Projectile.height = 40;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.ownerHitCheck = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 8;
+            //projectile.Calamity().trueMelee = true;
+        }
+
+        public override float InitialSpeed => 3f;
+        public override float ReelbackSpeed => 1.1f;
+        public override float ForwardSpeed => 0.95f;
+        public override Action<Projectile> EffectBeforeReelback => (proj) =>
+        {
+            Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center.X + Projectile.velocity.X, Projectile.Center.Y + Projectile.velocity.Y,
+                           Projectile.velocity.X * 3.5f, Projectile.velocity.Y * 3.5f, ModContent.ProjectileType<InsidiousHarpoon>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.85f, Projectile.owner, 0f, 0f);
+        };
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 360);
+            target.AddBuff(BuffID.Venom, 360);
+        }
+    }
+}

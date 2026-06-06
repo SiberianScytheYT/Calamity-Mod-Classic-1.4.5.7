@@ -1,0 +1,74 @@
+using CalRD.Items.Materials;
+using CalRD.Projectiles.Typeless;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalRD.Items.Weapons.Typeless
+{
+    public class LunicEye : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Lunic Eye");
+/*
+            Tooltip.SetDefault("Fires lunic beams that reduce enemy protection\n" +
+                "This weapon scales with all your damage stats at once");
+*/
+        }
+
+        public override void SetDefaults()
+        {
+            Item.width = 80;
+            Item.damage = 9;
+            Item.rare = 5;
+            Item.useAnimation = 15;
+            Item.useTime = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 4.5f;
+            Item.UseSound = new SoundStyle("CalRD/Sounds/Item/LaserCannon");
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.height = 50;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.shoot = ModContent.ProjectileType<LunicBeam>();
+            Item.shootSpeed = 13f;
+        }
+
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-15, 0);
+        }
+
+        // Lunic Eye scales off of all damage types simultaneously (meaning it scales 5x from universal damage boosts).
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
+        {
+            float formula = 5f * (player.GetDamage(DamageClass.Generic).Multiplicative - 1f);
+            formula += player.GetDamage(DamageClass.Melee).Additive - 1f;
+            formula += player.GetDamage(DamageClass.Ranged).Additive - 1f;
+            formula += player.GetDamage(DamageClass.Magic).Additive - 1f;
+            formula += player.GetDamage(DamageClass.Summon).Additive - 1f;
+            formula += player.Calamity().throwingDamage - 1f;
+            damage *= formula;
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, Item.knockBack, player.whoAmI, 0f, 0f);
+            return false;
+        }
+
+        public override void AddRecipes()
+        {
+            Recipe recipe = CreateRecipe();
+            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 15);
+            recipe.AddIngredient(ItemID.SunplateBlock, 15);
+            recipe.AddTile(TileID.Anvils);
+            recipe.Register();
+        }
+    }
+}

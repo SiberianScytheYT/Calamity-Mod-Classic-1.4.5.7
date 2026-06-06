@@ -1,0 +1,64 @@
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ModLoader;
+
+namespace CalRD.Projectiles.Typeless
+{
+	public class HydrothermalSmoke : ModProjectile
+    {
+        public override string Texture => "CalRD/Projectiles/InvisibleProj";
+
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Smoke");
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 20;
+            Projectile.height = 42;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 6;
+        }
+
+        public override void AI()
+        {
+			if (Projectile.timeLeft == 6)
+				Projectile.Center = Main.player[Projectile.owner].Center;
+
+            int randomDust = Main.rand.Next(4);
+            if (randomDust == 3)
+            {
+                randomDust = 16;
+            }
+            else
+            {
+                randomDust = 127;
+            }
+			if (Main.rand.NextBool(4))
+			{
+				int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDust, 0f, 0f, 100, default, 1f);
+				if (Main.rand.NextBool(4))
+				{
+					Main.dust[num469].scale *= 0.35f;
+				}
+				Main.dust[num469].velocity *= 0f;
+			}
+
+			Vector2 goreVec = new Vector2(Projectile.position.X, Projectile.position.Y);
+			if (Main.rand.NextBool(8))
+			{
+				int smoke = Gore.NewGore(Entity.GetSource_FromThis(), goreVec, default, Main.rand.Next(375, 378), 0.75f);
+				Main.gore[smoke].behindTiles = true;
+			}
+        }
+
+        public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of true */
+        {
+            return false;
+        }
+    }
+}

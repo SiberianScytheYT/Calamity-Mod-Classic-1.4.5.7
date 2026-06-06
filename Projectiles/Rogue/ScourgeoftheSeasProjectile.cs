@@ -1,0 +1,92 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
+using CalRD.Buffs.DamageOverTime;
+
+namespace CalRD.Projectiles.Rogue
+{
+    public class ScourgeoftheSeasProjectile : ModProjectile
+    {
+        public override string Texture => "CalRD/Items/Weapons/Rogue/ScourgeoftheSeas";
+
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Moist Scourge");
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 26;
+            Projectile.height = 26;
+            Projectile.friendly = true;
+            Projectile.aiStyle = 113;
+            AIType = ProjectileID.BoneJavelin;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 1;
+            Projectile.timeLeft = 1200;
+            Projectile.Calamity().rogue = true;
+        }
+
+        public override void AI()
+        {
+            if (Main.rand.NextBool(5))
+            {
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 85, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+            }
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 0.785f;
+            Projectile.velocity.X *= 1.015f;
+            Projectile.velocity.Y *= 1.015f;
+			Projectile.velocity.X = Math.Min(16f, Projectile.velocity.X);
+			Projectile.velocity.Y = Math.Min(16f, Projectile.velocity.Y);
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(BuffID.Venom, 600);
+            if (Projectile.Calamity().stealthStrike) //stealth strike attack
+            {
+				target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 600);
+			}
+        }
+
+        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        /*{
+            target.AddBuff(BuffID.Venom, 600);
+            if (Projectile.Calamity().stealthStrike) //stealth strike attack
+            {
+				target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 600);
+			}
+        }*/
+
+        public override void OnKill(int timeLeft)
+        {
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+            for (int dustIndex = 0; dustIndex < 8; dustIndex++)
+            {
+                int dusty = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 85, 0f, 0f, 100, default, 1f);
+                Main.dust[dusty].velocity *= 1f;
+            }
+            if (Projectile.owner == Main.myPlayer)
+            {
+				int cloudNumber = Main.rand.Next(2, 6);
+				for (int cloudIndex = 0; cloudIndex < cloudNumber; cloudIndex++)
+				{
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 10f, 200f, 0.01f);
+					Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<ScourgeVenomCloud>(), (int)(Projectile.damage * 0.25), 1f, Projectile.owner, 0f, Projectile.Calamity().stealthStrike ? 1f : 0f);
+				}
+            }
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(Projectile, lightColor, ProjectileID.Sets.TrailingMode[Projectile.type], 1);
+            return false;
+        }
+    }
+}

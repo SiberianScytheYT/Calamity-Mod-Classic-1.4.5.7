@@ -1,0 +1,70 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+namespace CalRD.Projectiles.Ranged
+{
+    public class TealExoArrow : ModProjectile
+    {
+        public override string Texture => "CalRD/Projectiles/LaserProj";
+
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Arrow");
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 5;
+            Projectile.height = 5;
+            Projectile.friendly = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 2;
+            Projectile.timeLeft = 300;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 1;
+            Projectile.arrow = true;
+        }
+
+        public override void AI()
+        {
+            if (Projectile.alpha > 0)
+            {
+                Projectile.alpha -= 25;
+            }
+            if (Projectile.alpha < 0)
+            {
+                Projectile.alpha = 0;
+            }
+            float num55 = 40f;
+            float num56 = 1.5f;
+            if (Projectile.ai[1] == 0f)
+            {
+                Projectile.localAI[0] += num56;
+                if (Projectile.localAI[0] > num55)
+                {
+                    Projectile.localAI[0] = num55;
+                }
+            }
+            else
+            {
+                Projectile.localAI[0] -= num56;
+                if (Projectile.localAI[0] <= 0f)
+                {
+                    Projectile.Kill();
+                }
+            }
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.ExoDebuffs();
+
+        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */ => target.ExoDebuffs();
+
+        public override Color? GetAlpha(Color lightColor) => new Color(0, 100, 100, Projectile.alpha);
+
+        public override bool PreDraw(ref Color lightColor) => Projectile.DrawBeam(40f, 1.5f, lightColor);
+    }
+}

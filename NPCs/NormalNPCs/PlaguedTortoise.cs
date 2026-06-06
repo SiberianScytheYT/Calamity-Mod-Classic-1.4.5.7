@@ -1,0 +1,78 @@
+using CalRD.Buffs.DamageOverTime;
+using CalRD.Dusts;
+using CalRD.Items.Materials;
+using CalRD.Items.Placeables.Banners;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
+namespace CalRD.NPCs.NormalNPCs
+{
+    public class PlaguedTortoise : ModNPC
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Plagueshell");
+            Main.npcFrameCount[NPC.type] = 8;
+        }
+
+        public override void SetDefaults()
+        {
+            NPC.npcSlots = 2f;
+            NPC.damage = 80;
+            NPC.aiStyle = 39;
+            NPC.width = 46;
+            NPC.height = 32;
+            NPC.defense = 32;
+            NPC.lifeMax = 800;
+            NPC.knockBackResist = 0.2f;
+            AnimationType = NPCID.GiantTortoise;
+            NPC.value = Item.buyPrice(0, 0, 20, 0);
+            NPC.HitSound = SoundID.NPCHit24;
+            NPC.DeathSound = SoundID.NPCDeath27;
+            NPC.noGravity = false;
+            NPC.buffImmune[BuffID.ShadowFlame] = true;
+            NPC.buffImmune[BuffID.Venom] = true;
+            NPC.buffImmune[BuffID.OnFire] = true;
+            NPC.buffImmune[BuffID.Poisoned] = true;
+            NPC.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
+            NPC.buffImmune[ModContent.BuffType<Plague>()] = true;
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<PlagueshellBanner>();
+        }
+
+        public override void HitEffect(NPC.HitInfo hit)
+        {
+            for (int k = 0; k < 5; k++)
+            {
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Plague, hit.HitDirection, -1f, 0, default, 1f);
+            }
+            if (NPC.life <= 0)
+            {
+                for (int k = 0; k < 20; k++)
+                {
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Plague, hit.HitDirection, -1f, 0, default, 1f);
+                }
+            }
+        }
+
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            if (spawnInfo.PlayerSafe || !NPC.downedGolemBoss || spawnInfo.Player.Calamity().ZoneSunkenSea)
+            {
+                return 0f;
+            }
+            return SpawnCondition.HardmodeJungle.Chance * 0.09f;
+        }
+
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
+        {
+            target.AddBuff(ModContent.BuffType<Plague>(), 300, true);
+        }
+
+        public override void OnKill()
+        {
+			DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<PlagueCellCluster>(), 3, 4);
+        }
+    }
+}

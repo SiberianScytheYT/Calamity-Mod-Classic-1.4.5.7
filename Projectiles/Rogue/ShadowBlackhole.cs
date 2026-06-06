@@ -1,0 +1,59 @@
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalRD.Projectiles.Rogue
+{
+	public class ShadowBlackhole : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Blackhole");
+            Main.projFrames[Projectile.type] = 7;
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 88;
+            Projectile.height = 90;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.Calamity().rogue = true;
+            Projectile.tileCollide = false;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 20;
+        }
+
+		public override void AI()
+		{
+			// Update animation
+			if (Projectile.timeLeft % 5 == 0)
+			{
+				Projectile.frame++;
+			}
+			if (Projectile.frame >= Main.projFrames[Projectile.type])
+			{
+				Projectile.frame = 0;
+			}
+
+			Projectile.ai[0]++;
+			if (Projectile.ai[0] > 120f)
+			{
+				Projectile.scale *= 0.95f;
+				Projectile.Opacity *= 0.95f;
+				CalamityGlobalProjectile.ExpandHitboxBy(Projectile, Projectile.scale);
+			}
+			if (Projectile.scale <= 0.05f)
+			{
+				Projectile.Kill();
+			}
+		}
+
+		//public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+		/*
+		{
+			target.AddBuff(BuffID.Blackout, 300);
+		}
+		*/
+	}
+}

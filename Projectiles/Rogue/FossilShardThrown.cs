@@ -1,0 +1,51 @@
+using CalRD.Buffs.StatDebuffs;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+namespace CalRD.Projectiles.Rogue
+{
+    public class FossilShardThrown : ModProjectile
+    {
+        public override string Texture => "CalRD/Projectiles/Ranged/FossilShard";
+
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Shard");
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.aiStyle = 1;
+            Projectile.timeLeft = 90;
+            AIType = ProjectileID.WoodenArrowFriendly;
+            Projectile.Calamity().rogue = true;
+        }
+
+        public override void AI()
+        {
+            Projectile.rotation += Projectile.velocity.Y;
+            Projectile.velocity.Y *= 1.05f;
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 60);
+        }
+
+        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        /*
+        {
+            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 60);
+        }
+        */
+
+        public override void OnKill(int timeLeft)
+        {
+            Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 32, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
+        }
+    }
+}

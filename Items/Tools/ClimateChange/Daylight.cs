@@ -1,0 +1,54 @@
+using CalRD.CalPlayer;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalRD.Items.Tools.ClimateChange
+{
+    public class Daylight : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Daylight");
+/*
+            Tooltip.SetDefault("Summons the sun");
+*/
+        }
+
+        public override void SetDefaults()
+        {
+            Item.width = 20;
+            Item.height = 20;
+            Item.rare = 5;
+            Item.useAnimation = 20;
+            Item.useTime = 20;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.UseSound = SoundID.Item60;
+            Item.consumable = false;
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            return !Main.dayTime && !CalamityPlayer.areThereAnyDamnBosses;
+        }
+
+        public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+        {
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+				Main.dayTime = true;
+				CalamityNetcode.SyncWorld();
+			}
+            return true;
+        }
+
+        public override void AddRecipes()
+        {
+            Recipe recipe = CreateRecipe();
+            recipe.AddIngredient(ItemID.SoulofLight, 7);
+            recipe.AddIngredient(ItemID.HellstoneBar, 5);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.Register();
+        }
+    }
+}

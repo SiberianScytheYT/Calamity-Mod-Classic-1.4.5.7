@@ -1,0 +1,37 @@
+using CalRD.CalPlayer;
+using CalRD.Projectiles.Summon;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalRD.Buffs.Summon
+{
+    public class VileFeederBuff : ModBuff
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Vile Feeder");
+            // Description.SetDefault("The baby eater of souls will protect you");
+            Main.buffNoTimeDisplay[Type] = true;
+            Main.buffNoSave[Type] = true;
+        }
+
+        public override void Update(Player player, ref int buffIndex)
+        {
+            CalamityPlayer modPlayer = player.Calamity();
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<VileFeederSummon>()] > 0)
+            {
+                modPlayer.vileFeeder = true;
+            }
+            if (!modPlayer.vileFeeder)
+            {
+                player.DelBuff(buffIndex);
+                buffIndex--;
+            }
+            else
+            {
+                player.buffTime[buffIndex] = 18000;
+            }
+        }
+    }
+}

@@ -1,0 +1,25 @@
+using Terraria;
+using Terraria.ModLoader;
+
+namespace CalRD.Items.Fishing.AstralCatches
+{
+    public class AldebaranAlewife : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Aldebaran Alewife");
+/*
+            Tooltip.SetDefault("A star-struck entity in the form of a fish");
+*/
+        }
+
+        public override void SetDefaults()
+        {
+            Item.width = 38;
+            Item.height = 36;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 8);
+            Item.rare = 1;
+        }
+    }
+}

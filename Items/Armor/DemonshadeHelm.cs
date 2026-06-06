@@ -1,0 +1,85 @@
+using CalRD.Buffs.Summon;
+using CalRD.CalPlayer;
+using CalRD.Items.Materials;
+using CalRD.Projectiles.Typeless;
+using CalRD.Tiles.Furniture.CraftingStations;
+using Terraria;
+using Terraria.ModLoader;
+
+namespace CalRD.Items.Armor
+{
+    [AutoloadEquip(EquipType.Head)]
+    public class DemonshadeHelm : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Demonshade Helm");
+/*
+            Tooltip.SetDefault("30% increased damage and 15% increased critical strike chance, +10 max minions");
+*/
+        }
+
+        public override void SetDefaults()
+        {
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(5, 0, 0, 0);
+            Item.defense = 50; //15
+            Item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+        }
+
+        public override bool IsArmorSet(Item head, Item body, Item legs)
+        {
+            return body.type == ModContent.ItemType<DemonshadeBreastplate>() && legs.type == ModContent.ItemType<DemonshadeGreaves>();
+        }
+
+        public override void ArmorSetShadows(Player player)
+        {
+            player.armorEffectDrawShadow = true;
+            player.armorEffectDrawOutlines = true;
+        }
+
+        public override void UpdateArmorSet(Player player)
+        {
+            string hotkey = CalRD.TarraHotKey.TooltipHotkeyString();
+            player.setBonus = "100% increased minion damage\n" +
+                "All attacks inflict the demon flame debuff\n" +
+                "Shadowbeams and demon scythes will fire down when you are hit\n" +
+                "A friendly red devil follows you around\n" +
+                "Press " + hotkey + " to enrage nearby enemies with a dark magic spell for 10 seconds\n" +
+                "This makes them do 25% more damage but they also take 125% more damage";
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.dsSetBonus = true;
+            modPlayer.wearingRogueArmor = true;
+            if (player.whoAmI == Main.myPlayer && !modPlayer.chibii)
+            {
+                modPlayer.redDevil = true;
+                if (player.FindBuffIndex(ModContent.BuffType<DemonshadeSetDevilBuff>()) == -1)
+                {
+                    player.AddBuff(ModContent.BuffType<DemonshadeSetDevilBuff>(), 3600, true);
+                }
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<DemonshadeRedDevil>()] < 1)
+                {
+					int damage = (int)(10000 * player.AverageDamage());
+                    Projectile.NewProjectile(player.GetSource_ItemUse(Item), player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<DemonshadeRedDevil>(), damage, 0f, Main.myPlayer, 0f, 0f);
+                }
+            }
+            player.GetDamage(DamageClass.Summon) += 1f;
+        }
+
+        public override void UpdateEquip(Player player)
+        {
+            player.maxMinions += 10;
+            player.GetDamage(DamageClass.Generic) += 0.3f;
+            player.Calamity().AllCritBoost(15);
+        }
+
+        public override void AddRecipes()
+        {
+            Recipe recipe = CreateRecipe();
+            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 8);
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.Register();
+        }
+    }
+}

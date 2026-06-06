@@ -1,0 +1,52 @@
+using CalRD.Projectiles.Summon;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalRD.Items.Weapons.Summon
+{
+    public class CalamarisLament : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Calamari's Lament");
+/*
+            Tooltip.SetDefault("Summons a squid to fight for you");
+*/
+        }
+
+        public override void SetDefaults()
+        {
+            Item.damage = 158;
+            Item.mana = 10;
+            Item.width = 62;
+            Item.height = 62;
+            Item.useTime = Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 2.5f;
+            Item.value = Item.buyPrice(1, 40, 0, 0);
+            Item.rare = 10;
+            Item.UseSound = SoundID.Item83;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<CalamariMinion>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            if (player.altFunctionUse != 2)
+            {
+                position = Main.MouseWorld;
+                velocity.X = 0;
+                velocity.Y = 0;
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, Item.knockBack, player.whoAmI);
+            }
+            return false;
+        }
+    }
+}

@@ -1,0 +1,52 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.GameContent;
+using Terraria.ModLoader;
+using Terraria.DataStructures;
+
+namespace CalRD.Items.Materials
+{
+	public class NightmareFuel : ModItem
+    {
+		public int frameCounter = 0;
+		public int frame = 0;
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Nightmare Fuel");
+/*
+            Tooltip.SetDefault("May drain your sanity");
+*/
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
+        }
+
+        public override void SetDefaults()
+        {
+            Item.width = 38;
+            Item.height = 36;
+            Item.maxStack = 999;
+            Item.rare = 10;
+            Item.value = Item.sellPrice(gold: 2);
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+        }
+
+		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+		{
+			Texture2D texture = TextureAssets.Item[Item.type].Value;
+			spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 6, 6), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+			return false;
+		}
+
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			Texture2D texture = ModContent.Request<Texture2D>("CalRD/Items/Materials/NightmareFuelGlow").Value;
+			spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 6, 6, false), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+		}
+
+        public override void Update(ref float gravity, ref float maxFallSpeed)
+        {
+            float brightness = Main.essScale * Main.rand.NextFloat(0.9f, 1.1f);
+            Lighting.AddLight(Item.Center, 0.7f * brightness, 0.7f * brightness, 0f);
+        }
+    }
+}

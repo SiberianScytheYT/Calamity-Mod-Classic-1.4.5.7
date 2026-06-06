@@ -1,0 +1,166 @@
+using CalRD.Buffs.DamageOverTime;
+using CalRD.Events;
+using CalRD.World;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
+using Terraria.ID;
+using Terraria.ModLoader;
+namespace CalRD.Projectiles.Boss
+{
+    public class FlareBomb : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Flare Bomb");
+            Main.projFrames[Projectile.type] = 5;
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.hostile = true;
+            Projectile.scale = 1.5f;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.alpha = 50;
+            Projectile.timeLeft = 180;
+            CooldownSlot = 1;
+        }
+
+        public override void AI()
+        {
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
+            {
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
+            }
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
+            {
+                Projectile.frame = 0;
+            }
+
+            Lighting.AddLight(Projectile.Center, 0.5f, 0.25f, 0f);
+
+            if (Projectile.timeLeft > 30 && Projectile.alpha > 0)
+            {
+                Projectile.alpha -= 25;
+            }
+            if (Projectile.timeLeft > 30 && Projectile.alpha < 128 && Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
+            {
+                Projectile.alpha = 128;
+            }
+            if (Projectile.alpha < 0)
+            {
+                Projectile.alpha = 0;
+            }
+
+			if (Projectile.ai[0] == -1f || (Projectile.timeLeft > 135 && Projectile.ai[1] == 1f))
+				return;
+
+			float inertia = revenge ? 70f : 77f;
+			float num954 = 40f;
+			float scaleFactor12 = revenge ? 35f : 28f;
+			int num959 = (int)Projectile.ai[0];
+            if (num959 >= 0 && Main.player[num959].active && !Main.player[num959].dead)
+            {
+                if (Projectile.Distance(Main.player[num959].Center) > num954)
+                {
+                    Vector2 vector102 = Projectile.DirectionTo(Main.player[num959].Center);
+                    if (vector102.HasNaNs())
+                    {
+                        vector102 = Vector2.UnitY;
+                    }
+                    Projectile.velocity = (Projectile.velocity * (inertia - 1f) + vector102 * scaleFactor12) / inertia;
+                }
+            }
+            else
+            {
+                if (Projectile.ai[0] != -1f)
+                {
+                    Projectile.ai[0] = -1f;
+                    Projectile.netUpdate = true;
+                }
+            }
+
+			if (Projectile.timeLeft < 60)
+				return;
+
+			float num1247 = 0.5f;
+			for (int num1248 = 0; num1248 < Main.maxProjectiles; num1248++)
+			{
+				if (Main.projectile[num1248].active)
+				{
+					if (num1248 != Projectile.whoAmI && Main.projectile[num1248].type == Projectile.type)
+					{
+						if (Vector2.Distance(Projectile.Center, Main.projectile[num1248].Center) < 24f)
+						{
+							if (Projectile.position.X < Main.projectile[num1248].position.X)
+								Projectile.velocity.X -= num1247;
+							else
+								Projectile.velocity.X += num1247;
+
+							if (Projectile.position.Y < Main.projectile[num1248].position.Y)
+								Projectile.velocity.Y -= num1247;
+							else
+								Projectile.velocity.Y += num1247;
+						}
+					}
+				}
+			}
+		}
+
+        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, Projectile.alpha);
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D texture2D13 = TextureAssets.Projectile[Projectile.type].Value;
+            int num214 = TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type];
+            int y6 = num214 * Projectile.frame;
+            Main.spriteBatch.Draw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle(0, y6, texture2D13.Width, num214), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture2D13.Width / 2f, num214 / 2f), Projectile.scale, SpriteEffects.None, 0f);
+            return false;
+        }
+
+        public override void OnKill(int timeLeft)
+        {
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+			CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 48);
+            for (int d = 0; d < 2; d++)
+            {
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 1f);
+                Main.dust[idx].velocity *= 3f;
+                if (Main.rand.NextBool(2))
+                {
+                    Main.dust[idx].scale = 0.5f;
+                    Main.dust[idx].fadeIn = 1f + Main.rand.NextFloat(0.1f, 1f);
+                }
+            }
+            for (int d = 0; d < 4; d++)
+            {
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
+                Main.dust[idx].noGravity = true;
+                Main.dust[idx].velocity *= 5f;
+                idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 1f);
+                Main.dust[idx].velocity *= 2f;
+            }
+			CalamityUtils.ExplosionGores(Projectile.GetSource_FromThis(), Projectile.Center, 3);
+            Projectile.Damage();
+        }
+
+		public override void OnHitPlayer(Player target, Player.HurtInfo info)
+		{
+			target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 180);
+		}
+
+		public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)	
+        {
+			target.Calamity().lastProjectileHit = Projectile;
+		}
+    }
+}

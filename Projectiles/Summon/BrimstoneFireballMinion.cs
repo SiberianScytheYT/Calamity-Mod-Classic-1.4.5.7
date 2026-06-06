@@ -1,0 +1,95 @@
+using CalRD.Buffs.DamageOverTime;
+using CalRD.Dusts;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
+namespace CalRD.Projectiles.Summon
+{
+    public class BrimstoneFireballMinion : ModProjectile
+    {
+        public override string Texture => "CalRD/Projectiles/Boss/BrimstoneHellfireball";
+
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Brimfire");
+			ProjectileID.Sets.MinionShot[Projectile.type] = true;
+            Main.projFrames[Projectile.type] = 6;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 200;
+            Projectile.penetrate = 2;
+            Projectile.extraUpdates = 1;
+            Projectile.minion = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+			Projectile.alpha = 255;
+        }
+
+        public override void AI()
+        {
+            //Animation
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 9)
+            {
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
+            }
+            if (Projectile.frame >= 6)
+            {
+                Projectile.frame = 0;
+            }
+
+            //Fade in
+            if (Projectile.alpha > 5)
+                Projectile.alpha -= 15;
+            if (Projectile.alpha < 5)
+                Projectile.alpha = 5;
+
+			//Rotation
+			Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) - MathHelper.ToRadians(90) * Projectile.direction;
+
+            int num458 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 170, default, 1.1f);
+            Main.dust[num458].noGravity = true;
+            Main.dust[num458].velocity *= 0.5f;
+            Main.dust[num458].velocity += Projectile.velocity * 0.1f;
+            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.5f / 255f, (255 - Projectile.alpha) * 0.05f / 255f, (255 - Projectile.alpha) * 0.05f / 255f);
+
+            if (Projectile.localAI[0] == 0f)
+            {
+                SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
+                Projectile.localAI[0] += 1f;
+            }
+        }
+
+        public override void OnKill(int timeLeft)
+        {
+            if (Projectile.owner == Main.myPlayer)
+            {
+                int fire = Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimstoneExplosionMinion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+            }
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 600);
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(Projectile, lightColor, ProjectileID.Sets.TrailingMode[Projectile.type], 1);
+            return false;
+        }
+    }
+}

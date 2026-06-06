@@ -1,0 +1,55 @@
+using Microsoft.Xna.Framework;
+using System;
+using Terraria;
+using Terraria.ModLoader;
+namespace CalRD.Projectiles.Magic
+{
+    public class GleamingBolt2 : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Bolt");
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.alpha = 0;
+            Projectile.timeLeft = 120;
+            Projectile.penetrate = 1;
+            Projectile.DamageType = DamageClass.Magic;
+        }
+
+        public override void AI()
+        {
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + MathHelper.PiOver2;
+            Projectile.velocity.X *= 0.985f;
+            Projectile.velocity.Y *= 0.985f;
+			int randomDust = Utils.SelectRandom(Main.rand, new int[]
+			{
+				64,
+				204
+			});
+			Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, randomDust, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+        }
+
+        public override void OnKill(int timeLeft)
+        {
+            for (int k = 0; k < 3; k++)
+            {
+                int randomDust = Main.rand.Next(2);
+                if (randomDust == 0)
+                {
+                    randomDust = 64;
+                }
+                else
+                {
+                    randomDust = 204;
+                }
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, randomDust, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
+            }
+        }
+    }
+}

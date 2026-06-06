@@ -1,0 +1,169 @@
+using CalRD.Buffs.DamageOverTime;
+using Microsoft.Xna.Framework;
+using System;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ModLoader;
+using Terraria.ID;
+
+namespace CalRD.Projectiles.Rogue
+{
+    public class DeepSeaDumbbell2 : ModProjectile
+    {
+        public override string Texture => "CalRD/Items/Weapons/Rogue/DeepSeaDumbbell";
+
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Deep Sea Dumbbell");
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 26;
+            Projectile.height = 26;
+            Projectile.friendly = true;
+            Projectile.Calamity().rogue = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+        }
+
+        public override void AI()
+        {
+            if (Projectile.ai[0] < 60f)
+                Projectile.ai[0] += 1f;
+            else
+            {
+				CalamityGlobalProjectile.HomeInOnNPC(Projectile, false, 600f, 20f, 20f);
+            }
+
+            Projectile.rotation += Math.Abs(Projectile.velocity.X) * 0.01f * (float)Projectile.direction;
+        }
+
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            SoundEngine.PlaySound(SoundID.NPCDeath43.WithVolumeScale(0.35f), Projectile.position);
+
+            if (Projectile.velocity.X != oldVelocity.X)
+                Projectile.velocity.X = -oldVelocity.X;
+            if (Projectile.velocity.Y != oldVelocity.Y)
+                Projectile.velocity.Y = -oldVelocity.Y;
+
+            if (Projectile.owner == Main.myPlayer)
+            {
+                Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<DeepSeaDumbbell3>(),
+                        (int)((double)Projectile.damage * 0.75), Projectile.knockBack * 0.75f, Main.myPlayer, 0f, 0f);
+
+                float num628 = (float)Main.rand.Next(-35, 36) * 0.01f;
+                float num629 = (float)Main.rand.Next(-35, 36) * 0.01f;
+                int num3;
+                for (int num627 = 0; num627 < 2; num627 = num3 + 1)
+                {
+                    if (num627 == 1)
+                    {
+                        num628 *= 10f;
+                        num629 *= 10f;
+                    }
+                    else
+                    {
+                        num628 *= -10f;
+                        num629 *= -10f;
+                    }
+
+                    Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, num628, num629, ModContent.ProjectileType<DeepSeaDumbbellWeight>(),
+                        (int)((double)Projectile.damage * 0.25), Projectile.knockBack * 0.25f, Main.myPlayer, 0f, 0f);
+
+                    num3 = num627;
+                }
+            }
+
+            Projectile.Kill();
+
+            return false;
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (target.defense > 0)
+                target.defense -= 15;
+
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
+
+            SoundEngine.PlaySound(SoundID.NPCDeath43.WithVolumeScale(0.35f), Projectile.position);
+
+            Projectile.velocity.X = -Projectile.velocity.X;
+            Projectile.velocity.Y = -Projectile.velocity.Y;
+
+            if (Projectile.owner == Main.myPlayer)
+            {
+                Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<DeepSeaDumbbell3>(),
+                        (int)((double)Projectile.damage * 0.75), Projectile.knockBack * 0.75f, Main.myPlayer, 0f, 0f);
+
+                float num628 = (float)Main.rand.Next(-35, 36) * 0.01f;
+                float num629 = (float)Main.rand.Next(-35, 36) * 0.01f;
+                int num3;
+                for (int num627 = 0; num627 < 2; num627 = num3 + 1)
+                {
+                    if (num627 == 1)
+                    {
+                        num628 *= 10f;
+                        num629 *= 10f;
+                    }
+                    else
+                    {
+                        num628 *= -10f;
+                        num629 *= -10f;
+                    }
+
+                    Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, num628, num629, ModContent.ProjectileType<DeepSeaDumbbellWeight>(),
+                        (int)((double)Projectile.damage * 0.25), Projectile.knockBack * 0.25f, Main.myPlayer, 0f, 0f);
+
+                    num3 = num627;
+                }
+            }
+
+            Projectile.Kill();
+        }
+
+        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        /*
+        {
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
+
+            SoundEngine.PlaySound(SoundID.NPCDeath43.WithVolumeScale(0.35f), Projectile.position);
+
+            Projectile.velocity.X = -Projectile.velocity.X;
+            Projectile.velocity.Y = -Projectile.velocity.Y;
+
+            if (Projectile.owner == Main.myPlayer)
+            {
+                Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<DeepSeaDumbbell3>(),
+                        (int)((double)Projectile.damage * 0.75), Projectile.knockBack * 0.75f, Main.myPlayer, 0f, 0f);
+
+                float num628 = (float)Main.rand.Next(-35, 36) * 0.01f;
+                float num629 = (float)Main.rand.Next(-35, 36) * 0.01f;
+                int num3;
+                for (int num627 = 0; num627 < 2; num627 = num3 + 1)
+                {
+                    if (num627 == 1)
+                    {
+                        num628 *= 10f;
+                        num629 *= 10f;
+                    }
+                    else
+                    {
+                        num628 *= -10f;
+                        num629 *= -10f;
+                    }
+
+                    Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, num628, num629, ModContent.ProjectileType<DeepSeaDumbbellWeight>(),
+                        (int)((double)Projectile.damage * 0.25), Projectile.knockBack * 0.25f, Main.myPlayer, 0f, 0f);
+
+                    num3 = num627;
+                }
+            }
+
+            Projectile.Kill();
+        }
+        */
+    }
+}

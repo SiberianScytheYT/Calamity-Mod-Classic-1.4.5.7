@@ -1,0 +1,94 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
+namespace CalRD.Projectiles.Rogue
+{
+	public class SphereBlue : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Blue Thruster Sphere");
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 300;
+            Projectile.tileCollide = false;
+            Projectile.Calamity().rogue = true;
+            Projectile.extraUpdates = 1;
+        }
+
+        public override void AI()
+        {
+            Lighting.AddLight(Projectile.Center, 0f, 0f, 1f);
+            if (Main.rand.NextBool(5))
+            {
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 229, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 100);
+            }
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] >= 5f)
+            {
+                Projectile.tileCollide = true;
+            }
+            Projectile.rotation += Projectile.velocity.X * 0.02f;
+            Projectile.velocity.Y = Projectile.velocity.Y + 0.085f;
+            Projectile.velocity.X = Projectile.velocity.X * 0.99f;
+			CalamityGlobalProjectile.HomeInOnNPC(Projectile, false, 800f, 16f, 20f);
+        }
+
+        public override void OnKill(int timeLeft)
+        {
+            Projectile.position = Projectile.Center;
+            Projectile.width = Projectile.height = 192;
+            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
+            Projectile.maxPenetrate = -1;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Damage();
+            SoundEngine.PlaySound(SoundID.NPCDeath37, Projectile.position);
+            for (int num625 = 0; num625 < 3; num625++)
+            {
+                float scaleFactor10 = 0.33f;
+                if (num625 == 1)
+                {
+                    scaleFactor10 = 0.66f;
+                }
+                if (num625 == 2)
+                {
+                    scaleFactor10 = 1f;
+                }
+				int defectiveBruh = Gore.NewGore(Entity.GetSource_FromThis(), new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(660, 662), 1f);
+				Main.gore[defectiveBruh].velocity *= scaleFactor10;
+				Main.gore[defectiveBruh].velocity += Projectile.velocity;
+            }
+            for (int num194 = 0; num194 < 25; num194++)
+            {
+				int dustType = Utils.SelectRandom(Main.rand, new int[]
+				{
+					226,
+					229
+				});
+                int num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 1f);
+                Main.dust[num195].noGravity = true;
+                Main.dust[num195].velocity *= 0f;
+            }
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(Projectile, lightColor, ProjectileID.Sets.TrailingMode[Projectile.type], 1);
+            return false;
+        }
+    }
+}

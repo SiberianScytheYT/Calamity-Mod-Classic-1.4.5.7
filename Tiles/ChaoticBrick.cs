@@ -1,0 +1,36 @@
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.Localization;
+using Terraria.ModLoader;
+using Terraria.ID;
+
+namespace CalRD.Tiles
+{
+    public class ChaoticBrick : ModTile
+    {
+        public override void SetStaticDefaults()
+        {
+            Main.tileLighted[Type] = true;
+            Main.tileSolid[Type] = true;
+            Main.tileBlockLight[Type] = true;
+            DustType = 105;
+            // ItemDrop/* tModPorter Note: Removed. Tiles and walls will drop the item which places them automatically. Use RegisterItemDrop to alter the automatic drop if necessary. */ = ModContent.ItemType<Items.Placeables.ChaoticBrick>();
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Chaotic Brick");
+            AddMapEntry(new Color(255, 0, 0), name);
+            HitSound = SoundID.Tink;
+        }
+
+        public override void NumDust(int i, int j, bool fail, ref int num)
+        {
+            num = fail ? 1 : 3;
+        }
+
+        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
+        {
+            r = 0.04f;
+            g = 0.00f;
+            b = 0.00f;
+        }
+    }
+}

@@ -1,0 +1,64 @@
+using CalRD.Buffs.DamageOverTime;
+using CalRD.Dusts;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ModLoader;
+using Terraria.ID;
+
+namespace CalRD.Projectiles.Typeless
+{
+    public class BrimstoneHellfireballFriendly2 : ModProjectile
+    {
+        public override string Texture => "CalRD/Projectiles/InvisibleProj";
+
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Hellfire");
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+			Projectile.tileCollide = false;
+            Projectile.timeLeft = 50;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+        }
+
+        public override void AI()
+        {
+            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.5f / 255f, (255 - Projectile.alpha) * 0.05f / 255f, (255 - Projectile.alpha) * 0.05f / 255f);
+            if (Projectile.localAI[0] == 0f)
+            {
+                SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
+                Projectile.localAI[0] += 1f;
+            }
+            for (int num457 = 0; num457 < 5; num457++)
+            {
+                int num458 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 0.6f);
+                Main.dust[num458].noGravity = true;
+                Main.dust[num458].velocity *= 0.5f;
+                Main.dust[num458].velocity += Projectile.velocity * 0.1f;
+            }
+            return;
+        }
+
+        public override void OnKill(int timeLeft)
+        {
+            if (Projectile.owner == Main.myPlayer)
+            {
+                Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<HellfireExplosionFriendly2>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+            }
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 600);
+        }
+    }
+}

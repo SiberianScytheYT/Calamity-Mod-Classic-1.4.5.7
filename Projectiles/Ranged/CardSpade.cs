@@ -1,0 +1,74 @@
+using CalRD.Buffs.DamageOverTime;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
+namespace CalRD.Projectiles.Ranged
+{
+    public class CardSpade : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Spade");
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 600;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.extraUpdates = 1;
+            Projectile.aiStyle = 1;
+            AIType = ProjectileID.Bullet;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 4;
+        }
+
+        public override void AI()
+        {
+            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.5f / 255f, (255 - Projectile.alpha) * 0f / 255f, (255 - Projectile.alpha) * 0f / 255f);
+			Projectile.rotation -= (MathHelper.ToRadians(90) * Projectile.direction);
+			Projectile.spriteDirection = Projectile.direction;
+            if (Main.rand.NextBool(2))
+            {
+                int num137 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), 1, 1, 30, 0f, 0f, 0, default, 0.5f);
+                Main.dust[num137].velocity *= 0f;
+                Main.dust[num137].noGravity = true;
+            }
+        }
+
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            return true;
+        }
+
+        public override void OnKill(int timeLeft)
+        {
+            for (int k = 0; k < 2; k++)
+            {
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 30, Projectile.oldVelocity.X * 0.15f, Projectile.oldVelocity.Y * 0.15f);
+            }
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(Projectile, lightColor, ProjectileID.Sets.TrailingMode[Projectile.type], 1);
+            return false;
+        }
+    }
+}

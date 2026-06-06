@@ -1,0 +1,62 @@
+using CalRD.Dusts;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
+namespace CalRD.Projectiles.Summon
+{
+    public class MK2FlaskSummon : ModProjectile
+    {
+        public override string Texture => "CalRD/Items/Weapons/Summon/FuelCellBundle";
+
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Flask");
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.friendly = true;
+            Projectile.width = 26;
+            Projectile.height = 26;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0f;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = true;
+            Projectile.timeLeft = 240;
+        }
+
+        public override void AI()
+        {
+            Projectile.velocity.Y += 0.2f;
+            Projectile.rotation += 0.1f * (Projectile.velocity.X > 0).ToDirectionInt();
+		}
+        public override void OnKill(int timeLeft)
+        {
+            if (Main.myPlayer == Projectile.owner)
+            {
+                for (int i = 0; i < Main.rand.Next(18, 21); i++)
+                {
+                    Dust.NewDustPerfect(Projectile.Center + Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(10f),
+                        (int)CalamityDusts.Plague,
+                        Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(1f, 4f));
+                }
+                SoundEngine.PlaySound(SoundID.Item107, Projectile.Center);
+                int idx = Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center, Vector2.UnitY * 6f, ModContent.ProjectileType<PlaguebringerMK2>(), Projectile.damage, 4f, Projectile.owner);
+                int beeArrayIndex = 0;
+                for (int i = 0; i < Main.projectile.Length; i++)
+                {
+                    if (Main.projectile[i].active && Main.projectile[i].owner == Projectile.owner && Main.projectile[i].type == ModContent.ProjectileType<PlaguebringerMK2>())
+                    {
+                        Main.projectile[i].ai[1] = beeArrayIndex;
+                        beeArrayIndex++;
+                    }
+                }
+            }
+        }
+        public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of true */ => false;
+    }
+}

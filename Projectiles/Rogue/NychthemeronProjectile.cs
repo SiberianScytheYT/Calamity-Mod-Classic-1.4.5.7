@@ -1,0 +1,107 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
+using Terraria.ModLoader;
+using Terraria.ID;
+
+namespace CalRD.Projectiles.Rogue
+{
+    public class NychthemeronProjectile : ModProjectile
+    {
+        public override string Texture => "CalRD/Items/Weapons/Rogue/Nychthemeron";
+
+        public static int lifetime = 300;
+
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Nychthemeron");
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.penetrate = 4;
+            Projectile.timeLeft = lifetime;
+            Projectile.Calamity().rogue = true;
+        }
+
+        public override void AI()
+        {
+            if (Projectile.ai[0] == 0f)
+            {
+                // Thrown out and floating in the air
+                Projectile.velocity *= 0.99f;
+            }
+            else
+            {
+                Player owner = Main.player[Projectile.owner];
+
+                Projectile.tileCollide = false;
+
+                // Recall to the player
+                Vector2 toPlayer = owner.Center - Projectile.Center;
+                toPlayer.Normalize();
+                toPlayer *= Projectile.ai[0];
+                Projectile.velocity = toPlayer;
+
+                Projectile.ai[0] += 0.5f;
+				Projectile.extraUpdates = 1;
+                if (Projectile.ai[0] > 20f)
+                {
+                    Projectile.ai[0] = 20f;
+                }
+
+                // Delete the projectile if it touches its owner.
+                if (Main.myPlayer == Projectile.owner && Projectile.Hitbox.Intersects(owner.Hitbox))
+                {
+                    Projectile.Kill();
+                }
+            }
+            Projectile.rotation += 0.4f * Projectile.direction * ((float)Projectile.timeLeft / (float)lifetime);
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
+            return false;
+        }
+
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+
+            float minScale = 0.9f;
+            float maxScale = 1.1f;
+            int numDust = 2;
+            for (int i = 0; i < numDust; i++)
+            {
+                Dust.NewDust(Projectile.position, 4, 4, 236, Projectile.velocity.X, Projectile.velocity.Y, 0, default, Main.rand.NextFloat(minScale, maxScale));
+                Dust.NewDust(Projectile.position, 4, 4, 240, Projectile.velocity.X, Projectile.velocity.Y, 0, default, Main.rand.NextFloat(minScale, maxScale));
+            }
+
+            Projectile.Kill();
+            return false;
+        }
+
+        public override void OnKill(int timeLeft)
+        {
+            if (timeLeft <= 0)
+            {
+                float minScale = 0.9f;
+                float maxScale = 1.1f;
+                int numDust = 2;
+                for (int i = 0; i < numDust; i++)
+                {
+                    Dust.NewDust(Projectile.position, 4, 4, 236, Projectile.velocity.X, Projectile.velocity.Y, 0, default, Main.rand.NextFloat(minScale, maxScale));
+                    Dust.NewDust(Projectile.position, 4, 4, 240, Projectile.velocity.X, Projectile.velocity.Y, 0, default, Main.rand.NextFloat(minScale, maxScale));
+                }
+            }
+        }
+    }
+}

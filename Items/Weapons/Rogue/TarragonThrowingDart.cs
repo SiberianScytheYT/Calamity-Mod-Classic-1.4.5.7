@@ -1,0 +1,65 @@
+using CalRD.Items.Materials;
+using CalRD.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalRD.Items.Weapons.Rogue
+{
+    public class TarragonThrowingDart : RogueWeapon
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Tarragon Throwing Dart");
+/*
+            Tooltip.SetDefault("Fires a piercing dart with reduced immunity frames\n"
+                               +"Stealth strikes erupt into thorns on enemy hits");
+*/
+        }
+
+        public override void SafeSetDefaults()
+        {
+            Item.width = 34;
+            Item.damage = 380;
+            Item.noMelee = true;
+            Item.consumable = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 11;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 11;
+            Item.knockBack = 4.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 34;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 3);
+            Item.shoot = ModContent.ProjectileType<TarragonThrowingDartProjectile>();
+            Item.shootSpeed = 24f;
+            Item.Calamity().rogue = true;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
+            {
+                int stealth = Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), type, damage, Item.knockBack, player.whoAmI, 0f, 0f);
+                Main.projectile[stealth].Calamity().stealthStrike = true;
+                Main.projectile[stealth].usesLocalNPCImmunity = true;
+                Main.projectile[stealth].usesIDStaticNPCImmunity = false;
+                return false;
+            }
+            return true;
+        }
+
+        public override void AddRecipes()
+        {
+            Recipe recipe = CreateRecipe(100);
+            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>());
+            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.Register();
+        }
+    }
+}

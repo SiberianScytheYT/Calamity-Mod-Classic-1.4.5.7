@@ -1,0 +1,95 @@
+using CalRD.Buffs.DamageOverTime;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ModLoader;
+
+namespace CalRD.Projectiles.Rogue
+{
+    public class JawsShockwave : ModProjectile
+    {
+        public override string Texture => "CalRD/Projectiles/InvisibleProj";
+
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Reaper Tooth Shockwave");
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 320;
+            Projectile.height = 320;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 10;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.Calamity().rogue = true;
+        }
+
+        public override void AI()
+        {
+            if (Projectile.timeLeft >= 5)
+            {
+                for (int i = 0; i < 50; i++)
+                {
+                    int dustToUse = Main.rand.Next(0, 4);
+                    int dustType = 0;
+                    switch (dustToUse)
+                    {
+                        case 0:
+                            dustType = 33;
+                            break;
+                        case 1:
+                            dustType = 101;
+                            break;
+                        case 2:
+                            dustType = 111;
+                            break;
+                        case 3:
+                            dustType = 180;
+                            break;
+                    }
+
+                    Vector2 dustVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+                    dustVelocity.Normalize();
+                    dustVelocity *= 16;
+
+                    int dust = Dust.NewDust(Projectile.Center, 1, 1, dustType, dustVelocity.X, dustVelocity.Y, 0, default, 1.5f);
+                    Main.dust[dust].noGravity = true;
+                }
+            }
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
+        }
+
+        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        /*
+        {
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
+        }
+        */
+
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            float dist1 = Vector2.Distance(Projectile.Center, targetHitbox.TopLeft());
+            float dist2 = Vector2.Distance(Projectile.Center, targetHitbox.TopRight());
+            float dist3 = Vector2.Distance(Projectile.Center, targetHitbox.BottomLeft());
+            float dist4 = Vector2.Distance(Projectile.Center, targetHitbox.BottomRight());
+
+            float minDist = dist1;
+            if (dist2 < minDist)
+                minDist = dist2;
+            if (dist3 < minDist)
+                minDist = dist3;
+            if (dist4 < minDist)
+                minDist = dist4;
+
+            return minDist <= 160;
+        }
+    }
+}

@@ -1,0 +1,279 @@
+using CalRD.Items.Accessories;
+using CalRD.Items.Materials;
+using CalRD.Items.Placeables.Banners;
+using Microsoft.Xna.Framework;
+using System;
+using System.IO;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
+
+namespace CalRD.NPCs.NormalNPCs
+{
+    public class WulfrumHovercraft : ModNPC
+    {
+        internal enum HovercraftAIState
+        {
+            Searching = 0,
+            Hover = 1,
+            Slowdown = 2,
+            SwoopDownward = 3
+        }
+        public float StunTime;
+        internal HovercraftAIState AIState
+        {
+            get => (HovercraftAIState)(int)NPC.ai[0];
+            set => NPC.ai[0] = (int)value;
+        }
+        public float SubphaseTime
+        {
+            get => NPC.ai[1];
+            set => NPC.ai[1] = value;
+        }
+        public float SearchDirection
+        {
+            get => NPC.ai[2];
+            set => NPC.ai[2] = value;
+        }
+        public float SuperchargeTimer
+        {
+            get => NPC.ai[3];
+            set => NPC.ai[3] = value;
+        }
+        public bool Supercharged => SuperchargeTimer > 0;
+        public ref float FlyAwayTimer => ref NPC.localAI[0];
+
+        public const float StunTimeMax = 45f;
+        public const float SearchXOffset = 345f;
+        public const float SearchSpeed = 7f;
+        public const float HoverSpeed = 5f;
+        public const float TotalSubphaseTime = 110f;
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Wulfrum Hovercraft");
+            Main.npcFrameCount[NPC.type] = 12;
+        }
+
+        public override void SetDefaults()
+        {
+            AIType = -1;
+            NPC.aiStyle = -1;
+            NPC.damage = 15;
+            NPC.width = 40;
+            NPC.height = 38;
+            NPC.defense = 4;
+            NPC.lifeMax = 20;
+            NPC.value = Item.buyPrice(0, 0, 1, 50);
+            NPC.HitSound = SoundID.NPCHit4;
+            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<WulfrumHovercraftBanner>();
+        }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(StunTime);
+            writer.Write(FlyAwayTimer);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            StunTime = reader.ReadSingle();
+            FlyAwayTimer = reader.ReadSingle();
+        }
+
+        public override void FindFrame(int frameHeight)
+        {
+            NPC.frameCounter++;
+            int frame = (int)(NPC.frameCounter / 5) % (Main.npcFrameCount[NPC.type] / 2);
+            if (Supercharged)
+                frame += Main.npcFrameCount[NPC.type] / 2;
+
+            NPC.frame.Y = frame * frameHeight;
+        }
+
+        public override void AI()
+        {
+            NPC.knockBackResist = 0.1f;
+
+            Player player = Main.player[NPC.target];
+
+            bool farFromPlayer = NPC.Distance(player.Center) > 640f;
+            bool obstanceInFrontOfPlayer = !Collision.CanHitLine(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height);
+
+            if (NPC.target < 0 || NPC.target >= 255 || farFromPlayer || obstanceInFrontOfPlayer || player.dead || !player.active)
+            {
+                NPC.TargetClosest(false);
+                player = Main.player[NPC.target];
+                farFromPlayer = NPC.Distance(player.Center) > 640f;
+                obstanceInFrontOfPlayer = !Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height);
+                // Fly away if there is no living target, or the closest target is too far away.
+                if (player.dead || !player.active || farFromPlayer || obstanceInFrontOfPlayer)
+                {
+                    if (FlyAwayTimer > 150)
+                    {
+                        NPC.velocity = Vector2.Lerp(NPC.velocity, Vector2.UnitY * -8f, 0.1f);
+                        NPC.rotation = NPC.rotation.AngleTowards(0f, MathHelper.ToRadians(15f));
+                        NPC.noTileCollide = true;
+                    }
+                    else
+                    {
+                        NPC.velocity *= 0.96f;
+                        NPC.rotation = NPC.rotation.AngleTowards(0f, MathHelper.ToRadians(15f));
+                        FlyAwayTimer++;
+                    }
+                    return;
+                }
+            }
+
+            FlyAwayTimer = Utils.Clamp(FlyAwayTimer - 3, 0, 180);
+
+            NPC.noTileCollide = !farFromPlayer;
+
+            Lighting.AddLight(NPC.Center - Vector2.UnitY * 8f, Color.Lime.ToVector3() * 1.5f);
+
+            if (StunTime > 0)
+            {
+                if (!Main.dedServ && Main.rand.NextBool(4))
+                {
+                    for (int i = 0; i < 2; i++)
+                    {
+                        Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Circular(8f, 8f), 226).scale = 0.7f;
+                    }
+                }
+
+                NPC.rotation = NPC.rotation.AngleTowards(0f, MathHelper.ToRadians(15f));
+                if (StunTime > StunTimeMax - 15)
+                    NPC.velocity *= 0.6f;
+                else
+                    NPC.knockBackResist = 2.4f;
+
+                StunTime--;
+                return;
+            }
+
+            if (SearchDirection == 0f)
+            {
+                if (Math.Abs(player.Center.X + SearchXOffset - NPC.Center.X) < Math.Abs(player.Center.X - SearchXOffset - NPC.Center.X))
+                    SearchDirection = 1f;
+                else
+                    SearchDirection = -1f;
+
+                NPC.netUpdate = true;
+            }
+            if (AIState == HovercraftAIState.Searching ||
+                AIState == HovercraftAIState.Hover)
+            {
+                Vector2 destination = player.Center + new Vector2(SearchXOffset * SearchDirection, -160f);
+                NPC.velocity = NPC.DirectionTo(destination) * (Supercharged ? 8.5f : 6f);
+                if (AIState == HovercraftAIState.Hover)
+                {
+                    destination = player.Center + new Vector2(SearchXOffset * -SearchDirection, -160f);
+                    NPC.velocity = NPC.DirectionTo(destination) * (Supercharged ? 7f : 5f);
+                }
+
+                NPC.rotation = NPC.velocity.X / 16f;
+                if (NPC.Distance(destination) < 50f)
+                {
+                    if (AIState == HovercraftAIState.Searching)
+                    {
+                        AIState = HovercraftAIState.Slowdown;
+                    }
+                    else
+                    {
+                        AIState = HovercraftAIState.SwoopDownward;
+                    }
+                    NPC.netUpdate = true;
+                }
+            }
+
+            if (AIState == HovercraftAIState.Slowdown)
+            {
+                SubphaseTime++;
+                if (SubphaseTime < 30f)
+                {
+                    NPC.velocity *= 0.96f;
+                }
+                else
+                {
+                    AIState = HovercraftAIState.Hover;
+                    SubphaseTime = 0f;
+                    NPC.netUpdate = true;
+                }
+            }
+
+            if (AIState == HovercraftAIState.SwoopDownward)
+            {
+                NPC.rotation = 0f;
+                float swoopType = Supercharged ? TotalSubphaseTime - 40f : TotalSubphaseTime;
+                float swoopSlowdownTime = Supercharged ? 10f : 45f;
+                Vector2 swoopVelocity = Vector2.UnitY.RotatedBy(MathHelper.Pi * SubphaseTime / swoopType * -SearchDirection) * (Supercharged ? 13f : 10f);
+
+                SubphaseTime++;
+                if (SubphaseTime < swoopSlowdownTime)
+                {
+                    swoopVelocity *= MathHelper.Lerp(1f, 0.75f, Utils.GetLerpValue(45f, 0f, SubphaseTime));
+                }
+                if (SubphaseTime >= swoopType - swoopSlowdownTime)
+                {
+                    swoopVelocity *= MathHelper.Lerp(1f, 0.75f, Utils.GetLerpValue(swoopType - 45f, swoopType, SubphaseTime));
+                }
+                swoopVelocity.Y *= 0.5f;
+
+                NPC.velocity = Vector2.Lerp(NPC.velocity, swoopVelocity, 0.25f);
+
+                if (SubphaseTime >= swoopType)
+                {
+                    AIState = HovercraftAIState.Searching;
+                    SearchDirection = 0f;
+                    SubphaseTime = 0f;
+                    NPC.netUpdate = true;
+                }
+                NPC.rotation = NPC.velocity.X / 12f;
+            }
+            NPC.spriteDirection = (NPC.velocity.X < 0).ToDirectionInt();
+        }
+
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+			float pylonMult = NPC.AnyNPCs(ModContent.NPCType<WulfrumPylon>()) ? 3f : 1f;
+            if (spawnInfo.PlayerSafe || spawnInfo.Player.Calamity().ZoneSulphur)
+                return 0f;
+            return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.025f : 0.1f) * pylonMult;
+        }
+
+        public override void HitEffect(NPC.HitInfo hit)
+        {
+            if (!Main.dedServ)
+            {
+                for (int k = 0; k < 5; k++)
+                {
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 3, hit.HitDirection, -1f, 0, default, 1f);
+                }
+                if (NPC.life <= 0)
+                {
+                    for (int k = 0; k < 20; k++)
+                    {
+                        Dust.NewDust(NPC.position, NPC.width, NPC.height, 3, hit.HitDirection, -1f, 0, default, 1f);
+                    }
+                }
+            }
+        }
+
+        public override void OnHitByItem(Player player, Item item, NPC.HitInfo hit, int damageDone)
+        {
+            StunTime = StunTimeMax;
+            NPC.netUpdate = true;
+        }
+
+        public override void OnKill()
+        {
+            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<WulfrumShard>(), 2, 3);
+			DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EnergyCore>(), Supercharged);
+            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<WulfrumBattery>(), 0.07f);
+        }
+    }
+}

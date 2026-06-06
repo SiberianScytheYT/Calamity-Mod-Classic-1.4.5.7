@@ -1,0 +1,81 @@
+using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalRD.Projectiles.Melee
+{
+    public class LightBeam : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Light Beam");
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 56;
+            Projectile.height = 56;
+            Projectile.aiStyle = 18;
+            AIType = ProjectileID.DeathSickle;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 300;
+        }
+
+        public override void AI()
+        {
+            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.6f / 255f, 0f, (255 - Projectile.alpha) * 0.2f / 255f);
+
+			if (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y) < 18f)
+			{
+				Projectile.velocity *= 1.1f;
+			}
+		}
+
+        public override Color? GetAlpha(Color lightColor)
+        {
+            if (Projectile.timeLeft < 85)
+            {
+                byte b2 = (byte)(Projectile.timeLeft * 3);
+                byte a2 = (byte)(100f * ((float)b2 / 255f));
+                return new Color((int)b2, (int)b2, (int)b2, (int)a2);
+            }
+            return new Color(255, 255, 255, 100);
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(Projectile, lightColor, ProjectileID.Sets.TrailingMode[Projectile.type], 2);
+            return false;
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+			target.AddBuff(BuffID.OnFire, 240);
+		}
+
+		public override void OnKill(int timeLeft)
+		{
+			for (int num105 = 0; num105 < 20; num105++)
+			{
+				int num102 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 73, 0f, 0f, 0, default, 1f);
+				Main.dust[num102].noGravity = true;
+				Main.dust[num102].velocity += Projectile.velocity * 0.1f;
+			}
+			if (Projectile.owner == Main.myPlayer)
+			{
+				for (int k = 0; k < 3; k++)
+				{
+					Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)Main.rand.Next(-35, 36) * 0.2f, (float)Main.rand.Next(-35, 36) * 0.2f, ModContent.ProjectileType<TinyCrystal>(),
+					(int)((double)Projectile.damage * 0.5), Projectile.knockBack * 0.15f, Main.myPlayer, 1f, 0f);
+				}
+			}
+		}
+	}
+}

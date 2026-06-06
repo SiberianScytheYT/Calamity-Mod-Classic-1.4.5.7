@@ -1,0 +1,58 @@
+using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalRD.Projectiles.Melee
+{
+    public class GalaxyStar : ModProjectile
+    {
+        public bool madeCoolMagicSound = false;
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Star");
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 42;
+            Projectile.height = 42;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 160;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 4;
+        }
+        public override void AI()
+        {
+            Lighting.AddLight(Projectile.Center, 1f, 1f, 1f);
+            if (!madeCoolMagicSound)
+            {
+                SoundEngine.PlaySound(SoundID.Item9, Projectile.position); // Starfury sound
+                madeCoolMagicSound = true;
+            }
+            Projectile.ai[0]++;
+            if (Projectile.ai[0] % 5 == 0)
+            {
+                for (int i = 0; i < Main.rand.Next(2, 4); i++) //2-3 stars
+                {
+                    Vector2 randVector = Vector2.One.RotatedByRandom(Math.PI * 2.0) * 0.7f;
+                    Dust.NewDust(Projectile.Center, 4, 4, 58, randVector.X, randVector.Y, 0, default, 1f);
+                }
+            }
+            Projectile.rotation += Projectile.velocity.Length() / 19f;
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(Projectile, lightColor, ProjectileID.Sets.TrailingMode[Projectile.type], 2);
+            return false;
+        }
+    }
+}

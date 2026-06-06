@@ -1,0 +1,77 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
+using Terraria.GameContent;
+using Terraria.ID;
+using Terraria.ModLoader;
+namespace CalRD.Projectiles.Rogue
+{
+    public class Crystalline2 : ModProjectile
+    {
+        public override string Texture => "CalRD/Items/Weapons/Rogue/Crystalline";
+
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Crystalline");
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            //projectile.aiStyle = 113;
+            Projectile.timeLeft = 30;
+            //aiType = ProjectileID.BoneJavelin;
+            Projectile.Calamity().rogue = true;
+        }
+
+        public override void AI()
+        {
+            Projectile.localAI[0]++;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
+            if (Projectile.localAI[0] == 10f && Projectile.ai[1] == 1f)
+            {
+                int numProj = 2;
+                float rotation = MathHelper.ToRadians(50);
+                if (Projectile.owner == Main.myPlayer)
+                {
+                    for (int i = 0; i < numProj + 1; i++)
+                    {
+                        Vector2 perturbedSpeed = new Vector2(Projectile.velocity.X * 0.8f, Projectile.velocity.Y * 0.8f).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+                        int proj = Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center, perturbedSpeed, ModContent.ProjectileType<Crystalline2>(), (int)(Projectile.damage * 0.5f), Projectile.knockBack, Projectile.owner, 0f, 2f);
+                        Main.projectile[proj].timeLeft = 20;
+                    }
+                }
+            }
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+			if (Projectile.timeLeft == (Projectile.ai[1] == 2f ? 20 : 30))
+				return false;
+            Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
+            return false;
+        }
+
+        public override void OnKill(int timeLeft)
+        {
+            for (int k = 0; k < 5; k++)
+            {
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 154, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
+            }
+            if (Projectile.ai[1] >= 1f)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    Vector2 projspeed = new Vector2(Main.rand.NextFloat(-8f, 8f), Main.rand.NextFloat(-8f, 8f));
+					int shard = Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center, projspeed, ProjectileID.CrystalShard, (int)(Projectile.damage * 0.4f), 2f, Projectile.owner);
+					Main.projectile[shard].Calamity().forceRogue = true;
+                }
+            }
+        }
+    }
+}

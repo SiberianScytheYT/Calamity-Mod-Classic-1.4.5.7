@@ -1,0 +1,132 @@
+﻿using CalRD.Buffs.Summon;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.IO;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
+namespace CalRD.Projectiles.DraedonsArsenal
+{
+    public class MountedScannerSummon : ModProjectile
+    {
+        public float AngularOffsetRelativeToPlayer
+        {
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
+        }
+        public float Time
+        {
+            get => Projectile.ai[1];
+            set => Projectile.ai[1] = value;
+        }
+        public const float OffsetDistanceFromPlayer = 60f;
+        public const float LaserFireRate = 40f;
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Mounted Scanner");
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
+            ProjectileID.Sets.NeedsUUID[Projectile.type] = true;
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 24;
+            Projectile.height = 18;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.minionSlots = 1;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
+            Projectile.tileCollide = false;
+        }
+        public override void AI()
+        {
+            Player player = Main.player[Projectile.owner];
+            Projectile.Center = player.Center + AngularOffsetRelativeToPlayer.ToRotationVector2() * OffsetDistanceFromPlayer;
+            if (Projectile.localAI[0] == 0f)
+            {
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
+            }
+            AdjustDamage(player);
+            GrantBuffs(player);
+
+            NPC potentialTarget = Projectile.Center.MinionHoming(960f, player);
+            if (potentialTarget is null)
+            {
+                AdjustVisualValues_Idle(player);
+                Projectile.localAI[0] = 0f;
+            }
+            else
+            {
+                AttackTarget(potentialTarget);
+                Projectile.localAI[0] = 1f;
+            }
+            Time++;
+        }
+        // While this projectile cannot attack, the projectiles it shoots derive from the damage.
+        public void AdjustDamage(Player player)
+        {
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
+            {
+                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
+                    player.MinionDamage());
+                Projectile.damage = trueDamage;
+            }
+        }
+        public void GrantBuffs(Player player)
+        {
+            bool isCorrectProjectile = Projectile.type == ModContent.ProjectileType<MountedScannerSummon>();
+            player.AddBuff(ModContent.BuffType<MountedScannerBuff>(), 3600);
+            if (isCorrectProjectile)
+            {
+                if (player.dead)
+                    player.Calamity().mountedScanner = false;
+                if (player.Calamity().mountedScanner)
+                    Projectile.timeLeft = 2;
+            }
+        }
+        public void AdjustVisualValues_Idle(Player player)
+        {
+            if (player.velocity.Length() > 1.5f)
+            {
+                Projectile.spriteDirection = (player.velocity.X > 0).ToDirectionInt();
+                Projectile.rotation = player.velocity.ToRotation() + (Projectile.spriteDirection == -1).ToInt() * MathHelper.Pi;
+            }
+            else
+            {
+                Projectile.spriteDirection = 1;
+                Projectile.rotation = Projectile.rotation.AngleLerp(MathHelper.PiOver2, 0.075f);
+            }
+        }
+        public void AttackTarget(NPC target)
+        {
+            Projectile.spriteDirection = 1;
+            Projectile.rotation = Projectile.AngleTo(target.Center);
+            if (!Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, target.position, target.width, target.height))
+                return;
+            if (Time % 80f == 79f)
+            {
+                if (Projectile.owner == Main.myPlayer)
+                {
+                    Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center,
+                                         Projectile.DirectionTo(target.Center),
+                                         ModContent.ProjectileType<MountedScannerLaser>(),
+                                         Projectile.damage,
+                                         Projectile.knockBack,
+                                         Projectile.owner,
+                                         0f,
+                                         Projectile.whoAmI);
+                }
+                SoundEngine.PlaySound(new SoundStyle("CalRD/Sounds/Item/LaserCannon"), Projectile.Center);
+            }
+        }
+        public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of true */ => false;
+    }
+}

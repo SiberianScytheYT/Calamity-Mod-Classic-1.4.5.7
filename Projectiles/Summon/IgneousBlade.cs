@@ -1,0 +1,172 @@
+using CalRD.Buffs.Summon;
+using CalRD.CalPlayer;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System.IO;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalRD.Projectiles.Summon
+{
+	public class IgneousBlade : ModProjectile
+    {
+        public bool Firing = false;
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Igneous Blade");
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 7;
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 52;
+            Projectile.height = 86;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 1f;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 7;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
+        }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(Firing);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            Firing = reader.ReadBoolean();
+        }
+        public override void AI()
+        {
+            Player player = Main.player[Projectile.owner];
+            CalamityPlayer modPlayer = player.Calamity();
+            if (Projectile.localAI[0] == 0f)
+            {
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
+                Projectile.localAI[0] = 1f;
+			}
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
+            {
+                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
+                    player.MinionDamage());
+                Projectile.damage = trueDamage;
+            }
+            bool isProperProjectile = Projectile.type == ModContent.ProjectileType<IgneousBlade>();
+            player.AddBuff(ModContent.BuffType<IgneousExaltationBuff>(), 3600);
+            if (isProperProjectile)
+            {
+                if (player.dead)
+                {
+                    modPlayer.igneousExaltation = false;
+                }
+                if (modPlayer.igneousExaltation)
+                {
+                    Projectile.timeLeft = 2;
+                }
+            }
+
+            // Orbiting. 1 = Shooting
+            if (!Firing)
+            {
+                const float outwardPosition = 180f;
+                Projectile.Center = player.Center + Projectile.ai[0].ToRotationVector2() * outwardPosition;
+                Projectile.rotation = Projectile.ai[0] + MathHelper.PiOver2 + MathHelper.PiOver4;
+                Projectile.ai[0] -= MathHelper.ToRadians(4f);
+            }
+            else
+            {
+				if (Projectile.penetrate == -1) //limit penetration for worm memes
+					Projectile.penetrate = 3;
+
+                Projectile.ai[0]--;
+                if (Projectile.ai[0] == 1)
+                    Projectile.Kill();
+
+                if (Projectile.ai[0] % 10f == 9f)
+                {
+                    for (int i = 0; i < 20; i++)
+                    {
+                        float angle = MathHelper.TwoPi / 20f * i;
+                        Dust dust = Dust.NewDustPerfect(Projectile.position + angle.ToRotationVector2().RotatedBy(Projectile.rotation) * new Vector2(14f, 21f), DustID.Torch);
+                        dust.velocity = angle.ToRotationVector2().RotatedBy(Projectile.rotation) * 2f;
+                        dust.noGravity = true;
+                    }
+                }
+            }
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (Firing)
+            {
+                if (Main.myPlayer == Projectile.owner)
+                {
+                    Projectile.ai[0] = 50;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        Vector2 spawnPosition = target.Center - new Vector2(0f, 550f).RotatedByRandom(MathHelper.ToRadians(8f));
+                        Projectile.NewProjectile(Entity.GetSource_FromThis(), spawnPosition, Vector2.Normalize(target.Center - spawnPosition) * 24f, ModContent.ProjectileType<IgneousBladeStrike>(),
+                            (int)(Projectile.damage * 0.666), Projectile.knockBack, Projectile.owner);
+                    }
+                    for (int i = 0; i < Main.rand.Next(28, 41); i++)
+                    {
+                        Dust.NewDustPerfect(
+                            Projectile.Center + Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(10f),
+                            6,
+                            Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(1f, 4f));
+                    }
+                    Projectile.netUpdate = true;
+                }
+            }
+        }
+        public override void OnKill(int timeLeft)
+        {
+            for (int j = 0; j < 40; j++)
+            {
+                Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 6);
+                dust.velocity = Vector2.UnitY * Main.rand.NextFloat(3f, 5.5f) * Main.rand.NextBool(2).ToDirectionInt();
+                dust.noGravity = true;
+            }
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            if (Firing)
+            {
+                Texture2D texture = ModContent.Request<Texture2D>("CalRD/Projectiles/Summon/IgneousBlade").Value;
+
+                Rectangle rectangle = new Rectangle(0, 0, texture.Width, texture.Height);
+
+                SpriteEffects spriteEffects = SpriteEffects.None;
+                if (Projectile.spriteDirection == -1)
+                    spriteEffects = SpriteEffects.FlipHorizontally;
+
+                if (Lighting.NotRetro)
+                {
+                    for (int i = 0; i < Projectile.oldPos.Length; i++)
+                    {
+                        Vector2 drawPos = Projectile.oldPos[i] + Projectile.Size / 2f - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
+                        Color color = Color.Lerp(Color.White, Color.Red, i / (float)Projectile.oldPos.Length) *
+                            ((Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                        float scale = MathHelper.Lerp(Projectile.scale * 1.35f, Projectile.scale * 0.6f, i / (float)Projectile.oldPos.Length);
+                        Main.spriteBatch.Draw(texture, drawPos, new Rectangle?(rectangle), color,
+                            Projectile.rotation,
+                            rectangle.Size() / 2f, scale, spriteEffects, 0f);
+                    }
+                }
+                Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(rectangle), Color.White,
+                           Projectile.rotation,
+                           rectangle.Size() / 2f, 1.35f, spriteEffects, 0f);
+                return false;
+            }
+            return true;
+        }
+    }
+}

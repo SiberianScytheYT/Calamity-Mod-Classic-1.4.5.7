@@ -1,0 +1,85 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
+
+namespace CalRD.Tiles.FurnitureAshen
+{
+    public class AshenCandelabra : ModTile
+    {
+        int animationFrame = 0;
+
+        public override void SetStaticDefaults()
+        {
+            this.SetUpCandelabra(true);
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Ashen Candelabra");
+            AddMapEntry(new Color(191, 142, 111), name);
+            AnimationFrameHeight = 36;
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Torches };
+        }
+
+        public override bool CreateDust(int i, int j, ref int type)
+        {
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 60, 0f, 0f, 1, new Color(255, 255, 255), 1f);
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 1, 0f, 0f, 1, new Color(100, 100, 100), 1f);
+            return false;
+        }
+
+        public override void NumDust(int i, int j, bool fail, ref int num)
+        {
+            num = fail ? 1 : 3;
+        }
+
+        public override void AnimateTile(ref int frame, ref int frameCounter)
+        {
+            frameCounter++;
+            if (frameCounter >= 6)
+            {
+                frame = (frame + 1) % 6;
+                animationFrame = frame;
+                frameCounter = 0;
+            }
+        }
+
+        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
+        {
+            if (Main.tile[i, j].TileFrameX < 18)
+            {
+                r = 1f;
+                g = 0.5f;
+                b = 0.5f;
+            }
+            else
+            {
+                r = 0f;
+                g = 0f;
+                b = 0f;
+            }
+        }
+
+        /*public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenCandelabra>());
+        }*/
+
+        public override void HitWire(int i, int j)
+        {
+            CalamityUtils.LightHitWire(Type, i, j, 2, 2);
+        }
+
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            CalamityUtils.DrawStaticFlameEffect(ModContent.Request<Texture2D>("CalRD/Tiles/FurnitureAshen/AshenCandelabraFlame").Value, i, j, offsetY: animationFrame * AnimationFrameHeight);
+        }
+
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
+        {
+            CalamityUtils.DrawFlameSparks(60, 5, i, j);
+        }
+    }
+}

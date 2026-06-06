@@ -1,0 +1,87 @@
+﻿using CalRD.Buffs.StatDebuffs;
+using Microsoft.Xna.Framework;
+using System;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
+namespace CalRD.Projectiles.Ranged
+{
+    public class PiercingBullet : ModProjectile
+    {
+        public override string Texture => "CalRD/Projectiles/Ranged/AMRShot";
+
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Piercing Blow");
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.light = 0.5f;
+            Projectile.alpha = 255;
+            Projectile.extraUpdates = 10;
+            Projectile.scale = 1.18f;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.ignoreWater = true;
+            Projectile.aiStyle = 1;
+            AIType = ProjectileID.BulletHighVelocity;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
+        }
+
+		public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+		{
+			//Avoid touching things that you probably aren't meant to damage
+			if (target.defense > 999 || target.Calamity().DR >= 0.95f || target.Calamity().unbreakableDR)
+				return;
+
+			//DR applies after defense, so undo it first
+			Projectile.damage = (int)(Projectile.damage * (1 / (1 - target.Calamity().DR)));
+
+			//Then proceed to ignore all defense
+			int penetratableDefense = (int)Math.Max(target.defense - Main.player[Projectile.owner].GetArmorPenetration(DamageClass.Generic), 0);
+			int penetratedDefense = Math.Min(penetratableDefense, target.defense);
+			Projectile.damage += (int)(0.5f * penetratedDefense);
+		}
+
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            return true;
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+			OnHitEffects(target.Center, hit.Crit);
+            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 900);
+        }
+
+        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        /*
+        {
+			OnHitEffects(target.Center, crit);
+            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 900);
+        }
+        */
+
+		private void OnHitEffects(Vector2 targetPos, bool crit)
+		{
+            if (crit)
+            {
+				int bulletCount = 10;
+                for (int x = 0; x < bulletCount; x++)
+                {
+                    if (Projectile.owner == Main.myPlayer)
+                    {
+						CalamityUtils.ProjectileBarrage(Projectile.GetSource_FromThis(), Projectile.Center, targetPos, x < bulletCount / 2, 500f, 500f, 0f, 500f, 12f, ModContent.ProjectileType<AMR2>(), (int)(Projectile.damage * 0.2), Projectile.knockBack, Projectile.owner);
+					}
+                }
+            }
+        }
+    }
+}

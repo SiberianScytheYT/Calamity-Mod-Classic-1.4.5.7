@@ -1,0 +1,228 @@
+using CalRD.Buffs.DamageOverTime;
+using CalRD.Buffs.StatDebuffs;
+using CalRD.Events;
+using CalRD.World;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
+using Terraria.GameContent;
+using Terraria.ID;
+using Terraria.ModLoader;
+namespace CalRD.NPCs.Perforator
+{
+	public class PerforatorBodyMedium : ModNPC
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("The Perforator");
+        }
+
+        public override void SetDefaults()
+        {
+			NPC.GetNPCDamage();
+			NPC.npcSlots = 5f;
+            NPC.width = 40;
+            NPC.height = 40;
+            NPC.defense = 6;
+			NPC.LifeMaxNERB(160, 180, 70000);
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
+            NPC.aiStyle = -1;
+            AIType = -1;
+            NPC.knockBackResist = 0f;
+            NPC.alpha = 255;
+            NPC.buffImmune[ModContent.BuffType<TimeSlow>()] = false;
+            NPC.behindTiles = true;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.canGhostHeal = false;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.netAlways = true;
+            NPC.dontCountMe = true;
+
+			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+				NPC.scale = 1.25f;
+			else if (CalamityWorld.revenge)
+				NPC.scale = 1.15f;
+			else if (Main.expertMode)
+				NPC.scale = 1.1f;
+		}
+
+        public override void AI()
+        {
+			NPC.realLife = -1;
+
+			// Target
+			if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
+				NPC.TargetClosest(true);
+
+			if (Main.player[NPC.target].dead)
+				NPC.TargetClosest(false);
+
+			if (Main.npc[(int)NPC.ai[1]].alpha < 128)
+			{
+				NPC.alpha -= 42;
+				if (NPC.alpha < 0)
+					NPC.alpha = 0;
+			}
+
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				if (NPC.ai[0] == 0f)
+				{
+					if (NPC.ai[2] > 0f)
+						NPC.ai[0] = NPC.NewNPC(NPC.GetSource_FromThis(), (int)(NPC.position.X + (NPC.width / 2)), (int)(NPC.position.Y + NPC.height), NPC.type, NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
+					else
+						NPC.ai[0] = NPC.NewNPC(NPC.GetSource_FromThis(), (int)(NPC.position.X + (NPC.width / 2)), (int)(NPC.position.Y + NPC.height), ModContent.NPCType<PerforatorTailMedium>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
+
+					Main.npc[(int)NPC.ai[0]].ai[1] = NPC.whoAmI;
+					Main.npc[(int)NPC.ai[0]].ai[2] = NPC.ai[2] - 1f;
+					NPC.netUpdate = true;
+				}
+
+				// Splitting effect
+				if (!Main.npc[(int)NPC.ai[1]].active && !Main.npc[(int)NPC.ai[0]].active)
+				{
+					NPC.life = 0;
+					NPC.HitEffect(0, 10.0);
+					NPC.checkDead();
+					NPC.active = false;
+					NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, NPC.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+				}
+				if (!Main.npc[(int)NPC.ai[1]].active || Main.npc[(int)NPC.ai[1]].aiStyle != NPC.aiStyle)
+				{
+					NPC.type = ModContent.NPCType<PerforatorHeadMedium>();
+					int whoAmI = NPC.whoAmI;
+					float num25 = NPC.life / (float)NPC.lifeMax;
+					float num26 = NPC.ai[0];
+					int aiTimer = NPC.Calamity().AITimer;
+					NPC.SetDefaultsKeepPlayerInteraction(NPC.type);
+					NPC.life = (int)(NPC.lifeMax * num25);
+					NPC.ai[0] = num26;
+					NPC.TargetClosest(true);
+					NPC.netUpdate = true;
+					NPC.whoAmI = whoAmI;
+					NPC.Calamity().AITimer = aiTimer;
+				}
+				if (!Main.npc[(int)NPC.ai[0]].active || Main.npc[(int)NPC.ai[0]].aiStyle != NPC.aiStyle)
+				{
+					int whoAmI2 = NPC.whoAmI;
+					float num27 = NPC.life / (float)NPC.lifeMax;
+					float num28 = NPC.ai[1];
+					int aiTimer = NPC.Calamity().AITimer;
+					NPC.SetDefaultsKeepPlayerInteraction(NPC.type);
+					NPC.life = (int)(NPC.lifeMax * num27);
+					NPC.ai[1] = num28;
+					NPC.TargetClosest(true);
+					NPC.netUpdate = true;
+					NPC.whoAmI = whoAmI2;
+					NPC.Calamity().AITimer = aiTimer;
+				}
+
+				if (!NPC.active && Main.netMode == NetmodeID.Server)
+					NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, NPC.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+			}
+
+			Vector2 vector2 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
+			float num39 = Main.player[NPC.target].position.X + (Main.player[NPC.target].width / 2);
+			float num40 = Main.player[NPC.target].position.Y + (Main.player[NPC.target].height / 2);
+
+			num39 = (int)(num39 / 16f) * 16;
+			num40 = (int)(num40 / 16f) * 16;
+			vector2.X = (int)(vector2.X / 16f) * 16;
+			vector2.Y = (int)(vector2.Y / 16f) * 16;
+			num39 -= vector2.X;
+			num40 -= vector2.Y;
+			float num52 = (float)Math.Sqrt(num39 * num39 + num40 * num40);
+
+			if (NPC.ai[1] > 0f && NPC.ai[1] < Main.npc.Length)
+			{
+				try
+				{
+					vector2 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
+					num39 = Main.npc[(int)NPC.ai[1]].position.X + (Main.npc[(int)NPC.ai[1]].width / 2) - vector2.X;
+					num40 = Main.npc[(int)NPC.ai[1]].position.Y + (Main.npc[(int)NPC.ai[1]].height / 2) - vector2.Y;
+				}
+				catch
+				{
+				}
+
+				NPC.rotation = (float)Math.Atan2(num40, num39) + MathHelper.PiOver2;
+				num52 = (float)Math.Sqrt(num39 * num39 + num40 * num40);
+				int num53 = NPC.width;
+				num53 = (int)(num53 * NPC.scale);
+				num52 = (num52 - num53) / num52;
+				num39 *= num52;
+				num40 *= num52;
+				NPC.velocity = Vector2.Zero;
+				NPC.position.X += num39;
+				NPC.position.Y += num40;
+			}
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+		{
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (NPC.spriteDirection == 1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
+			Vector2 vector11 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / 2));
+
+			Vector2 vector43 = NPC.Center - Main.screenPosition;
+			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * NPC.scale / 2f;
+			vector43 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
+			spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+
+			texture2D15 = ModContent.Request<Texture2D>("CalRD/NPCs/Perforator/PerforatorBodyMediumGlow").Value;
+			Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
+
+			spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+
+			return false;
+		}
+
+		public override bool CheckActive()
+        {
+            return false;
+        }
+
+        public override bool PreKill()
+        {
+            return false;
+        }
+
+        public override void HitEffect(NPC.HitInfo hit)
+        {
+            for (int k = 0; k < 5; k++)
+            {
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hit.HitDirection, -1f, 0, default, 1f);
+            }
+            if (NPC.life <= 0)
+            {
+	            if (Main.netMode != NetmodeID.Server)
+	            {
+		            for (int k = 0; k < 10; k++)
+		            {
+			            Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hit.HitDirection, -1f, 0, default, 1f);
+		            }
+		            Gore.NewGore(NPC.GetSource_FromThis(), NPC.position, NPC.velocity, Mod.Find<ModGore>("MediumPerf2").Type, 1f);
+		            Gore.NewGore(NPC.GetSource_FromThis(), NPC.position, NPC.velocity, Mod.Find<ModGore>("MediumPerf3").Type, 1f);
+                }
+            }
+        }
+
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */
+        {
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * balance);
+        }
+
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
+        {
+            target.AddBuff(ModContent.BuffType<BurningBlood>(), 120, true);
+            target.AddBuff(BuffID.Bleeding, 120, true);
+        }
+    }
+}

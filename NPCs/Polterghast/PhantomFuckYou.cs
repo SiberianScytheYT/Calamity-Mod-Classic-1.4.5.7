@@ -1,0 +1,163 @@
+using CalRD.Events;
+using CalRD.Projectiles.Boss;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.IO;
+using Terraria;
+using Terraria.GameContent;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalRD.NPCs.Polterghast
+{
+	public class PhantomFuckYou : ModNPC
+	{
+		private bool start = true;
+
+		public override void SetStaticDefaults()
+		{
+			//DisplayName.SetDefault("Phantom");
+			NPCID.Sets.TrailingMode[NPC.type] = 1;
+		}
+
+		public override void SetDefaults()
+		{
+			NPC.aiStyle = -1;
+			AIType = -1;
+			NPC.width = 30;
+			NPC.height = 30;
+			NPC.noGravity = true;
+			NPC.noTileCollide = true;
+			NPC.damage = 0;
+			NPC.lifeMax = 1500;
+			NPC.dontTakeDamage = true;
+			for (int k = 0; k < NPC.buffImmune.Length; k++)
+			{
+				NPC.buffImmune[k] = true;
+			}
+			NPC.HitSound = SoundID.NPCHit4;
+			NPC.DeathSound = SoundID.NPCDeath14;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(start);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			start = reader.ReadBoolean();
+		}
+
+		public override bool PreAI()
+		{
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+
+			if (start)
+			{
+				start = false;
+
+				for (int num621 = 0; num621 < 5; num621++)
+					Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 180, 0f, 0f, 100, default, 2f);
+
+				NPC.ai[1] = NPC.ai[0];
+			}
+
+			if (CalamityGlobalNPC.ghostBoss < 0 || !Main.npc[CalamityGlobalNPC.ghostBoss].active)
+			{
+				NPC.active = false;
+				NPC.netUpdate = true;
+				return false;
+			}
+
+			bool chargePhase = Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] >= 420f;
+
+			// Percent life remaining, Polter
+			float lifeRatio = Main.npc[CalamityGlobalNPC.ghostBoss].life / Main.npc[CalamityGlobalNPC.ghostBoss].lifeMax;
+
+			// Scale multiplier based on nearby active tiles
+			float tileEnrageMult = Main.npc[CalamityGlobalNPC.ghostBoss].ai[3];
+
+			NPC.TargetClosest(true);
+
+			Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
+			direction.Normalize();
+			direction *= 0.05f;
+			NPC.rotation = direction.ToRotation();
+
+			if (!chargePhase)
+			{
+				NPC.ai[2] += 1f;
+				if (NPC.ai[2] >= 150f)
+				{
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						int type = ModContent.ProjectileType<PhantomMine>();
+						int damage = NPC.GetProjectileDamage(type);
+						float maxVelocity = 8f * tileEnrageMult;
+						Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, direction, type, damage, 1f, NPC.target, maxVelocity, 0f);
+					}
+					NPC.ai[2] = 0f;
+				}
+			}
+
+			NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<Polterghast>())];
+			double deg = NPC.ai[1];
+			double rad = deg * (Math.PI / 180);
+			double dist = 500;
+			NPC.position.X = parent.Center.X - (int)(Math.Cos(rad) * dist) - NPC.width / 2;
+			NPC.position.Y = parent.Center.Y - (int)(Math.Sin(rad) * dist) - NPC.height / 2;
+			float SPEEN = 1f - lifeRatio * 2f;
+			if (SPEEN < 0f)
+				SPEEN = 0f;
+			NPC.ai[1] += 0.5f + SPEEN;
+			return false;
+		}
+
+		public override Color? GetAlpha(Color drawColor)
+		{
+			return new Color(200, 200, 200, 0);
+		}
+
+		public override bool CheckActive()
+		{
+			return false;
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+		{
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (NPC.spriteDirection == 1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
+			Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / 2);
+			Color color36 = Color.White;
+			float amount9 = 0.5f;
+			int num153 = 5;
+
+			if (CalamityConfig.Instance.Afterimages)
+			{
+				for (int num155 = 1; num155 < num153; num155 += 2)
+				{
+					Color color38 = drawColor;
+					color38 = Color.Lerp(color38, color36, amount9);
+					color38 = NPC.GetAlpha(color38);
+					color38 *= (num153 - num155) / 15f;
+					Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height) * NPC.scale / 2f;
+					vector41 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
+					spriteBatch.Draw(texture2D15, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+				}
+			}
+
+			Vector2 vector43 = NPC.Center - Main.screenPosition;
+			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * NPC.scale / 2f;
+			vector43 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
+			spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+
+			return false;
+		}
+	}
+}

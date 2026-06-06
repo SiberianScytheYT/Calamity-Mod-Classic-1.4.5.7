@@ -1,0 +1,174 @@
+using CalRD.CalPlayer;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.GameContent;
+using Terraria.ModLoader;
+namespace CalRD.Projectiles.Pets
+{
+	public class RotomPet : ModProjectile
+	{
+		private bool initialized = false;
+		private int form = 0;
+		private const int Normal = 0;
+		private const int Dex = 1;
+		private const int Wash = 2;
+		private const int Heat = 3;
+		private const int Frost = 4;
+		private const int Mow = 5;
+		private const int Fan = 6;
+
+		public override void SetStaticDefaults()
+		{
+			//DisplayName.SetDefault("Rotom");
+			Main.projFrames[Projectile.type] = 4;
+			Main.projPet[Projectile.type] = true;
+		}
+
+		public override void SetDefaults()
+		{
+			Projectile.netImportant = true;
+			Projectile.width = Projectile.height = 30;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft *= 5;
+		}
+
+		public override void AI()
+		{
+			Player player = Main.player[Projectile.owner];
+			CalamityPlayer modPlayer = player.Calamity();
+
+			if (!player.active)
+			{
+				Projectile.active = false;
+				return;
+			}
+			if (player.dead)
+			{
+				modPlayer.rotomPet = false;
+			}
+			if (modPlayer.rotomPet)
+			{
+				Projectile.timeLeft = 2;
+			}
+
+			if (!initialized)
+			{
+				DustEffects();
+				initialized = true;
+			}
+
+			UpdateForm(player);
+			UpdateFrames();
+
+			Projectile.FloatingPetAI(true, 0.05f);
+		}
+
+		private void UpdateForm(Player player)
+		{
+			if (CalamityPlayer.areThereAnyDamnBosses)
+				form = Dex;
+			else if (player.ZoneBeach || player.InSunkenSea() || player.InSulphur() || player.InAbyss())
+				form = Wash;
+			else if (player.ZoneTowerSolar || player.ZoneDesert || player.ZoneUndergroundDesert || player.ZoneUnderworldHeight || player.InCalamity())
+				form = Heat;
+			else if (player.ZoneSnow || Main.snowMoon)
+				form = Frost;
+			else if (player.ZoneJungle)
+				form = Mow;
+			else if (player.ZoneSkyHeight || player.ZoneMeteor || player.InAstral())
+				form = Fan;
+			else
+				form = Normal;
+		}
+
+		private void DustEffects()
+		{
+			int dustAmt = 25;
+			for (int i = 0; i < dustAmt; i++)
+			{
+				int electric = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + 16f), Projectile.width, Projectile.height - 16, 132, 0f, 0f, 0, default, 1f);
+				Main.dust[electric].velocity *= 2f;
+				Main.dust[electric].scale *= 1.15f;
+			}
+		}
+
+		private void UpdateFrames()
+		{
+			Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
+            {
+                Projectile.frame++;
+				Projectile.frameCounter = 0;
+            }
+			if (Projectile.frame >= 4)
+			{
+				Projectile.frame = 0;
+			}
+		}
+
+		public override bool PreDraw(ref Color lightColor)
+		{
+			Drawing(Main.spriteBatch, lightColor,
+				TextureAssets.Projectile[Projectile.type].Value,
+				ModContent.Request<Texture2D>("CalRD/Projectiles/Pets/RotomDex").Value,
+				ModContent.Request<Texture2D>("CalRD/Projectiles/Pets/RotomWash").Value,
+				ModContent.Request<Texture2D>("CalRD/Projectiles/Pets/RotomHeat").Value,
+				ModContent.Request<Texture2D>("CalRD/Projectiles/Pets/RotomFrost").Value,
+				ModContent.Request<Texture2D>("CalRD/Projectiles/Pets/RotomMow").Value,
+				ModContent.Request<Texture2D>("CalRD/Projectiles/Pets/RotomFan").Value);
+			return false;
+		}
+
+		public override void PostDraw(Color lightColor)
+		{
+			Drawing(Main.spriteBatch, Color.White,
+				ModContent.Request<Texture2D>("CalRD/Projectiles/Pets/RotomPetGlow").Value,
+				ModContent.Request<Texture2D>("CalRD/Projectiles/Pets/RotomDexGlow").Value,
+				ModContent.Request<Texture2D>("CalRD/Projectiles/Pets/RotomWashGlow").Value,
+				ModContent.Request<Texture2D>("CalRD/Projectiles/Pets/RotomHeatGlow").Value,
+				ModContent.Request<Texture2D>("CalRD/Projectiles/Pets/RotomFrostGlow").Value,
+				ModContent.Request<Texture2D>("CalRD/Projectiles/Pets/RotomMowGlow").Value,
+				ModContent.Request<Texture2D>("CalRD/Projectiles/Pets/RotomFanGlow").Value);
+		}
+
+		private void Drawing(SpriteBatch spriteBatch, Color color, Texture2D normal, Texture2D dex, Texture2D wash, Texture2D heat, Texture2D frost, Texture2D mow, Texture2D fan)
+		{
+			Texture2D texture = normal;
+			switch (form)
+			{
+				case Dex:
+					texture = dex;
+					break;
+				case Wash:
+					texture = wash;
+					break;
+				case Heat:
+					texture = heat;
+					break;
+				case Frost:
+					texture = frost;
+					break;
+				case Mow:
+					texture = mow;
+					break;
+				case Fan:
+					texture = fan;
+					break;
+				default:
+					break;
+			}
+
+			int height = texture.Height / Main.projFrames[Projectile.type];
+			int frameHeight = height * Projectile.frame;
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (Projectile.spriteDirection == -1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), color, Projectile.rotation, new Vector2(texture.Width / 2f, height / 2f), Projectile.scale, spriteEffects, 0f);
+		}
+
+		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of true */ => false;
+	}
+}

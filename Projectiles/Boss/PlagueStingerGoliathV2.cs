@@ -1,0 +1,70 @@
+using CalRD.Buffs.DamageOverTime;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
+namespace CalRD.Projectiles.Boss
+{
+    public class PlagueStingerGoliathV2 : ModProjectile
+    {
+        public override string Texture => "CalRD/Projectiles/Boss/PlagueStingerGoliath";
+
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Exploding Plague Stinger");
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 10;
+            Projectile.height = 10;
+			Projectile.scale = 1.5f;
+            Projectile.hostile = true;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 2;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 300;
+        }
+
+        public override void AI()
+        {
+            if (Projectile.position.Y > Projectile.ai[1])
+                Projectile.tileCollide = true;
+
+            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(ModContent.BuffType<Plague>(), 180);
+        }
+
+        public override void PostDraw(Color lightColor)
+        {
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (Projectile.spriteDirection == 1)
+            {
+                spriteEffects = SpriteEffects.FlipHorizontally;
+            }
+			Texture2D glow = ModContent.Request<Texture2D>("CalRD/Projectiles/Boss/PlagueStingerGoliathGlow").Value;
+            Vector2 origin = new Vector2(glow.Width / 2, glow.Height / Main.projFrames[Projectile.type] / 2);
+            Vector2 drawPos = Projectile.Center - Main.screenPosition;
+            drawPos -= new Vector2(glow.Width, glow.Height / Main.projFrames[Projectile.type]) * 1f / 2f;
+            drawPos += origin * 1f + new Vector2(0f, 0f + 4f + Projectile.gfxOffY);
+            Color color = new Color(127 - Projectile.alpha, 127 - Projectile.alpha, 127 - Projectile.alpha, 0).MultiplyRGBA(Color.Red);
+            Main.spriteBatch.Draw(glow, drawPos, null, color, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0f);
+        }
+
+        public override void OnKill(int timeLeft)
+        {
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+            if (Projectile.owner == Main.myPlayer)
+            {
+                Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlagueExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+            }
+        }
+    }
+}

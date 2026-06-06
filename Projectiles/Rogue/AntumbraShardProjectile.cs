@@ -1,0 +1,94 @@
+using CalRD.Items.Weapons.Rogue;
+using CalRD.Projectiles.Typeless;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+namespace CalRD.Projectiles.Rogue
+{
+    public class AntumbraShardProjectile : ModProjectile
+    {
+        public override string Texture => "CalRD/Items/Weapons/Rogue/XerocPitchfork";
+
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Antumbra Shard");
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 1;
+            Projectile.aiStyle = 113;
+            Projectile.timeLeft = 600;
+            AIType = ProjectileID.BoneJavelin;
+            Projectile.Calamity().rogue = true;
+        }
+
+        public override void AI()
+        {
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
+            if (Projectile.spriteDirection == -1)
+            {
+                Projectile.rotation -= 1.57f;
+            }
+            if (Main.rand.NextBool(3))
+            {
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 62, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+            }
+			if (Projectile.timeLeft % 12 == 0)
+			{
+				if (Projectile.owner == Main.myPlayer)
+				{
+					if (Projectile.Calamity().stealthStrike)
+					{
+						int star = Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, ModContent.ProjectileType<XerocStar>(), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner, 0f, 0f);
+						Main.projectile[star].Calamity().rogue = true;
+					}
+				}
+			}
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(Projectile, lightColor, ProjectileID.Sets.TrailingMode[Projectile.type], 1);
+            return false;
+        }
+
+        public override void OnKill(int timeLeft)
+        {
+            if (Main.rand.NextBool(2))
+            {
+                Item.NewItem(Entity.GetSource_FromThis(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<XerocPitchfork>());
+            }
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            Projectile.damage /= 2;
+            if (Projectile.damage < 1)
+            {
+                Projectile.damage = 1;
+            }
+            target.immune[Projectile.owner] = 2;
+        }
+
+        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        /*
+        {
+            Projectile.damage /= 2;
+            if (Projectile.damage < 1)
+            {
+                Projectile.damage = 1;
+            }
+        }
+        */
+    }
+}

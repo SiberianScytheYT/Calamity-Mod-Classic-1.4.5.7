@@ -1,0 +1,93 @@
+using CalRD.CalPlayer;
+using CalRD.Items.Materials;
+using CalRD.World;
+using System.Collections.Generic;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalRD.Items.Armor
+{
+    [AutoloadEquip(EquipType.Head)]
+    public class TarragonMask : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Tarragon Mask");
+/*
+            Tooltip.SetDefault("Temporary immunity to lava\n" +
+                "Can move freely through liquids\n" +
+                "10% increased magic damage and critical strike chance\n" +
+                "5% increased damage reduction, +100 max mana, and 15% reduced mana usage");
+*/
+        }
+
+        public override void SetDefaults()
+        {
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 50, 0, 0);
+            Item.defense = 10; //98
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.Mod == "Terraria" && line2.Name == "Tooltip3")
+					{
+						line2.Text = "5% increased damage reduction, +100 max mana, and 15% reduced mana usage\n" +
+						"Provides heat protection in Death Mode";
+					}
+				}
+			}
+        }
+
+        public override bool IsArmorSet(Item head, Item body, Item legs)
+        {
+            return body.type == ModContent.ItemType<TarragonBreastplate>() && legs.type == ModContent.ItemType<TarragonLeggings>();
+        }
+
+        public override void ArmorSetShadows(Player player)
+        {
+            player.armorEffectDrawShadowSubtle = true;
+            player.armorEffectDrawOutlines = true;
+        }
+
+        public override void UpdateArmorSet(Player player)
+        {
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.tarraSet = true;
+            modPlayer.tarraMage = true;
+            player.setBonus = "Reduces enemy spawn rates\n" +
+                "Increased heart pickup range\n" +
+                "Enemies have a chance to drop extra hearts on death\n" +
+                "On every 5th critical strike you will fire a leaf storm\n" +
+                "Magic projectiles heal you on enemy hits\n" +
+                "Amount healed is based on projectile damage";
+        }
+
+        public override void UpdateEquip(Player player)
+        {
+            player.manaCost *= 0.85f;
+            player.GetDamage(DamageClass.Magic) += 0.1f;
+            player.GetCritChance(DamageClass.Magic) += 10;
+            player.endurance += 0.05f;
+            player.lavaMax += 240;
+            player.statManaMax2 += 100;
+            player.ignoreWater = true;
+        }
+
+        public override void AddRecipes()
+        {
+            Recipe recipe = CreateRecipe();
+            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 7);
+            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 6);
+            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.Register();
+        }
+    }
+}

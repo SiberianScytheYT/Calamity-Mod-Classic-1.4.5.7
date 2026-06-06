@@ -1,0 +1,51 @@
+using CalRD.CalPlayer;
+using CalRD.Items.Materials;
+using CalRD.Items.Placeables.Furniture.Trophies;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalRD.Items.LoreItems
+{
+    public class KnowledgeAstrumAureus : LoreItem
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Astrum Aureus");
+/*
+            Tooltip.SetDefault("A titanic cyborg infected by a star-borne disease expelled from the belly of an ancient god.\n" +
+                "The destruction of this creature will not prevent the spread of the disease.\n" +
+                "Favorite this item to gain 10% increased jump speed in space.");
+*/
+        }
+
+        public override void SetDefaults()
+        {
+            Item.width = 20;
+            Item.height = 20;
+            Item.rare = 7;
+            Item.consumable = false;
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            return false;
+        }
+
+        public override void UpdateInventory(Player player)
+        {
+            CalamityPlayer modPlayer = player.Calamity();
+			if (Item.favorited)
+				modPlayer.astrumAureusLore = true;
+        }
+
+        public override void AddRecipes()
+        {
+            Recipe r = CreateRecipe();
+            r.AddTile(TileID.Bookcases);
+            r.AddIngredient(ModContent.ItemType<AstrageldonTrophy>());
+            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
+            r.Register();
+        }
+    }
+}

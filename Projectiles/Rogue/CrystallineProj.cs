@@ -1,0 +1,68 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
+using Terraria.ID;
+using Terraria.ModLoader;
+namespace CalRD.Projectiles.Rogue
+{
+    public class CrystallineProj : ModProjectile
+    {
+        public override string Texture => "CalRD/Items/Weapons/Rogue/Crystalline";
+
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Crystalline");
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.aiStyle = 113;
+            Projectile.timeLeft = 120;
+            AIType = ProjectileID.BoneJavelin;
+            Projectile.Calamity().rogue = true;
+        }
+
+        public override void AI()
+        {
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
+            Projectile.ai[1] += 1f;
+            if (Projectile.ai[1] == 30f)
+            {
+                int numProj = 2;
+                float rotation = MathHelper.ToRadians(50);
+                if (Projectile.owner == Main.myPlayer)
+                {
+                    for (int i = 0; i < numProj + 1; i++)
+                    {
+                        float AI1 = Projectile.Calamity().stealthStrike ? 1f : 0f;
+                        Vector2 perturbedSpeed = Projectile.velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+                        Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center, perturbedSpeed, ModContent.ProjectileType<Crystalline2>(), (int)(Projectile.damage * 0.5f), Projectile.knockBack, Projectile.owner, 0f, AI1);
+                    }
+                }
+            }
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
+            return false;
+        }
+
+        public override void OnKill(int timeLeft)
+        {
+            SoundEngine.PlaySound(SoundID.Item27, Projectile.position);
+            for (int k = 0; k < 5; k++)
+            {
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 154, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
+            }
+        }
+    }
+}

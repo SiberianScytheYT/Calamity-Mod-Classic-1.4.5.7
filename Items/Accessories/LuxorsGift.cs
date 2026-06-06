@@ -1,0 +1,33 @@
+using CalRD.CalPlayer;
+using Terraria;
+using Terraria.ModLoader;
+
+namespace CalRD.Items.Accessories
+{
+    public class LuxorsGift : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Luxor's Gift");
+/*
+            Tooltip.SetDefault("Weapons fire unique projectiles based on the damage type they have\n" +
+                "Some weapons are unable to receive this bonus");
+*/
+        }
+
+        public override void SetDefaults()
+        {
+            Item.width = 58;
+            Item.height = 48;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = 3;
+            Item.accessory = true;
+        }
+
+        public override void UpdateAccessory(Player player, bool hideVisual)
+        {
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.luxorsGift = true;
+        }
+    }
+}

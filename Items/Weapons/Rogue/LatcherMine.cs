@@ -1,0 +1,52 @@
+using CalRD.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalRD.Items.Weapons.Rogue
+{
+	public class LatcherMine : RogueWeapon
+    {
+        public const int BaseDamage = 80;
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Latcher Mine");
+/*
+            Tooltip.SetDefault("Sticks to enemies on hit and detonates after 3 seconds.\n" +
+                               "Breaks upon hitting blocks\n" +
+                               "Stealth Strike Effect: On explosion, fire and shrapnel are released\n" +
+                               "Stealth strike mines can stick to the ground and last much longer when doing so");
+*/
+        }
+
+        public override void SafeSetDefaults()
+        {
+            Item.height = 32;
+            Item.width = 26;
+            Item.damage = BaseDamage;
+            Item.noMelee = true;
+            Item.consumable = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = Item.useTime = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 6f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.maxStack = 999;
+            Item.value = Item.buyPrice(0, 0, 3, 0);
+            Item.rare = 5;
+            Item.shoot = ModContent.ProjectileType<LatcherMineProjectile>();
+            Item.shootSpeed = 10f;
+            Item.Calamity().rogue = true;
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            int stealth = Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), type, damage, Item.knockBack, player.whoAmI);
+            Main.projectile[stealth].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            return false;
+        }
+    }
+}

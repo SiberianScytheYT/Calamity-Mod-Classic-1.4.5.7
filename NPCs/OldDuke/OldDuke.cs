@@ -1,0 +1,456 @@
+using CalRD.Buffs.StatDebuffs;
+using CalRD.Items.Accessories;
+using CalRD.Items.Armor.Vanity;
+using CalRD.Items.LoreItems;
+using CalRD.Items.Placeables.Furniture.Trophies;
+using CalRD.Items.TreasureBags;
+using CalRD.Items.Weapons.Magic;
+using CalRD.Items.Weapons.Melee;
+using CalRD.Items.Weapons.Ranged;
+using CalRD.Items.Weapons.Rogue;
+using CalRD.Items.Weapons.Summon;
+using CalRD.NPCs.TownNPCs;
+using System;
+using System.IO;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.GameContent;
+using Terraria.ID;
+using Terraria.ModLoader;
+using CalRD.Dusts;
+using CalRD.World;
+
+namespace CalRD.NPCs.OldDuke
+{
+	[AutoloadBossHead]
+    public class OldDuke : ModNPC
+	{
+		public override void SetStaticDefaults()
+		{
+			//DisplayName.SetDefault("The Old Duke");
+            Main.npcFrameCount[NPC.type] = 7;
+			NPCID.Sets.TrailingMode[NPC.type] = 1;
+		}
+		
+		public override void SetDefaults()
+		{
+            NPC.width = 150;
+            NPC.height = 100;
+            NPC.aiStyle = -1;
+			AIType = -1;
+			NPC.GetNPCDamage();
+			NPC.defense = 100;
+			NPC.DR_NERD(0.5f, null, null, null, true);
+			NPC.LifeMaxNERB(750000, 1000000, 4000000);
+			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+			NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
+			NPC.knockBackResist = 0f;
+            NPC.noTileCollide = true;
+            NPC.noGravity = true;
+            NPC.npcSlots = 15f;
+            NPC.HitSound = SoundID.NPCHit14;
+            NPC.DeathSound = SoundID.NPCDeath20;
+			NPC.value = Item.buyPrice(0, 75, 0, 0);
+			NPC.boss = true;
+            NPC.netAlways = true;
+            NPC.timeLeft = NPC.activeTime * 30;
+            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
+            if (CalamityModMusic != null)
+                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/OldDuke");
+            else
+                Music = MusicID.Boss1;
+            for (int k = 0; k < NPC.buffImmune.Length; k++)
+            {
+                NPC.buffImmune[k] = true;
+            }
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(NPC.dontTakeDamage);
+			writer.Write(NPC.localAI[0]);
+			writer.Write(NPC.rotation);
+			writer.Write(NPC.spriteDirection);
+			for (int i = 0; i < 4; i++)
+				writer.Write(NPC.Calamity().newAI[i]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			NPC.dontTakeDamage = reader.ReadBoolean();
+			NPC.localAI[0] = reader.ReadSingle();
+			NPC.rotation = reader.ReadSingle();
+			NPC.spriteDirection = reader.ReadInt32();
+			for (int i = 0; i < 4; i++)
+				NPC.Calamity().newAI[i] = reader.ReadSingle();
+		}
+
+		public override void AI()
+        {
+			CalamityAI.OldDukeAI(NPC, Mod);
+        }
+
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */
+        {
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * balance);
+            NPC.damage = (int)(NPC.damage * NPC.GetExpertDamageMultiplier());
+        }
+
+        public override void FindFrame(int frameHeight)
+        {
+			bool tired = NPC.Calamity().newAI[1] == 1f;
+			if (NPC.ai[0] == 0f || NPC.ai[0] == 5f || NPC.ai[0] == 10f || NPC.ai[0] == 12f)
+            {
+                int num114 = tired ? 14 : 7;
+                if (NPC.ai[0] == 5f || NPC.ai[0] == 12f)
+                {
+                    num114 = tired ? 12 : 6;
+                }
+                NPC.frameCounter += 1D;
+                if (NPC.frameCounter > num114)
+                {
+                    NPC.frameCounter = 0D;
+                    NPC.frame.Y += frameHeight;
+                }
+                if (NPC.frame.Y >= frameHeight * 6)
+                {
+                    NPC.frame.Y = 0;
+                }
+            }
+			if (NPC.ai[0] == 1f || NPC.ai[0] == 6f || NPC.ai[0] == 11f)
+			{
+				NPC.frame.Y = frameHeight * 2;
+			}
+			if (NPC.ai[0] == 2f || NPC.ai[0] == 7f || NPC.ai[0] == 14f)
+			{
+				NPC.frame.Y = frameHeight * 6;
+			}
+			if (NPC.ai[0] == 3f || NPC.ai[0] == 8f || NPC.ai[0] == 13f || NPC.ai[0] == -1f)
+            {
+                int num115 = 120;
+                if (NPC.ai[2] < (num115 - 50) || NPC.ai[2] > (num115 - 10))
+                {
+                    NPC.frameCounter += 1D;
+                    if (NPC.frameCounter > 7D)
+                    {
+                        NPC.frameCounter = 0D;
+                        NPC.frame.Y += frameHeight;
+                    }
+                    if (NPC.frame.Y >= frameHeight * 6)
+                    {
+                        NPC.frame.Y = 0;
+                    }
+                }
+                else
+                {
+                    NPC.frame.Y = frameHeight * 5;
+                    if (NPC.ai[2] > (num115 - 40) && NPC.ai[2] < (num115 - 15))
+                    {
+                        NPC.frame.Y = frameHeight * 6;
+                    }
+                }
+            }
+            if (NPC.ai[0] == 4f || NPC.ai[0] == 9f)
+            {
+                int num116 = 180;
+                if (NPC.ai[2] < (num116 - 60) || NPC.ai[2] > (num116 - 20))
+                {
+                    NPC.frameCounter += 1D;
+                    if (NPC.frameCounter > 7D)
+                    {
+                        NPC.frameCounter = 0D;
+                        NPC.frame.Y += frameHeight;
+                    }
+                    if (NPC.frame.Y >= frameHeight * 6)
+                    {
+                        NPC.frame.Y = 0;
+                    }
+                }
+                else
+                {
+                    NPC.frame.Y = frameHeight * 5;
+                    if (NPC.ai[2] > (num116 - 50) && NPC.ai[2] < (num116 - 25))
+                    {
+                        NPC.frame.Y = frameHeight * 6;
+                    }
+                }
+            }
+        }
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+		{
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (NPC.spriteDirection == 1)
+			{
+				spriteEffects = SpriteEffects.FlipHorizontally;
+			}
+			Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
+			Vector2 vector11 = new Vector2(texture2D15.Width / 2, texture2D15.Height / Main.npcFrameCount[NPC.type] / 2);
+			Color color = drawColor;
+			Color color36 = Color.White;
+			float amount9 = 0f;
+			bool flag8 = NPC.ai[0] > 4f;
+			bool flag9 = NPC.ai[0] > 9f && NPC.ai[0] <= 12f;
+			int num150 = 120;
+			int num151 = 60;
+			if (flag9)
+			{
+				color = CalamityGlobalNPC.buffColor(color, 0.4f, 0.8f, 0.4f, 1f);
+			}
+			else if (flag8)
+			{
+				color = CalamityGlobalNPC.buffColor(color, 0.5f, 0.7f, 0.5f, 1f);
+			}
+			else if (NPC.ai[0] == 4f && NPC.ai[2] > num150)
+			{
+				float num152 = NPC.ai[2] - num150;
+				num152 /= num151;
+				color = CalamityGlobalNPC.buffColor(color, 1f - 0.5f * num152, 1f - 0.3f * num152, 1f - 0.5f * num152, 1f);
+			}
+
+			int num153 = 10;
+			int num154 = 2;
+			if (NPC.ai[0] == -1f)
+			{
+				num153 = 0;
+			}
+			if (NPC.ai[0] == 0f || NPC.ai[0] == 5f || NPC.ai[0] == 10f || NPC.ai[0] == 12f)
+			{
+				num153 = 7;
+			}
+			if (NPC.ai[0] == 1f || NPC.ai[0] == 6f || NPC.ai[0] > 9f)
+			{
+				color36 = Color.Lime;
+				amount9 = 0.5f;
+			}
+			else
+			{
+				color = drawColor;
+			}
+
+			if (CalamityConfig.Instance.Afterimages)
+			{
+				for (int num155 = 1; num155 < num153; num155 += num154)
+				{
+					Color color38 = color;
+					color38 = Color.Lerp(color38, color36, amount9);
+					color38 = NPC.GetAlpha(color38);
+					color38 *= (num153 - num155) / 15f;
+					Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+					vector41 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
+					spriteBatch.Draw(texture2D15, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+				}
+			}
+
+			int num156 = 0;
+			float num157 = 0f;
+			float scaleFactor9 = 0f;
+
+			if (NPC.ai[0] == -1f)
+			{
+				num156 = 0;
+			}
+
+			if (NPC.ai[0] == 3f || NPC.ai[0] == 8f || NPC.ai[0] == 13f)
+			{
+				int num158 = 60;
+				int num159 = 30;
+				if (NPC.ai[2] > num158)
+				{
+					num156 = 6;
+					num157 = 1f - (float)Math.Cos((NPC.ai[2] - num158) / num159 * MathHelper.TwoPi);
+					num157 /= 3f;
+					scaleFactor9 = 40f;
+				}
+			}
+
+			if ((NPC.ai[0] == 4f || NPC.ai[0] == 9f) && NPC.ai[2] > num150)
+			{
+				num156 = 6;
+				num157 = 1f - (float)Math.Cos((NPC.ai[2] - num150) / num151 * MathHelper.TwoPi);
+				num157 /= 3f;
+				scaleFactor9 = 60f;
+			}
+
+			if (NPC.ai[0] == 12f)
+			{
+				num156 = 6;
+				num157 = 1f - (float)Math.Cos(NPC.ai[2] / 30f * MathHelper.TwoPi);
+				num157 /= 3f;
+				scaleFactor9 = 20f;
+			}
+
+			if (CalamityConfig.Instance.Afterimages)
+			{
+				for (int num160 = 0; num160 < num156; num160++)
+				{
+					Color color39 = drawColor;
+					color39 = Color.Lerp(color39, color36, amount9);
+					color39 = NPC.GetAlpha(color39);
+					color39 *= 1f - num157;
+					Vector2 vector42 = NPC.Center + (num160 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
+					vector42 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+					vector42 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
+					spriteBatch.Draw(texture2D15, vector42, NPC.frame, color39, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+				}
+			}
+
+			Color color2 = drawColor;
+			color2 = Color.Lerp(color2, color36, amount9);
+			color2 = NPC.GetAlpha(color2);
+			Vector2 vector43 = NPC.Center - Main.screenPosition;
+			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+			vector43 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
+			spriteBatch.Draw(texture2D15, vector43, NPC.frame, (NPC.ai[0] > 9f ? color2 : NPC.GetAlpha(drawColor)), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+
+			if (NPC.ai[0] >= 4f && NPC.Calamity().newAI[1] != 1f)
+			{
+				texture2D15 = ModContent.Request<Texture2D>("CalRD/NPCs/OldDuke/OldDukeGlow").Value;
+				Color color40 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
+				color36 = Color.Yellow;
+
+				amount9 = 1f;
+				num157 = 0.5f;
+				scaleFactor9 = 10f;
+				num154 = 1;
+
+				if (NPC.ai[0] == 4f || NPC.ai[0] == 9f)
+				{
+					float num161 = NPC.ai[2] - num150;
+					num161 /= num151;
+					color36 *= num161;
+					color40 *= num161;
+				}
+
+				if (NPC.ai[0] == 12f)
+				{
+					float num162 = NPC.ai[2];
+					num162 /= 30f;
+					if (num162 > 0.5f)
+					{
+						num162 = 1f - num162;
+					}
+					num162 *= 2f;
+					num162 = 1f - num162;
+					color36 *= num162;
+					color40 *= num162;
+				}
+
+				if (CalamityConfig.Instance.Afterimages)
+				{
+					for (int num163 = 1; num163 < num153; num163 += num154)
+					{
+						Color color41 = color40;
+						color41 = Color.Lerp(color41, color36, amount9);
+						color41 *= (num153 - num163) / 15f;
+						Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+						vector44 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+						vector44 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
+						spriteBatch.Draw(texture2D15, vector44, NPC.frame, color41, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+					}
+
+					for (int num164 = 1; num164 < num156; num164++)
+					{
+						Color color42 = color40;
+						color42 = Color.Lerp(color42, color36, amount9);
+						color42 = NPC.GetAlpha(color42);
+						color42 *= 1f - num157;
+						Vector2 vector45 = NPC.Center + (num164 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
+						vector45 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+						vector45 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
+						spriteBatch.Draw(texture2D15, vector45, NPC.frame, color42, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+					}
+				}
+
+				spriteBatch.Draw(texture2D15, vector43, NPC.frame, color40, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+			}
+
+			return false;
+		}
+
+		public override void BossLoot(ref string name, ref int potionType)
+        {
+            potionType = ItemID.SuperHealingPotion;
+        }
+
+        public override void OnKill()
+        {
+            DropHelper.DropBags(ModContent.ItemType<OldDukeBag>(), NPC);
+
+            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<OldDukeTrophy>(), 10);
+            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgeOldDuke>(), true, !CalamityWorld.downedBoomerDuke);
+            DropHelper.DropResidentEvilAmmo(NPC.GetSource_FromThis(), NPC, CalamityWorld.downedBoomerDuke, 6, 3, 2);
+
+			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, CalamityWorld.downedBoomerDuke);
+
+			// All other drops are contained in the bag, so they only drop directly on Normal
+			if (!Main.expertMode)
+            {
+				// Weapons
+				float w = DropHelper.DirectWeaponDropRateFloat;
+				DropHelper.DropEntireWeightedSet(NPC.GetSource_FromThis(), NPC,
+					DropHelper.WeightStack<InsidiousImpaler>(w),
+					DropHelper.WeightStack<FetidEmesis>(w),
+					DropHelper.WeightStack<SepticSkewer>(w),
+					DropHelper.WeightStack<VitriolicViper>(w),
+					DropHelper.WeightStack<CadaverousCarrion>(w),
+					DropHelper.WeightStack<ToxicantTwister>(w)
+				);
+
+				//Equipment
+				DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<DukeScales>(), 10);
+
+                // Vanity
+                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<OldDukeMask>(), 7);
+            }
+
+            // Mark Old Duke as dead
+            CalamityWorld.downedBoomerDuke = true;
+            CalamityNetcode.SyncWorld();
+        }
+
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		{
+			cooldownSlot = 1;
+			return true;
+		}
+
+		public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
+		{
+			target.AddBuff(BuffID.Venom, 300, true);
+            target.AddBuff(BuffID.Rabies, 300, true);
+            target.AddBuff(BuffID.Poisoned, 300, true);
+			target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
+		}
+		
+		public override void HitEffect(NPC.HitInfo hit)
+		{
+			if (NPC.life > 0)
+			{
+				int num211 = 0;
+				while (num211 < hit.Damage / NPC.lifeMax * 100.0)
+				{
+					Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hit.HitDirection, -1f, 0, default, 1f);
+					num211++;
+				}
+			}
+			else
+			{
+				for (int num212 = 0; num212 < 150; num212++)
+				{
+					Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, 2 * hit.HitDirection, -2f, 0, default, 1f);
+				}
+
+				if (Main.netMode != NetmodeID.Server)
+				{
+					Gore.NewGore(NPC.GetSource_FromThis(), NPC.Center + Vector2.UnitX * 20f * NPC.direction, NPC.velocity, Mod.Find<ModGore>("OldDukeGore").Type, NPC.scale);
+					Gore.NewGore(NPC.GetSource_FromThis(), NPC.Center + Vector2.UnitX * 20f * NPC.direction, NPC.velocity, Mod.Find<ModGore>("OldDukeGore2").Type, NPC.scale);
+					Gore.NewGore(NPC.GetSource_FromThis(), NPC.Center - Vector2.UnitX * 20f * NPC.direction, NPC.velocity, Mod.Find<ModGore>("OldDukeGore3").Type, NPC.scale);
+					Gore.NewGore(NPC.GetSource_FromThis(), NPC.Center - Vector2.UnitX * 20f * NPC.direction, NPC.velocity, Mod.Find<ModGore>("OldDukeGore4").Type, NPC.scale);
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,60 @@
+using CalRD.Tiles;
+using CalRD.Tiles.Furniture.CraftingStations;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalRD.Items.Materials
+{
+    public class ShadowspecBar : ModItem
+    {
+		public int frameCounter = 0;
+		public int frame = 0;
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Shadowspec Bar");
+        }
+
+        public override void SetDefaults()
+        {
+			Item.createTile = ModContent.TileType<ShadowspecBarTile>();
+            Item.width = 38;
+            Item.height = 40;
+            Item.maxStack = 999;
+            Item.rare = ItemRarityID.Red;
+            Item.value = Item.sellPrice(gold: 85);
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTurn = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
+			Item.autoReuse = true;
+			Item.consumable = true;
+        }
+
+		public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
+		{
+			Texture2D texture = ModContent.Request<Texture2D>("CalRD/Items/Materials/ShadowspecBar_Animated").Value;
+			spriteBatch.Draw(texture, position, Item.GetCurrentFrame(ref frame, ref frameCounter, 8, 8), Color.White, 0f, origin, scale, SpriteEffects.None, 0);
+			return false;
+		}
+
+		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+		{
+			Texture2D texture = ModContent.Request<Texture2D>("CalRD/Items/Materials/ShadowspecBar_Animated").Value;
+			spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 8, 8), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+			return false;
+		}
+
+        public override void AddRecipes()
+        {
+            Recipe recipe = CreateRecipe();
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>());
+            recipe.AddIngredient(ModContent.ItemType<CalamitousEssence>());
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.Register();
+        }
+    }
+}

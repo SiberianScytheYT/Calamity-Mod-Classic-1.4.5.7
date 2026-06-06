@@ -1,0 +1,175 @@
+using CalRD.Buffs.DamageOverTime;
+using CalRD.Items.Materials;
+using CalRD.Items.Placeables.Banners;
+using CalRD.Items.Weapons.Ranged;
+using CalRD.Projectiles.Enemy;
+using CalRD.World;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.IO;
+using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
+
+namespace CalRD.NPCs.Abyss
+{
+    public class ToxicMinnow : ModNPC
+    {
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Toxic Minnow");
+            Main.npcFrameCount[NPC.type] = 4;
+        }
+
+        public override void SetDefaults()
+        {
+            NPC.noGravity = true;
+            NPC.damage = 20;
+            NPC.width = 80;
+            NPC.height = 40;
+            NPC.defense = 20;
+            NPC.lifeMax = 240;
+            NPC.aiStyle = -1;
+            AIType = -1;
+            NPC.value = Item.buyPrice(0, 0, 5, 0);
+            NPC.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.knockBackResist = 0.15f;
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<ToxicMinnowBanner>();
+            NPC.chaseable = false;
+        }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(NPC.chaseable);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            NPC.chaseable = reader.ReadBoolean();
+        }
+
+        public override void AI()
+        {
+			CalamityAI.PassiveSwimmingAI(NPC, Mod, 2, 0f, 0f, 0f, 0f, 0f, 0.1f);
+        }
+
+        public override bool? CanBeHitByProjectile(Projectile projectile)
+        {
+            if (projectile.minion && !projectile.Calamity().overridesMinionDamagePrevention)
+            {
+                return NPC.chaseable;
+            }
+            return null;
+        }
+
+        public override bool CheckDead()
+        {
+            SoundEngine.PlaySound(SoundID.NPCDeath14, NPC.position);
+            NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
+            NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
+            NPC.width = NPC.height = 40;
+            NPC.position.X = NPC.position.X - (float)(NPC.width / 2);
+            NPC.position.Y = NPC.position.Y - (float)(NPC.height / 2);
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                Vector2 valueBoom = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+                float spreadBoom = 15f * 0.0174f;
+                double startAngleBoom = Math.Atan2(NPC.velocity.X, NPC.velocity.Y) - spreadBoom / 2;
+                double deltaAngleBoom = spreadBoom / 8f;
+                double offsetAngleBoom;
+                int iBoom;
+                int damageBoom = 30;
+                for (iBoom = 0; iBoom < 5; iBoom++)
+                {
+                    int projectileType = ModContent.ProjectileType<ToxicMinnowCloud>();
+                    offsetAngleBoom = startAngleBoom + deltaAngleBoom * (iBoom + iBoom * iBoom) / 2f + 32f * iBoom;
+                    int boom1 = Projectile.NewProjectile(NPC.GetSource_FromThis(), valueBoom.X, valueBoom.Y, (float)(Math.Sin(offsetAngleBoom) * 6f), (float)(Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
+                    int boom2 = Projectile.NewProjectile(NPC.GetSource_FromThis(), valueBoom.X, valueBoom.Y, (float)(-Math.Sin(offsetAngleBoom) * 6f), (float)(-Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
+                }
+            }
+            NPC.netUpdate = true;
+            return true;
+        }
+
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (NPC.spriteDirection == 1)
+            {
+                spriteEffects = SpriteEffects.FlipHorizontally;
+            }
+            Vector2 center = new Vector2(NPC.Center.X, NPC.Center.Y);
+            Vector2 vector11 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
+            Vector2 vector = center - Main.screenPosition;
+            vector -= new Vector2((float)ModContent.Request<Texture2D>("CalRD/NPCs/Abyss/ToxicMinnowGlow").Value.Width, (float)(ModContent.Request<Texture2D>("CalRD/NPCs/Abyss/ToxicMinnowGlow").Value.Height / Main.npcFrameCount[NPC.type])) * 1f / 2f;
+            vector += vector11 * 1f + new Vector2(0f, 0f + 4f + NPC.gfxOffY);
+            Color color = new Color(127 - NPC.alpha, 127 - NPC.alpha, 127 - NPC.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightGreen);
+            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("CalRD/NPCs/Abyss/ToxicMinnowGlow").Value, vector,
+                new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, vector11, 1f, spriteEffects, 0f);
+        }
+
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
+        {
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 120, true);
+        }
+
+        public override void FindFrame(int frameHeight)
+        {
+            if (!NPC.wet)
+            {
+                NPC.frameCounter = 0.0;
+                return;
+            }
+            NPC.frameCounter += 0.15f;
+            NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+            int frame = (int)NPC.frameCounter;
+            NPC.frame.Y = frame * frameHeight;
+        }
+
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            if (spawnInfo.Player.Calamity().ZoneAbyssLayer1 && spawnInfo.Water)
+            {
+                return SpawnCondition.CaveJellyfish.Chance * 0.6f;
+            }
+            if (spawnInfo.Player.Calamity().ZoneAbyssLayer2 && spawnInfo.Water)
+            {
+                return SpawnCondition.CaveJellyfish.Chance * 0.9f;
+            }
+            if (spawnInfo.Player.Calamity().ZoneAbyssLayer3 && spawnInfo.Water)
+            {
+                return SpawnCondition.CaveJellyfish.Chance * 0.6f;
+            }
+            return 0f;
+        }
+
+        public override void OnKill()
+        {
+            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, CalamityGlobalNPCLoot.halibutCannonBaseDropChance, 1, 1);
+            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, 2, 3);
+            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 0.5f, 2, 3);
+        }
+
+        public override void HitEffect(NPC.HitInfo hit)
+        {
+            for (int k = 0; k < 5; k++)
+            {
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 40, hit.HitDirection, -1f, 0, default, 1f);
+            }
+            if (NPC.life <= 0)
+            {
+                for (int k = 0; k < 50; k++)
+                {
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 40, hit.HitDirection, -1f, 0, default, 1f);
+                }
+            }
+        }
+    }
+}

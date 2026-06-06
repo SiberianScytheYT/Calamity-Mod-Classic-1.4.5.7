@@ -1,0 +1,53 @@
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ModLoader;
+using Terraria.ID;
+
+namespace CalRD.Projectiles.Typeless
+{
+    public class BloodBomb : ModProjectile
+    {
+        public override string Texture => "CalRD/Projectiles/InvisibleProj";
+
+        public override void SetStaticDefaults()
+        {
+            //DisplayName.SetDefault("Bomb");
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 1;
+            Projectile.timeLeft = 600;
+        }
+
+        public override void AI()
+        {
+            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.4f / 255f, (255 - Projectile.alpha) * 0f / 255f, (255 - Projectile.alpha) * 0f / 255f);
+            if (Projectile.localAI[0] == 0f)
+            {
+                SoundEngine.PlaySound(SoundID.Item73, Projectile.position);
+                Projectile.localAI[0] += 1f;
+            }
+            for (int num457 = 0; num457 < 3; num457++)
+            {
+                int num458 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 5, 0f, 0f, 100, default, 1.2f);
+                Main.dust[num458].noGravity = true;
+                Main.dust[num458].velocity *= 0.5f;
+                Main.dust[num458].velocity += Projectile.velocity * 0.1f;
+            }
+        }
+
+        public override void OnKill(int timeLeft)
+        {
+            if (Projectile.owner == Main.myPlayer)
+            {
+                Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<BloodBombExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+            }
+        }
+    }
+}
