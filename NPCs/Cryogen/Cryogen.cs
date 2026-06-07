@@ -699,7 +699,8 @@ namespace CalRD.NPCs.Cryogen
                         num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 67, 0f, 0f, 100, default, 2f);
                         Main.dust[num624].velocity *= 2f;
                     }
-
+                    // these gores don't exist anymore
+                    /*
                     if (Main.netMode != NetmodeID.Server)
                     {
 	                    float randomSpread = Main.rand.Next(-200, 200) / 100;
@@ -707,6 +708,7 @@ namespace CalRD.NPCs.Cryogen
 	                    Gore.NewGore(NPC.GetSource_FromThis(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("CryoGore2").Type, 1f);
 	                    Gore.NewGore(NPC.GetSource_FromThis(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("CryoGore3").Type, 1f);
                     }
+                    */
 					NPC.TargetClosest(true);
 					NPC.ai[0] = 5f;
                     NPC.ai[1] = 0f;

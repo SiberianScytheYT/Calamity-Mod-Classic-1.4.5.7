@@ -124,7 +124,7 @@ namespace CalRD.NPCs.Cryogen
                 for (int spike = 0; spike < 4; spike++)
                 {
                     randomSpread = Main.rand.Next(-200, 200) / 100;
-                    for (int x = 0; x < 4; x++)
+                    for (int x = 1; x <= 4; x++)
                     {
                         if (Main.netMode != NetmodeID.Server)
                             Gore.NewGore(NPC.GetSource_FromThis(), NPC.Center, NPC.velocity * randomSpread, Mod.Find<ModGore>("CryoShieldGore" + x).Type, 1f);
