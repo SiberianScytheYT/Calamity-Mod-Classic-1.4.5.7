@@ -40,7 +40,7 @@ namespace CalRD.Waters
         }
         */
 
-        public override int ChooseWaterfallStyle() => ModContent.Find<ModWaterfallStyle>("SulphuricWaterflow").Slot;
+        public override int ChooseWaterfallStyle() => ModContent.Find<ModWaterfallStyle>("CalRD/SulphuricWaterflow").Slot;
 
         public override int GetSplashDust() => 101;
 

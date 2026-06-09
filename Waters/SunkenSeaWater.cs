@@ -7,7 +7,7 @@ namespace CalRD.Waters
 {
     public class SunkenSeaWater : ModWaterStyle
     {
-        public override int ChooseWaterfallStyle() => ModContent.Find<ModWaterfallStyle>("SunkenSeaWaterflow").Slot;
+        public override int ChooseWaterfallStyle() => ModContent.Find<ModWaterfallStyle>("CalRD/SunkenSeaWaterflow").Slot;
 
         public override int GetSplashDust() => 33;
 

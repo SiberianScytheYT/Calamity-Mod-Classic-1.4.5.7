@@ -7,7 +7,7 @@ namespace CalRD.Waters
 {
     public class AstralWater : ModWaterStyle
     {
-        public override int ChooseWaterfallStyle() => ModContent.Find<ModWaterfallStyle>("AstralWaterflow").Slot;
+        public override int ChooseWaterfallStyle() => ModContent.Find<ModWaterfallStyle>("CalRD/AstralWaterflow").Slot;
 
         public override int GetSplashDust() => 52; //corruption water?
 

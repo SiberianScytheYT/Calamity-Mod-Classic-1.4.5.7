@@ -7,7 +7,7 @@ namespace CalRD.Waters
 {
     public class AbyssWater : ModWaterStyle
     {
-        public override int ChooseWaterfallStyle() => ModContent.Find<ModWaterfallStyle>("AbyssWaterflow").Slot;
+        public override int ChooseWaterfallStyle() => ModContent.Find<ModWaterfallStyle>("CalRD/AbyssWaterflow").Slot;
 
         public override int GetSplashDust() => 33;
 
