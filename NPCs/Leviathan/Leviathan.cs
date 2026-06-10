@@ -15,6 +15,7 @@ using CalRD.Projectiles.Boss;
 using CalRD.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using System;
 using System.IO;
 using Terraria;
@@ -30,14 +31,14 @@ namespace CalRD.NPCs.Leviathan
         int counter = 0;
         bool initialised = false;
 		int soundDelay = 0;
-        public static Texture2D AttackTexture = null;
+        public static Asset<Texture2D> AttackTexture = null;
 
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("The Leviathan");
             Main.npcFrameCount[NPC.type] = 3;
             if (!Main.dedServ)
-                AttackTexture = ModContent.Request<Texture2D>("CalRD/NPCs/Leviathan/LeviathanAttack").Value;
+                AttackTexture = ModContent.Request<Texture2D>("CalRD/NPCs/Leviathan/LeviathanAttack", AssetRequestMode.AsyncLoad);
         }
 
         public override void SetDefaults()
@@ -747,7 +748,7 @@ namespace CalRD.NPCs.Leviathan
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D texture = AttackTexture;
+            Texture2D texture = AttackTexture.Value;
 			if (NPC.ai[0] == 1f || NPC.Calamity().newAI[3] < 180f)
             {
 				texture = TextureAssets.Npc[NPC.type].Value;

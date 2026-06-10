@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.Projectiles.Boss
 {
@@ -20,6 +21,8 @@ namespace CalRD.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Death Beam");
+            //Makes the projectile draw from further away so the telegraphs always show up
+            ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
         }
 
         public override void SetDefaults()

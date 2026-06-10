@@ -35,6 +35,7 @@ namespace CalRD.Items.Accessories
             player.extraFall += 35;
             player.blackBelt = true;
 			player.dash = 1;
+            player.dashType = 1;
             player.spikedBoots = 2;
         }
 
