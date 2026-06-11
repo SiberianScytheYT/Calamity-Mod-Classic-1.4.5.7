@@ -1,6 +1,6 @@
-This is a port of version 1.4.5.007 of the Calamity Mod, originally released on November 16th, 2020. Now playable on the modern version of tModLoader! Major highlights of this update consist of the addition of Draedon's Arsenal, notable reworks and redesigns to some weapons, NPCs and bosses, a revamp to shrines (now known as Draedon's Labs) and more.
+This is a port of version 1.4.5.007 of the Calamity Mod, originally released on November 16th, 2020. Now playable on the modern version of tModLoader! Major highlights of this update consist of the addition of Draedon's Arsenal and Laboratories, notable reworks and redesigns to some weapons, NPCs, bosses and more.
 
 Suggestions and bug reports will probably not be taken as to keep the version as true as possible, unless it's to fix an error/inconsistency that occurred during porting.
 
-However, if you do identify an issue that makes this Classic release different from the original from 2019, send it to the following Discord:
+However, if you do identify an issue that makes this Classic release different from the original from 2020, send it to the following Discord:
 https://discord.gg/rtq3jRDsrA
