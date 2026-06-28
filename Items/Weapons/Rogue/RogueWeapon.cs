@@ -83,11 +83,11 @@ namespace CalRD.Items.Weapons.Rogue
 		// 5E-06 to prevent downrounding is not needed anymore, added by TML itself
 		public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
 		{
-			damage.Base *= player.Calamity().throwingDamage - 1f;
+			damage *= player.Calamity().throwingDamage;// - 1f;
 			//Boost (or lower) the weapon's damage if it has a stealth strike available and an associated prefix
 			if (player.Calamity().StealthStrikeAvailable() && Item.prefix > 0)
 			{
-				damage *= StealthStrikeDamage - 1f;
+				damage *= StealthStrikeDamage;// - 1f;
 			}
 		}
 
@@ -120,9 +120,11 @@ namespace CalRD.Items.Weapons.Rogue
 				string damageWord = splitText.Last();
 				tt.Text = damageValue + " rogue " + damageWord;
 			}
-			if (Item.prefix > 0)
+		}
+		/*
+		if (Item.prefix > 0)
 			{
-				float ssDmgBoost = StealthStrikeDamage - 1f;
+				float ssDmgBoost = StealthStrikeDamage;// - 1f;
 				if (ssDmgBoost > 0)
 				{
 					TooltipLine StealthBonus = new TooltipLine(Mod, "PrefixSSDmg", "+" + Math.Round(ssDmgBoost * 100f) + "% stealth strike damage")
@@ -142,6 +144,7 @@ namespace CalRD.Items.Weapons.Rogue
 				}
 			}
 		}
+		*/
 
 		public override bool ConsumeItem(Player player) => Main.rand.NextFloat() <= player.Calamity().throwingAmmoCost;
 	}

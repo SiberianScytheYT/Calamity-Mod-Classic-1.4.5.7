@@ -55,6 +55,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using CalRD.BiomeManagers;
 using Terraria;
 using Terraria.Audio;
 using Terraria.Chat;
@@ -66,6 +67,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using SunkenSea = CalRD.World.SunkenSea;
 
 namespace CalRD.CalPlayer
 {
@@ -968,15 +970,15 @@ namespace CalRD.CalPlayer
         #endregion
 
         #region Biome
-        public bool ZoneCalamity = false;
-        public bool ZoneAstral = false;
-        public bool ZoneSunkenSea = false;
-        public bool ZoneSulphur = false;
-        public bool ZoneAbyss = false;
-        public bool ZoneAbyssLayer1 = false;
-        public bool ZoneAbyssLayer2 = false;
-        public bool ZoneAbyssLayer3 = false;
-        public bool ZoneAbyssLayer4 = false;
+        public bool ZoneCalamity => Player.InModBiome(ModContent.GetInstance<Crag>());
+        public bool ZoneAstral => Player.InModBiome(ModContent.GetInstance<Astral>());
+        public bool ZoneSunkenSea => Player.InModBiome(ModContent.GetInstance<BiomeManagers.SunkenSea>());
+        public bool ZoneSulphur => Player.InModBiome(ModContent.GetInstance<Sulphur>());
+        public bool ZoneAbyss => ZoneAbyssLayer1 || ZoneAbyssLayer2 || ZoneAbyssLayer3 || ZoneAbyssLayer4;
+        public bool ZoneAbyssLayer1 => Player.InModBiome(ModContent.GetInstance<AbyssLayer1Biome>());
+        public bool ZoneAbyssLayer2 => Player.InModBiome(ModContent.GetInstance<AbyssLayer2Biome>());
+        public bool ZoneAbyssLayer3 => Player.InModBiome(ModContent.GetInstance<AbyssLayer3Biome>());
+        public bool ZoneAbyssLayer4 => Player.InModBiome(ModContent.GetInstance<AbyssLayer4Biome>());
         public bool abyssDeath = false;
         public int abyssBreathCD;
         public float caveDarkness = 0f;
@@ -7132,10 +7134,10 @@ namespace CalRD.CalPlayer
 			}
 			else if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
 			{
-				Player.legs = EquipLoader.GetEquipSlot(Mod, "ProviLegs", EquipType.Legs);
-				Player.body = EquipLoader.GetEquipSlot(Mod, "ProviBody", EquipType.Body);
-				Player.head = EquipLoader.GetEquipSlot(Mod, "ProviHead", EquipType.Head);
-				Player.wings = EquipLoader.GetEquipSlot(Mod, "ProviWings", EquipType.Wings);
+				Player.legs = EquipLoader.GetEquipSlot(Mod, "ProfanedSoulCrystal", EquipType.Legs);
+				Player.body = EquipLoader.GetEquipSlot(Mod, "ProfanedSoulCrystal", EquipType.Body);
+				Player.head = EquipLoader.GetEquipSlot(Mod, "ProfanedSoulCrystal", EquipType.Head);
+				Player.wings = EquipLoader.GetEquipSlot(Mod, "ProfanedSoulCrystal", EquipType.Wings);
 				Player.face = -1;
 
 				bool enrage = !profanedCrystalForce && profanedCrystalBuffs && Player.statLife <= (int)(Player.statLifeMax2 * 0.5);
@@ -7160,34 +7162,34 @@ namespace CalRD.CalPlayer
 			}
 			else if ((snowmanPower || snowmanForce) && !snowmanHide)
 			{
-				Player.legs = EquipLoader.GetEquipSlot(Mod, "PopoLeg", EquipType.Legs);
-				Player.body = EquipLoader.GetEquipSlot(Mod, "PopoBody", EquipType.Body);
-				Player.head = snowmanNoseless ? EquipLoader.GetEquipSlot(Mod, "PopoNoselessHead", EquipType.Head) : EquipLoader.GetEquipSlot(Mod, "PopoHead", EquipType.Head);
+				Player.legs = EquipLoader.GetEquipSlot(Mod, "Popo", EquipType.Legs);
+				Player.body = EquipLoader.GetEquipSlot(Mod, "Popo", EquipType.Body);
+				Player.head = snowmanNoseless ? EquipLoader.GetEquipSlot(Mod, "PopoNoselessHead", EquipType.Head) : EquipLoader.GetEquipSlot(Mod, "Popo", EquipType.Head);
 				Player.face = -1;
 			}
 			else if ((abyssalDivingSuitPower || abyssalDivingSuitForce) && !abyssalDivingSuitHide)
 			{
-				Player.legs = EquipLoader.GetEquipSlot(Mod, "AbyssalDivingSuitLeg", EquipType.Legs);
-				Player.body = EquipLoader.GetEquipSlot(Mod, "AbyssalDivingSuitBody", EquipType.Body);
-				Player.head = EquipLoader.GetEquipSlot(Mod, "AbyssalDivingSuitHead", EquipType.Head);
+				Player.legs = EquipLoader.GetEquipSlot(Mod, "AbyssalDivingSuit", EquipType.Legs);
+				Player.body = EquipLoader.GetEquipSlot(Mod, "AbyssalDivingSuit", EquipType.Body);
+				Player.head = EquipLoader.GetEquipSlot(Mod, "AbyssalDivingSuit", EquipType.Head);
 				Player.face = -1;
 			}
 			else if ((sirenBoobsPower || sirenBoobsForce) && !sirenBoobsHide)
 			{
-				Player.legs = EquipLoader.GetEquipSlot(Mod, "SirenLeg", EquipType.Legs);
-				Player.body = EquipLoader.GetEquipSlot(Mod, "SirenBody", EquipType.Body);
-				Player.head = EquipLoader.GetEquipSlot(Mod, "SirenHead", EquipType.Head);
+				Player.legs = EquipLoader.GetEquipSlot(Mod, "SirensHeart", EquipType.Legs);
+				Player.body = EquipLoader.GetEquipSlot(Mod, "SirensHeart", EquipType.Body);
+				Player.head = EquipLoader.GetEquipSlot(Mod, "SirensHeart", EquipType.Head);
 				Player.face = -1;
 			}
             else if (meldTransformationPower || meldTransformationForce)
             {
-                Player.legs = EquipLoader.GetEquipSlot(Mod, "MeldTransformationLegs", EquipType.Legs);
-                Player.body = EquipLoader.GetEquipSlot(Mod, "MeldTransformationBody", EquipType.Body);
-                Player.head = EquipLoader.GetEquipSlot(Mod, "MeldTransformationHead", EquipType.Head);
+                Player.legs = EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Legs);
+                Player.body = EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Body);
+                Player.head = EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Head);
             }
             else if ((omegaBlueTransformationPower || omegaBlueTransformationForce) && omegaBlueCooldown > 1500)
             {
-                Player.head = EquipLoader.GetEquipSlot(Mod, "OmegaBlueTransformationHead", EquipType.Head);
+                Player.head = EquipLoader.GetEquipSlot(Mod, "OmegaBlueTransformation", EquipType.Head);
             }
 			else
 			{
@@ -7210,7 +7212,7 @@ namespace CalRD.CalPlayer
 			}
 			if (abyssDivingGear && (Player.head == -1 || Player.head == ArmorIDs.Head.FamiliarWig))
 			{
-				Player.head = EquipLoader.GetEquipSlot(Mod, "AbyssDivingGearHead", EquipType.Head);
+				Player.head = EquipLoader.GetEquipSlot(Mod, "AbyssDivingGear", EquipType.Head);
 				Player.face = -1;
 			}
 
@@ -10895,7 +10897,7 @@ namespace CalRD.CalPlayer
 
         public override void PostUpdate() //needs to be here else it doesn't work properly, otherwise i'd have stuck it with the wing anim stuffs
         {
-            if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide && Player.legs == EquipLoader.GetEquipSlot(Mod, "ProviLegs", EquipType.Legs))
+            if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide && Player.legs == EquipLoader.GetEquipSlot(Mod, "ProfanedSoulCrystal", EquipType.Legs))
             {
                 bool usingCarpet = Player.carpetTime > 0 && Player.controlJump; //doesn't make sense for carpet to use jump frame since you have solid ground
                 AnimationType animType = AnimationType.Walk;

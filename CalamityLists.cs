@@ -2160,10 +2160,10 @@ namespace CalRD
 
             legOverrideList = new List<int>()
             {
-                EquipLoader.GetEquipSlot(CalRD.Instance, "ProviLegs", EquipType.Legs),
-                EquipLoader.GetEquipSlot(CalRD.Instance, "SirenLegAlt", EquipType.Legs),
-                EquipLoader.GetEquipSlot(CalRD.Instance, "SirenLeg", EquipType.Legs),
-                EquipLoader.GetEquipSlot(CalRD.Instance, "PopoLeg", EquipType.Legs)
+                EquipLoader.GetEquipSlot(CalRD.Instance, "Provi", EquipType.Legs),
+                // EquipLoader.GetEquipSlot(CalRD.Instance, "SirenLegAlt", EquipType.Legs), why was this still here
+                EquipLoader.GetEquipSlot(CalRD.Instance, "Siren", EquipType.Legs),
+                EquipLoader.GetEquipSlot(CalRD.Instance, "Popo", EquipType.Legs)
             };
 
             // Duke Fishron phase 3 becomes way too easy if you can make him stop being invisible with Yanmei's Knife.

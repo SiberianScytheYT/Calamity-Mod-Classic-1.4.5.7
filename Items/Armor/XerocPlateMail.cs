@@ -16,6 +16,23 @@ namespace CalRD.Items.Armor
                 EquipLoader.AddEquipTexture(Mod, "CalRD/Items/Armor/XerocPlateMail_Back", EquipType.Back, this);
             }
         }
+
+        public override void EquipFrameEffects(Player player, EquipType type)
+        {
+            if (Main.netMode != NetmodeID.Server)
+            {
+                int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
+                ArmorIDs.Body.Sets.HidesArms[equipSlot] = true;
+                ArmorIDs.Body.Sets.HidesTopSkin[equipSlot] = true;
+            }
+
+            if (player.body == Item.bodySlot)
+            {
+                player.back = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Back);
+                player.neck = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Neck);
+            }
+        }
+
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Empyrean Cloak");

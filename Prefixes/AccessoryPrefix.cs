@@ -51,5 +51,14 @@ namespace CalRD.Prefixes
             float extraValue = 1f + (2.5f * stealthGenBonus);
             valueMult *= extraValue;
         }
+        
+        public override IEnumerable<TooltipLine> GetTooltipLines(Item item)
+        {
+            float stealthGenBoost = stealthGenBonus;// - 1f;
+            yield return new TooltipLine(Mod, "PrefixStealthGenBoost", "+" + Math.Round(stealthGenBoost * 100f) + "% stealth generation")
+            { 
+                IsModifier = true
+            };
+        }
     }
 }

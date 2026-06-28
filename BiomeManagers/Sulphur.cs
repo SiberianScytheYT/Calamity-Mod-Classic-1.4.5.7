@@ -15,19 +15,21 @@ namespace CalRD.BiomeManagers
 		{
 			get
 			{
+				int music = Main.curMusic;
 				bool acidRain = CalamityWorld.rainingAcid;
 				if (acidRain)
 				{
 					if (_musicMod != null)
-						MusicLoader.GetMusicSlot(_musicMod,
+						music = MusicLoader.GetMusicSlot(_musicMod,
 							CalamityWorld.downedPolterghast
-								? "CalRD/Sounds/Music/AcidRainTier3" // Acid Rain Tier 3
-								: "CalRD/Sounds/Music/AcidRainTier1"); // Acid Rain Tier 1 + 2
+								? "Sounds/Music/AcidRainTier3" // Acid Rain Tier 3
+								: "Sounds/Music/AcidRainTier1"); // Acid Rain Tier 1 + 2
 					else
-						return (CalamityWorld.downedPolterghast) ? MusicID.Monsoon : MusicID.OldOnesArmy;
+						music = (CalamityWorld.downedPolterghast) ? MusicID.Monsoon : MusicID.OldOnesArmy;
 				}
-
-				return (_musicMod != null) ? MusicLoader.GetMusicSlot(_musicMod, "Sounds/Music/SulphurousSeaDay") : MusicID.Desert;
+				else
+					music = (_musicMod != null) ? MusicLoader.GetMusicSlot(_musicMod, "Sounds/Music/SulphurousSeaDay") : MusicID.Desert;
+				return music;
 			}
 		}
 

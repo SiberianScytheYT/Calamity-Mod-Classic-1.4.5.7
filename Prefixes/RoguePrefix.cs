@@ -126,8 +126,6 @@ namespace CalRD.Prefixes
 
     public abstract class RogueWeaponPrefix : ModPrefix, ILocalizedModType
     {
-        public new string LocalizationCategory => "Prefixes.Weapon";
-
         // Stats
         public virtual float damageMult => 1f;
         public virtual float useTimeMult => 1f;
@@ -162,6 +160,18 @@ namespace CalRD.Prefixes
             float stealthDamageValueMultiplier = 1f;
             float extraValue = 1f + stealthDamageValueMultiplier * extraStealthDamage;
             valueMult *= extraValue;
-        }        
+        }
+        
+        public override IEnumerable<TooltipLine> GetTooltipLines(Item item)
+        {
+            float ssDmgBoost = stealthDmgMult;// - 1f;
+            if (ssDmgBoost == 1f)
+                yield break;
+            yield return new TooltipLine(Mod, "PrefixSSDmg", (ssDmgBoost >= 1f ? "+" : String.Empty) + (Math.Round(ssDmgBoost * 100f) -100) + "% stealth strike damage")
+            {
+                IsModifier = true,
+                IsModifierBad = ssDmgBoost < 0
+            };
+        }
     }
 }

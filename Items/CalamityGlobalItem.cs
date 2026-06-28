@@ -1024,7 +1024,7 @@ namespace CalRD.Items
                 // This makes charge-using weapons show up at full damage when previewed in crafting, Recipe Browser, etc.
                 if (Charge == 0f)
                     return;
-                damage.Base *= ChargeDamageFormula();
+                damage *= ChargeDamageFormula();
             }
         }
 
@@ -1196,12 +1196,13 @@ namespace CalRD.Items
             }
 			#endregion
 
+            /*
 			#region Accessory Modifier Display
 			if (item.accessory)
 			{
 				if (!item.social && item.prefix > 0)
 				{
-					float stealthGenBoost = item.Calamity().StealthGenBonus - 1f;
+					float stealthGenBoost = item.Calamity().StealthGenBonus;// - 1f;
 					if (stealthGenBoost > 0)
 					{
 						TooltipLine StealthGen = new TooltipLine(Mod, "PrefixStealthGenBoost", "+" + Math.Round(stealthGenBoost * 100f) + "% stealth generation")
@@ -1213,7 +1214,8 @@ namespace CalRD.Items
 				}
 			}
             #endregion
-
+            */
+            
             /*if (item.ammo == 97)
             {
                 foreach (TooltipLine line2 in tooltips)

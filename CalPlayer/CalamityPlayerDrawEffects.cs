@@ -22,9 +22,27 @@ namespace CalRD.CalPlayer
 {
     public class CalamityPlayerDrawEffects : ModPlayer
     {
+        public override void HideDrawLayers(PlayerDrawSet drawInfo)
+        {
+            if (Player is null)
+                return;
+            
+            if (drawInfo.drawPlayer.Calamity().andromedaState != AndromedaPlayerState.Inactive)
+            {
+                foreach (var layer in PlayerDrawLayerLoader.Layers)
+                {
+                    if (layer != PlayerDrawLayers.BackAcc)
+                        layer.Hide();
+                }
+            }
+        }
+
         public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a,
             ref bool fullBright)
         {
+            if (Player.Calamity().andromedaState != AndromedaPlayerState.Inactive)
+                IbanDevRobot.DrawTheStupidFuckingRobot(ref drawInfo);
+            
             CalamityPlayer calamityPlayer = Player.Calamity();
 
             // Dust modifications while high.
@@ -677,8 +695,9 @@ namespace CalRD.CalPlayer
                     drawInfo.DrawDataCache.Add(data);
                 }
             }
+        }
 
-            public class Skin : PlayerDrawLayer
+        public class Skin : PlayerDrawLayer
             {
                 public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Skin);
 
@@ -843,37 +862,31 @@ namespace CalRD.CalPlayer
                                      currentlyHeldItem.type == ModContent.ItemType<AuroraBlazer>() ||
                                      currentlyHeldItem.type == ModContent.ItemType<Auralis>())
                             {
-                                Texture2D texture = ModContent
-                                    .Request<Texture2D>("CalRD/Items/Weapons/Ranged/DeathwindGlow").Value;
+                                Texture2D texture = ModContent.Request<Texture2D>("CalRD/Items/Weapons/Ranged/DeathwindGlow").Value;
                                 int offsetX = 10;
                                 if (currentlyHeldItem.type == ModContent.ItemType<Apotheosis>())
                                 {
-                                    texture = ModContent.Request<Texture2D>("CalRD/Items/Weapons/Magic/ApotheosisGlow")
-                                        .Value;
+                                    texture = ModContent.Request<Texture2D>("CalRD/Items/Weapons/Magic/ApotheosisGlow").Value;
                                     offsetX = 6;
                                 }
                                 else if (currentlyHeldItem.type == ModContent.ItemType<CleansingBlaze>())
                                 {
-                                    texture = ModContent
-                                        .Request<Texture2D>("CalRD/Items/Weapons/Ranged/CleansingBlazeGlow").Value;
+                                    texture = ModContent.Request<Texture2D>("CalRD/Items/Weapons/Ranged/CleansingBlazeGlow").Value;
                                     offsetX = 37;
                                 }
                                 else if (currentlyHeldItem.type == ModContent.ItemType<SubsumingVortex>())
                                 {
-                                    texture = ModContent
-                                        .Request<Texture2D>("CalRD/Items/Weapons/Magic/SubsumingVortexGlow").Value;
+                                    texture = ModContent.Request<Texture2D>("CalRD/Items/Weapons/Magic/SubsumingVortexGlow").Value;
                                     offsetX = 9;
                                 }
                                 else if (currentlyHeldItem.type == ModContent.ItemType<AuroraBlazer>())
                                 {
-                                    texture = ModContent
-                                        .Request<Texture2D>("CalRD/Items/Weapons/Ranged/AuroraBlazerGlow").Value;
+                                    texture = ModContent.Request<Texture2D>("CalRD/Items/Weapons/Ranged/AuroraBlazerGlow").Value;
                                     offsetX = 44;
                                 }
                                 else if (currentlyHeldItem.type == ModContent.ItemType<Auralis>())
                                 {
-                                    texture = ModContent.Request<Texture2D>("CalRD/Items/Weapons/Ranged/AuralisGlow")
-                                        .Value;
+                                    texture = ModContent.Request<Texture2D>("CalRD/Items/Weapons/Ranged/AuralisGlow").Value;
                                     offsetX = 62;
                                 }
 
@@ -889,7 +902,8 @@ namespace CalRD.CalPlayer
 
                                 DrawData data = new DrawData(texture,
                                     new Vector2((int)(drawPlayer.itemLocation.X - Main.screenPosition.X + center.X),
-                                        (int)(drawPlayer.itemLocation.Y - Main.screenPosition.Y + center.Y)) - new Vector2((float)texture.Width * 0.5f, 0f),
+                                        (int)(drawPlayer.itemLocation.Y - Main.screenPosition.Y + center.Y)) -
+                                    new Vector2((float)texture.Width * 0.5f, 0f),
                                     TextureAssets.Item[currentlyHeldItem.type].Value.Bounds,
                                     Color.White,
                                     drawPlayer.itemRotation,
@@ -955,8 +969,9 @@ namespace CalRD.CalPlayer
                         }
                     }
                 }
+            }
 
-                public class clAfterAll : PlayerDrawLayer
+            public class clAfterAll : PlayerDrawLayer
                 {
                     public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.BackAcc);
 
@@ -1437,10 +1452,7 @@ namespace CalRD.CalPlayer
                     }
                 }
                 */
-
-                #endregion
-            }
-        }
+        #endregion
     }
 }
         

@@ -52,7 +52,7 @@ namespace CalRD.Items.Weapons.Ranged
                     (CalamityWorld.downedPolterghast ? 0.3f : 0f) +
                     (CalamityWorld.downedDoG ? 0.6f : 0f) +
                     (CalamityWorld.downedYharon ? 1f : 0f);
-            damage.Base *= damageMult + 1f;
+            damage *= damageMult + 1f;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
