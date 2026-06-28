@@ -84,7 +84,8 @@ namespace CalRD.Items.Weapons.Melee
 			float damageMult = (player.GetDamage(DamageClass.Melee).Additive + player.GetDamage(DamageClass.Ranged).Additive - 2f) / 2f;
             damage += damageMult - player.GetDamage(DamageClass.Melee).Additive + 1f;
             */
-			damage = player.GetDamage<MeleeDamageClass>().CombineWith(player.GetDamage<RangedDamageClass>()) * 0.5f;
+			StatModifier halfMelee = damage.Scale(0.5f);
+            damage = halfMelee.CombineWith(player.GetTotalDamage<RangedDamageClass>().Scale(0.5f));
 		}
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

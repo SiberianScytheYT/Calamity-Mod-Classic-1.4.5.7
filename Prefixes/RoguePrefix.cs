@@ -126,6 +126,8 @@ namespace CalRD.Prefixes
 
     public abstract class RogueWeaponPrefix : ModPrefix, ILocalizedModType
     {
+        public new string LocalizationCategory => "Prefixes.Weapon";
+
         // Stats
         public virtual float damageMult => 1f;
         public virtual float useTimeMult => 1f;
