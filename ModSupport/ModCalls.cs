@@ -76,7 +76,7 @@ namespace CalRD
 				case "acidrain 2":
 				case "acidrain2":
 				case "acid rain scourge":
-				case "acid rain aquatic scourge":
+				case "AcidRainAquaticScourge":
 				case "acid rain aquaticscourge":
 				case "acidrain scourge":
 				case "acidrain aquatic scourge":

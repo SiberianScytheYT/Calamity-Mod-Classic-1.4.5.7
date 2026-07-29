@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalRD.Items.Materials
@@ -18,6 +19,7 @@ namespace CalRD.Items.Materials
             Tooltip.SetDefault("A shard of lunar and solar energy");
 */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 8));
+			ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

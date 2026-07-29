@@ -63,10 +63,8 @@ namespace CalRD.Items.TreasureBags
             // The Lad
             DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<JoyfulHeart>(), player.name == "Aleksh" || player.name == "Shark Lad");
 
-            // Music box (if music mod installed)
-            ModLoader.TryGetMod("CalamityModMusic", out Mod musicMod);
-            if (musicMod != null)
-                DropHelper.DropItem(player.GetSource_FromThis(), player, musicMod.Find<ModItem>("CalamityMusicbox").Type);
+            // Music box
+            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<Placeables.MusicBoxes.CalamityMusicbox>());
         }
     }
 }

@@ -55,11 +55,7 @@ namespace CalRD.NPCs.OldDuke
 			NPC.boss = true;
             NPC.netAlways = true;
             NPC.timeLeft = NPC.activeTime * 30;
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/OldDuke");
-            else
-                Music = MusicID.Boss1;
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/BoomerDuke");
             for (int k = 0; k < NPC.buffImmune.Length; k++)
             {
                 NPC.buffImmune[k] = true;

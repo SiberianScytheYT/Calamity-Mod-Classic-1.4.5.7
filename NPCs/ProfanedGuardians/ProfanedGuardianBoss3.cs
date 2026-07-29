@@ -45,11 +45,7 @@ namespace CalRD.NPCs.ProfanedGuardians
             NPC.canGhostHeal = false;
             AIType = -1;
             NPC.boss = true;
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/ProfanedGuardians");
-            else
-                Music = MusicID.Boss1;
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/Guardians");
             for (int k = 0; k < NPC.buffImmune.Length; k++)
             {
                 NPC.buffImmune[k] = true;

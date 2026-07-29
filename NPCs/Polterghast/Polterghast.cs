@@ -76,11 +76,7 @@ namespace CalRD.NPCs.Polterghast
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.netAlways = true;
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/Polterghast");
-            else
-                Music = MusicID.Plantera;
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/RUIN");
             NPC.HitSound = SoundID.NPCHit7;
             NPC.DeathSound = SoundID.NPCDeath39;
         }
@@ -807,13 +803,14 @@ namespace CalRD.NPCs.Polterghast
                     }
 
                     SoundEngine.PlaySound(SoundID.Item122, NPC.position);
-
-                    Gore.NewGore(NPC.GetSource_FromThis(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_FromThis(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt2").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_FromThis(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt3").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_FromThis(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt4").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_FromThis(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt5").Type, 1f);
-
+                    if (Main.netMode != NetmodeID.Server)
+                    {
+	                    Gore.NewGore(NPC.GetSource_FromThis(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt").Type, 1f);
+	                    Gore.NewGore(NPC.GetSource_FromThis(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt2").Type, 1f);
+	                    Gore.NewGore(NPC.GetSource_FromThis(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt3").Type, 1f);
+	                    Gore.NewGore(NPC.GetSource_FromThis(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt4").Type, 1f);
+	                    Gore.NewGore(NPC.GetSource_FromThis(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt5").Type, 1f);
+                	}
                     for (int num621 = 0; num621 < 10; num621++)
                     {
                         int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Phantoplasm, 0f, 0f, 100, default, 2f);

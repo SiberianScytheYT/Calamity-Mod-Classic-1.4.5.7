@@ -7,8 +7,7 @@ namespace CalRD.BiomeManagers
 {
 	public class SunkenSea : ModBiome
 	{
-		Mod _musicMod = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-		public override int Music => (_musicMod != null) ? MusicLoader.GetMusicSlot(_musicMod, "Sounds/Music/SunkenSea") : MusicID.Temple;
+		public override int Music => MusicLoader.GetMusicSlot("CalRD/Sounds/Music/SunkenSea");
 		public override string BestiaryIcon => "CalRD/BiomeManagers/SunkenSeaIcon";
 		public override SceneEffectPriority Priority => SceneEffectPriority.Environment;
 		public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("CalRD/SunkenSeaWater");

@@ -36,9 +36,7 @@ namespace CalRD.NPCs.Leviathan
             NPC.HitSound = SoundID.NPCHit1;
 			NPC.DeathSound = null;
 			NPC.rarity = 2;
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/AnahitasLure");
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/SirenLure");
         }
 
 		public override void SendExtraAI(BinaryWriter writer)

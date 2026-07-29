@@ -79,11 +79,7 @@ namespace CalRD.NPCs.Leviathan
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/Anahita");
-            else
-                Music = MusicID.Boss3;
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/Siren");
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -159,11 +155,7 @@ namespace CalRD.NPCs.Leviathan
 			{
 				if (!spawnedLevi)
 				{
-					Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-					if (CalamityModMusic != null)
-						Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/Leviathan");
-					else
-						Music = MusicID.Boss3;
+					Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/LeviathanAndSiren");
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{

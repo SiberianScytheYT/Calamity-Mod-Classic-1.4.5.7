@@ -50,11 +50,7 @@ namespace CalRD.NPCs.AstrumDeus
             {
                 NPC.buffImmune[k] = true;
             }
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/AstrumDeus");
-            else
-                Music = MusicID.Boss3;
+           Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/AstrumDeus");
             NPC.dontCountMe = true;
         }
 

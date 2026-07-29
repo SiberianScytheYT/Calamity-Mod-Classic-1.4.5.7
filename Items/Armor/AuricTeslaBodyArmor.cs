@@ -43,7 +43,7 @@ namespace CalRD.Items.Armor
 	    public override void EquipFrameEffects(Player player, EquipType type)
 	    { 
 		    if (player.body == Item.bodySlot)
-			    player.back = (sbyte)EquipLoader.GetEquipSlot(Mod, Name, EquipType.Back);
+			    player.back = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Back);
 	    }
 
         public override void ModifyTooltips(List<TooltipLine> list)

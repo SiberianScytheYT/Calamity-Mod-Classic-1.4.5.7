@@ -103,11 +103,7 @@ namespace CalRD.NPCs.DevourerofGods
             {
                 NPC.buffImmune[k] = true;
             }
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/DevourerofGodsPhase2");
-            else
-                Music = MusicID.LunarBoss;
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/UniversalCollapse");
         }
 
         public override void SendExtraAI(BinaryWriter writer)

@@ -122,11 +122,7 @@ namespace CalRD.NPCs.Providence
             NPC.netAlways = true;
             NPC.chaseable = true;
             NPC.canGhostHeal = false;
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/Providence");
-            else
-                Music = MusicID.LunarBoss;
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/ProvidenceTheme");
             NPC.DeathSound = new SoundStyle("CalRD/Sounds/NPCKilled/ProvidenceDeath");
         }
 

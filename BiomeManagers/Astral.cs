@@ -6,18 +6,13 @@ namespace CalRD.BiomeManagers
 {
 	public class Astral : ModBiome
 	{
-		Mod _musicMod = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-
 		public override int Music {
 			get
 			{
-				if (_musicMod != null)
-					if (Main.LocalPlayer.ZoneDirtLayerHeight || Main.LocalPlayer.ZoneRockLayerHeight ||
+				if (Main.LocalPlayer.ZoneDirtLayerHeight || Main.LocalPlayer.ZoneRockLayerHeight ||
 					    Main.LocalPlayer.ZoneUnderworldHeight)
-						return MusicLoader.GetMusicSlot(_musicMod, "Sounds/Music/AstralInfectionUnderGround");
-					else
-						return MusicLoader.GetMusicSlot(_musicMod, "Sounds/Music/AstralInfection");
-				return MusicID.Space;
+						return MusicLoader.GetMusicSlot("CalRD/Sounds/Music/AstralUnderground");
+				return MusicLoader.GetMusicSlot("CalRD/Sounds/Music/Astral");
 			}
 		}
 

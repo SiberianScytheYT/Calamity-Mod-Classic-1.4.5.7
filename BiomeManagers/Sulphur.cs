@@ -9,8 +9,6 @@ namespace CalRD.BiomeManagers
 {
 	public class Sulphur : ModBiome
 	{
-		Mod _musicMod = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-
 		public override int Music 
 		{
 			get
@@ -18,17 +16,12 @@ namespace CalRD.BiomeManagers
 				int music = Main.curMusic;
 				bool acidRain = CalamityWorld.rainingAcid;
 				if (acidRain)
-				{
-					if (_musicMod != null)
-						music = MusicLoader.GetMusicSlot(_musicMod,
+					music = MusicLoader.GetMusicSlot(
 							CalamityWorld.downedPolterghast
-								? "Sounds/Music/AcidRainTier3" // Acid Rain Tier 3
-								: "Sounds/Music/AcidRainTier1"); // Acid Rain Tier 1 + 2
-					else
-						music = (CalamityWorld.downedPolterghast) ? MusicID.Monsoon : MusicID.OldOnesArmy;
-				}
+								? "Sounds/Music/AcidRain2" // Acid Rain Tier 3
+								: "Sounds/Music/AcidRain1"); // Acid Rain Tier 1 + 2
 				else
-					music = (_musicMod != null) ? MusicLoader.GetMusicSlot(_musicMod, "Sounds/Music/SulphurousSeaDay") : MusicID.Desert;
+					music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/Sulphur");
 				return music;
 			}
 		}

@@ -8,8 +8,7 @@ namespace CalRD.BiomeManagers
 {
 	public class AbyssLayer1Biome : ModBiome
 	{
-		Mod _musicMod = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-        public override int Music => (_musicMod != null) ? MusicLoader.GetMusicSlot(_musicMod, "Sounds/Music/AbyssLayer1") : MusicID.Hell;
+        public override int Music => MusicLoader.GetMusicSlot("CalRD/Sounds/Music/TheAbyss");
 		public override SceneEffectPriority Priority => SceneEffectPriority.BiomeHigh;
 		public override string BackgroundPath => "CalRD/Backgrounds/MapBackgrounds/AbyssMap1";
 		public override string BestiaryIcon => "CalRD/BiomeManagers/AbyssIcon";

@@ -92,11 +92,7 @@ namespace CalRD.NPCs.Cryogen
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit5;
             NPC.DeathSound = SoundID.NPCDeath15;
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/Cryogen");
-            else
-                Music = MusicID.FrostMoon; 
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/Cryogen");
         }
 
         public override void SendExtraAI(BinaryWriter writer)

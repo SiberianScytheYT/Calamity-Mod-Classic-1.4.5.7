@@ -74,11 +74,7 @@ namespace CalRD.NPCs.Bumblebirb
             NPC.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             NPC.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             NPC.boss = true;
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/Dragonfolly");
-            else
-                Music = MusicID.Boss4;
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/Murderswarm");
             NPC.lavaImmune = true;
             NPC.noGravity = true;
             NPC.value = Item.buyPrice(0, 30, 0, 0);

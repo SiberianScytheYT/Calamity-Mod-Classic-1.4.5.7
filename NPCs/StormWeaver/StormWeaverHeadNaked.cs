@@ -41,18 +41,11 @@ namespace CalRD.NPCs.StormWeaver
             NPC.height = 74;
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2;
 			NPC.LifeMaxNERB(notDoGFight ? 900000 : 150000, notDoGFight ? 900000 : 150000, 3500000);
-			Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/DevourerofGodsPhase1");
-            else
-                Music = MusicID.Boss3;
+			Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/ScourgeofTheUniverse");
             if (notDoGFight)
             {
                 NPC.value = Item.buyPrice(0, 35, 0, 0);
-                if (CalamityModMusic != null)
-                    Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/StormWeaver");
-                else
-                    Music = MusicID.Boss3;
+                Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/Weaver");
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);

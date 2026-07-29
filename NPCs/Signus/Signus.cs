@@ -43,20 +43,13 @@ namespace CalRD.NPCs.Signus
 			NPC.width = 130;
             NPC.height = 130;
             NPC.defense = 70;
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/DevourerofGodsPhase1");
-            else
-                Music = MusicID.Boss4;
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/ScourgeofTheUniverse");
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel3;
 			NPC.LifeMaxNERB(notDoGFight ? 280000 : 70000, notDoGFight ? 445500 : 109500, 2400000);
             if (notDoGFight)
             {
                 NPC.value = Item.buyPrice(0, 35, 0, 0);
-                if (CalamityModMusic != null)
-                    Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/Signus");
-                else
-                    Music = MusicID.Boss4;
+                Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/Signus");
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);

@@ -61,7 +61,7 @@ namespace CalRD.Items.Weapons.Melee
 			float damageMult = 0f;
             if (player.Calamity().brimlashBusterBoost)
 				damageMult = 2f;
-			damage *= damageMult;
+			damage *= damageMult + 1f;
 		}
 
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)

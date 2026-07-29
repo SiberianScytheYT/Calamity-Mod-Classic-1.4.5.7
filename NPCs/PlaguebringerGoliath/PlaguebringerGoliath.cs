@@ -90,11 +90,7 @@ namespace CalRD.NPCs.PlaguebringerGoliath
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath14;
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/PlaguebringerGoliath");
-            else
-                Music = MusicID.Boss3;
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/PlaguebringerGoliath");
         }
 
         public override void SendExtraAI(BinaryWriter writer)

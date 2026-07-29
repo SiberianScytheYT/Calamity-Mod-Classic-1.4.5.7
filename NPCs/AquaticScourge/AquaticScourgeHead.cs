@@ -82,11 +82,7 @@ namespace CalRD.NPCs.AquaticScourge
         {
 			if (NPC.justHit || NPC.life <= NPC.lifeMax * 0.99 || BossRushEvent.BossRushActive)
 			{
-				Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-				if (CalamityModMusic != null)
-					Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/AquaticScourge");
-				else
-					Music = MusicID.Boss2;
+				Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/AquaticScourge");
 			}
 			CalamityAI.AquaticScourgeAI(NPC, Mod, true);
 		}

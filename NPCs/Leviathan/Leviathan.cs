@@ -90,11 +90,7 @@ namespace CalRD.NPCs.Leviathan
             NPC.noGravity = true;
             NPC.boss = true;
             NPC.netAlways = true;
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/Leviathan");
-            else
-                Music = MusicID.Boss3;
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/LeviathanAndSiren");
         }
 
         public override void SendExtraAI(BinaryWriter writer)

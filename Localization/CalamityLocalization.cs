@@ -5,6 +5,13 @@ namespace CalRD.Localization
 {
     public class CalamityLocalization
     {
+        /// <param name="key">The language key. This will have "Mods.CalRD." appended behind it.</param>
+        /// <returns>
+        /// A <see cref="LocalizedText"/> instance found using the provided key with "Mods.CalRD." appended behind it. 
+        /// <para>NOTE: Modded translations are not loaded until after PostSetupContent.</para>Caching the result is suggested.
+        /// </returns>
+        public static LocalizedText GetText(string key) => Language.GetOrRegister("Mods.CalRD." + key);
+        
         /*
         private static string[][] _localizations;
 

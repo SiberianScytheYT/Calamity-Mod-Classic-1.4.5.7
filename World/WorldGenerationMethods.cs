@@ -3157,10 +3157,12 @@ namespace CalRD.World
                             if (ocean)
                             {
                                 Main.tile[num11, num12].LiquidAmount = 255;
+                                Main.tile[num11, num12].Get<LiquidData>().LiquidType = LiquidID.Water;
                             }
                             else
                             {
                                 Main.tile[num11, num12].LiquidAmount = 255;
+                                Main.tile[num11, num12].Get<LiquidData>().LiquidType = LiquidID.Lava;
                             }
                             if (steps <= num2)
                             {

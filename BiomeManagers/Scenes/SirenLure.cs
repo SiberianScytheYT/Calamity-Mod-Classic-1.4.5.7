@@ -8,10 +8,9 @@ namespace CalamityModClassicPreTrailer.BiomeManagers.Scenes
 {
     public class SirenLure : ModSceneEffect
     {
-        Mod _musicMod = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
         public override SceneEffectPriority Priority => SceneEffectPriority.BossLow;
         public int NPCType => ModContent.NPCType<LeviathanStart>();
-        public override int Music => MusicLoader.GetMusicSlot(_musicMod, "Sounds/Music/AnahitasLure");
+        public override int Music => MusicLoader.GetMusicSlot("CalRD/Sounds/Music/SirenLure");
         public virtual int MusicDistance => 1600;
 
         public virtual bool SetSceneEffect(Player player)

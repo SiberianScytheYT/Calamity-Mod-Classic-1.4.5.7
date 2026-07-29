@@ -86,11 +86,7 @@ namespace CalRD.NPCs.Ravager
             NPC.alpha = 255;
             NPC.HitSound = SoundID.NPCHit41;
             NPC.DeathSound = SoundID.NPCDeath14;
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/Ravager");
-            else
-                Music = MusicID.Boss4;
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/Ravager");
         }
 
         public override void SendExtraAI(BinaryWriter writer)

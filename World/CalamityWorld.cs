@@ -1240,8 +1240,7 @@ namespace CalRD.World
         // An Astral Meteor always falls at the beginning of Hardmode.
         public override void ModifyHardmodeTasks(List<GenPass> tasks)
         {
-            // Yes, this internal identifier is misspelled in vanilla.
-            int announceIndex = tasks.FindIndex(match => match.Name == "Hardmode Announcment");
+            int announceIndex = tasks.FindIndex(match => match.Name == "Hardmode Announcement");
 
             // Insert the Astral biome generation right before the final hardmode announcement.
             tasks.Insert(announceIndex, new PassLegacy("AstralMeteor", delegate (GenerationProgress progress, GameConfiguration config)

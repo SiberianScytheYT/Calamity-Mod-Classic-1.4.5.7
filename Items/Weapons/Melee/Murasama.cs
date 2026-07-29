@@ -21,6 +21,7 @@ namespace CalRD.Items.Weapons.Melee
 				"ID and power-level locked\n" +
 				"Prove your strength or have the correct user ID to wield this sword");
 */
+			ItemID.Sets.AnimatesAsSoul[Type] = true;
 		}
 
 		public override void SetDefaults()

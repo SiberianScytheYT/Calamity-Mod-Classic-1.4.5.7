@@ -17434,6 +17434,226 @@ Items: {
 		Tooltip: Reduces the damage caused by the Brimstone Flames debuff
 		DisplayName: Abaddon
 	}
+
+	Yharon3Musicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Yharon, Roar of the Jungle Dragon)
+	}
+
+	Yharon2Musicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Yharon, Rebirth)
+	}
+
+	Yharon1Musicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Yharon, Post-dark sun)
+	}
+
+	VoidMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Void)
+	}
+
+	SunkenSeaMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Sunken Sea)
+	}
+
+	SulphurousMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Sulphurous Sea)
+	}
+
+	StormWeaverMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Storm Weaver)
+	}
+
+	SlimeGodMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Slime God)
+	}
+
+	SirenMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Anahita)
+	}
+
+	SirenIdleMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Anahita Lure)
+	}
+
+	SignusMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Signus)
+	}
+
+	SCalLMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Lament)
+	}
+
+	SCalGMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Grief)
+	}
+
+	SCalEMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Epiphany)
+	}
+
+	SCalAMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Acceptance)
+	}
+
+	RavagerMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Ravager)
+	}
+
+	ProvidenceMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Providence)
+	}
+
+	ProfanedGuardianMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Profaned Guardian)
+	}
+
+	PolterghastMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Polterghast)
+	}
+
+	PlaguebringerMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Plaguebringer Goliath)
+	}
+
+	PerforatorMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Perforator)
+	}
+
+	LeviathanMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Leviathan)
+	}
+
+	HiveMindMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Hive Mind)
+	}
+
+	HigherAbyssMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Higher Abyss)
+	}
+
+	DoGP2Musicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (DoG Phase 2)
+	}
+
+	DoGMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (DoG Phase 1)
+	}
+
+	DesertScourgeMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Desert Scourge)
+	}
+
+	CryogenMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Cryogen)
+	}
+
+	CragMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Brimstone Crag)
+	}
+
+	CrabulonMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Crabulon)
+	}
+
+	CeaselessVoidMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Ceaseless Void)
+	}
+
+	CalamityMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (The Tale of a Cruel World)
+	}
+
+	CalamitasMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Calamitas)
+	}
+
+	BumblebirbMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (The Dragonfolly)
+	}
+
+	BrimmyMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Brimstone Elemental)
+	}
+
+	BoomerDukeMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Old Duke)
+	}
+
+	AstrumDeusMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Astrum Deus)
+	}
+
+	AstralUndergroundMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Underground Astral Biome)
+	}
+
+	AstralMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Astral Biome)
+	}
+
+	AstrageldonMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Astrum Aureus)
+	}
+
+	AquaticScourgeMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Aquatic Scourge)
+	}
+
+	AcidRain2Musicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Sulphuric Monsoon)
+	}
+
+	AcidRain1Musicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Acidic Downpour)
+	}
+
+	AbyssLowerMusicbox: {
+		Tooltip: ""
+		DisplayName: Music Box (Lower Abyss)
+	}
 }
 
 Walls: {
@@ -17836,6 +18056,50 @@ Tiles: {
 	AcidWoodTreeSapling.MapEntry: Sapling
 	AbyssalPots.MapEntry: Pot
 	AbyssalCrateTile.MapEntry: Abyssal Crate
+	Yharon3Musicbox.MapEntry: Music Box
+	Yharon2Musicbox.MapEntry: Music Box
+	Yharon1Musicbox.MapEntry: Music Box
+	VoidMusicbox.MapEntry: Music Box
+	SunkenSeaMusicbox.MapEntry: Music Box
+	SulphurousMusicbox.MapEntry: Music Box
+	StormWeaverMusicbox.MapEntry: Music Box
+	SlimeGodMusicbox.MapEntry: Music Box
+	SirenMusicbox.MapEntry: Music Box
+	SirenIdleMusicbox.MapEntry: Music Box
+	SignusMusicbox.MapEntry: Music Box
+	SCalLMusicbox.MapEntry: Music Box
+	SCalGMusicbox.MapEntry: Music Box
+	SCalEMusicbox.MapEntry: Music Box
+	SCalAMusicbox.MapEntry: Music Box
+	RavagerMusicbox.MapEntry: Music Box
+	ProvidenceMusicbox.MapEntry: Music Box
+	ProfanedGuardianMusicbox.MapEntry: Music Box
+	PolterghastMusicbox.MapEntry: Music Box
+	PlaguebringerMusicbox.MapEntry: Music Box
+	PerforatorMusicbox.MapEntry: Music Box
+	LeviathanMusicbox.MapEntry: Music Box
+	HiveMindMusicbox.MapEntry: Music Box
+	HigherAbyssMusicbox.MapEntry: Music Box
+	DoGP2Musicbox.MapEntry: Music Box
+	DoGMusicbox.MapEntry: Music Box
+	DesertScourgeMusicbox.MapEntry: Music Box
+	CryogenMusicbox.MapEntry: Music Box
+	CragMusicbox.MapEntry: Music Box
+	CrabulonMusicbox.MapEntry: Music Box
+	CeaselessVoidMusicbox.MapEntry: Music Box
+	CalamityMusicbox.MapEntry: Music Box
+	CalamitasMusicbox.MapEntry: Music Box
+	BumblebirbMusicbox.MapEntry: Music Box
+	BrimmyMusicbox.MapEntry: Music Box
+	BoomerDukeMusicboxTile.MapEntry: Music Box
+	AstrumDeusMusicbox.MapEntry: Music Box
+	AstralUndergroundMusicboxTile.MapEntry: Music Box
+	AstralMusicbox.MapEntry: Music Box
+	AstrageldonMusicbox.MapEntry: Music Box
+	AquaticScourgeMusicbox.MapEntry: Music Box
+	AcidRain2MusicboxTile.MapEntry: Music Box
+	AcidRain1MusicboxTile.MapEntry: Music Box
+	AbyssLowerMusicbox.MapEntry: Music Box
 }
 
 Buffs: {

@@ -1,0 +1,175 @@
+Mods: {
+	CalRD: {
+		BossChecklistIntegration: {
+			AcidRainInitial: {
+				EntryName: Acid Rain
+				SpawnInfo: Use a [i:CalRD/CausticTear] or wait for the invasion to occur naturally after the Eye of Cthulhu is defeated.
+				DespawnMessage: "[c/92b774:The mysterious creatures of the sulphuric sea descended back into the ocean.]"
+			}
+
+			AcidRainAquaticScourge: {
+				EntryName: Acid Rain (Post-AS)
+				SpawnInfo: Use a [i:CalRD/CausticTear] or [i:CalRD/CausticTearNonConsumable] or wait for the invasion to occur naturally after the Aquatic Scourge is defeated
+				DespawnMessage: "[c/92b774:The mysterious creatures of the sulphuric sea descended back into the ocean.]"
+			}
+
+			AcidRainPolterghast: {
+				EntryName: Acid Rain (Post-Polter)
+				SpawnInfo: Use a [i:CalRD/CausticTear] or [i:CalRD/CausticTearNonConsumable] or wait for the invasion to occur naturally after the Polterghast is defeated
+				DespawnMessage: "[c/92b774:The mysterious creatures of the sulphuric sea descended back into the ocean.]"
+			}
+
+			DesertScourge: {
+				SpawnInfo: Use a [i:CalRD/DriedSeafood] in the Desert Biome
+				DespawnMessage: "[c/eee8aa:The scourge of the desert delved back into the sand.]"
+				EntryName: Desert Scourge
+			}
+
+			GiantClam: {
+				SpawnInfo: Can spawn naturally in the Sunken Sea
+				DespawnMessage: "[c/7fffd4:The Giant Clam returns into hiding in its grotto.]"
+			}
+
+			Crabulon: {
+				SpawnInfo: Use a [i:CalRD/DecapoditaSprout] in the Mushroom Biome
+				DespawnMessage: "[c/6495ed:The mycleium crab has lost interest.]"
+			}
+
+			HiveMind: {
+				EntryName: The Hive Mind
+				SpawnInfo: Kill a Cyst in the Corruption or use a [i:CalRD/Teratoma] in the Corruption
+				DespawnMessage: "[c/9400d3:The corrupted colony began searching for a new breeding ground.]"
+			}
+
+			Perforators: {
+				EntryName: The Perforators
+				SpawnInfo: Kill a Cyst in the Crimson or use a [i:CalRD/BloodyWormFood] in the Crimson
+				DespawnMessage: "[c/dc143c:The parasitic hive began searching for a new host.]"
+			}
+
+			SlimeGod: {
+				EntryName: Slime God
+				SpawnInfo: Use an [i:CalRD/OverloadedSludge]
+				DespawnMessage: "[c/ba5533:The gelatinous monstrosity achieved vengeance for its brethren.]"
+			}
+
+			Cryogen: {
+				SpawnInfo: Use a [i:CalRD/CryoKey] in the Snow Biome
+				DespawnMessage: "[c/00ffff:Cryogen drifts away, carried on a freezing wind.]"
+			}
+
+			AquaticScourge: {
+				SpawnInfo: Use a [i:CalRD/Seafood] in the Sulphuric Sea or wait for it to spawn in the Sulphuric Sea
+				DespawnMessage: "[c/f0e68c:The Aquatic Scourge swam back into the open ocean.]"
+				EntryName: Aquatic Scourge
+			}
+
+			BrimstoneElemental: {
+				SpawnInfo: Use a [i:CalRD/CharredIdol] in the Brimstone Crag
+				DespawnMessage: "[c/dc143c:Brimstone Elemental withdraws to the ruins of her shrine.]"
+			}
+
+			Calamitas: {
+				SpawnInfo: Use an [i:CalRD/BlightedEyeball] at Night
+				DespawnMessage: "[c/ffa500:If you wanted a fight, you should've came more prepared.]"
+			}
+
+			GreatSandShark: {
+				SpawnInfo: Kill 10 sand sharks after defeating Plantera or use a [i:CalRD/SandstormsCore] in the Desert Biome
+				DespawnMessage: "[c/daa520:The apex predator of the sands disappears into the dunes...]"
+			}
+
+			Leviathan: {
+				EntryName: Leviathan
+				SpawnInfo: By killing an unknown entity in the Ocean Biome
+				DespawnMessage: "[c/7fffd4:The aquatic entities sink back beneath the ocean depths.]"
+			}
+
+			AstrumAureus: {
+				SpawnInfo: Use an [i:CalRD/AstralChunk] at Night in the Astral Biome
+				DespawnMessage: "[c/ffd700:Astrum Aureus’ program has been executed. Initiate recall.]"
+			}
+
+			PlaguebringerGoliath: {
+				SpawnInfo: Use an [i:CalRD/Abomination] in the Jungle Biome
+				DespawnMessage: "[c/00ff00:HOSTILE SPECIMENS TERMINATED. INITIATE RECALL TO HOME BASE.]"
+			}
+
+			Ravager: {
+				EntryName: Ravager
+				SpawnInfo: Use an [i:CalRD/AncientMedallion]
+				DespawnMessage: "[c/b22222:The automaton of misshapen victims went looking for the true perpetrator.]"
+			}
+
+			AstrumDeus: {
+				SpawnInfo: Use a [i:CalRD/TitanHeart] or [i:CalRD/Starcore] as offering at an [i:CalRD/AstralBeaconItem]
+				DespawnMessage: "[c/ffd700:The infected deity retreats to the heavens.]"
+				EntryName: Astrum Deus
+			}
+
+			ProfanedGuardians: {
+				EntryName: Profaned Guardians
+				SpawnInfo: Use a [i:CalRD/ProfanedShard] in the Hallow or Underworld Biomes
+				DespawnMessage: "[c/ffa500:The guardians must protect their goddess at all costs.]"
+			}
+
+			Dragonfolly: {
+				SpawnInfo: Use [i:CalRD/BirbPheromones] in the Jungle Biome
+				DespawnMessage: "[c/ffd700:The failed experiment returns to its reproductive routine.]"
+			}
+
+			Providence: {
+				EntryName: Providence, the Profaned Goddess
+				SpawnInfo: Use either [i:CalRD/ProfanedCore] or [i:CalRD/ProfanedCoreUnlimited] in the Hallow or Underworld Biomes
+				DespawnMessage: "[c/ffa500:The Profaned Goddess vanishes in a burning blaze.]"
+			}
+
+			CeaselessVoid: {
+				EntryName: Ceaseless Void
+				SpawnInfo: Use a [i:CalRD/RuneofCos] in the Dungeon
+				DespawnMessage: "[c/4b0082:The rift in time and space has moved away from your reach.]"
+			}
+
+			StormWeaver: {
+				EntryName: Storm Weaver
+				SpawnInfo: Use a [i:CalRD/RuneofCos] in Space
+				DespawnMessage: "[c/ee82ee:Storm Weaver hid itself once again within the stormfront.]"
+			}
+
+			Signus: {
+				EntryName: Signus
+				SpawnInfo: Use a [i:CalRD/RuneofCos] in the Underworld
+				DespawnMessage: "[c/ba55d3:The Devourer's assassin has finished its easy task.]"
+			}
+
+			Polterghast: {
+				EntryName: Polterghast
+				SpawnInfo: Kill 30 phantom spirits or use a [i:CalRD/NecroplasmicBeacon] in the Dungeon
+				DespawnMessage: "[c/b0e0e6:The volatile spirits disperse throughout the depths of the dungeon.]"
+			}
+
+			OldDuke: {
+				EntryName: Old Duke
+				SpawnInfo: Defeat the Acid Rain event post-Polterghast or fish using a [i:CalRD/BloodwormItem] in the Sulphurous Sea
+				DespawnMessage: "[c/f0e68c:The old duke disappears amidst the acidic downpour.]"
+			}
+
+			DevourerOfGods: {
+				EntryName: Devourer of Gods
+				SpawnInfo: Use a [i:CalRD/CosmicWorm]
+				DespawnMessage: "[c/00ffff:The Devourer of Gods has slain everyone and feasted on their essence.]"
+			}
+
+			Yharon: {
+				EntryName: Yharon
+				SpawnInfo: Use a [i:CalRD/ChickenEgg] in the Jungle Biome
+				DespawnMessage: "[c/ffa500:Yharon found you too weak to stay near your gravestone.]"
+			}
+
+			SupremeCalamitas: {
+				SpawnInfo: Use an [i:CalRD/EyeofExtinction]
+				DespawnMessage: "[c/ffa500:Please don't waste my time.]"
+			}
+		}
+	}
+}

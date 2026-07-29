@@ -91,11 +91,7 @@ namespace CalRD.NPCs.Calamitas
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath14;
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/CalamitasClone");
-            else
-                Music = MusicID.Boss2;
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/Calamitas");
         }
 
         public override void SendExtraAI(BinaryWriter writer)

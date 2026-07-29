@@ -83,11 +83,7 @@ namespace CalRD.NPCs.AstrumAureus
             NPC.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = false;
             NPC.boss = true;
             NPC.DeathSound = SoundID.NPCDeath14;
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/AstrumAureus");
-            else
-                Music = MusicID.Boss3;
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/Astrageldon");
             if (NPC.downedMoonlord && CalamityWorld.revenge)
             {
                 NPC.value = Item.buyPrice(0, 35, 0, 0);

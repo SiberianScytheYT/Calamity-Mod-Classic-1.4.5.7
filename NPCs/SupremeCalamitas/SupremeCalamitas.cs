@@ -115,11 +115,7 @@ namespace CalRD.NPCs.SupremeCalamitas
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit4;
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/CalamitasPhase1");
-            else
-                Music = MusicID.Boss2;
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/SCG");
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -592,11 +588,7 @@ namespace CalRD.NPCs.SupremeCalamitas
             }
             if (!startThirdAttack && (NPC.life <= NPC.lifeMax * 0.5))
             {
-                Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-                if (CalamityModMusic != null)
-                    Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/CalamitasPhase2");
-                else
-                    Music = MusicID.Boss3;
+                Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/SCL");
                 string key = "Everything was going well until you came along.";
                 Color messageColor = Color.Orange;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
@@ -658,11 +650,7 @@ namespace CalRD.NPCs.SupremeCalamitas
             }
             if (!startFourthAttack && (NPC.life <= NPC.lifeMax * 0.3))
             {
-                Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-                if (CalamityModMusic != null)
-                    Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/CalamitasPhase3");
-                else
-                    Music = MusicID.LunarBoss;
+                Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/SCE");
                 string key = "Hmm...perhaps I should let the little ones out to play for a while.";
                 Color messageColor = Color.Orange;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
@@ -738,11 +726,7 @@ namespace CalRD.NPCs.SupremeCalamitas
             {
                 if (gettingTired5)
                 {
-                    Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-                    if (CalamityModMusic != null)
-                        Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/CalamitasDefeat");
-                    else
-                        Music = MusicID.Eerie;
+                    Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/SCA");
                     NPC.noGravity = false;
                     NPC.noTileCollide = false;
                     NPC.damage = 0;

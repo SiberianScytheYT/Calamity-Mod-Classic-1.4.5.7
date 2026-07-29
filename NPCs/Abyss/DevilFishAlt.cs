@@ -84,7 +84,7 @@ namespace CalRD.NPCs.Abyss
                     if (Main.netMode != NetmodeID.Server)
                         Gore.NewGore(NPC.GetSource_FromThis(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DevilFishMask" + i + (i == 3 ? "Alt" : "")).Type, 1f);
                 }
-                SoundEngine.PlaySound(new SoundStyle("CalRD/Sounds/Item/DevilMaskBreak"), NPC.position);
+                SoundEngine.PlaySound(new SoundStyle("CalRD/Sounds/Custom/DevilMaskBreak"), NPC.position);
             }
 
             if (NPC.wet)

@@ -132,7 +132,7 @@ namespace CalRD.Schematics
 				for (int y = 0; y < height; ++y)
 				{
 					Tile t = Main.tile[x + cornerX, y + cornerY];
-					originalTiles[x, y] = new SchematicMetaTile();
+					originalTiles[x, y] = new SchematicMetaTile(t);
 				}
 			for (int x = 0; x < width; ++x)
 				for (int y = 0; y < height; ++y)

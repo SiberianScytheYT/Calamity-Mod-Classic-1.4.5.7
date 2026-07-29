@@ -93,18 +93,10 @@ namespace CalRD.NPCs.Yharon
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.netAlways = true;
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/YharonPhase1");
-            else
-                Music = MusicID.Boss1;
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/YHARONREBIRTH");
             if (CalamityWorld.buffedEclipse || BossRushEvent.BossRushActive)
-            {
-                if (CalamityModMusic != null)
-                    Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/YharonLegacy");
-                else
-                    Music = MusicID.Boss3;
-            }
+                Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/YHARON");
+            
             NPC.HitSound = SoundID.NPCHit56;
             NPC.DeathSound = SoundID.NPCDeath60;
         }
@@ -1510,11 +1502,7 @@ namespace CalRD.NPCs.Yharon
 
             if (!moveCloser)
             {
-                Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-                if (CalamityModMusic != null)
-                    Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/YharonPhase2");
-                else
-                    Music = MusicID.LunarBoss;
+                Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/DragonGod");
 
                 moveCloser = true;
 

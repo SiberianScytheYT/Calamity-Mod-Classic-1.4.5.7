@@ -59,11 +59,7 @@ namespace CalRD.NPCs.DesertScourge
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.netAlways = true;
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/DesertScourge");
-            else
-                Music = MusicID.Boss1;
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/DesertScourge");
 
 			if (CalamityWorld.death || BossRushEvent.BossRushActive)
 				NPC.scale = 1.25f;

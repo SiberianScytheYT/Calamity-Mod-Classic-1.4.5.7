@@ -38,7 +38,7 @@ namespace CalRD.Items.Accessories
             int critLevel = Main.player[Main.myPlayer].Calamity().raiderStack;
             foreach (TooltipLine line2 in list)
             {
-                if (line2.Mod == "Terraria" && line2.Name == "Tooltip8")
+                if (line2.Mod == "Terraria" && line2.Name == "Tooltip7")
                 {
                     line2.Text = "Rogue Crit Level: " + critLevel;
                 }

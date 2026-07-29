@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
+using Terraria.ID;
 
 namespace CalRD.Items.Materials
 {
@@ -18,6 +19,7 @@ namespace CalRD.Items.Materials
             Tooltip.SetDefault("May drain your sanity");
 */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

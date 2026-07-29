@@ -1,5 +1,6 @@
 using CalRD.CalPlayer;
 using Terraria;
+using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
@@ -18,6 +19,7 @@ namespace CalRD.Items.Accessories
                 "Revengeance drop");
 */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

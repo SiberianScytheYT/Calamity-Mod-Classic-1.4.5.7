@@ -17,6 +17,7 @@ namespace CalRD.Items.Accessories
                 "+100 max mana and reveals treasure locations if visibility is on");
 */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 8));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

@@ -283,14 +283,25 @@ namespace CalRD.World
             string mapKey = "Sunken Sea Laboratory";
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
             SchematicMetaTile[,] schematic = TileMaps[mapKey];
+            int labWidth = schematic.GetLength(0);
+            int labHeight = schematic.GetLength(1);
 
             do
             {
-                int placementPositionX = WorldGen.genRand.Next(GenVars.UndergroundDesertLocation.Left - 20, GenVars.UndergroundDesertLocation.Left + 10);
-                if (WorldGen.genRand.NextBool(2))
-                    placementPositionX = WorldGen.genRand.Next(GenVars.UndergroundDesertLocation.Right - 10, GenVars.UndergroundDesertLocation.Right + 20);
-                int sunkenSeaHeight = GenVars.UndergroundDesertLocation.Height / 2;
-                int placementPositionY = WorldGen.genRand.Next(GenVars.UndergroundDesertLocation.Bottom + sunkenSeaHeight - 25, GenVars.UndergroundDesertLocation.Bottom + sunkenSeaHeight + 10);
+                // Pick a location based on the Underground Desert, because the Sunken Sea is based on the Underground Desert
+                Rectangle ugDesert = GenVars.UndergroundDesertLocation;
+                int placementPositionX = -1;
+
+                // 50% chance to be on either the left or the right.
+                // If it's on the right then shove it left because all schematics are placed based on their top left corner.
+                if (WorldGen.genRand.NextBool())
+                    placementPositionX = WorldGen.genRand.Next(ugDesert.Left - 20, ugDesert.Left + 10);
+                else
+                    placementPositionX = WorldGen.genRand.Next(ugDesert.Right - 10, ugDesert.Right + 20) - labWidth;
+
+                // Somewhere in the middle third of the Sunken Sea, which itself is in the lower half of the Underground Desert
+                int sunkenSeaHeight = ugDesert.Height / 2;
+                int placementPositionY = (int)(ugDesert.Center.Y + Main.rand.NextFloat(0.33f, 0.67f) * sunkenSeaHeight) - labHeight;
 
                 placementPoint = new Point(placementPositionX, placementPositionY);
                 Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));

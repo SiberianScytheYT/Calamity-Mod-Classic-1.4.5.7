@@ -694,7 +694,11 @@ namespace CalRD.World
 			TileID.MatureHerbs,
 			TileID.Pots,
 			TileID.Pumpkins, // Happens during Halloween
-			TileID.FallenLog
+			TileID.FallenLog,
+			TileID.LilyPad,
+			TileID.VanityTreeSakura,
+			TileID.VanityTreeYellowWillow,
+			TileID.ShellPile
 		};
 
 		public static List<int> WallsForSulphSeaToDestroy = new List<int>()
@@ -847,7 +851,8 @@ namespace CalRD.World
 			TileID.CrimsonVines,
 			TileID.Containers,
 			TileID.DyePlants,
-			TileID.JungleGrass // Yes, this can happen on rare occasion
+			TileID.JungleGrass, // Yes, this can happen on rare occasion
+			TileID.SeaOats
 		};
 		public static void DetermineYStart()
 		{

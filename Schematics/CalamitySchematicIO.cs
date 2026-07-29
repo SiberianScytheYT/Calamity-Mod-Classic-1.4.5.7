@@ -92,6 +92,8 @@ namespace CalRD.Schematics
                 // assign TileWallBrightnessInvisibilityData, both TILE and WALL, from this SMT
                 // if this SMT is from 1.4 and does not possess this data, make no changes
                 ref var targetWBIState = ref (Main.tile[x, y].Get<TileWallBrightnessInvisibilityData>());
+                
+                /*
                 if (brightnessInvisibility.HasValue)
                 {
                     var biActual = brightnessInvisibility.Value;
@@ -100,6 +102,7 @@ namespace CalRD.Schematics
                     targetWBIState.IsTileFullbright = biActual.IsTileFullbright;
                     targetWBIState.IsWallFullbright = biActual.IsWallFullbright;
                 }
+                */
 
                 // assign TileWallWireStateData from this SMT
                 ref var targetWallWireState = ref (Main.tile[x, y].Get<TileWallWireStateData>());
@@ -121,13 +124,13 @@ namespace CalRD.Schematics
 
                 // assign TileWallBrightnessInvisibilityData, both TILE and WALL, from ORIGINAL
                 // no safety check is performed here because original tiles will be from 1.4.4 worlds
-                ref var targetWBIState = ref (Main.tile[x, y].Get<TileWallBrightnessInvisibilityData>());
-                var biOriginal = original.brightnessInvisibility.Value;
+                //ref var targetWBIState = ref (Main.tile[x, y].Get<TileWallBrightnessInvisibilityData>());
+                //var biOriginal = original.brightnessInvisibility.Value;
 
-                targetWBIState.IsTileInvisible = biOriginal.IsTileInvisible;
-                targetWBIState.IsWallInvisible = biOriginal.IsWallInvisible;
-                targetWBIState.IsTileFullbright = biOriginal.IsTileFullbright;
-                targetWBIState.IsWallFullbright = biOriginal.IsWallFullbright;
+                //targetWBIState.IsTileInvisible = biOriginal.IsTileInvisible;
+                //targetWBIState.IsWallInvisible = biOriginal.IsWallInvisible;
+                //targetWBIState.IsTileFullbright = biOriginal.IsTileFullbright;
+                //targetWBIState.IsWallFullbright = biOriginal.IsWallFullbright;
 
                 ref var targetWallWireState = ref (Main.tile[x, y].Get<TileWallWireStateData>());
                 CalamitySchematicIO.AssignWallWireState(ref targetWallWireState, original.wallWireState.NonFrameBits);
@@ -148,7 +151,8 @@ namespace CalRD.Schematics
 
                 // assign TileWallBrightnessInvisibilityData, both TILE and WALL, from this SMT
                 // if this SMT is from 1.4 and does not possess this data, make no changes
-                ref var targetWBIState = ref (Main.tile[x, y].Get<TileWallBrightnessInvisibilityData>());
+                //ref var targetWBIState = ref (Main.tile[x, y].Get<TileWallBrightnessInvisibilityData>());
+                /*
                 if (brightnessInvisibility.HasValue)
                 {
                     var biActual = brightnessInvisibility.Value;
@@ -157,6 +161,7 @@ namespace CalRD.Schematics
                     targetWBIState.IsTileFullbright = biActual.IsTileFullbright;
                     targetWBIState.IsWallFullbright = biActual.IsWallFullbright;
                 }
+                */
 
                 ref var targetWallWireState = ref (Main.tile[x, y].Get<TileWallWireStateData>());
                 CalamitySchematicIO.AssignWallWireState(ref targetWallWireState, wallWireState.NonFrameBits);
@@ -172,9 +177,9 @@ namespace CalRD.Schematics
 
                 // Wall splice of TileWallBrightnessInvisibilityData
                 // no safety check is performed here because original tiles will be from 1.4.4 worlds
-                var biOriginal = original.brightnessInvisibility.Value;
-                targetWBIState.IsWallInvisible = biOriginal.IsWallInvisible;
-                targetWBIState.IsWallFullbright = biOriginal.IsWallFullbright;
+                //var biOriginal = original.brightnessInvisibility.Value;
+                //targetWBIState.IsWallInvisible = biOriginal.IsWallInvisible;
+                //targetWBIState.IsWallFullbright = biOriginal.IsWallFullbright;
             }
             #endregion
 
@@ -192,14 +197,16 @@ namespace CalRD.Schematics
 
                 // assign TileWallBrightnessInvisibilityData, both TILE and WALL, from ORIGINAL
                 // no safety check is performed here because original tiles will be from 1.4.4 worlds
-                ref var targetWBIState = ref (Main.tile[x, y].Get<TileWallBrightnessInvisibilityData>());
-                var biOriginal = original.brightnessInvisibility.Value;
+                //ref var targetWBIState = ref (Main.tile[x, y].Get<TileWallBrightnessInvisibilityData>());
+                //var biOriginal = original.brightnessInvisibility.Value;
 
+                /*
                 targetWBIState.IsTileInvisible = biOriginal.IsTileInvisible;
                 targetWBIState.IsWallInvisible = biOriginal.IsWallInvisible;
                 targetWBIState.IsTileFullbright = biOriginal.IsTileFullbright;
                 targetWBIState.IsWallFullbright = biOriginal.IsWallFullbright;
-
+                */
+                
                 ref var targetWallWireState = ref (Main.tile[x, y].Get<TileWallWireStateData>());
                 CalamitySchematicIO.AssignWallWireState(ref targetWallWireState, original.wallWireState.NonFrameBits);
                 targetWallWireState.TileFrameX = original.wallWireState.TileFrameX;
@@ -213,12 +220,14 @@ namespace CalRD.Schematics
                 targetWallWireState.WallFrameY = wallWireState.WallFrameY;
 
                 // Wall splice of TileWallBrightnessInvisibilityData
+                /*
                 if (brightnessInvisibility.HasValue)
                 {
                     var biActual = brightnessInvisibility.Value;
                     targetWBIState.IsWallInvisible = biActual.IsWallInvisible;
                     targetWBIState.IsWallFullbright = biActual.IsWallFullbright;
                 }
+                */
             }
             #endregion
         }

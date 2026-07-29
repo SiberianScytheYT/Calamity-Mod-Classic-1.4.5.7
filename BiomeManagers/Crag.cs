@@ -7,9 +7,7 @@ namespace CalRD.BiomeManagers
 {
 	public class Crag : ModBiome
 	{
-		Mod _musicMod = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-
-		public override int Music => (_musicMod != null) ? MusicLoader.GetMusicSlot(_musicMod, "Sounds/Music/BrimstoneCrags") : MusicID.Eerie;
+		public override int Music => MusicLoader.GetMusicSlot("CalRD/Sounds/Music/Crag");
 		
 		public override SceneEffectPriority Priority => SceneEffectPriority.Environment;
 		

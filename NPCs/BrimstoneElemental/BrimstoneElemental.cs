@@ -86,11 +86,7 @@ namespace CalRD.NPCs.BrimstoneElemental
             NPC.netAlways = true;
             NPC.HitSound = SoundID.NPCHit23;
             NPC.DeathSound = SoundID.NPCDeath39;
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/BrimstoneElemental");
-            else
-                Music = MusicID.Boss4;
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/LeftAlone");
         }
 
         public override void SendExtraAI(BinaryWriter writer)

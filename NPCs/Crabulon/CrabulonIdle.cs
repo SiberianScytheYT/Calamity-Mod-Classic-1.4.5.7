@@ -49,11 +49,7 @@ namespace CalRD.NPCs.Crabulon
             NPC.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
             NPC.noGravity = false;
             NPC.noTileCollide = false;
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/Crabulon");
-            else
-                Music = MusicID.Boss4;
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/Crabulon");
             NPC.boss = true;
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(0, 4, 0, 0);

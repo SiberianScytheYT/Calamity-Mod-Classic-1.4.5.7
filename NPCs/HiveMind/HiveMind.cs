@@ -39,11 +39,7 @@ namespace CalRD.NPCs.HiveMind
             NPC.value = 0f;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/HiveMind");
-            else
-                Music = MusicID.Boss2;
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/HiveMind");
         }
 
         public override void SendExtraAI(BinaryWriter writer)

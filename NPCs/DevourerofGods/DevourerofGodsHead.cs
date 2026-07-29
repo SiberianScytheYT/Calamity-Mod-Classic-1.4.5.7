@@ -74,11 +74,7 @@ namespace CalRD.NPCs.DevourerofGods
             {
                 NPC.buffImmune[k] = true;
             }
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/DevourerofGodsPhase1");
-            else
-                Music = MusicID.Boss3;
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/ScourgeofTheUniverse");
         }
 
         public override void SendExtraAI(BinaryWriter writer)

@@ -42,18 +42,11 @@ namespace CalRD.NPCs.CeaselessVoid
             global.DR = 0.999999f;
             //global.unbreakableDR = true;
             NPC.lifeMax = 200;
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/DevourerofGodsPhase1");
-            else
-                Music = MusicID.Boss3;
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/ScourgeofTheUniverse");
             if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
                 NPC.value = Item.buyPrice(0, 35, 0, 0);
-                if (CalamityModMusic != null)
-                    Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/CeaselessVoid");
-                else
-                    Music = MusicID.Boss3;
+                Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/Void");
             }
             NPC.aiStyle = -1;
             AIType = -1;

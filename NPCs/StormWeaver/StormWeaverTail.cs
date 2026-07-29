@@ -25,18 +25,10 @@ namespace CalRD.NPCs.StormWeaver
             NPC.takenDamageMultiplier = CalamityWorld.death ? 3f : 10f;
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2;
 			NPC.LifeMaxNERB(notDoGFight ? 100000 : 20000, notDoGFight ? 100000 : 20000, 170000);
-			Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/DevourerofGodsPhase1");
-            else
-                Music = MusicID.Boss3;
+			Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/ScourgeofTheUniverse");
             if (notDoGFight)
-            {
-                if (CalamityModMusic != null)
-                    Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/StormWeaver");
-                else
-                    Music = MusicID.Boss3;
-            }
+                Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/Weaver");
+            
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;

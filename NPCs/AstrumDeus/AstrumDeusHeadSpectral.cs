@@ -65,11 +65,7 @@ namespace CalRD.NPCs.AstrumDeus
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = new SoundStyle("CalRD/Sounds/NPCKilled/AstrumDeusDeath");
             NPC.netAlways = true;
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/AstrumDeus");
-            else
-                Music = MusicID.Boss3;
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/AstrumDeus");
         }
 
         public override void SendExtraAI(BinaryWriter writer)

@@ -60,11 +60,7 @@ namespace CalRD.NPCs.Perforator
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit13;
             NPC.DeathSound = SoundID.NPCDeath19;
-            Mod CalamityModMusic = ModLoader.HasMod("CalamityModMusic") ? ModLoader.GetMod("CalamityModMusic") : null;
-            if (CalamityModMusic != null)
-                Music = MusicLoader.GetMusicSlot("CalamityModMusic/Sounds/Music/Perforators");
-            else
-                Music = MusicID.Boss2;
+            Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/BloodCoagulant");
         }
 
         public override void FindFrame(int frameHeight)
