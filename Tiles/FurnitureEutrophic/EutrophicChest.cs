@@ -9,6 +9,8 @@ namespace CalRD.Tiles.FurnitureEutrophic
 {
     public class EutrophicChest : ModTile
     {
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => ItemLoader.GetItem(ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicChest>()).GetLocalization("DisplayName");
+
         public override void SetStaticDefaults()
         {
             this.SetUpChest(true);

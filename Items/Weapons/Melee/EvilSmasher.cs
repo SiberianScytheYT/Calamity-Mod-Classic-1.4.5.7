@@ -34,7 +34,7 @@ namespace CalRD.Items.Weapons.Melee
             Item.Calamity().customRarity = CalamityRarity.RareVariant;
         }
 
-		public override float UseTimeMultiplier	(Player player)
+		public override float UseSpeedMultiplier(Player player)
 		{
 			if (player.Calamity().brimlashBusterBoost)
 				return 2f;
@@ -43,10 +43,10 @@ namespace CalRD.Items.Weapons.Melee
 
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
 		{
-			float damageMult = 0f;
+			float damageMult = 1f;
             if (player.Calamity().brimlashBusterBoost)
-				damageMult = 0.5f;
-			damage.Base += damageMult;
+				damageMult += 0.5f;
+			damage *= damageMult;
 		}
 
         public override void ModifyWeaponKnockback(Player player, ref StatModifier knockback)

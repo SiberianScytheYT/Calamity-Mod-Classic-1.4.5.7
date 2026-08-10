@@ -9,6 +9,8 @@ namespace CalRD.Tiles.FurnitureStratus
 {
     public class StratusDresser : ModTile
     {
+         public override LocalizedText DefaultContainerName(int frameX, int frameY) => ItemLoader.GetItem(ModContent.ItemType<Items.Placeables.FurnitureStratus.StratusDresser>()).GetLocalization("DisplayName");
+
         public override void SetStaticDefaults()
         {
             this.SetUpDresser();

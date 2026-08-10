@@ -10,6 +10,8 @@ namespace CalRD.Tiles.FurnitureAncient
 {
     public class AncientDresser : ModTile
     {
+         public override LocalizedText DefaultContainerName(int frameX, int frameY) => ItemLoader.GetItem(ModContent.ItemType<Items.Placeables.FurnitureAncient.AncientDresser>()).GetLocalization("DisplayName");
+
         public override void SetStaticDefaults()
         {
             this.SetUpDresser();

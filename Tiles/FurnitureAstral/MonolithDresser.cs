@@ -12,6 +12,8 @@ namespace CalRD.Tiles.FurnitureAstral
 {
     public class MonolithDresser : ModTile
     {
+         public override LocalizedText DefaultContainerName(int frameX, int frameY) => ItemLoader.GetItem(ModContent.ItemType<Items.Placeables.FurnitureAstral.MonolithDresser>()).GetLocalization("DisplayName");
+
         public override void SetStaticDefaults()
         {
             this.SetUpDresser();

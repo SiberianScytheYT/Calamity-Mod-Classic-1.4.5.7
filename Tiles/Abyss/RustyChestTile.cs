@@ -10,6 +10,8 @@ namespace CalRD.Tiles.Abyss
 {
     public class RustyChestTile : ModTile
     {
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => ItemLoader.GetItem(ModContent.ItemType<RustyChest>()).GetLocalization("DisplayName");
+
         public override void SetStaticDefaults()
         {
             this.SetUpChest();

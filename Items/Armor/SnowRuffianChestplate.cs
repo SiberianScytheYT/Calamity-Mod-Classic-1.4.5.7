@@ -7,6 +7,24 @@ namespace CalRD.Items.Armor
 	[AutoloadEquip(EquipType.Body)]
     public class SnowRuffianChestplate : ModItem
     {
+        public override void Load()
+        {
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
+            EquipLoader.AddEquipTexture(Mod, Texture + "_Back", EquipType.Back, this);
+            EquipLoader.AddEquipTexture(Mod, Texture + "_Neck", EquipType.Neck, this);
+        }
+
+        public override void EquipFrameEffects(Player player, EquipType type)
+        { 
+            if (player.body == Item.bodySlot)
+            {
+                player.back = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Back);
+                player.neck = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Neck);
+            }
+        }
+
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Snow Ruffian Chestplate");

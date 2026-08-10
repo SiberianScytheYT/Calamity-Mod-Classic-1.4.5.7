@@ -12,6 +12,8 @@ namespace CalRD.Tiles.FurnitureAstral
 {
     public class MonolithChest : ModTile
     {
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => ItemLoader.GetItem(ModContent.ItemType<Items.Placeables.FurnitureAstral.MonolithChest>()).GetLocalization("DisplayName");
+
         public override void SetStaticDefaults()
         {
             this.SetUpChest();

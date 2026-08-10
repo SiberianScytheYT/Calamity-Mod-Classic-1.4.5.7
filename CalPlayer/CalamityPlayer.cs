@@ -4063,8 +4063,8 @@ namespace CalRD.CalPlayer
         }
         #endregion
 
-        #region Use Time Mult
-        public override float UseTimeMultiplier(Item item)
+        #region Use Speed Mult
+        public override float UseSpeedMultiplier(Item item)
         {
             if (silvaRanged)
             {
@@ -7020,17 +7020,15 @@ namespace CalRD.CalPlayer
         #endregion
 
         #region Fishing
-        /*
         public override void CatchFish(FishingAttempt attempt, ref int itemDrop, ref int npcSpawn, ref AdvancedPopupRequest sonar, ref Vector2 sonarPosition)
         {
-            CalamityPlayerFishing.CalamityCatchFish(Player, ref fishingRod, ref bait, ref power, ref liquidType, ref poolSize, ref worldLayer, ref questFish, ref caughtType, ref junk);
+            CalamityPlayerFishing.CalamityCatchFish(Player, attempt, ref itemDrop, ref npcSpawn, ref sonar, ref sonarPosition);
         }
 
-        public override void GetFishingLevel(Item fishingRod, Item bait, ref int fishingLevel)
+        public override void GetFishingLevel(Item fishingRod, Item bait, ref float fishingLevel)
         {
             CalamityPlayerFishing.CalamityGetFishingLevel(Player, ref fishingRod, ref bait, ref fishingLevel);
         }
-        */
         #endregion
 
         #region Shoot
@@ -7185,7 +7183,9 @@ namespace CalRD.CalPlayer
             {
                 Player.legs = EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Legs);
                 Player.body = EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Body);
+                Player.neck = (sbyte)EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Neck);
                 Player.head = EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Head);
+                Player.face = -1;
             }
             else if ((omegaBlueTransformationPower || omegaBlueTransformationForce) && omegaBlueCooldown > 1500)
             {

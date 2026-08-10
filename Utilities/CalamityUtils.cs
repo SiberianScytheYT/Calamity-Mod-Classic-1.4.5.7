@@ -3235,6 +3235,7 @@ namespace CalRD
 
 			// All dressers count as tables.
 			mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
+			TileID.Sets.BasicDresser[mt.Type] = true;
 		}
 
 		/// <summary>

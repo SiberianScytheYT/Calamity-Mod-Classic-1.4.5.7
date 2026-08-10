@@ -10,6 +10,8 @@ namespace CalRD.Tiles.FurnitureBotanic
 {
     public class BotanicChest : ModTile
     {
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => ItemLoader.GetItem(ModContent.ItemType<Items.Placeables.FurnitureBotanic.BotanicChest>()).GetLocalization("DisplayName");
+
         public override void SetStaticDefaults()
         {
             this.SetUpChest(true);

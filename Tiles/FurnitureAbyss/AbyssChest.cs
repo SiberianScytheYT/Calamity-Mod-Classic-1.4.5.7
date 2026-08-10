@@ -10,6 +10,8 @@ namespace CalRD.Tiles.FurnitureAbyss
 {
     public class AbyssChest : ModTile
     {
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => ItemLoader.GetItem(ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssChest>()).GetLocalization("DisplayName");
+
         public override void SetStaticDefaults()
         {
             this.SetUpChest();

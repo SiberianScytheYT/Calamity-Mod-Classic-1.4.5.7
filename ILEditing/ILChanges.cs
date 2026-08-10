@@ -73,7 +73,7 @@ namespace CalRD.ILEditing
             Terraria.IL_WorldGen.MakeDungeon += (il) =>
             {
                 var cursor = new ILCursor(il);
-                if (!cursor.TryGotoNext(i => i.MatchStsfld("Terraria.WorldGen", "dMaxY")))
+                if (!cursor.TryGotoNext(i => i.MatchStsfld("Terraria.WorldBuilding.GenVars", "dMaxY")))
                 {
                     CalRD.Instance.Logger.Warn("Dungeon movement editing code failed.");
                     return;

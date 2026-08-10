@@ -13,7 +13,7 @@ namespace CalRD.Items.LoreItems
             //DisplayName.SetDefault("The Sentinels of the Devourer");
 /*
             Tooltip.SetDefault("Signus. The Void. The Weaver.\n" +
-                "Each represent one of the Devourer?s largest spheres of influence.\n" +
+                "Each represent one of the Devourer's largest spheres of influence.\n" +
                 "Dispatching them has most likely invoked its anger and marked you as a target for destruction.");
 */
         }

@@ -10,6 +10,8 @@ namespace CalRD.Tiles.FurnitureSilva
 {
     public class SilvaDresser : ModTile
     {
+         public override LocalizedText DefaultContainerName(int frameX, int frameY) => ItemLoader.GetItem(ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaDresser>()).GetLocalization("DisplayName");
+
         public override void SetStaticDefaults()
         {
             this.SetUpDresser();

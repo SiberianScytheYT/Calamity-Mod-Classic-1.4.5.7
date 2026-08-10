@@ -10,6 +10,8 @@ namespace CalRD.Tiles.DraedonStructures
 {
     public class AgedSecurityChestTile : ModTile
     {
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => ItemLoader.GetItem(ModContent.ItemType<AgedSecurityChest>()).GetLocalization("DisplayName");
+
         public override void SetStaticDefaults()
         {
             this.SetUpChest();

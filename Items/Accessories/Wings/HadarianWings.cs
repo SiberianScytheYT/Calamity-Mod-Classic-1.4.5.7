@@ -26,7 +26,7 @@ namespace CalRD.Items.Accessories.Wings
                 "Flight time: 120\n" +
                 "20% increased movement speed and 8% increased jump speed while wearing the Astral Armor");
 */
-            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(120, 9f, 1.75f);
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(120, 9f, 1.75f, true, 11.6f, 11.6f);
         }
 
         public override void SetDefaults()
@@ -46,7 +46,7 @@ namespace CalRD.Items.Accessories.Wings
                 player.jumpSpeedBoost += 0.4f;
             }
 
-            if (player.controlJump && player.wingTime > 0f &&  !VanillaExtraJump.CloudInABottle.CanStart(player) && player.jump == 0)
+            if (player.controlJump && player.wingTime > 0f && !VanillaExtraJump.CloudInABottle.CanStart(player) && player.jump == 0)
             {
                 if (player.controlDown && !player.merman)
                 {
@@ -85,6 +85,13 @@ namespace CalRD.Items.Accessories.Wings
             maxCanAscendMultiplier = 1.05f;
             maxAscentMultiplier = 2.55f;
             constantAscend = 0.13f;
+            if (player.TryingToHoverDown && player.controlJump && player.wingTime > 0f && !player.merman)
+            {
+                player.wingTime += 0.5f;
+                player.velocity.Y *= 0.8f;
+                if (player.velocity.Y > -2f && player.velocity.Y < 1f)
+                    player.velocity.Y = 1E-05f;
+            }
         }
 
         public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)

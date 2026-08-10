@@ -237,58 +237,42 @@ namespace CalRD.NPCs.TownNPCs
             }
         }
 
-        public override void ModifyActiveShop(string shopName, Item[] items) //charges 50% extra than the original item value
+        public override void AddShops() //charges 50% extra than the original item value
         {
+            Condition downedAstrageldon = ShopHelper.Create("downedAstrageldon", () => CalamityWorld.downedAstrageldon);
 	        NPCShop shop = new(Type);
-            shop.AddWithCustomValue(ModContent.ItemType<GrapeBeer>(), Item.buyPrice(0, 1, 0, 0));
-            shop.AddWithCustomValue(ModContent.ItemType<RedWine>(), Item.buyPrice(0, 3, 0, 0));
-			shop.AddWithCustomValue(ModContent.ItemType<Whiskey>(), Item.buyPrice(0, 5, 0, 0));
-			shop.AddWithCustomValue(ModContent.ItemType<Rum>(), Item.buyPrice(0, 7, 50, 0));
-			shop.AddWithCustomValue(ModContent.ItemType<Tequila>(), Item.buyPrice(0, 7, 50, 0));
-			shop.AddWithCustomValue(ModContent.ItemType<Fireball>(), Item.buyPrice(0, 10, 0, 0));
-			shop.AddWithCustomValue(ModContent.ItemType<FabsolsVodka>(), Item.buyPrice(0, 15, 0, 0));
+            shop.AddWithCustomValue(ModContent.ItemType<GrapeBeer>(), Item.buyPrice(0, 1, 0, 0))
+            .AddWithCustomValue(ModContent.ItemType<RedWine>(), Item.buyPrice(0, 3, 0, 0))
+			.AddWithCustomValue(ModContent.ItemType<Whiskey>(), Item.buyPrice(0, 5, 0, 0))
+			.AddWithCustomValue(ModContent.ItemType<Rum>(), Item.buyPrice(0, 7, 50, 0))
+			.AddWithCustomValue(ModContent.ItemType<Tequila>(), Item.buyPrice(0, 7, 50, 0))
+			.AddWithCustomValue(ModContent.ItemType<Fireball>(), Item.buyPrice(0, 10, 0, 0))
+			.AddWithCustomValue(ModContent.ItemType<FabsolsVodka>(), Item.buyPrice(0, 15, 0, 0))
 
-			if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
-			{
-				shop.AddWithCustomValue(ModContent.ItemType<Vodka>(), Item.buyPrice(0, 5, 0, 0));
-				shop.AddWithCustomValue(ModContent.ItemType<Screwdriver>(), Item.buyPrice(0, 25, 0, 0));
-				shop.AddWithCustomValue(ModContent.ItemType<WhiteWine>(), Item.buyPrice(0, 25, 0, 0));
-			}
+			.AddWithCustomValue(ModContent.ItemType<Vodka>(), Item.buyPrice(0, 5, 0, 0), Condition.DownedDestroyer, Condition.DownedTwins, Condition.DownedSkeletronPrime)
+            .AddWithCustomValue(ModContent.ItemType<Screwdriver>(), Item.buyPrice(0, 25, 0, 0), Condition.DownedDestroyer, Condition.DownedTwins, Condition.DownedSkeletronPrime)
+            .AddWithCustomValue(ModContent.ItemType<WhiteWine>(), Item.buyPrice(0, 25, 0, 0), Condition.DownedDestroyer, Condition.DownedTwins, Condition.DownedSkeletronPrime)
 
-			if (NPC.downedPlantBoss)
-			{
-				shop.AddWithCustomValue(ModContent.ItemType<EvergreenGin>(), Item.buyPrice(0, 25, 0, 0));
-				shop.AddWithCustomValue(ModContent.ItemType<CaribbeanRum>(), Item.buyPrice(0, 30, 0, 0));
-				shop.AddWithCustomValue(ModContent.ItemType<Margarita>(), Item.buyPrice(0, 35, 0, 0));
-			}
+			.AddWithCustomValue(ModContent.ItemType<EvergreenGin>(), Item.buyPrice(0, 25, 0, 0), Condition.DownedPlantera)
+            .AddWithCustomValue(ModContent.ItemType<CaribbeanRum>(), Item.buyPrice(0, 30, 0, 0), Condition.DownedPlantera)
+            .AddWithCustomValue(ModContent.ItemType<Margarita>(), Item.buyPrice(0, 35, 0, 0), Condition.DownedPlantera)
+            
+            .AddWithCustomValue(ModContent.ItemType<Everclear>(), Item.buyPrice(0, 10, 0, 0), downedAstrageldon)
 
-            if (CalamityWorld.downedAstrageldon)
-            {
-				shop.AddWithCustomValue(ModContent.ItemType<Everclear>(), Item.buyPrice(0, 10, 0, 0));
+            .AddWithCustomValue(ModContent.ItemType<BloodyMary>(), Item.buyPrice(0, 15, 0, 0), Condition.BloodMoon, downedAstrageldon)
+            .AddWithCustomValue(ModContent.ItemType<StarBeamRye>(), Item.buyPrice(0, 20, 0, 0), Condition.TimeNight, downedAstrageldon)
 
-				if (Main.bloodMoon)
-				{
-					shop.AddWithCustomValue(ModContent.ItemType<BloodyMary>(), Item.buyPrice(0, 15, 0, 0));
-				}
-
-				if (!Main.dayTime)
-				{
-					shop.AddWithCustomValue(ModContent.ItemType<StarBeamRye>(), Item.buyPrice(0, 20, 0, 0));
-				}
-			}
-
-			if (NPC.downedGolemBoss)
-			{
-				shop.AddWithCustomValue(ModContent.ItemType<Moonshine>(), Item.buyPrice(0, 5, 0, 0));
-				shop.AddWithCustomValue(ModContent.ItemType<MoscowMule>(), Item.buyPrice(0, 25, 0, 0));
-				shop.AddWithCustomValue(ModContent.ItemType<CinnamonRoll>(), Item.buyPrice(0, 25, 0, 0));
-				shop.AddWithCustomValue(ModContent.ItemType<TequilaSunrise>(), Item.buyPrice(0, 30, 0, 0));
-			}
-            shop.AddWithCustomValue(ModContent.ItemType<BlueCandle>(), Item.buyPrice(2, 0, 0, 0));
-            shop.AddWithCustomValue(ModContent.ItemType<PinkCandle>(), Item.buyPrice(2, 0, 0, 0));
-            shop.AddWithCustomValue(ModContent.ItemType<PurpleCandle>(), Item.buyPrice(2, 0, 0, 0));
-            shop.AddWithCustomValue(ModContent.ItemType<YellowCandle>(), Item.buyPrice(2, 0, 0, 0));
-            shop.AddWithCustomValue(ModContent.ItemType<OddMushroom>(), Item.buyPrice(3, 0, 0, 0));
+			.AddWithCustomValue(ModContent.ItemType<Moonshine>(), Item.buyPrice(0, 5, 0, 0), Condition.DownedGolem)
+            .AddWithCustomValue(ModContent.ItemType<MoscowMule>(), Item.buyPrice(0, 25, 0, 0), Condition.DownedGolem)
+            .AddWithCustomValue(ModContent.ItemType<CinnamonRoll>(), Item.buyPrice(0, 25, 0, 0), Condition.DownedGolem)
+            .AddWithCustomValue(ModContent.ItemType<TequilaSunrise>(), Item.buyPrice(0, 30, 0, 0), Condition.DownedGolem)
+			
+            .AddWithCustomValue(ModContent.ItemType<BlueCandle>(), Item.buyPrice(2, 0, 0, 0))
+            .AddWithCustomValue(ModContent.ItemType<PinkCandle>(), Item.buyPrice(2, 0, 0, 0))
+            .AddWithCustomValue(ModContent.ItemType<PurpleCandle>(), Item.buyPrice(2, 0, 0, 0))
+            .AddWithCustomValue(ModContent.ItemType<YellowCandle>(), Item.buyPrice(2, 0, 0, 0))
+            .AddWithCustomValue(ModContent.ItemType<OddMushroom>(), Item.buyPrice(3, 0, 0, 0))
+            .Register();
         }
 
         // Make this Town NPC teleport to the Queen statue when triggered.

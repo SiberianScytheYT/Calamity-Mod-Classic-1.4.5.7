@@ -9,6 +9,8 @@ namespace CalRD.Tiles.FurnitureCosmilite
 {
     public class CosmiliteDresser : ModTile
     {
+         public override LocalizedText DefaultContainerName(int frameX, int frameY) => ItemLoader.GetItem(ModContent.ItemType<Items.Placeables.FurnitureCosmilite.CosmiliteDresser>()).GetLocalization("DisplayName");
+
         public override void SetStaticDefaults()
         {
             this.SetUpDresser();

@@ -9,6 +9,8 @@ namespace CalRD.Tiles.FurnitureEutrophic
 {
     public class EutrophicDresser : ModTile
     {
+         public override LocalizedText DefaultContainerName(int frameX, int frameY) => ItemLoader.GetItem(ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicDresser>()).GetLocalization("DisplayName");
+
         public override void SetStaticDefaults()
         {
             this.SetUpDresser();

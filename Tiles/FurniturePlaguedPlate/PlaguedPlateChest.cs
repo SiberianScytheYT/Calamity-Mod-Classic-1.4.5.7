@@ -9,6 +9,8 @@ namespace CalRD.Tiles.FurniturePlaguedPlate
 {
     public class PlaguedPlateChest : ModTile
     {
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => ItemLoader.GetItem(ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateChest>()).GetLocalization("DisplayName");
+
         public override void SetStaticDefaults()
         {
             this.SetUpChest(true);

@@ -10,6 +10,8 @@ namespace CalRD.Tiles.FurnitureSilva
 {
     public class SilvaChest : ModTile
     {
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => ItemLoader.GetItem(ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaChest>()).GetLocalization("DisplayName");
+
         public override void SetStaticDefaults()
         {
             this.SetUpChest(true);

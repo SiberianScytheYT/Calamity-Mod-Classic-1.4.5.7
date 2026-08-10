@@ -1,4 +1,5 @@
-﻿using CalRD.Items;
+﻿using System;
+using CalRD.Items;
 using CalRD.Items.Accessories;
 using CalRD.Items.Ammo;
 using CalRD.Items.Armor;
@@ -22,8 +23,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
+using ShopHelper = CalRD.Utilities.ShopHelper;
 
 namespace CalRD.NPCs
 {
@@ -1155,146 +1158,147 @@ namespace CalRD.NPCs
 		#endregion
 
 		#region Shop Stuff
-		public static void ShopSetup(int type, Mod mod, ref Chest shop, ref int nextSlot)
+		public static void ShopSetup(NPCShop shop)
 		{
+			int type = shop.NpcType;
 			if (type == NPCID.Merchant)
 			{
-				SetShopItem(ref shop, ref nextSlot, ItemID.Flare, (Main.LocalPlayer.HasItem(ItemType<FirestormCannon>()) || Main.LocalPlayer.HasItem(ItemType<SpectralstormCannon>())) && !Main.LocalPlayer.HasItem(ItemID.FlareGun));
-				SetShopItem(ref shop, ref nextSlot, ItemID.BlueFlare, (Main.LocalPlayer.HasItem(ItemType<FirestormCannon>()) || Main.LocalPlayer.HasItem(ItemType<SpectralstormCannon>())) && !Main.LocalPlayer.HasItem(ItemID.FlareGun));
-				SetShopItem(ref shop, ref nextSlot, ItemID.ApprenticeBait, NPC.downedBoss1);
-				SetShopItem(ref shop, ref nextSlot, ItemID.JourneymanBait, NPC.downedBoss3);
-				SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.Vilethorn : ItemID.CrimsonRod, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
-				SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.BallOHurt : ItemID.TheRottedFork, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
-				SetShopItem(ref shop, ref nextSlot, ItemID.MasterBait, NPC.downedPlantBoss);
-				SetShopItem(ref shop, ref nextSlot, ItemID.AngelStatue, NPC.FindFirstNPC(NPCType<THIEF>()) != -1, Item.buyPrice(0, 5));
-				SetShopItem(ref shop, ref nextSlot, ItemID.UltrabrightTorch, CalamityWorld.death);
+				shop.Add(ItemID.Flare, hasFlareGunUpgrade)
+				.Add(ItemID.BlueFlare, hasFlareGunUpgrade)
+				.Add(ItemID.ApprenticeBait, Condition.DownedEyeOfCthulhu)
+				.Add(ItemID.JourneymanBait, Condition.DownedSkeletron)
+				.Add(WorldGen.crimson ? ItemID.Vilethorn : ItemID.CrimsonRod, downedEvilorSmashedOrb)
+				.Add(WorldGen.crimson ? ItemID.BallOHurt : ItemID.TheRottedFork, downedEvilorSmashedOrb)
+				.Add(ItemID.MasterBait, Condition.DownedPlantera)
+				.AddWithCustomValue(ItemID.AngelStatue, Item.buyPrice(0, 5), Condition.NpcIsPresent(NPCType<THIEF>()))
+				.Add(ItemID.UltrabrightTorch, deathActive);
 			}
 
 			// Because of the defiled condition, the dye trader does not receive an alert icon when hardmode starts.
 			if (type == NPCID.DyeTrader)
 			{
-				SetShopItem(ref shop, ref nextSlot, ItemType<DefiledFlameDye>(), Main.hardMode && CalamityWorld.defiled, Item.buyPrice(0, 10));
+				shop.AddWithCustomValue(ItemType<DefiledFlameDye>(), Item.buyPrice(0, 10), defiledHM);
 			}
 
 			if (type == NPCID.ArmsDealer)
 			{
-				SetShopItem(ref shop, ref nextSlot, ItemID.Stake, Main.LocalPlayer.HasItem(ItemType<Impaler>()));
-				SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.Musket : ItemID.TheUndertaker, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
-				SetShopItem(ref shop, ref nextSlot, ItemID.Boomstick, NPC.downedQueenBee, price: Item.buyPrice(0, 20, 0, 0));
-				SetShopItem(ref shop, ref nextSlot, ItemID.TacticalShotgun, NPC.downedGolemBoss, Item.buyPrice(0, 25));
-				SetShopItem(ref shop, ref nextSlot, ItemID.SniperRifle, NPC.downedGolemBoss, Item.buyPrice(0, 25));
+				shop.Add(ItemID.Stake, hasImpaler)
+					.Add(WorldGen.crimson ? ItemID.Musket : ItemID.TheUndertaker, downedEvilorSmashedOrb)
+				.AddWithCustomValue(ItemID.Boomstick, Item.buyPrice(0, 20, 0, 0), Condition.DownedQueenBee)
+				.AddWithCustomValue(ItemID.TacticalShotgun, Item.buyPrice(0, 25), Condition.DownedGolem)
+				.AddWithCustomValue(ItemID.SniperRifle, Item.buyPrice(0, 25), Condition.DownedGolem);
 			}
 
 			if (type == NPCID.Stylist)
 			{
-				SetShopItem(ref shop, ref nextSlot, ItemType<StealthHairDye>(), Main.LocalPlayer.Calamity().rogueStealthMax > 0f && Main.LocalPlayer.Calamity().wearingRogueArmor);
-				SetShopItem(ref shop, ref nextSlot, ItemType<WingTimeHairDye>(), Main.LocalPlayer.wingTimeMax > 0);
-				SetShopItem(ref shop, ref nextSlot, ItemType<AdrenalineHairDye>(), CalamityWorld.revenge && CalamityConfig.Instance.Rippers);
-				SetShopItem(ref shop, ref nextSlot, ItemType<RageHairDye>(), CalamityWorld.revenge && CalamityConfig.Instance.Rippers);
+				shop.Add(ItemType<StealthHairDye>(), rogueActive)
+				.Add(ItemType<WingTimeHairDye>(), hasWings)
+				.Add(ItemType<AdrenalineHairDye>(), rippersEnabled)
+				.Add(ItemType<RageHairDye>(), rippersEnabled);
 			}
 
 			if (type == NPCID.Cyborg)
 			{
-				SetShopItem(ref shop, ref nextSlot, ItemID.RocketLauncher, NPC.downedGolemBoss, Item.buyPrice(0, 25));
-				SetShopItem(ref shop, ref nextSlot, ItemType<LionHeart>(), CalamityWorld.downedPolterghast);
+				shop.AddWithCustomValue(ItemID.RocketLauncher, Item.buyPrice(0, 25), Condition.DownedGolem)
+				.Add(ItemType<LionHeart>(), downedPolterghast);
 			}
 
 			if (type == NPCID.Pirate)
 			{
-				SetShopItem(ref shop, ref nextSlot, ItemID.PirateMap, price: Item.buyPrice(gold: 5));
+				shop.AddWithCustomValue(ItemID.PirateMap, Item.buyPrice(gold: 5));
 			}
 
 			if (type == NPCID.Dryad)
 			{
-				SetShopItem(ref shop, ref nextSlot, ItemID.JungleRose, price: Item.buyPrice(0, 2));
-				SetShopItem(ref shop, ref nextSlot, ItemID.NaturesGift, price: Item.buyPrice(0, 10));
-				SetShopItem(ref shop, ref nextSlot, ItemID.SlimeCrown, NPC.downedSlimeKing && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 2));
-				SetShopItem(ref shop, ref nextSlot, ItemID.SuspiciousLookingEye, NPC.downedBoss1 && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 3));
-				SetShopItem(ref shop, ref nextSlot, ItemType<DecapoditaSprout>(), CalamityWorld.downedCrabulon, Item.buyPrice(0, 4));
-				SetShopItem(ref shop, ref nextSlot, ItemID.BloodySpine, NPC.downedBoss2 && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 6));
-				SetShopItem(ref shop, ref nextSlot, ItemID.WormFood, NPC.downedBoss2 && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 6));
-				SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.BandofStarpower : ItemID.PanicNecklace, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
-				SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.WormScarf : ItemID.BrainOfConfusion, Main.expertMode && NPC.downedBoss2);
-				SetShopItem(ref shop, ref nextSlot, ItemType<BloodyWormFood>(), CalamityWorld.downedPerforator, Item.buyPrice(0, 10));
-				SetShopItem(ref shop, ref nextSlot, ItemType<RottenBrain>(), CalamityWorld.downedPerforator && Main.expertMode);
-				SetShopItem(ref shop, ref nextSlot, ItemType<Teratoma>(), CalamityWorld.downedHiveMind, Item.buyPrice(0, 10));
-				SetShopItem(ref shop, ref nextSlot, ItemType<BloodyWormTooth>(), CalamityWorld.downedHiveMind && Main.expertMode);
-				SetShopItem(ref shop, ref nextSlot, ItemType<OverloadedSludge>(), CalamityWorld.downedSlimeGod, Item.buyPrice(0, 15));
-				SetShopItem(ref shop, ref nextSlot, ItemType<RomajedaOrchid>());
+				shop.AddWithCustomValue(ItemID.JungleRose, Item.buyPrice(0, 2))
+				.AddWithCustomValue(ItemID.NaturesGift, Item.buyPrice(0, 10))
+				.AddWithCustomValue(ItemID.SlimeCrown, Item.buyPrice(0, 2), Condition.DownedKingSlime, sellVanillaSummons)
+				.AddWithCustomValue(ItemID.SuspiciousLookingEye, Item.buyPrice(0, 3), Condition.DownedEyeOfCthulhu, sellVanillaSummons)
+				.AddWithCustomValue(ItemType<DecapoditaSprout>(), Item.buyPrice(0, 4), downedCrabulon)
+				.AddWithCustomValue(ItemID.BloodySpine, Item.buyPrice(0, 6), Condition.DownedBrainOfCthulhu, sellVanillaSummons)
+				.AddWithCustomValue(ItemID.WormFood, Item.buyPrice(0, 6), Condition.DownedEaterOfWorlds, sellVanillaSummons)
+				.Add(WorldGen.crimson ? ItemID.BandofStarpower : ItemID.PanicNecklace, downedEvilorSmashedOrb)
+				.Add(WorldGen.crimson ? ItemID.WormScarf : ItemID.BrainOfConfusion, Condition.InExpertMode, downedEvil)
+				.AddWithCustomValue(ItemType<BloodyWormFood>(), Item.buyPrice(0, 10), downedPerforator)
+				.Add(ItemType<RottenBrain>(), downedPerforator, Condition.InExpertMode)
+				.AddWithCustomValue(ItemType<Teratoma>(), Item.buyPrice(0, 10), downedHiveMind)
+				.Add(ItemType<BloodyWormTooth>(), downedHiveMind, Condition.InExpertMode)
+				.AddWithCustomValue(ItemType<OverloadedSludge>(), Item.buyPrice(0, 15), downedSlimeGod)
+				.Add(ItemType<RomajedaOrchid>());
 			}
 
 			if (type == NPCID.GoblinTinkerer)
 			{
-				SetShopItem(ref shop, ref nextSlot, ItemType<MeleeLevelMeter>(), price: Item.buyPrice(0, 5));
-				SetShopItem(ref shop, ref nextSlot, ItemType<RangedLevelMeter>(), price: Item.buyPrice(0, 5));
-				SetShopItem(ref shop, ref nextSlot, ItemType<MagicLevelMeter>(), price: Item.buyPrice(0, 5));
-				SetShopItem(ref shop, ref nextSlot, ItemType<SummonLevelMeter>(), price: Item.buyPrice(0, 5));
-				SetShopItem(ref shop, ref nextSlot, ItemType<RogueLevelMeter>(), price: Item.buyPrice(0, 5));
-				SetShopItem(ref shop, ref nextSlot, ItemType<StatMeter>(), price: Item.buyPrice(1));
-				SetShopItem(ref shop, ref nextSlot, ItemID.GoblinBattleStandard, price: Item.buyPrice(0, 1));
+				shop.AddWithCustomValue(ItemType<MeleeLevelMeter>(), Item.buyPrice(0, 5))
+				.AddWithCustomValue(ItemType<RangedLevelMeter>(), Item.buyPrice(0, 5))
+				.AddWithCustomValue(ItemType<MagicLevelMeter>(), Item.buyPrice(0, 5))
+				.AddWithCustomValue(ItemType<SummonLevelMeter>(), Item.buyPrice(0, 5))
+				.AddWithCustomValue(ItemType<RogueLevelMeter>(), Item.buyPrice(0, 5))
+				.AddWithCustomValue(ItemType<StatMeter>(), Item.buyPrice(1))
+				.AddWithCustomValue(ItemID.GoblinBattleStandard, Item.buyPrice(0, 1));
 			}
 
 			if (type == NPCID.Clothier)
 			{
-				SetShopItem(ref shop, ref nextSlot, ItemType<BlueBrickWallUnsafe>(), price: Item.buyPrice(copper: 10));
-				SetShopItem(ref shop, ref nextSlot, ItemType<BlueSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
-				SetShopItem(ref shop, ref nextSlot, ItemType<BlueTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
-				SetShopItem(ref shop, ref nextSlot, ItemType<GreenBrickWallUnsafe>(), price: Item.buyPrice(copper: 10));
-				SetShopItem(ref shop, ref nextSlot, ItemType<GreenSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
-				SetShopItem(ref shop, ref nextSlot, ItemType<GreenTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
-				SetShopItem(ref shop, ref nextSlot, ItemType<PinkBrickWallUnsafe>(), price: Item.buyPrice(copper: 10));
-				SetShopItem(ref shop, ref nextSlot, ItemType<PinkSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
-				SetShopItem(ref shop, ref nextSlot, ItemType<PinkTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
-				SetShopItem(ref shop, ref nextSlot, ItemID.GoldenKey, Main.hardMode, Item.buyPrice(0, 5));
-				SetShopItem(ref shop, ref nextSlot, ItemID.PumpkinMoonMedallion, NPC.downedHalloweenKing, Item.buyPrice(0, 25));
-				SetShopItem(ref shop, ref nextSlot, ItemID.NaughtyPresent, NPC.downedChristmasIceQueen, Item.buyPrice(0, 25));
+				shop.AddWithCustomValue(ItemType<BlueBrickWallUnsafe>(), Item.buyPrice(copper: 10))
+				.AddWithCustomValue(ItemType<BlueSlabWallUnsafe>(), Item.buyPrice(copper: 10))
+				.AddWithCustomValue(ItemType<BlueTiledWallUnsafe>(), Item.buyPrice(copper: 10))
+				.AddWithCustomValue(ItemType<GreenBrickWallUnsafe>(), Item.buyPrice(copper: 10))
+				.AddWithCustomValue(ItemType<GreenSlabWallUnsafe>(), Item.buyPrice(copper: 10))
+				.AddWithCustomValue(ItemType<GreenTiledWallUnsafe>(), Item.buyPrice(copper: 10))
+				.AddWithCustomValue(ItemType<PinkBrickWallUnsafe>(), Item.buyPrice(copper: 10))
+				.AddWithCustomValue(ItemType<PinkSlabWallUnsafe>(), Item.buyPrice(copper: 10))
+				.AddWithCustomValue(ItemType<PinkTiledWallUnsafe>(), Item.buyPrice(copper: 10))
+				.AddWithCustomValue(ItemID.GoldenKey, Item.buyPrice(0, 5), Condition.Hardmode)
+				.AddWithCustomValue(ItemID.PumpkinMoonMedallion, Item.buyPrice(0, 25), Condition.DownedPumpking)
+				.AddWithCustomValue(ItemID.NaughtyPresent, Item.buyPrice(0, 25), Condition.DownedIceQueen);
 			}
 
 			if (type == NPCID.Painter)
 			{
-				SetShopItem(ref shop, ref nextSlot, ItemID.PainterPaintballGun, price: Item.buyPrice(0, 15));
+				shop.AddWithCustomValue(ItemID.PainterPaintballGun, Item.buyPrice(0, 15));
 			}
 
 			if (type == NPCID.Steampunker)
 			{
-				SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalWorm, NPC.downedMechBoss1 && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 20));
-				SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalEye, NPC.downedMechBoss2 && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 20));
-				SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalSkull, NPC.downedMechBoss3 && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 20));
-				SetShopItem(ref shop, ref nextSlot, ItemType<AstralSolution>(), price: Item.buyPrice(0, 0, 5));
+				shop.AddWithCustomValue(ItemID.MechanicalWorm, Item.buyPrice(0, 20), Condition.DownedDestroyer, sellVanillaSummons)
+					.AddWithCustomValue(ItemID.MechanicalEye, Item.buyPrice(0, 20), Condition.DownedTwins, sellVanillaSummons)
+					.AddWithCustomValue(ItemID.MechanicalSkull, Item.buyPrice(0, 20), Condition.DownedSkeletronPrime, sellVanillaSummons)
+					.AddWithCustomValue(ItemType<AstralSolution>(), Item.buyPrice(0, 0, 5));
 			}
 
 			if (type == NPCID.Wizard)
 			{
-				SetShopItem(ref shop, ref nextSlot, ItemType<HowlsHeart>());
-				SetShopItem(ref shop, ref nextSlot, ItemType<CharredIdol>(), CalamityWorld.downedBrimstoneElemental, Item.buyPrice(0, 20));
-				SetShopItem(ref shop, ref nextSlot, ItemType<AstralChunk>(), CalamityWorld.downedAstrageldon, Item.buyPrice(0, 25));
-				SetShopItem(ref shop, ref nextSlot, ItemID.MagicMissile, price: Item.buyPrice(0, 5));
-				SetShopItem(ref shop, ref nextSlot, ItemID.SpectreStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
-				SetShopItem(ref shop, ref nextSlot, ItemID.InfernoFork, NPC.downedGolemBoss, Item.buyPrice(0, 25));
-				SetShopItem(ref shop, ref nextSlot, ItemID.ShadowbeamStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
-				SetShopItem(ref shop, ref nextSlot, ItemID.CelestialSigil, NPC.downedMoonlord && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(3));
-				SetShopItem(ref shop, ref nextSlot, ItemType<ProfanedShard>(), CalamityWorld.downedGuardians, Item.buyPrice(5));
+				shop.Add(ItemType<HowlsHeart>())
+				.AddWithCustomValue(ItemType<CharredIdol>(), Item.buyPrice(0, 20), downedBrimstoneElemental)
+				.AddWithCustomValue(ItemType<AstralChunk>(), Item.buyPrice(0, 25), downedAstrageldon)
+				.AddWithCustomValue(ItemID.MagicMissile, Item.buyPrice(0, 5))
+				.AddWithCustomValue(ItemID.SpectreStaff, Item.buyPrice(0, 25), Condition.DownedGolem)
+				.AddWithCustomValue(ItemID.InfernoFork, Item.buyPrice(0, 25), Condition.DownedGolem)
+				.AddWithCustomValue(ItemID.ShadowbeamStaff, Item.buyPrice(0, 25), Condition.DownedGolem)
+				.AddWithCustomValue(ItemID.CelestialSigil, Item.buyPrice(3), Condition.DownedMoonLord, sellVanillaSummons)
+				.AddWithCustomValue(ItemType<ProfanedShard>(), Item.buyPrice(5), downedGuardians);
 			}
 
 			if (type == NPCID.WitchDoctor)
 			{
-				SetShopItem(ref shop, ref nextSlot, ItemType<SunkenSeaFountain>());
-				SetShopItem(ref shop, ref nextSlot, ItemType<SulphurousFountainItem>());
-				SetShopItem(ref shop, ref nextSlot, ItemType<AbyssFountainItem>(), Main.hardMode);
-				SetShopItem(ref shop, ref nextSlot, ItemType<AstralFountainItem>(), Main.hardMode);
-				SetShopItem(ref shop, ref nextSlot, ItemID.Abeemination, CalamityConfig.Instance.SellVanillaSummons, price: Item.buyPrice(0, 8));
-				SetShopItem(ref shop, ref nextSlot, ItemType<BulbofDoom>(), NPC.downedPlantBoss && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 20));
-				SetShopItem(ref shop, ref nextSlot, ItemID.SolarTablet, NPC.downedGolemBoss, Item.buyPrice(0, 25));
-				SetShopItem(ref shop, ref nextSlot, ItemID.LihzahrdPowerCell, NPC.downedGolemBoss && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 30));
-				SetShopItem(ref shop, ref nextSlot, ItemID.ButterflyDust, NPC.downedGolemBoss, Item.buyPrice(0, 10));
-				SetShopItem(ref shop, ref nextSlot, ItemType<AncientMedallion>(), CalamityWorld.downedScavenger, Item.buyPrice(0, 50));
-				SetShopItem(ref shop, ref nextSlot, ItemType<Abomination>(), CalamityWorld.downedPlaguebringer, Item.buyPrice(0, 50));
-				SetShopItem(ref shop, ref nextSlot, ItemType<BirbPheromones>(), CalamityWorld.downedBumble, Item.buyPrice(5));
+				shop.Add(ItemType<SunkenSeaFountain>())
+				.Add(ItemType<SulphurousFountainItem>())
+				.Add(ItemType<AbyssFountainItem>(), Condition.Hardmode)
+				.Add(ItemType<AstralFountainItem>(), Condition.Hardmode)
+				.AddWithCustomValue(ItemID.Abeemination, Item.buyPrice(0, 8), sellVanillaSummons)
+				.AddWithCustomValue(ItemType<BulbofDoom>(), Item.buyPrice(0, 20), Condition.DownedPlantera, sellVanillaSummons)
+				.AddWithCustomValue(ItemID.SolarTablet, Item.buyPrice(0, 25), Condition.DownedGolem)
+				.AddWithCustomValue(ItemID.LihzahrdPowerCell, Item.buyPrice(0, 30), Condition.DownedGolem, sellVanillaSummons)
+				.AddWithCustomValue(ItemID.ButterflyDust, Item.buyPrice(0, 10), Condition.DownedGolem)
+				.AddWithCustomValue(ItemType<AncientMedallion>(), Item.buyPrice(0, 50), downedScavenger)
+				.AddWithCustomValue(ItemType<Abomination>(), Item.buyPrice(0, 50), downedPlaguebringer)
+				.AddWithCustomValue(ItemType<BirbPheromones>(), Item.buyPrice(5), downedBumble);
 			}
 
 			if (type == NPCID.SkeletonMerchant)
 			{
-				SetShopItem(ref shop, ref nextSlot, ItemID.Marrow, Main.hardMode, Item.buyPrice(0, 36));
+				shop.AddWithCustomValue(ItemID.Marrow, Item.buyPrice(0, 36), Condition.Hardmode);
 			}
 		}
 
@@ -1320,6 +1324,36 @@ namespace CalRD.NPCs
 				nextSlot++;
 			}
 		}
+		
+		public static readonly Condition hasFlareGunUpgrade = ShopHelper.Create("hasFlareGunUpgrade",() => (Main.LocalPlayer.HasItem(ItemType<FirestormCannon>()) || Main.LocalPlayer.HasItem(ItemType<SpectralstormCannon>())) && !Main.LocalPlayer.HasItem(ItemID.FlareGun));
+		public static readonly Condition downedEvilorSmashedOrb = ShopHelper.Create("evilDownedorsmashedOrb", () => WorldGen.shadowOrbSmashed || NPC.downedBoss2);
+		public static readonly Condition deathActive = ShopHelper.Create("deathActive", () => CalamityWorld.death);
+		public static readonly Condition defiledHM = ShopHelper.Create("defiledHM", () => Main.hardMode && CalamityWorld.defiled);
+		public static readonly Condition hasImpaler = ShopHelper.Create("hasImpaler", () => Main.LocalPlayer.HasItem(ItemType<Impaler>()));
+		public static readonly Condition downedPolterghast = ShopHelper.Create("downedPolter", () => CalamityWorld.downedPolterghast);
+		public static readonly Condition rogueActive = ShopHelper.Create("rogueActive", () => Main.LocalPlayer.Calamity().rogueStealthMax > 0f && Main.LocalPlayer.Calamity().wearingRogueArmor);
+		public static readonly Condition hasWings = ShopHelper.Create("hasWings", () => Main.LocalPlayer.wingTimeMax > 0);
+		public static readonly Condition sellVanillaSummons = ShopHelper.Create("sellVanillaSummons", () => CalamityConfig.Instance.SellVanillaSummons);
+		public static readonly Condition rippersEnabled = ShopHelper.Create("rippersEnabled", () => CalamityWorld.revenge && CalamityConfig.Instance.Rippers);
+		public static readonly Condition downedEvil = ShopHelper.Create("downedEvil", () => NPC.downedBoss2);
+		public static readonly Condition downedCrabulon = ShopHelper.Create("downedCrabulon", () => CalamityWorld.downedCrabulon);
+		public static readonly Condition downedHiveMind = ShopHelper.Create("downedHiveMind", () => CalamityWorld.downedHiveMind);
+		public static readonly Condition downedPerforator = ShopHelper.Create("downedPerforator", () => CalamityWorld.downedPerforator);
+		public static readonly Condition downedSlimeGod = ShopHelper.Create("downedSlimeGod", () => CalamityWorld.downedSlimeGod);
+		public static readonly Condition downedBrimstoneElemental = ShopHelper.Create("downedBrimstoneElemental", () => CalamityWorld.downedBrimstoneElemental);
+		public static readonly Condition downedAstrageldon = ShopHelper.Create("downedAstrageldon", () => CalamityWorld.downedAstrageldon);
+		public static readonly Condition downedGuardians = ShopHelper.Create("downedGuardians", () => CalamityWorld.downedGuardians);
+		public static readonly Condition downedScavenger = ShopHelper.Create("downedScavenger", () => CalamityWorld.downedScavenger);
+		public static readonly Condition downedPlaguebringer = ShopHelper.Create("downedPlaguebringer", () => CalamityWorld.downedPlaguebringer);
+		public static readonly Condition downedBumble = ShopHelper.Create("downedBumble", () => CalamityWorld.downedBumble);
+		public static readonly Condition downedDesertScourge = ShopHelper.Create("downedDS", () => CalamityWorld.downedDesertScourge);
+		public static readonly Condition downedEoCAcidRain = ShopHelper.Create("downedEoCAcidRain", () => CalamityWorld.downedEoCAcidRain);
+		public static readonly Condition downedAquaticScourge = ShopHelper.Create("downedAquaticScourge", () => CalamityWorld.downedAquaticScourge);
+		public static readonly Condition downedBoomerDuke = ShopHelper.Create("downedBoomerDuke", () => CalamityWorld.downedBoomerDuke);
+		public static readonly Condition downedProvidence = ShopHelper.Create("downedProvidence", () => CalamityWorld.downedProvidence);
+		public static readonly Condition downedDoG = ShopHelper.Create("downedDoG", () => CalamityWorld.downedDoG);
+		public static readonly Condition dragonScalesAvailable = ShopHelper.Create("dragonScalesAvailable", () => CalamityWorld.buffedEclipse && !CalamityWorld.dragonScalesBought);
+		public static readonly Condition downedCalamitas = ShopHelper.Create("downedCalamitas", () => CalamityWorld.downedCalamitas);
 		#endregion
 	}
 }

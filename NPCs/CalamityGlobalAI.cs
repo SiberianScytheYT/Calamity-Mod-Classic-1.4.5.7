@@ -1453,6 +1453,9 @@ namespace CalRD.NPCs
 			if (BossRushEvent.BossRushActive)
 				enrageScale = 0f;
 
+            // Fade in.
+            npc.Opacity = MathHelper.Clamp(npc.Opacity + 0.08f, 0f, 1f);
+
 			// Total body segments
 			float totalSegments = GetEaterOfWorldsSegmentsCountRevDeath();
 

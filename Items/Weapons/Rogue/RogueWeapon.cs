@@ -98,7 +98,7 @@ namespace CalRD.Items.Weapons.Rogue
 			crit += player.Calamity().throwingCrit;
 		}
 
-		public override float UseTimeMultiplier(Player player)
+		public override float UseSpeedMultiplier(Player player)
 		{
 			float rogueAS = 1f;
 			if (player.Calamity().gloveOfPrecision)

@@ -25,13 +25,18 @@ namespace CalRD.Items.Armor
             var equipSlotHead = EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Head);
             var equipSlotBody = EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Body);
             var equipSlotLegs = EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Legs);
+
+            ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
+            ArmorIDs.Body.Sets.HidesTopSkin[equipSlotBody] = true;
+            ArmorIDs.Body.Sets.HidesArms[equipSlotBody] = true;
+            ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;
         }
 
         public override void Load()
         {
             if (Main.netMode != NetmodeID.Server)
             {
-                    EquipLoader.AddEquipTexture(Mod, "CalRD/Items/Armor/MeldTransformation_Head", EquipType.Head, name: "MeldTransformation");
+                EquipLoader.AddEquipTexture(Mod, "CalRD/Items/Armor/MeldTransformation_Head", EquipType.Head, name: "MeldTransformation");
                 EquipLoader.AddEquipTexture(Mod, "CalRD/Items/Armor/MeldTransformation_Body", EquipType.Body, name: "MeldTransformation");
                 EquipLoader.AddEquipTexture(Mod, "CalRD/Items/Armor/MeldTransformation_Neck", EquipType.Neck, name: "MeldTransformation");
                 EquipLoader.AddEquipTexture(Mod, "CalRD/Items/Armor/MeldTransformation_Legs", EquipType.Legs, name: "MeldTransformation");

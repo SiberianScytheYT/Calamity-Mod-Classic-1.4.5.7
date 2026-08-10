@@ -6,6 +6,7 @@ using CalRD.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using CalRD.Items.Placeables.MusicBoxes;
 using CalRD.Utilities;
 using Terraria;
 using Terraria.Audio;
@@ -244,7 +245,7 @@ namespace CalRD.NPCs.TownNPCs
             if (firstButton)
             {
 				Main.LocalPlayer.Calamity().newBanditInventory = false;
-				shopName = "shop";
+				shopName = "Shop";
             }
             else
             {
@@ -252,67 +253,45 @@ namespace CalRD.NPCs.TownNPCs
             }
         }
 
-        public override void ModifyActiveShop(string shopName, Item[] items)
+        public override void AddShops()
         {
             NPCShop shop = new(Type);
-            shop.AddWithCustomValue(ModContent.ItemType<Cinquedea>(), Item.buyPrice(0, 9, 0, 0));
-            shop.AddWithCustomValue(ModContent.ItemType<Glaive>(), Item.buyPrice(0, 3, 0, 0));
-            shop.AddWithCustomValue(ModContent.ItemType<Kylie>(), Item.buyPrice(0, 9, 0, 0));
-            shop.AddWithCustomValue(ModContent.ItemType<OldDie>(), Item.buyPrice(0, 40, 0, 0));
-            shop.Add(ItemID.TigerClimbingGear);
-            if (CalamityWorld.downedSlimeGod)
-            {
-                shop.Add(ModContent.ItemType<GelDart>());
-            }
-            if (Main.hardMode)
-            {
-                shop.AddWithCustomValue(ModContent.ItemType<SlickCane>(), Item.buyPrice(0, 25, 0, 0));
-            }
-            if (NPC.downedPirates)
-            {
-                shop.AddWithCustomValue(ModContent.ItemType<ThiefsDime>(), Item.buyPrice(1, 0, 0, 0));
-            }
-            if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
-            {
-                shop.AddWithCustomValue(ModContent.ItemType<MomentumCapacitor>(), Item.buyPrice(0, 60, 0, 0));
-            }
-            if (NPC.downedMechBossAny)
-			{
-                shop.Add(ModContent.ItemType<BouncingBetty>());
-                shop.Add(ModContent.ItemType<LatcherMine>());
-            }
-			if (CalamityWorld.downedCalamitas)
-			{
-                shop.Add(ModContent.ItemType<DeepWounder>());
-			}
-            if (NPC.downedPlantBoss)
-            {
-                shop.Add(ModContent.ItemType<MonkeyDarts>());
-                shop.Add(ModContent.ItemType<GloveOfPrecision>());
-                shop.Add(ModContent.ItemType<GloveOfRecklessness>());
-            }
-            if (NPC.downedGolemBoss)
-			{
-				shop.AddWithCustomValue(ModContent.ItemType<EtherealExtorter>(), Item.buyPrice(1, 0, 0, 0));
-			}
-            if (NPC.downedMoonlord)
-            {
-                shop.AddWithCustomValue(ModContent.ItemType<CelestialReaper>(), Item.buyPrice(2, 0, 0, 0));
-            }
-            if (CalamityWorld.downedProvidence)
-			{
-				shop.AddWithCustomValue(ModContent.ItemType<SylvanSlasher>(), Item.buyPrice(5, 0, 0, 0));
-			}
-            if (CalamityWorld.downedDoG)
-            {
-                shop.AddWithCustomValue(ModContent.ItemType<VeneratedLocket>(), Item.buyPrice(25, 0, 0, 0));
-            }
-            if (CalamityWorld.buffedEclipse && !CalamityWorld.dragonScalesBought)
-            {
-                shop.AddWithCustomValue(ModContent.ItemType<DragonScales>(), Item.buyPrice(40, 0, 0, 0));
-            }
+            shop.AddWithCustomValue(ModContent.ItemType<Cinquedea>(), Item.buyPrice(0, 9, 0, 0))
+            .AddWithCustomValue(ModContent.ItemType<Glaive>(), Item.buyPrice(0, 3, 0, 0))
+            .AddWithCustomValue(ModContent.ItemType<Kylie>(), Item.buyPrice(0, 9, 0, 0))
+            .AddWithCustomValue(ModContent.ItemType<OldDie>(), Item.buyPrice(0, 40, 0, 0))
+            .Add(ItemID.TigerClimbingGear)
+            
+            .Add(ModContent.ItemType<GelDart>(), CalamityGlobalTownNPC.downedSlimeGod)
+           
+            .AddWithCustomValue(ModContent.ItemType<SlickCane>(), Item.buyPrice(0, 25, 0, 0), Condition.Hardmode)
+            
+            .AddWithCustomValue(ModContent.ItemType<ThiefsDime>(), Item.buyPrice(1, 0, 0, 0), Condition.DownedPirates)
+            
+            .AddWithCustomValue(ModContent.ItemType<MomentumCapacitor>(), Item.buyPrice(0, 60, 0, 0), Condition.DownedDestroyer, Condition.DownedTwins, Condition.DownedSkeletronPrime)
+            
+            .Add(ModContent.ItemType<BouncingBetty>(), Condition.DownedMechBossAny)
+            .Add(ModContent.ItemType<LatcherMine>(), Condition.DownedMechBossAny)
+            
+			.Add(ModContent.ItemType<DeepWounder>(), CalamityGlobalTownNPC.downedCalamitas)
+            
+            .Add(ModContent.ItemType<MonkeyDarts>(), Condition.DownedPlantera)
+            .Add(ModContent.ItemType<GloveOfPrecision>(), Condition.DownedPlantera)
+            .Add(ModContent.ItemType<GloveOfRecklessness>(), Condition.DownedPlantera)
+            
+            .AddWithCustomValue(ModContent.ItemType<EtherealExtorter>(), Item.buyPrice(1, 0, 0, 0), Condition.DownedGolem)
+			
+            .AddWithCustomValue(ModContent.ItemType<CelestialReaper>(), Item.buyPrice(2, 0, 0, 0), Condition.DownedMoonLord)
+            
+            .AddWithCustomValue(ModContent.ItemType<SylvanSlasher>(), Item.buyPrice(5, 0, 0, 0), CalamityGlobalTownNPC.downedProvidence)
+            
+            .AddWithCustomValue(ModContent.ItemType<VeneratedLocket>(), Item.buyPrice(25, 0, 0, 0), CalamityGlobalTownNPC.downedDoG)
+            
+            .AddWithCustomValue(ModContent.ItemType<DragonScales>(), Item.buyPrice(40, 0, 0, 0), CalamityGlobalTownNPC.dragonScalesAvailable)
+            
             //:BearWatchingYou:
-			shop.Add(ModContent.ItemType<BearEye>());
+			.Add(ModContent.ItemType<BearEye>())
+            .Register();
         }
 
         public override void HitEffect(NPC.HitInfo hit)

@@ -587,7 +587,7 @@ namespace CalRD.NPCs.DesertScourge
                 CalamityUtils.DisplayLocalizedText(key2, messageColor2);
 
                 if (!Terraria.GameContent.Events.Sandstorm.Happening)
-                    typeof(Terraria.GameContent.Events.Sandstorm).GetMethod("StartSandstorm", BindingFlags.Static | BindingFlags.NonPublic).Invoke(null, null);
+                    Terraria.GameContent.Events.Sandstorm.StartSandstorm();
             }
 
             // Mark Desert Scourge as dead

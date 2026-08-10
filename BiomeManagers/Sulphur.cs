@@ -18,8 +18,8 @@ namespace CalRD.BiomeManagers
 				if (acidRain)
 					music = MusicLoader.GetMusicSlot(
 							CalamityWorld.downedPolterghast
-								? "Sounds/Music/AcidRain2" // Acid Rain Tier 3
-								: "Sounds/Music/AcidRain1"); // Acid Rain Tier 1 + 2
+								? "CalRD/Sounds/Music/AcidRain2" // Acid Rain Tier 3
+								: "CalRD/Sounds/Music/AcidRain1"); // Acid Rain Tier 1 + 2
 				else
 					music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/Sulphur");
 				return music;

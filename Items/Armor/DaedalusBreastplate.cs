@@ -25,6 +25,18 @@ namespace CalRD.Items.Armor
             Item.defense = 19; //41
         }
 
+        public override void Load()
+        {
+            if (Main.netMode != NetmodeID.Server)
+                EquipLoader.AddEquipTexture(Mod, Texture + "_Waist", EquipType.Waist, this);
+        }
+                
+        public override void EquipFrameEffects(Player player, EquipType type)
+        { 
+            if (player.body == Item.bodySlot)
+                player.waist = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Waist);
+        }
+
         public override void UpdateEquip(Player player)
         {
             player.GetDamage(DamageClass.Generic) += 0.03f;

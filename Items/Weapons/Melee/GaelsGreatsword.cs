@@ -74,7 +74,7 @@ namespace CalRD.Items.Weapons.Melee
         public override bool AltFunctionUse(Player player) => true;
         public override Vector2? HoldoutOffset() => new Vector2(12, 12);
 
-		public override float UseTimeMultiplier	(Player player)
+		public override float UseSpeedMultiplier(Player player)
 		{
 			if (player.altFunctionUse == 2)
 				return (12f/46f);

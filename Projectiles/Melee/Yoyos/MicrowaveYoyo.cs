@@ -52,7 +52,7 @@ namespace CalRD.Projectiles.Melee.Yoyos
 
             if (!mmmIsThere)
             {
-                mmmmmm = SoundEngine.PlaySound(new SoundStyle("CalRD/Sounds/Custom/MMMMMMMMMMMMM"), Projectile.Center);
+                mmmmmm = SoundEngine.PlaySound(new SoundStyle("CalRD/Sounds/Custom/MMMMMMMMMMMMM") {IsLooped = true}, Projectile.Center);
             }
 
             else if (mmmIsThere)
@@ -97,6 +97,8 @@ namespace CalRD.Projectiles.Melee.Yoyos
 
         public override void OnKill(int timeLeft)
         {
+            // no idea why this wasn't here
+            SoundEngine.PlaySound(new SoundStyle("CalRD/Sounds/Custom/MicrowaveBeep"), Projectile.Center);
             ActiveSound MMMMMMMMMMMMMMM;
             if (SoundEngine.TryGetActiveSound(mmmmmm, out MMMMMMMMMMMMMMM))
             {

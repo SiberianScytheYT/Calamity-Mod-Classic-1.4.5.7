@@ -10,6 +10,8 @@ namespace CalRD.Tiles.FurnitureAbyss
 {
     public class AbyssDresser : ModTile
     {
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => ItemLoader.GetItem(ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssDresser>()).GetLocalization("DisplayName");
+        
         public override void SetStaticDefaults()
         {
             this.SetUpDresser();

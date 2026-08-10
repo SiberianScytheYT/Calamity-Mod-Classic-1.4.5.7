@@ -10,6 +10,8 @@ namespace CalRD.Tiles.FurnitureOccult
 {
     public class OccultChest : ModTile
     {
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => ItemLoader.GetItem(ModContent.ItemType<Items.Placeables.FurnitureOccult.OccultChest>()).GetLocalization("DisplayName");
+
         public override void SetStaticDefaults()
         {
             this.SetUpChest(true);

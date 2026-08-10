@@ -142,43 +142,39 @@ namespace CalRD.NPCs.TownNPCs
 			if (firstButton)
 			{
 				Main.LocalPlayer.Calamity().newPermafrostInventory = false;
-				shopName = "shop";
+				shopName = "Shop";
 			}
         }
 
-        public override void ModifyActiveShop(string shopName, Item[] items)
+        public override void AddShops()
         {
+            Condition hasIceBarrage = ShopHelper.Create("hasIceBarrage", () => Main.LocalPlayer.HasItem(ModContent.ItemType<IceBarrage>()));
+
             NPCShop shop = new(Type);
-            shop.Add(ModContent.ItemType<ColdheartIcicle>());
-            shop.Add(ModContent.ItemType<FrostbiteBlaster>());
-            shop.Add(ModContent.ItemType<IcicleTrident>());
-            shop.Add(ModContent.ItemType<IceStar>());
-			if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
-			{
-				shop.Add(ModContent.ItemType<ArcticBearPaw>());
-				shop.Add(ModContent.ItemType<CryogenicStaff>());
-				shop.Add(ModContent.ItemType<FrostyFlare>());
-			}
-			if (NPC.downedChristmasIceQueen && NPC.downedChristmasTree && NPC.downedChristmasSantank)
-			{
-				shop.Add(ModContent.ItemType<AbsoluteZero>());
-				shop.Add(ModContent.ItemType<EternalBlizzard>());
-				shop.Add(ModContent.ItemType<WintersFury>());
-				shop.Add(ModContent.ItemType<IcyBullet>());
-				shop.Add(ModContent.ItemType<IcicleArrow>());
-			}
-            shop.Add(ModContent.ItemType<PermafrostsConcoction>());
-            shop.Add(ItemID.SuperManaPotion);
-            shop.Add(ModContent.ItemType<DeliciousMeat>());
-            shop.Add(ModContent.ItemType<EnchantedMetal>());
-            shop.Add();
-            shop.AddWithCustomValue(ModContent.ItemType<Popo>(), 1000000); //I think this is 5 platinum
-            shop.AddWithCustomValue(ModContent.ItemType<CryoKey>(), Item.buyPrice(0, 15, 0, 0));
-            if (Main.LocalPlayer.HasItem(ModContent.ItemType<IceBarrage>()))
-            {
-                shop.Add(ModContent.ItemType<BloodRune>());
-            }
-            shop.Register();
+            shop.Add(ModContent.ItemType<ColdheartIcicle>())
+            .Add(ModContent.ItemType<FrostbiteBlaster>())
+            .Add(ModContent.ItemType<IcicleTrident>())
+            .Add(ModContent.ItemType<IceStar>())
+            
+            .Add(ModContent.ItemType<ArcticBearPaw>(), Condition.DownedDestroyer, Condition.DownedTwins, Condition.DownedSkeletronPrime)
+            .Add(ModContent.ItemType<CryogenicStaff>(), Condition.DownedDestroyer, Condition.DownedTwins, Condition.DownedSkeletronPrime)
+            .Add(ModContent.ItemType<FrostyFlare>(), Condition.DownedDestroyer, Condition.DownedTwins, Condition.DownedSkeletronPrime)
+			
+			.Add(ModContent.ItemType<AbsoluteZero>(), Condition.DownedIceQueen, Condition.DownedEverscream, Condition.DownedSantaNK1)
+            .Add(ModContent.ItemType<EternalBlizzard>(), Condition.DownedIceQueen, Condition.DownedEverscream, Condition.DownedSantaNK1)
+            .Add(ModContent.ItemType<WintersFury>(), Condition.DownedIceQueen, Condition.DownedEverscream, Condition.DownedSantaNK1)
+            .Add(ModContent.ItemType<IcyBullet>(), Condition.DownedIceQueen, Condition.DownedEverscream, Condition.DownedSantaNK1)
+            .Add(ModContent.ItemType<IcicleArrow>(), Condition.DownedIceQueen, Condition.DownedEverscream, Condition.DownedSantaNK1)
+			
+            .Add(ModContent.ItemType<PermafrostsConcoction>())
+            .Add(ItemID.SuperManaPotion)
+            .Add(ModContent.ItemType<DeliciousMeat>())
+            .Add(ModContent.ItemType<EnchantedMetal>())
+            .Add()
+            .AddWithCustomValue(ModContent.ItemType<Popo>(), 1000000) //I think this is 5 platinum
+            .AddWithCustomValue(ModContent.ItemType<CryoKey>(), Item.buyPrice(0, 15, 0, 0))
+            .Add(ModContent.ItemType<BloodRune>(), hasIceBarrage)
+            .Register();
         }
 
         // Make this Town NPC teleport to the King statue when triggered.

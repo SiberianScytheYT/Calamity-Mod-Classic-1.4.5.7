@@ -1,0 +1,13 @@
+C:\Users\Lenovo\Documents\My Games\Terraria\tModLoader\ModSources\CalRD\bin\Debug\net8.0\CalRD.deps.json
+C:\Users\Lenovo\Documents\My Games\Terraria\tModLoader\ModSources\CalRD\bin\Debug\net8.0\CalRD.dll
+C:\Users\Lenovo\Documents\My Games\Terraria\tModLoader\ModSources\CalRD\bin\Debug\net8.0\CalRD.pdb
+C:\Users\Lenovo\Documents\My Games\Terraria\tModLoader\ModSources\CalRD\obj\Debug\net8.0\CalRD.csproj.AssemblyReference.cache
+C:\Users\Lenovo\Documents\My Games\Terraria\tModLoader\ModSources\CalRD\obj\Debug\net8.0\CalRD.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Lenovo\Documents\My Games\Terraria\tModLoader\ModSources\CalRD\obj\Debug\net8.0\CalRD.AssemblyInfoInputs.cache
+C:\Users\Lenovo\Documents\My Games\Terraria\tModLoader\ModSources\CalRD\obj\Debug\net8.0\CalRD.AssemblyInfo.cs
+C:\Users\Lenovo\Documents\My Games\Terraria\tModLoader\ModSources\CalRD\obj\Debug\net8.0\CalRD.csproj.CoreCompileInputs.cache
+C:\Users\Lenovo\Documents\My Games\Terraria\tModLoader\ModSources\CalRD\obj\Debug\net8.0\CalRD.sourcelink.json
+C:\Users\Lenovo\Documents\My Games\Terraria\tModLoader\ModSources\CalRD\obj\Debug\net8.0\CalRD.dll
+C:\Users\Lenovo\Documents\My Games\Terraria\tModLoader\ModSources\CalRD\obj\Debug\net8.0\refint\CalRD.dll
+C:\Users\Lenovo\Documents\My Games\Terraria\tModLoader\ModSources\CalRD\obj\Debug\net8.0\CalRD.pdb
+C:\Users\Lenovo\Documents\My Games\Terraria\tModLoader\ModSources\CalRD\obj\Debug\net8.0\ref\CalRD.dll

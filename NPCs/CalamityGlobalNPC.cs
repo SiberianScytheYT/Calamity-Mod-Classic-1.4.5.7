@@ -4425,12 +4425,10 @@ namespace CalRD.NPCs
 		#endregion
 
 		#region Shop Stuff
-		/*
-		public override void ModifyActiveShop(NPC npc, string shopName, Item[] items)
+		public override void ModifyShop(NPCShop shop)
         {
-			CalamityGlobalTownNPC.ShopSetup(type, Mod, ref shop, ref nextSlot);
+			CalamityGlobalTownNPC.ShopSetup(shop);
         }
-        */
 
         public override void SetupTravelShop(int[] shop, ref int nextSlot)
         {

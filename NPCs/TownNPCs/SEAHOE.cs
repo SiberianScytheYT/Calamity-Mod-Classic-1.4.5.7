@@ -345,7 +345,7 @@ namespace CalRD.NPCs.TownNPCs
             if (firstButton)
             {
 				Main.LocalPlayer.Calamity().newAmidiasInventory = false;
-				shopName = "shop";
+				shopName = "Shop";
             }
             else
             {
@@ -356,37 +356,28 @@ namespace CalRD.NPCs.TownNPCs
             }
         }
 
-        public override void ModifyActiveShop(string shopName, Item[] items)
+        public override void AddShops()
         {
 	        NPCShop shop = new(Type);
-            shop.Add(ModContent.ItemType<Shellshooter>());
-            shop.Add(ModContent.ItemType<SnapClam>());
-            shop.Add(ModContent.ItemType<SandDollar>());
-            shop.Add(ModContent.ItemType<Waywasher>());
-            shop.Add(ModContent.ItemType<CoralCannon>());
-            shop.Add(ModContent.ItemType<UrchinFlail>());
-            shop.Add(ModContent.ItemType<AmidiasTrident>());
-            shop.Add(ModContent.ItemType<MagicalConch>());
-            if (CalamityWorld.downedDesertScourge)
-            {
-                shop.AddWithCustomValue(ModContent.ItemType<DriedSeafood>(), Item.buyPrice(0, 2, 0, 0));
-            }
-            if (CalamityWorld.downedEoCAcidRain)
-            {
-                shop.AddWithCustomValue(ModContent.ItemType<CausticTear>(), Item.buyPrice(gold: 3));
-            }
-            if (CalamityWorld.downedAquaticScourge)
-            {
-                shop.AddWithCustomValue(ModContent.ItemType<Seafood>(), Item.buyPrice(0, 20, 0, 0));
-            }
-            if (NPC.downedFishron && CalamityConfig.Instance.SellVanillaSummons)
-            {
-                shop.AddWithCustomValue(ItemID.TruffleWorm, Item.buyPrice(0, 40, 0, 0));
-            }
-            if (CalamityWorld.downedBoomerDuke)
-            {
-                shop.AddWithCustomValue(ModContent.ItemType<BloodwormItem>(), Item.buyPrice(8, 0, 0, 0));
-            }
+            shop.Add(ModContent.ItemType<Shellshooter>())
+            .Add(ModContent.ItemType<SnapClam>())
+            .Add(ModContent.ItemType<SandDollar>())
+            .Add(ModContent.ItemType<Waywasher>())
+            .Add(ModContent.ItemType<CoralCannon>())
+            .Add(ModContent.ItemType<UrchinFlail>())
+            .Add(ModContent.ItemType<AmidiasTrident>())
+            .Add(ModContent.ItemType<MagicalConch>())
+            
+            .AddWithCustomValue(ModContent.ItemType<DriedSeafood>(), Item.buyPrice(0, 2, 0, 0), CalamityGlobalTownNPC.downedDesertScourge)
+            
+            .AddWithCustomValue(ModContent.ItemType<CausticTear>(), Item.buyPrice(gold: 3), CalamityGlobalTownNPC.downedEoCAcidRain)
+            
+            .AddWithCustomValue(ModContent.ItemType<Seafood>(), Item.buyPrice(0, 20, 0, 0), CalamityGlobalTownNPC.downedAquaticScourge)
+            
+            .AddWithCustomValue(ItemID.TruffleWorm, Item.buyPrice(0, 40, 0, 0), Condition.DownedDukeFishron, CalamityGlobalTownNPC.sellVanillaSummons)
+            
+            .AddWithCustomValue(ModContent.ItemType<BloodwormItem>(), Item.buyPrice(8, 0, 0, 0), CalamityGlobalTownNPC.downedBoomerDuke)
+            .Register();
         }
 
         public override void HitEffect(NPC.HitInfo hit)

@@ -9,6 +9,8 @@ namespace CalRD.Tiles.FurnitureStratus
 {
     public class StratusChest : ModTile
     {
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => ItemLoader.GetItem(ModContent.ItemType<Items.Placeables.FurnitureStratus.StratusChest>()).GetLocalization("DisplayName");
+
         public override void SetStaticDefaults()
         {
             this.SetUpChest(true);

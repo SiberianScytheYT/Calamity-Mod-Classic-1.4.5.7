@@ -9,6 +9,8 @@ namespace CalRD.Tiles.FurnitureAshen
 {
     public class AshenDresser : ModTile
     {
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => ItemLoader.GetItem(ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenDresser>()).GetLocalization("DisplayName");
+
         public override void SetStaticDefaults()
         {
             this.SetUpDresser();

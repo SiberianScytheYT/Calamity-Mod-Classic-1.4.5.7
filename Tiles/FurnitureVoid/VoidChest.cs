@@ -9,6 +9,8 @@ namespace CalRD.Tiles.FurnitureVoid
 {
     public class VoidChest : ModTile
     {
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => ItemLoader.GetItem(ModContent.ItemType<Items.Placeables.FurnitureVoid.VoidChest>()).GetLocalization("DisplayName");
+
         public override void SetStaticDefaults()
         {
             this.SetUpChest(true);

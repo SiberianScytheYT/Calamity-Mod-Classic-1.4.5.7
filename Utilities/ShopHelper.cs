@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalRD.Utilities;
 
-public static class CalamityHelper
+public static class ShopHelper
 {
     public static NPCShop AddWithCustomValue(this NPCShop shop, int itemType, int customValue, params Condition[] conditions)
     {
@@ -15,10 +15,11 @@ public static class CalamityHelper
         };
         return shop.Add(item, conditions);
     }
+
     public static Condition Create(string key, Func<bool> predicate)
     {
         return new Condition(
-            Language.GetText($"Mods.CalamityModClassicPreTrailer.Condition.{key}"),
+            Language.GetText($"Mods.CalRD.Condition.{key}"),
             predicate
         );
     }

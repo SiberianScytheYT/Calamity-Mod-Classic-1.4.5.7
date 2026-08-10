@@ -9,6 +9,8 @@ namespace CalRD.Tiles.FurnitureStatigel
 {
     public class StatigelDresser : ModTile
     {
+         public override LocalizedText DefaultContainerName(int frameX, int frameY) => ItemLoader.GetItem(ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelDresser>()).GetLocalization("DisplayName");
+
         public override void SetStaticDefaults()
         {
             this.SetUpDresser();

@@ -13,6 +13,8 @@ namespace CalRD.Tiles.Astral
 {
     public class AstralChestLocked : ModTile
     {
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => ItemLoader.GetItem(ModContent.ItemType<AstralChest>()).GetLocalization("DisplayName");
+
         public override void SetStaticDefaults()
         {
             this.SetUpChest();

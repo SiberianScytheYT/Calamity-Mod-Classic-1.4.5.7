@@ -691,8 +691,7 @@ namespace CalRD
 					["spawnInfo"] = GetSpawnInfo(entryName),
 					["despawnMessage"] = GetDespawnMessage(entryName),
 					["spawnItems"] = ItemType<ChickenEgg>(),
-					["collectibles"] = collection,
-					["overrideHeadTextures"] = "CalRD/NPCs/Yharon/Yharon_BossChecklist"
+					["collectibles"] = collection
 				});
 			}
 

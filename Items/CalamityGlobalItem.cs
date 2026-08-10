@@ -2883,13 +2883,12 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 		#endregion
 
 		// NOTE: this function applies to all treasure bags, even modded ones (despite the name).
-		/*
         #region Boss Bag Changes
-		public override void OpenVanillaBag(string context, Player player, int arg)
+		/*public override void ModifyItemLoot(Item item, ItemLoot loot)
         {
 			if (context == "crate")
 			{
-				switch (arg)
+				switch (item.type)
 				{
 					case ItemID.WoodenCrate:
                         DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<WulfrumShard>(), 4, 3, 5);
@@ -3034,9 +3033,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                         break;
                 }
             }
-        }
+        }*/
         #endregion
-        */
         #region Armor Set Changes
         public override string IsArmorSet(Item head, Item body, Item legs)
         {
