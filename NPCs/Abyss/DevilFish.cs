@@ -28,6 +28,14 @@ namespace CalRD.NPCs.Abyss
             Main.npcFrameCount[NPC.type] = 16;
         }
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+			{
+				new FlavorTextBestiaryInfoElement("Named as such for their mask, they remain docile until their mask breaks.")
+			});
+		}
+
         public override void SetDefaults()
         {
             NPC.noGravity = true;
