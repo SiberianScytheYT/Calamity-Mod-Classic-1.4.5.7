@@ -90,14 +90,12 @@ namespace CalRD.Projectiles.Rogue
 			OnHitEffects(!target.canGhostHeal || Main.player[Projectile.owner].moonLeech);
 		}
 
-		//public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-		/*
+		public override void OnHitPlayer(Player target, Player.HurtInfo info)
 		{
 			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
 			OnHitEffects(Main.player[Projectile.owner].moonLeech);
 		}
-		*/
-
+		
 		private void OnHitEffects(bool cannotLifesteal)
 		{
 			if (grind < 10)

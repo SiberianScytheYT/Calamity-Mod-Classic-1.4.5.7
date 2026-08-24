@@ -89,10 +89,9 @@ namespace CalRD.Projectiles.Hybrid
 			CalamityGlobalProjectile.SpawnLifeStealProjectile(Projectile, Main.player[Projectile.owner], heal, ProjectileID.VampireHeal, 1200f, 1.5f);
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            float heal = (float)damage * 0.05f;
+            float heal = (float)info.Damage * 0.05f;
             if ((int)heal == 0)
                 return;
             if (Main.player[Main.myPlayer].lifeSteal <= 0f)
@@ -100,6 +99,5 @@ namespace CalRD.Projectiles.Hybrid
 
 			CalamityGlobalProjectile.SpawnLifeStealProjectile(Projectile, Main.player[Projectile.owner], heal, ProjectileID.VampireHeal, 1200f, 1.5f);
         }
-        */
     }
 }

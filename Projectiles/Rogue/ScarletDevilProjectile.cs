@@ -87,8 +87,8 @@ namespace CalRD.Projectiles.Rogue
             Main.player[Projectile.owner].HealEffect(120);
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*{
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
             Projectile.position = Projectile.Center;
             Projectile.width = Projectile.height = 150;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
@@ -100,7 +100,7 @@ namespace CalRD.Projectiles.Rogue
             }
             Main.player[Projectile.owner].statLife += 120;
             Main.player[Projectile.owner].HealEffect(120);
-        }*/
+        }
 
         public override bool PreDraw(ref Color lightColor)
         {

@@ -30,11 +30,8 @@ namespace CalRD.Projectiles.Typeless.FiniteUse
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             // Crits are extra powerful, dealing 2.5x damage instead of 2x.
-            if (modifiers.ToHitInfo(target.damage, true, modifiers.Knockback.Base, false, 0f).Crit)
-            {
-                Projectile.damage = (int)(Projectile.damage * 1.25);
-                Projectile.knockBack *= 1.25f;
-            }
+            modifiers.CritDamage += 0.25f;
+            modifiers.Knockback += 0.25f;
 
             if (target.Organic())
                 Projectile.damage += target.lifeMax / 25; //400 + 80 = 480 + (100000 / 25 = 4000) = 4480, if crit = 5600 = 5.6% of boss HP

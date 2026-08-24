@@ -77,13 +77,11 @@ namespace CalRD.Projectiles.Rogue
             target.AddBuff(BuffID.Poisoned, 600);
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(BuffID.Venom, 600);
             target.AddBuff(BuffID.Poisoned, 600);
         }
-        */
 
         public override void OnKill(int timeLeft)
         {

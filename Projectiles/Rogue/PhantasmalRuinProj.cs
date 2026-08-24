@@ -84,8 +84,8 @@ namespace CalRD.Projectiles.Rogue
 			}
 		}
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*{
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
 			float spread = 45f * 0.0174f;
 			double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
 			double deltaAngle = spread / 8f;
@@ -105,8 +105,8 @@ namespace CalRD.Projectiles.Rogue
 			}
 			else
 			{
-				damage = (int)(damage * 0.9);
+				info.Damage = (int)(info.Damage * 0.9);
 			}
-		}*/
+		}
     }
 }

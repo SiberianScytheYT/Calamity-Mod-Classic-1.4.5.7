@@ -1,3 +1,4 @@
+using System;
 using CalRD.Items.Accessories;
 using CalRD.Items.Ammo.FiniteUse;
 using CalRD.World;
@@ -5,13 +6,307 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalRD
 {
+    #region Fraction Struct (thanks Yorai)
+    public struct Fraction
+    {
+        internal readonly int numerator;
+        internal readonly int denominator;
+
+        public Fraction(int n, int d)
+        {
+            numerator = n < 0 ? 0 : n;
+            denominator = d <= 0 ? 1 : d;
+        }
+
+        public static implicit operator float(Fraction f) => f.numerator / (float)f.denominator;
+    }
+    #endregion
+    
     public static class DropHelper
     {
+        #region Lambda Drop Rule Condition
+        // This class serves as a vanilla drop rule condition that is based on completely arbitrary code.
+        // Create these using the function DropHelper.If as needed.
+        internal class LambdaDropRuleCondition : IItemDropRuleCondition
+        {
+            private readonly Func<DropAttemptInfo, bool> conditionLambda;
+            private readonly bool visibleInUI;
+            private readonly string description;
+
+            internal LambdaDropRuleCondition(Func<DropAttemptInfo, bool> lambda, bool ui = true, string desc = null)
+            {
+                conditionLambda = lambda;
+                visibleInUI = ui;
+                description = desc;
+            }
+
+            public bool CanDrop(DropAttemptInfo info) => conditionLambda(info);
+            public bool CanShowItemDropInUI() => visibleInUI;
+            public string GetConditionDescription() => description;
+        }
+
+        internal class LambdaDropRuleCondition2 : IItemDropRuleCondition
+        {
+            private readonly Func<DropAttemptInfo, bool> conditionLambda;
+            private readonly Func<bool> visibleInUI;
+            private readonly string description;
+
+            internal LambdaDropRuleCondition2(Func<DropAttemptInfo, bool> lambda, Func<bool> ui, string desc = null)
+            {
+                conditionLambda = lambda;
+                visibleInUI = ui;
+                description = desc;
+            }
+
+            public bool CanDrop(DropAttemptInfo info) => conditionLambda(info);
+            public bool CanShowItemDropInUI() => visibleInUI();
+            public string GetConditionDescription() => description;
+        }
+
+        internal class LambdaDropRuleCondition3 : IItemDropRuleCondition
+        {
+            private readonly Func<DropAttemptInfo, bool> conditionLambda;
+            private readonly Func<bool> visibleInUI;
+            private readonly Func<string> description;
+
+            internal LambdaDropRuleCondition3(Func<DropAttemptInfo, bool> lambda, Func<bool> ui, Func<string> desc)
+            {
+                conditionLambda = lambda;
+                visibleInUI = ui;
+                description = desc;
+            }
+
+            public bool CanDrop(DropAttemptInfo info) => conditionLambda(info);
+            public bool CanShowItemDropInUI() => visibleInUI();
+            public string GetConditionDescription() => description();
+        }
+
+        /// <summary>
+        /// Creates a new LambdaDropRuleCondition which executes the code of your choosing to decide whether this item drop should occur.<br />
+        /// This version of "If" does <b>NOT</b> use the DropAttemptInfo struct that is available.<br />
+        /// This lets you write simpler lambdas that do not need the context, e.g. just checking if a boss is dead.
+        /// </summary>
+        /// <param name="lambda">Lambda function which evaluates to true or false, deciding whether the item should drop. <code>() => {CodeHere}</code></param>
+        /// <returns>The LambdaDropRuleCondition produced.</returns>
+        public static IItemDropRuleCondition If(Func<bool> lambda) => new LambdaDropRuleCondition((_) => lambda());
+
+        /// <summary>
+        /// Creates a new LambdaDropRuleCondition which executes the code of your choosing to decide whether this item drop should occur.<br />
+        /// This version of "If" does <b>NOT</b> use the DropAttemptInfo struct that is available.<br />
+        /// This lets you write simpler lambdas that do not need the context, e.g. just checking if a boss is dead.
+        /// </summary>
+        /// <param name="lambda">Lambda function which evaluates to true or false, deciding whether the item should drop. <code>() => {CodeHere}</code></param>
+        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
+        /// <returns>The LambdaDropRuleCondition produced.</returns>
+        public static IItemDropRuleCondition If(Func<bool> lambda, bool ui = true, string desc = null)
+        {
+            bool LambdaInfoWrapper(DropAttemptInfo _) => lambda();
+            return new LambdaDropRuleCondition(LambdaInfoWrapper, ui, desc);
+        }
+        public static IItemDropRuleCondition If(Func<bool> lambda, Func<bool> ui, string desc = null)
+        {
+            bool LambdaInfoWrapper(DropAttemptInfo _) => lambda();
+            return new LambdaDropRuleCondition2(LambdaInfoWrapper, ui, desc);
+        }
+        public static IItemDropRuleCondition If(Func<bool> lambda, Func<bool> ui, Func<string> desc)
+        {
+            bool LambdaInfoWrapper(DropAttemptInfo _) => lambda();
+            return new LambdaDropRuleCondition3(LambdaInfoWrapper, ui, desc);
+        }
+
+        /// <summary>
+        /// Creates a new LambdaDropRuleCondition which executes the code of your choosing to decide whether this item drop should occur.<br />
+        /// This version of "If" <b>DOES</b> use the DropAttemptInfo struct, and thus the provided lambda requires 1 argument.
+        /// </summary>
+        /// <param name="lambda">Lambda function which evaluates to true or false, deciding whether the item should drop. <code>(info) => {CodeHere}</code></param>
+        /// <returns>The LambdaDropRuleCondition produced.</returns>
+        public static IItemDropRuleCondition If(Func<DropAttemptInfo, bool> lambda) => new LambdaDropRuleCondition(lambda);
+
+        /// <summary>
+        /// Creates a new LambdaDropRuleCondition which executes the code of your choosing to decide whether this item drop should occur.<br />
+        /// This version of "If" <b>DOES</b> use the DropAttemptInfo struct, and thus the provided lambda requires 1 argument.
+        /// </summary>
+        /// <param name="lambda">Lambda function which evaluates to true or false, deciding whether the item should drop. <code>(info) => {CodeHere}</code></param>
+        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
+        /// <returns>The LambdaDropRuleCondition produced.</returns>
+        public static IItemDropRuleCondition If(Func<DropAttemptInfo, bool> lambda, bool ui = true, string desc = null)
+        {
+            return new LambdaDropRuleCondition(lambda, ui, desc);
+        }
+        public static IItemDropRuleCondition If(Func<DropAttemptInfo, bool> lambda, Func<bool> ui, string desc = null)
+        {
+            return new LambdaDropRuleCondition2(lambda, ui, desc);
+        }
+        public static IItemDropRuleCondition If(Func<DropAttemptInfo, bool> lambda, Func<bool> ui, Func<string> desc)
+        {
+            return new LambdaDropRuleCondition3(lambda, ui, desc);
+        }
+        #endregion
+        
+        #region Leading Condition Rule Extensions
+        /// <summary>
+        /// Adds any given drop rule as a chained rule to the given LeadingConditionRule.
+        /// </summary>
+        /// <param name="mainRule">The LeadingConditionRule which should have another drop rule registered as one of its chains.</param>
+        /// <param name="chainedRule">The drop rule which should occur given this leading condition.</param>
+        /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
+        /// <returns>The LeadingConditionRule (first parameter).</returns>
+        public static IItemDropRule Add(this LeadingConditionRule mainRule, IItemDropRule chainedRule, bool hideLootReport = false)
+        {
+            return mainRule.OnSuccess(chainedRule, hideLootReport);
+        }
+
+        /// <summary>
+        /// Shorthand to add a simple drop to the given LeadingConditionRule.
+        /// </summary>
+        /// <param name="mainRule">The LeadingConditionRule which should drop this item as one of its chains.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRateInt">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
+        /// <returns>The LeadingConditionRule (first parameter).</returns>
+        public static IItemDropRule Add(this LeadingConditionRule mainRule, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false)
+        {
+            return mainRule.OnSuccess(ItemDropRule.Common(itemID, dropRateInt, minQuantity, maxQuantity), hideLootReport);
+        }
+
+        /// <summary>
+        /// Shorthand to add a simple drop to the given LeadingConditionRule using a Fraction drop rate.
+        /// </summary>
+        /// <param name="mainRule">The LeadingConditionRule which should drop this item as one of its chains.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRate">The chance that the item will drop as a DropHelper Fraction.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
+        /// <returns>The LeadingConditionRule (first parameter).</returns>
+        public static IItemDropRule Add(this LeadingConditionRule mainRule, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false)
+        {
+            return mainRule.OnSuccess(new CommonDrop(itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator), hideLootReport);
+        }
+
+        /// <summary>
+        /// Shorthand to add an arbitrary conditional drop to the given LeadingConditionRule.
+        /// </summary>
+        /// <param name="mainRule">The LeadingConditionRule which should drop this item as one of its chains.</param>
+        /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRateInt">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
+        /// <returns>The item drop rule registered.</returns>
+        public static IItemDropRule AddIf(this LeadingConditionRule mainRule, Func<bool> lambda, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false, string desc = null)
+        {
+            return mainRule.OnSuccess(ItemDropRule.ByCondition(If(lambda, true, desc), itemID, dropRateInt, minQuantity, maxQuantity), hideLootReport);
+        }
+
+        /// <summary>
+        /// Shorthand to add an arbitrary conditional drop to the given LeadingConditionRule using a Fraction drop rate.
+        /// </summary>
+        /// <param name="mainRule">The LeadingConditionRule which should drop this item as one of its chains.</param>
+        /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRate">The chance that the item will drop as a DropHelper Fraction.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
+        /// <returns>The item drop rule registered.</returns>
+        public static IItemDropRule AddIf(this LeadingConditionRule mainRule, Func<bool> lambda, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false, string desc = null)
+        {
+            return mainRule.OnSuccess(ItemDropRule.ByCondition(If(lambda, true, desc), itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator), hideLootReport);
+        }
+
+        /// <summary>
+        /// Shorthand to add an arbitrary conditional drop to the given LeadingConditionRule.<br />
+        /// <b>This version requires a lambda which uses DropAttemptInfo.</b>
+        /// </summary>
+        /// <param name="mainRule">The LeadingConditionRule which should drop this item as one of its chains.</param>
+        /// <param name="lambda">A lambda which takes a DropAttemptInfo struct and evaluates in real-time to the condition that needs to be checked.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRateInt">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
+        /// <returns>The item drop rule registered.</returns>
+        public static IItemDropRule AddIf(this LeadingConditionRule mainRule, Func<DropAttemptInfo, bool> lambda, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false, string desc = null)
+        {
+            return mainRule.OnSuccess(ItemDropRule.ByCondition(If(lambda, true, desc), itemID, dropRateInt, minQuantity, maxQuantity), hideLootReport);
+        }
+
+        /// <summary>
+        /// Shorthand to add an arbitrary conditional drop to the given LeadingConditionRule using a Fraction drop rate.<br />
+        /// <b>This version requires a lambda which uses DropAttemptInfo.</b>
+        /// </summary>
+        /// <param name="mainRule">The LeadingConditionRule which should drop this item as one of its chains.</param>
+        /// <param name="lambda">A lambda which takes a DropAttemptInfo struct and evaluates in real-time to the condition that needs to be checked.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRate">The chance that the item will drop as a DropHelper Fraction.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
+        /// <returns>The item drop rule registered.</returns>
+        public static IItemDropRule AddIf(this LeadingConditionRule mainRule, Func<DropAttemptInfo, bool> lambda, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false, string desc = null)
+        {
+            return mainRule.OnSuccess(ItemDropRule.ByCondition(If(lambda, true, desc), itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator), hideLootReport);
+        }
+
+        /// <summary>
+        /// Adds any given drop rule as a chained rule to the given LeadingConditionRule.
+        /// </summary>
+        /// <param name="mainRule">The LeadingConditionRule which should have another drop rule registered as one of its chains.</param>
+        /// <param name="chainedRule">The drop rule which should occur given this leading condition.</param>
+        /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
+        /// <returns>The LeadingConditionRule (first parameter).</returns>
+        public static IItemDropRule AddFail(this LeadingConditionRule mainRule, IItemDropRule chainedRule, bool hideLootReport = false)
+        {
+            return mainRule.OnFailedConditions(chainedRule, hideLootReport);
+        }
+
+        /// <summary>
+        /// Shorthand to add a simple drop to the given LeadingConditionRule.
+        /// </summary>
+        /// <param name="mainRule">The LeadingConditionRule which should drop this item as one of its chains.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRateInt">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
+        /// <returns>The LeadingConditionRule (first parameter).</returns>
+        public static IItemDropRule AddFail(this LeadingConditionRule mainRule, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false)
+        {
+            return mainRule.OnFailedConditions(ItemDropRule.Common(itemID, dropRateInt, minQuantity, maxQuantity), hideLootReport);
+        }
+
+        /// <summary>
+        /// Shorthand to add a simple drop to the given LeadingConditionRule using a Fraction drop rate.
+        /// </summary>
+        /// <param name="mainRule">The LeadingConditionRule which should drop this item as one of its chains.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRate">The chance that the item will drop as a DropHelper Fraction.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
+        /// <returns>The LeadingConditionRule (first parameter).</returns>
+        public static IItemDropRule AddFail(this LeadingConditionRule mainRule, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false)
+        {
+            return mainRule.OnFailedConditions(new CommonDrop(itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator), hideLootReport);
+        }
+        #endregion
+        
         #region Global Drop Chances
         /// <summary>
         /// The Defiled Rune boosts various low drop rates to one in this value.
@@ -353,6 +648,121 @@ namespace CalRD
             return ArmageddonExtraBags;
         }
         #endregion
+        
+        #region ILoot extensions
+        /// <summary>
+        /// Registers a LeadingConditionRule for a loot table and returns it so you can add drops to that rule.
+        /// </summary>
+        /// <param name="loot">The ILoot interface for the loot table.</param>
+        /// <param name="condition">The condition behind which you want to gate several drop rules.</param>
+        /// <returns>The LeadingConditionRule which encapsulates the given condition.</returns>
+        public static LeadingConditionRule DefineConditionalDropSet(this ILoot loot, IItemDropRuleCondition condition)
+        {
+            LeadingConditionRule rule = new LeadingConditionRule(condition);
+            loot.Add(rule);
+            return rule;
+        }
+        
+        /// <summary>
+        /// Shorthand to add an arbitrary conditional drop to a loot table.
+        /// </summary>
+        /// <param name="loot">The ILoot interface for the loot table.</param>
+        /// <param name="cond">An IItemDropRuleCondition which encapsulates the condition which needs to be checked in real-time.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRateInt">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <returns>The item drop rule registered.</returns>
+        public static IItemDropRule AddIf(this ILoot loot, IItemDropRuleCondition cond, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1)
+        {
+            return loot.Add(ItemDropRule.ByCondition(cond, itemID, dropRateInt, minQuantity, maxQuantity));
+        }
+
+        /// <summary>
+        /// Shorthand to add an arbitrary conditional drop to a loot table using a Fraction drop rate.
+        /// </summary>
+        /// <param name="loot">The ILoot interface for the loot table.</param>
+        /// <param name="cond">An IItemDropRuleCondition which encapsulates the condition which needs to be checked in real-time.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRate">The chance that the item will drop as a DropHelper Fraction.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <returns>The item drop rule registered.</returns>
+        public static IItemDropRule AddIf(this ILoot loot, IItemDropRuleCondition cond, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1)
+        {
+            return loot.Add(ItemDropRule.ByCondition(cond, itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator));
+        }
+
+        /// <summary>
+        /// Shorthand to add an arbitrary conditional drop to a loot table.
+        /// </summary>
+        /// <param name="loot">The ILoot interface for the loot table.</param>
+        /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRateInt">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
+        /// <returns>The item drop rule registered.</returns>
+        public static IItemDropRule AddIf(this ILoot loot, Func<bool> lambda, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1, bool ui = true, string desc = null)
+        {
+            return loot.Add(ItemDropRule.ByCondition(If(lambda, ui, desc), itemID, dropRateInt, minQuantity, maxQuantity));
+        }
+
+        /// <summary>
+        /// Shorthand to add an arbitrary conditional drop to a loot table using a Fraction drop rate.
+        /// </summary>
+        /// <param name="loot">The ILoot interface for the loot table.</param>
+        /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRate">The chance that the item will drop as a DropHelper Fraction.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
+        /// <returns>The item drop rule registered.</returns>
+        public static IItemDropRule AddIf(this ILoot loot, Func<bool> lambda, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1, bool ui = true, string desc = null)
+        {
+            return loot.Add(ItemDropRule.ByCondition(If(lambda, ui, desc), itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator));
+        }
+
+        /// <summary>
+        /// Shorthand to add an arbitrary conditional drop to a loot table.<br />
+        /// <b>This version requires a lambda which uses DropAttemptInfo.</b>
+        /// </summary>
+        /// <param name="loot">The ILoot interface for the loot table.</param>
+        /// <param name="lambda">A lambda which takes a DropAttemptInfo struct and evaluates in real-time to the condition that needs to be checked.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRateInt">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
+        /// <returns>The item drop rule registered.</returns>
+        public static IItemDropRule AddIf(this ILoot loot, Func<DropAttemptInfo, bool> lambda, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1, bool ui = true, string desc = null)
+        {
+            return loot.Add(ItemDropRule.ByCondition(If(lambda, ui, desc), itemID, dropRateInt, minQuantity, maxQuantity));
+        }
+
+        /// <summary>
+        /// Shorthand to add an arbitrary conditional drop to a loot table using a Fraction drop rate.<br />
+        /// <b>This version requires a lambda which uses DropAttemptInfo.</b>
+        /// </summary>
+        /// <param name="loot">The ILoot interface for the loot table.</param>
+        /// <param name="lambda">A lambda which takes a DropAttemptInfo struct and evaluates in real-time to the condition that needs to be checked.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRate">The chance that the item will drop as a DropHelper Fraction.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
+        /// <returns>The item drop rule registered.</returns>
+        public static IItemDropRule AddIf(this ILoot loot, Func<DropAttemptInfo, bool> lambda, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1, bool ui = true, string desc = null)
+        {
+            return loot.Add(ItemDropRule.ByCondition(If(lambda, ui, desc), itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator));
+        }
+        #endregion
 
         #region Specific Drop Helpers
         // Code copied from Player.QuickSpawnClonedItem, which was added by TML.
@@ -412,9 +822,15 @@ namespace CalRD
             return r;
         }
 
-        public static bool DropRevBagAccessories(IEntitySource src, Player p)
+        /// <summary>
+        /// Adds the Revengeance Mode bag accessories to the given loot table.
+        /// </summary>
+        /// <param name="loot">The ILoot interface for the loot table.</param>
+        public static void AddRevBagAccessories(this ILoot loot)
         {
-            return DropItemFromSetCondition(src, p, CalamityWorld.revenge, 0.05f, ModContent.ItemType<StressPills>(), ModContent.ItemType<Laudanum>(), ModContent.ItemType<HeartofDarkness>());
+            var lcr = new LeadingConditionRule(If(() => CalamityWorld.revenge));
+            lcr.Add(new OneFromOptionsDropRule(20, 1,  ModContent.ItemType<StressPills>(), ModContent.ItemType<Laudanum>(), ModContent.ItemType<HeartofDarkness>()));
+            loot.Add(lcr);
         }
 
         /// <summary>

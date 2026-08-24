@@ -112,11 +112,10 @@ namespace CalRD.Projectiles.Rogue
             }
             return !Projectile.Calamity().stealthStrike;
         }
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            Projectile.ModifyHitNPCSticky(6, false);
-        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => Projectile.ModifyHitNPCSticky(6);
 
+        public override bool? CanDamage() => Projectile.ai[0] == 1f ? false : base.CanDamage();
+        
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             if (targetHitbox.Width > 8 && targetHitbox.Height > 8)

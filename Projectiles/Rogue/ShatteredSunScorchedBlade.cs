@@ -152,11 +152,11 @@ namespace CalRD.Projectiles.Rogue
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*{
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
             if (multiplier < 0.5f)
                 multiplier = 0.5f;
-            damage = stealthOrigin ? damage : (int)((double)damage * multiplier);
+            info.Damage = stealthOrigin ? info.Damage : (int)((double)info.Damage * multiplier);
             if (Projectile.Calamity().stealthStrike)
             {
                 int numProj = 2;
@@ -172,7 +172,7 @@ namespace CalRD.Projectiles.Rogue
                     {
                         Vector2 perturbedspeed = new Vector2(correctedVelocity.X, correctedVelocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
                         
-                        int proj = Projectile.NewProjectile(owner.Center.X, owner.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ShatteredSunScorchedBlade>(), (int)((double)Projectile.damage * 0.55), 1f, Projectile.owner, 0f, 0f);
+                        int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), owner.Center.X, owner.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ShatteredSunScorchedBlade>(), (int)((double)Projectile.damage * 0.55), 1f, Projectile.owner, 0f, 0f);
                         spread -= Main.rand.Next(2, 6);
                         Main.projectile[proj].ai[0] = 1f;
                     }
@@ -180,7 +180,7 @@ namespace CalRD.Projectiles.Rogue
                 }
             }
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
-        }*/
+        }
 
         public override void OnKill(int timeLeft)
         {

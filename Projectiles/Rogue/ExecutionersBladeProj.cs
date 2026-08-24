@@ -73,16 +73,14 @@ namespace CalRD.Projectiles.Rogue
             }
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
             if (Projectile.Calamity().stealthStrike)
             {
-                handleStealth(target.Center, damage, crit, 0f);
+                handleStealth(target.Center, info.Damage, false, 0f);
             }
         }
-        */
 
         public override void OnKill(int timeLeft)
         {

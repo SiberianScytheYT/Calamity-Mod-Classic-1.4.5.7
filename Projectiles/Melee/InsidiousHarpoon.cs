@@ -63,10 +63,7 @@ namespace CalRD.Projectiles.Melee
 			}
         }
 
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            Projectile.ModifyHitNPCSticky(20, true);
-        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => Projectile.ModifyHitNPCSticky(20);
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

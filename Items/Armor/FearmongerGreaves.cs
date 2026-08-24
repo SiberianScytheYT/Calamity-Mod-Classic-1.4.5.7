@@ -33,7 +33,7 @@ namespace CalRD.Items.Armor
         {
             player.maxMinions += 2;
             player.GetDamage(DamageClass.Generic) += 0.06f;
-            player.GetKnockback(DamageClass.Summon).Base += 0.5f;
+            player.GetKnockback(DamageClass.Summon) += 0.5f;
             player.moveSpeed += 0.15f;
             player.panic = true;
         }

@@ -118,15 +118,15 @@ namespace CalRD.Projectiles.Typeless
             Projectile.Kill();
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*{
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
             if (Projectile.localAI[1] < 1f)
             {
                 return;
             }
             target.AddBuff(BuffID.Venom, fromArmour ? 150 : 120);
             Projectile.Kill();
-		}*/
+		}
 
         public override void OnKill(int timeLeft)
         {

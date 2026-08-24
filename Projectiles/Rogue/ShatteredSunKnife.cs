@@ -97,11 +97,11 @@ namespace CalRD.Projectiles.Rogue
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*{
-            Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), (int)((double)damage * 0.15), Projectile.knockBack, Projectile.owner, 0f, 0f);
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), (int)((double)info.Damage * 0.15), Projectile.knockBack, Projectile.owner, 0f, 0f);
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
-        }*/
+        }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

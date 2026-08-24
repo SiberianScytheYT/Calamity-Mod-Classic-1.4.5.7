@@ -99,12 +99,10 @@ namespace CalRD.Projectiles.Rogue
 				target.AddBuff(ModContent.BuffType<Nightwither>(), 60);
 		}
 
-		//public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-		/*
+		public override void OnHitPlayer(Player target, Player.HurtInfo info)
 		{
 			if (!Main.dayTime || Main.rand.NextBool(3)) //100% at night, 33.33% chance during day
 				target.AddBuff(ModContent.BuffType<Nightwither>(), 60);
 		}
-		*/
 	}
 }

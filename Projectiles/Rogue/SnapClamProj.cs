@@ -63,10 +63,12 @@ namespace CalRD.Projectiles.Rogue
             if (openClam)
             {
                 onEnemy = true;
-				Projectile.ModifyHitNPCSticky(2, false);
+				Projectile.ModifyHitNPCSticky(2);
             }
         }
 
+        public override bool? CanDamage() => Projectile.ai[0] == 1f ? false : base.CanDamage();
+        
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             if (targetHitbox.Width > 8 && targetHitbox.Height > 8)

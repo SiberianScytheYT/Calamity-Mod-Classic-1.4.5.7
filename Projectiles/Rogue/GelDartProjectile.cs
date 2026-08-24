@@ -101,13 +101,11 @@ namespace CalRD.Projectiles.Rogue
 				target.AddBuff(BuffID.Slow, 120);
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(BuffID.Slimed, 120);
 			if (Projectile.Calamity().stealthStrike)
 				target.AddBuff(BuffID.Slow, 120);
         }
-        */
     }
 }

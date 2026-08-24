@@ -75,15 +75,13 @@ namespace CalRD.Projectiles.Magic
             target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             Projectile.ai[0]++;
             target.AddBuff(BuffID.Venom, 180);
             target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
         }
-        */
-
+        
         public override void OnKill(int timeLeft)
         {
             for (int dust = 0; dust <= 22; dust++)

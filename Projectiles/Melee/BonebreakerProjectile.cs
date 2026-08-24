@@ -54,10 +54,7 @@ namespace CalRD.Projectiles.Melee
             Projectile.StickyProjAI(15);
         }
 
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            Projectile.ModifyHitNPCSticky(6, true);
-        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => Projectile.ModifyHitNPCSticky(6);
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
@@ -104,14 +101,12 @@ namespace CalRD.Projectiles.Melee
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 240);
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(BuffID.BoneJavelin, 240);
             target.AddBuff(BuffID.Venom, 240);
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 240);
         }
-        */
 
 		public override bool? CanHitNPC(NPC target)
 		{

@@ -67,8 +67,7 @@ namespace CalRD.Projectiles.Hybrid
             }
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(BuffID.OnFire, 300);
             if (Projectile.owner == Main.myPlayer)
@@ -80,6 +79,5 @@ namespace CalRD.Projectiles.Hybrid
 					Main.projectile[proj].Calamity().forceRogue = true;
             }
         }
-        */
     }
 }

@@ -170,8 +170,8 @@ namespace CalRD.Projectiles.Rogue
 			}
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*{
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
 			if (Projectile.owner == Main.myPlayer && Projectile.Calamity().stealthStrike)
 			{
 				int projNumber = Main.rand.Next(1,3);
@@ -184,6 +184,6 @@ namespace CalRD.Projectiles.Rogue
 					Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, xVector, yVector, ModContent.ProjectileType<TitaniumClone>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
 				}
 			}
-        }*/
+        }
     }
 }

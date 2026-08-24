@@ -61,10 +61,7 @@ namespace CalRD.Projectiles.Rogue
             return false;
         }
 
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            Projectile.ModifyHitNPCSticky(3, true);
-        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => Projectile.ModifyHitNPCSticky(3);
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {

@@ -64,7 +64,7 @@ namespace CalRD.Items.Armor
         {
             player.ignoreWater = true;
             player.GetDamage(DamageClass.Summon) += 0.05f;
-            player.GetKnockback(DamageClass.Summon).Base += 1f;
+            player.GetKnockback(DamageClass.Summon) += 1f;
             player.maxMinions += 2;
             player.moveSpeed += 0.1f;
         }

@@ -63,13 +63,11 @@ namespace CalRD.Projectiles.Rogue
 			hasHit = true;
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /* 
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
 			hasHit = true;
         }
-        */
 
 		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of true */ => !hasHit;
 

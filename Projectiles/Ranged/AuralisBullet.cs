@@ -55,14 +55,12 @@ namespace CalRD.Projectiles.Ranged
 			target.AddBuff(BuffID.CursedInferno, duration);
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
 			int duration = 600;
 			target.AddBuff(ModContent.BuffType<MarkedforDeath>(), duration);
 			target.AddBuff(BuffID.Ichor, duration);
 			target.AddBuff(BuffID.CursedInferno, duration);
         }
-        */
     }
 }

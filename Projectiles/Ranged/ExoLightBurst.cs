@@ -63,10 +63,9 @@ namespace CalRD.Projectiles.Ranged
             }
             Projectile.StickyProjAI(5);
         }
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            Projectile.ModifyHitNPCSticky(4, false);
-        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => Projectile.ModifyHitNPCSticky(4);
+        
+        public override bool? CanDamage() => Projectile.ai[0] == 1f ? false : base.CanDamage();
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
@@ -81,11 +80,9 @@ namespace CalRD.Projectiles.Ranged
 			target.ExoDebuffs(2f);
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
 			target.ExoDebuffs(2f);
         }
-        */
     }
 }

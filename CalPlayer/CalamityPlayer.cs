@@ -4356,6 +4356,49 @@ namespace CalRD.CalPlayer
         #region On Hit NPC
         public override void OnHitNPCWithItem(Item item, NPC target, NPC.HitInfo hit, int damageDone)/* tModPorter If you don't need the Item, consider using OnHitNPC instead */
         {
+	        if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
+	        {
+		        if (item.CountsAsClass(DamageClass.Melee))
+		        {
+			        int stressGain = (int)(hit.Damage * 0.1);
+			        int stressMaxGain = 10;
+			        if (stressGain < 1)
+			        {
+				        stressGain = 1;
+			        }
+			        if (stressGain > stressMaxGain)
+			        {
+				        stressGain = stressMaxGain;
+			        }
+			        rage += stressGain;
+			        if (rage >= rageMax)
+			        {
+				        rage = rageMax;
+			        }
+		        }
+	        }
+	        if (unstablePrism && hit.Crit)
+	        {
+		        for (int s = 0; s < 3; s++)
+		        {
+			        Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
+			        Projectile.NewProjectile(Entity.GetSource_FromThis(), target.Center, velocity, ModContent.ProjectileType<UnstableSpark>(), CalamityUtils.DamageSoftCap(item.damage * 0.15, 30), 0f, Player.whoAmI);
+		        }
+	        }
+	        if (astralStarRain && hit.Crit && astralStarRainCooldown <= 0)
+	        {
+		        astralStarRainCooldown = 60;
+		        for (int n = 0; n < 3; n++)
+		        {
+			        int projectileType = Utils.SelectRandom(Main.rand, new int[]
+			        {
+				        ModContent.ProjectileType<AstralStar>(),
+				        ProjectileID.HallowStar,
+				        ModContent.ProjectileType<FallenStarProj>()
+			        });
+			        CalamityUtils.ProjectileRain(target.GetSource_FromThis(), target.Center, 400f, 100f, 500f, 800f, 25f, projectileType, (int)(120 * Player.AverageDamage()), 5f, Player.whoAmI, 6);
+		        }
+	        }
 			if (desertProwler && item.CountsAsClass(DamageClass.Ranged) && hit.Crit) //for obscure stuff like marnite bayonet
 			{
 				if (Player.ownedProjectileCounts[ModContent.ProjectileType<DesertMark>()] < 1 && Player.ownedProjectileCounts[ModContent.ProjectileType<DesertTornado>()] < 1)
@@ -4538,6 +4581,107 @@ namespace CalRD.CalPlayer
                     else if (Main.rand.NextBool(3))
                         target.AddBuff(BuffID.Frostburn, 120);
                     break;
+            }
+            if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
+            {
+	            if (proj.Calamity().trueMelee)
+	            {
+		            int stressGain = (int)(hit.Damage * 0.1);
+		            int stressMaxGain = 10;
+		            if (stressGain < 1)
+		            {
+			            stressGain = 1;
+		            }
+		            if (stressGain > stressMaxGain)
+		            {
+			            stressGain = stressMaxGain;
+		            }
+		            rage += stressGain;
+		            if (rage >= rageMax)
+		            {
+			            rage = rageMax;
+		            }
+	            }
+            }
+            if (unstablePrism && hit.Crit)
+            {
+	            for (int s = 0; s < 3; s++)
+	            {
+		            Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
+		            Projectile.NewProjectile(Entity.GetSource_FromThis(), target.Center, velocity, ModContent.ProjectileType<UnstableSpark>(), CalamityUtils.DamageSoftCap(proj.damage * 0.15, 30), 0f, Player.whoAmI);
+	            }
+            }
+            if (astralStarRain && hit.Crit && astralStarRainCooldown <= 0)
+            {
+	            astralStarRainCooldown = 60;
+	            for (int n = 0; n < 3; n++)
+	            {
+		            int projectileType = Utils.SelectRandom(Main.rand, new int[]
+		            {
+			            ModContent.ProjectileType<AstralStar>(),
+			            ProjectileID.HallowStar,
+			            ModContent.ProjectileType<FallenStarProj>()
+		            });
+		            CalamityUtils.ProjectileRain(target.GetSource_FromThis(), target.Center, 400f, 100f, 500f, 800f, 25f, projectileType, (int)(120 * Player.AverageDamage()), 5f, Player.whoAmI, 6);
+	            }
+            }
+            if (tarraRanged && hit.Crit && proj.CountsAsClass(DamageClass.Ranged))
+            {
+	            int leafAmt = Main.rand.Next(2, 4);
+	            for (int l = 0; l < leafAmt; l++)
+	            {
+		            Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+		            int FUCKYOU = Projectile.NewProjectile(Entity.GetSource_FromThis(), target.Center, velocity, ProjectileID.Leaf, CalamityUtils.DamageSoftCap(proj.damage * 0.25, 60), 0f, Player.whoAmI);
+		            Main.projectile[FUCKYOU].Calamity().forceTypeless = true;
+		            Main.projectile[FUCKYOU].netUpdate = true;
+	            }
+            }
+            if (bloodflareThrowing && proj.Calamity().rogue && hit.Crit && Main.rand.NextBool(2))
+            {
+	            if (target.canGhostHeal)
+	            {
+		            float projHitMult = 0.03f;
+		            projHitMult -= (float)proj.numHits * 0.015f;
+		            if (projHitMult < 0f)
+		            {
+			            projHitMult = 0f;
+		            }
+		            float cooldownMult = proj.damage * projHitMult;
+		            if (cooldownMult < 0f)
+		            {
+			            cooldownMult = 0f;
+		            }
+		            if (Player.lifeSteal > 0f)
+		            {
+			            Player.statLife += 1;
+			            Player.HealEffect(1);
+			            Player.lifeSteal -= cooldownMult * 2f;
+		            }
+	            }
+            }
+            if (bloodflareMage && bloodflareMageCooldown <= 0 && hit.Crit && proj.CountsAsClass(DamageClass.Magic))
+            {
+	            bloodflareMageCooldown = 120;
+	            for (int i = 0; i < 3; i++)
+	            {
+		            Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+		            int fire = Projectile.NewProjectile(Entity.GetSource_FromThis(), target.Center, velocity, ProjectileID.BallofFire, CalamityUtils.DamageSoftCap(proj.damage * 0.5, 120), 0f, Player.whoAmI);
+		            Main.projectile[fire].Calamity().forceTypeless = true;
+		            Main.projectile[fire].netUpdate = true;
+	            }
+            }
+            if (tarraMage && hit.Crit && proj.CountsAsClass(DamageClass.Magic))
+            {
+	            tarraCrits++;
+            }
+            if (tarraThrowing && !tarragonImmunity && !tarragonImmunityCooldown && tarraThrowingCrits < 25 && hit.Crit && proj.Calamity().rogue)
+            {
+	            tarraThrowingCrits++;
+            }
+            if (raiderTalisman && raiderStack < 150 && proj.Calamity().rogue && hit.Crit && raiderCooldown <= 0)
+            {
+	            raiderStack++;
+	            raiderCooldown = 30;
             }
 
             if (!proj.npcProj && !proj.trap)
@@ -5167,28 +5311,6 @@ namespace CalRD.CalPlayer
                         }
                     }
 				}
-				if (unstablePrism && modifiers.ToHitInfo(modifiers.FinalDamage.Base, true, modifiers.Knockback.Base, false, 0f).Crit)
-				{
-					for (int s = 0; s < 3; s++)
-					{
-						Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-						Projectile.NewProjectile(Entity.GetSource_FromThis(), target.Center, velocity, ModContent.ProjectileType<UnstableSpark>(), CalamityUtils.DamageSoftCap(item.damage * 0.15, 30), 0f, Player.whoAmI);
-					}
-				}
-                if (astralStarRain && modifiers.ToHitInfo(modifiers.FinalDamage.Base, true, modifiers.Knockback.Base, false, 0f).Crit && astralStarRainCooldown <= 0)
-                {
-                    astralStarRainCooldown = 60;
-                    for (int n = 0; n < 3; n++)
-                    {
-						int projectileType = Utils.SelectRandom(Main.rand, new int[]
-						{
-							ModContent.ProjectileType<AstralStar>(),
-							ProjectileID.HallowStar,
-							ModContent.ProjectileType<FallenStarProj>()
-						});
-						CalamityUtils.ProjectileRain(target.GetSource_FromThis(), target.Center, 400f, 100f, 500f, 800f, 25f, projectileType, (int)(120 * Player.AverageDamage()), 5f, Player.whoAmI, 6);
-                    }
-                }
                 if (bloodflareMelee && item.CountsAsClass(DamageClass.Melee))
                 {
                     if (bloodflareMeleeHits < 15 && !bloodflareFrenzy && !bloodFrenzyCooldown)
@@ -5227,27 +5349,6 @@ namespace CalRD.CalPlayer
 
                             if (Main.netMode == NetmodeID.MultiplayerClient)
                                 LevelPacket(false, (int)ClassType.Melee);
-                        }
-                    }
-                }
-                if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
-                {
-                    if (item.CountsAsClass(DamageClass.Melee))
-                    {
-                        int stressGain = (int)(item.damage * 0.1);
-                        int stressMaxGain = 10;
-                        if (stressGain < 1)
-                        {
-                            stressGain = 1;
-                        }
-                        if (stressGain > stressMaxGain)
-                        {
-                            stressGain = stressMaxGain;
-                        }
-                        rage += stressGain;
-                        if (rage >= rageMax)
-                        {
-                            rage = rageMax;
                         }
                     }
                 }
@@ -5323,25 +5424,24 @@ namespace CalRD.CalPlayer
             }
             if (auricSet)
             {
-                if (silvaThrowing && proj.Calamity().rogue &&
-                    modifiers.ToHitInfo(modifiers.FinalDamage.Base, true, modifiers.Knockback.Base, false, 0f).Crit && Player.statLife > (int)(Player.statLifeMax2 * 0.5))
-                {
-                    damageMult += 0.25;
-                }
+	            if (silvaThrowing && proj.Calamity().rogue && Player.statLife > (int)(Player.statLifeMax2 * 0.5))
+	            {
+		            modifiers.CritDamage += 0.25f;
+				}
                 if (silvaMelee && proj.CountsAsClass(DamageClass.Melee))
                 {
                     double multiplier = (double)Player.statLife / (double)Player.statLifeMax2;
                     damageMult += multiplier * 0.2;
                 }
             }
-            if (godSlayerRanged && modifiers.ToHitInfo(modifiers.FinalDamage.Base, true, modifiers.Knockback.Base, false, 0f).Crit && proj.CountsAsClass(DamageClass.Ranged))
+            if (godSlayerRanged && proj.CountsAsClass(DamageClass.Ranged))
             {
                 // 100 min to 15 max with cap (prevents crit hyperscaling)
                 int randomChance = 100 - (int)Player.GetCritChance(DamageClass.Ranged);
                 if (randomChance < 15)
                     randomChance = 15;
                 if (Main.rand.NextBool(randomChance))
-                    damageMult += 1.0;
+                    modifiers.CritDamage += 1f;
             }
             if (silvaCountdown <= 0 && hasSilvaEffect && silvaRanged && proj.CountsAsClass(DamageClass.Ranged))
             {
@@ -5419,9 +5519,9 @@ namespace CalRD.CalPlayer
             if (etherealExtorter && proj.Calamity().rogue)
             {
                 bool ZoneForest = !ZoneAbyss && !ZoneSulphur && !ZoneAstral && !ZoneCalamity && !ZoneSunkenSea && !Player.ZoneSnow && !Player.ZoneCorrupt && !Player.ZoneCrimson && !Player.ZoneHallow && !Player.ZoneDesert && !Player.ZoneUndergroundDesert && !Player.ZoneGlowshroom && !Player.ZoneDungeon && !Player.ZoneBeach && !Player.ZoneMeteor;
-                if (Main.moonPhase == 7 && modifiers.ToHitInfo(modifiers.FinalDamage.Base, true, modifiers.Knockback.Base, false, 0f).Crit) //Waxing Gibbous
+                if (Main.moonPhase == 7) //Waxing Gibbous
                 {
-                    damageMult += 0.05;
+                    modifiers.CritDamage += 0.05f;
                 }
                 if (Main.moonPhase == 5) //Waxing Cresent
                 {
@@ -5438,8 +5538,8 @@ namespace CalRD.CalPlayer
                 }
                 if (Player.ZoneDirtLayerHeight && ZoneForest)
                 {
-                    if (Main.rand.NextBool(20) && !modifiers.ToHitInfo(modifiers.FinalDamage.Base, true, modifiers.Knockback.Base, false, 0f).Crit) //5% chance to minicrit
-                        damageMult += 0.5;
+                    if (Main.rand.NextBool(20)) //5% chance to minicrit
+                        modifiers.NonCritDamage *= 1.5f;
                 }
             }
             modifiers.SourceDamage *= (float)damageMult;
@@ -5576,28 +5676,11 @@ namespace CalRD.CalPlayer
 
             #endregion
 
-            if (tarraMage && modifiers.ToHitInfo(modifiers.FinalDamage.Base, true, modifiers.Knockback.Base, false, 0f).Crit && proj.CountsAsClass(DamageClass.Magic))
-            {
-                tarraCrits++;
-            }
-            if (tarraThrowing && !tarragonImmunity && !tarragonImmunityCooldown && tarraThrowingCrits < 25 && modifiers.ToHitInfo(modifiers.FinalDamage.Base, true, modifiers.Knockback.Base, false, 0f).Crit && proj.Calamity().rogue)
-            {
-                tarraThrowingCrits++;
-            }
-
             if ((target.damage > 5 || target.boss) && Player.whoAmI == Main.myPlayer && !target.SpawnedFromStatue)
             {
                 if (theBee && Player.statLife >= Player.statLifeMax2)
                 {
                     SoundEngine.PlaySound(SoundID.Item110, proj.Center);
-                }
-                if (unstablePrism && modifiers.ToHitInfo(modifiers.FinalDamage.Base, true, modifiers.Knockback.Base, false, 0f).Crit)
-                {
-                    for (int s = 0; s < 3; s++)
-                    {
-						Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-                        Projectile.NewProjectile(Entity.GetSource_FromThis(), target.Center, velocity, ModContent.ProjectileType<UnstableSpark>(), CalamityUtils.DamageSoftCap(proj.damage * 0.15, 30), 0f, Player.whoAmI);
-                    }
                 }
                 if (electricianGlove && proj.Calamity().stealthStrike && proj.Calamity().rogue && proj.Calamity().stealthStrikeHitCount < 5)
                 {
@@ -5607,65 +5690,6 @@ namespace CalRD.CalPlayer
                         int spark = Projectile.NewProjectile(Entity.GetSource_FromThis(), target.Center, velocity, ModContent.ProjectileType<Spark>(), CalamityUtils.DamageSoftCap(proj.damage * 0.1, 30), 0f, Player.whoAmI);
                         Main.projectile[spark].Calamity().forceRogue = true;
                         Main.projectile[spark].localNPCHitCooldown = -1;
-                    }
-                }
-                if (astralStarRain && modifiers.ToHitInfo(modifiers.FinalDamage.Base, true, modifiers.Knockback.Base, false, 0f).Crit && astralStarRainCooldown <= 0)
-                {
-                    astralStarRainCooldown = 60;
-                    for (int n = 0; n < 3; n++)
-                    {
-						int projectileType = Utils.SelectRandom(Main.rand, new int[]
-						{
-							ModContent.ProjectileType<AstralStar>(),
-							ProjectileID.HallowStar,
-							ModContent.ProjectileType<FallenStarProj>()
-						});
-						CalamityUtils.ProjectileRain(target.GetSource_FromThis(), target.Center, 400f, 100f, 500f, 800f, 25f, projectileType, (int)(120 * Player.AverageDamage()), 5f, Player.whoAmI, 6);
-                    }
-                }
-                if (tarraRanged && modifiers.ToHitInfo(modifiers.FinalDamage.Base, true, modifiers.Knockback.Base, false, 0f).Crit && proj.CountsAsClass(DamageClass.Ranged))
-                {
-                    int leafAmt = Main.rand.Next(2, 4);
-                    for (int l = 0; l < leafAmt; l++)
-                    {
-						Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                        int FUCKYOU = Projectile.NewProjectile(Entity.GetSource_FromThis(), target.Center, velocity, ProjectileID.Leaf, CalamityUtils.DamageSoftCap(proj.damage * 0.25, 60), 0f, Player.whoAmI);
-                        Main.projectile[FUCKYOU].Calamity().forceTypeless = true;
-                        Main.projectile[FUCKYOU].netUpdate = true;
-                    }
-                }
-                if (bloodflareThrowing && proj.Calamity().rogue && modifiers.ToHitInfo(modifiers.FinalDamage.Base, true, modifiers.Knockback.Base, false, 0f).Crit && Main.rand.NextBool(2))
-                {
-                    if (target.canGhostHeal)
-                    {
-                        float projHitMult = 0.03f;
-                        projHitMult -= (float)proj.numHits * 0.015f;
-                        if (projHitMult < 0f)
-                        {
-                            projHitMult = 0f;
-                        }
-                        float cooldownMult = proj.damage * projHitMult;
-                        if (cooldownMult < 0f)
-                        {
-                            cooldownMult = 0f;
-                        }
-                        if (Player.lifeSteal > 0f)
-                        {
-                            Player.statLife += 1;
-                            Player.HealEffect(1);
-                            Player.lifeSteal -= cooldownMult * 2f;
-                        }
-                    }
-                }
-                if (bloodflareMage && bloodflareMageCooldown <= 0 && modifiers.ToHitInfo(modifiers.FinalDamage.Base, true, modifiers.Knockback.Base, false, 0f).Crit && proj.CountsAsClass(DamageClass.Magic))
-                {
-                    bloodflareMageCooldown = 120;
-                    for (int i = 0; i < 3; i++)
-                    {
-						Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                        int fire = Projectile.NewProjectile(Entity.GetSource_FromThis(), target.Center, velocity, ProjectileID.BallofFire, CalamityUtils.DamageSoftCap(proj.damage * 0.5, 120), 0f, Player.whoAmI);
-                        Main.projectile[fire].Calamity().forceTypeless = true;
-                        Main.projectile[fire].netUpdate = true;
                     }
                 }
                 if (umbraphileSet && proj.Calamity().rogue && (Main.rand.NextBool(4) || (proj.Calamity().stealthStrike && proj.Calamity().stealthStrikeHitCount < 5)) && proj.type != ModContent.ProjectileType<UmbraphileBoom>())
@@ -5798,32 +5822,6 @@ namespace CalRD.CalPlayer
 
                             if (Main.netMode == NetmodeID.MultiplayerClient)
                                 LevelPacket(false, (int)ClassType.Rogue);
-                        }
-                    }
-                }
-                if (raiderTalisman && raiderStack < 150 && proj.Calamity().rogue && modifiers.ToHitInfo(modifiers.FinalDamage.Base, true, modifiers.Knockback.Base, false, 0f).Crit && raiderCooldown <= 0)
-                {
-                    raiderStack++;
-                    raiderCooldown = 30;
-                }
-                if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
-                {
-                    if (isTrueMelee)
-                    {
-                        int stressGain = (int)(proj.damage * 0.1);
-                        int stressMaxGain = 10;
-                        if (stressGain < 1)
-                        {
-                            stressGain = 1;
-                        }
-                        if (stressGain > stressMaxGain)
-                        {
-                            stressGain = stressMaxGain;
-                        }
-                        rage += stressGain;
-                        if (rage >= rageMax)
-                        {
-                            rage = rageMax;
                         }
                     }
                 }
@@ -7364,64 +7362,79 @@ namespace CalRD.CalPlayer
             modifiers.FinalDamage *= (float)damageMult;
             #endregion
 
-            if (CalamityWorld.revenge)
-            {
-				double defenseMultiplier = /*Main.masterMode ? 1D :*/ 0.75;
-                double newDamage = modifiers.SourceDamage.Base - (Player.statDefense * defenseMultiplier);
-				double bossDamageLimitIncrease = CalamityWorld.death ? 40D : 20D; // dude why would you even do that? super uncool fab, 0/10, you should jump off a bridge for having the audacity to do something like this :(((((
-				double newDamageLimit = NPC.downedMoonlord ? 20D : (NPC.downedPlantBoss || CalamityWorld.downedCalamitas) ? 15D : Main.hardMode ? 10D : 5D;
-				/*if (areThereAnyDamnBosses && Main.masterMode)
-					newDamageLimit += bossDamageLimitIncrease;*/
-
-                if (newDamage < newDamageLimit)
-                    newDamage = newDamageLimit;
-
-                modifiers.FinalDamage.Base = (int)newDamage;
-            }
+            modifiers.ModifyHurtInfo += CustomDamage;
 
 			if (CalamityWorld.ironHeart)
 			{
-				int damageMin = 80 + (Player.statLifeMax2 / 10);
 				modifiers.DisableSound();
 				hurtSoundTimer = 20;
-				if (modifiers.FinalDamage.Base <= damageMin)
-					SoundEngine.PlaySound(new SoundStyle("CalRD/Sounds/Custom/IronHeartHurt"), Player.position);
-				else
-					SoundEngine.PlaySound(new SoundStyle("CalRD/Sounds/Custom/IronHeartBigHurt"), Player.position);
+				modifiers.ModifyHurtInfo += IronHeartSound;
 			}
 
 			if (purpleCandle)
 				modifiers.FinalDamage -= (float)(Player.statDefense * 0.05);
 
-			if ((godSlayerDamage && modifiers.FinalDamage.Base <= 80) || modifiers.FinalDamage.Base < 1)
-				modifiers.FinalDamage.Base = 1f;
-
-            #region HealingEffects
-            if (revivify)
-            {
-                int healAmt = (int)modifiers.SourceDamage.Base / 15;
-                Player.statLife += healAmt;
-                Player.HealEffect(healAmt);
-            }
-            if (daedalusAbsorb && Main.rand.NextBool(10))
-            {
-                int healAmt = (int)modifiers.SourceDamage.Base / 2;
-                Player.statLife += healAmt;
-                Player.HealEffect(healAmt);
-            }
-            if (absorber)
-            {
-                int healAmt = (int)modifiers.SourceDamage.Base / 20;
-                Player.statLife += healAmt;
-                Player.HealEffect(healAmt);
-            }
-            #endregion
+			modifiers.ModifyHurtInfo += GodSlayerCap;
         }
         #endregion
+
+        public void CustomDamage(ref Player.HurtInfo hit)
+        {
+	        if (CalamityWorld.revenge)
+	        {
+		        double defenseMultiplier = /*Main.masterMode ? 1D :*/ 0.75;
+		        double newDamage = hit.Damage - (Player.statDefense * defenseMultiplier);
+		        double bossDamageLimitIncrease = CalamityWorld.death ? 40D : 20D; // dude why would you even do that? super uncool fab, 0/10, you should jump off a bridge for having the audacity to do something like this :(((((
+		        double newDamageLimit = NPC.downedMoonlord ? 20D : (NPC.downedPlantBoss || CalamityWorld.downedCalamitas) ? 15D : Main.hardMode ? 10D : 5D;
+		        /*if (areThereAnyDamnBosses && Main.masterMode)
+			        newDamageLimit += bossDamageLimitIncrease;*/
+
+		        if (newDamage < newDamageLimit)
+			        newDamage = newDamageLimit;
+
+		        hit.Damage = (int)newDamage;
+	        }
+        }
+
+        public void GodSlayerCap(ref Player.HurtInfo hit)
+        {
+	        if ((godSlayerDamage && hit.Damage <= 80) || hit.Damage < 1)
+		        hit.Damage = 1;
+        }
+
+        public void IronHeartSound(ref Player.HurtInfo hit)
+        {
+	        int damageMin = 80 + (Player.statLifeMax2 / 10);
+	        if (hit.Damage <= damageMin)
+		        SoundEngine.PlaySound(new SoundStyle("CalRD/Sounds/Custom/IronHeartHurt"), Player.position);
+	        else
+		        SoundEngine.PlaySound(new SoundStyle("CalRD/Sounds/Custom/IronHeartBigHurt"), Player.position);
+
+        }
 
         #region Hurt
         public override void OnHurt(Player.HurtInfo info)
         {
+	        #region HealingEffects
+	        if (revivify)
+	        {
+		        int healAmt = (int)info.Damage / 15;
+		        Player.statLife += healAmt;
+		        Player.HealEffect(healAmt);
+	        }
+	        if (daedalusAbsorb && Main.rand.NextBool(10))
+	        {
+		        int healAmt = (int)info.Damage / 2;
+		        Player.statLife += healAmt;
+		        Player.HealEffect(healAmt);
+	        }
+	        if (absorber)
+	        {
+		        int healAmt = (int)info.Damage / 20;
+		        Player.statLife += healAmt;
+		        Player.HealEffect(healAmt);
+	        }
+	        #endregion
             modStealth = 1f;
             if (Player.whoAmI == Main.myPlayer)
             {
@@ -10601,74 +10614,74 @@ namespace CalRD.CalPlayer
             if (summonLevel >= 12500)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.12f;
-                Player.GetKnockback(DamageClass.Summon).Base += 3.0f;
+                Player.GetKnockback(DamageClass.Summon) += 3.0f;
                 Player.maxMinions += 2;
             }
             else if (summonLevel >= 10500)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.1f;
-                Player.GetKnockback(DamageClass.Summon).Base += 3.0f;
+                Player.GetKnockback(DamageClass.Summon) += 3.0f;
                 Player.maxMinions++;
             }
             else if (summonLevel >= 9100)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.09f;
-                Player.GetKnockback(DamageClass.Summon).Base += 2.7f;
+                Player.GetKnockback(DamageClass.Summon) += 2.7f;
                 Player.maxMinions++;
             }
             else if (summonLevel >= 7800)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.08f;
-                Player.GetKnockback(DamageClass.Summon).Base += 2.4f;
+                Player.GetKnockback(DamageClass.Summon) += 2.4f;
                 Player.maxMinions++;
             }
             else if (summonLevel >= 6600)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.07f;
-                Player.GetKnockback(DamageClass.Summon).Base += 2.1f;
+                Player.GetKnockback(DamageClass.Summon) += 2.1f;
                 Player.maxMinions++;
             }
             else if (summonLevel >= 5500)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.06f;
-                Player.GetKnockback(DamageClass.Summon).Base += 1.8f;
+                Player.GetKnockback(DamageClass.Summon) += 1.8f;
                 Player.maxMinions++;
             }
             else if (summonLevel >= 4500)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.06f;
-                Player.GetKnockback(DamageClass.Summon).Base += 1.8f;
+                Player.GetKnockback(DamageClass.Summon) += 1.8f;
                 Player.maxMinions++;
             }
             else if (summonLevel >= 3600)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.05f;
-                Player.GetKnockback(DamageClass.Summon).Base += 1.5f;
+                Player.GetKnockback(DamageClass.Summon) += 1.5f;
             }
             else if (summonLevel >= 2800)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.04f;
-                Player.GetKnockback(DamageClass.Summon).Base += 1.2f;
+                Player.GetKnockback(DamageClass.Summon) += 1.2f;
             }
             else if (summonLevel >= 2100)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.04f;
-                Player.GetKnockback(DamageClass.Summon).Base += 0.9f;
+                Player.GetKnockback(DamageClass.Summon) += 0.9f;
             }
             else if (summonLevel >= 1500)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.03f;
-                Player.GetKnockback(DamageClass.Summon).Base += 0.6f;
+                Player.GetKnockback(DamageClass.Summon) += 0.6f;
             }
             else if (summonLevel >= 1000)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.03f;
-                Player.GetKnockback(DamageClass.Summon).Base += 0.3f;
+                Player.GetKnockback(DamageClass.Summon) += 0.3f;
             }
             else if (summonLevel >= 600)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.02f;
-                Player.GetKnockback(DamageClass.Summon).Base += 0.3f;
+                Player.GetKnockback(DamageClass.Summon) += 0.3f;
             }
             else if (summonLevel >= 300)
                 Player.GetDamage(DamageClass.Summon) += 0.02f;

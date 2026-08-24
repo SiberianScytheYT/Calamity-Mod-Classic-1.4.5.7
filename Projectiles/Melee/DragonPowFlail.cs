@@ -155,8 +155,7 @@ namespace CalRD.Projectiles.Melee
             Waterfalls(target.Center);
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             // Inflicts Abyssal Flames and Holy Flames for 8 seconds on-hit
             target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 480);
@@ -168,7 +167,6 @@ namespace CalRD.Projectiles.Melee
             PetalStorm(target.Center);
             Waterfalls(target.Center);
         }
-        */
 
         // Spawns a storm of flower petals on-hit.
         private void PetalStorm(Vector2 targetPos)

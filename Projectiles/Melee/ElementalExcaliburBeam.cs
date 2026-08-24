@@ -257,8 +257,7 @@ namespace CalRD.Projectiles.Melee
             }
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
 			target.ExoDebuffs(2f);
 
@@ -271,7 +270,6 @@ namespace CalRD.Projectiles.Melee
                 Projectile.velocity *= -1f;
             }
         }
-        */
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

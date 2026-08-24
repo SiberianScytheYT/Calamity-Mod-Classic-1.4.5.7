@@ -66,8 +66,7 @@ namespace CalRD.Projectiles.Melee
 				CalamityGlobalProjectile.SpawnLifeStealProjectile(Projectile, Main.player[Projectile.owner], healAmt, ProjectileID.VampireHeal, 1200f, 1.5f);
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
 			if (Main.myPlayer != Projectile.owner)
 				return;
@@ -76,12 +75,11 @@ namespace CalRD.Projectiles.Melee
             if (Main.player[Projectile.owner].lifeSteal <= 0f)
 				return;
 
-            float healAmt = damage * Main.rand.NextFloat(0.075f, 0.9f);
+            float healAmt = info.Damage * Main.rand.NextFloat(0.075f, 0.9f);
             if (healAmt < 1f)
                 healAmt = 1f;
 			if (Main.rand.NextBool(3))
 				CalamityGlobalProjectile.SpawnLifeStealProjectile(Projectile, Main.player[Projectile.owner], healAmt, ProjectileID.VampireHeal, 1200f, 1.5f);
         }
-        */
     }
 }

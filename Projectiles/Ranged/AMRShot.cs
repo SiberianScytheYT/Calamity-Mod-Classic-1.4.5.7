@@ -49,13 +49,11 @@ namespace CalRD.Projectiles.Ranged
             }
 		}
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-			OnHitEffects(target.Center, crit);
+			OnHitEffects(target.Center, false);
             target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 600);
 		}
-		*/
 
 		private void OnHitEffects(Vector2 targetPos, bool crit)
 		{

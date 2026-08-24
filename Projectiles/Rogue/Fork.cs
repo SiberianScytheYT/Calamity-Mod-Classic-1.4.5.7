@@ -44,15 +44,13 @@ namespace CalRD.Projectiles.Rogue
             player.AddBuff(BuffID.WellFed, 180);
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             Player player = Main.player[Projectile.owner];
             target.AddBuff(BuffID.Bleeding, 300);
             target.AddBuff(ModContent.BuffType<BurningBlood>(), 300);
             player.AddBuff(BuffID.WellFed, 180);
         }
-        */
 
         public override bool PreDraw(ref Color lightColor)
         {

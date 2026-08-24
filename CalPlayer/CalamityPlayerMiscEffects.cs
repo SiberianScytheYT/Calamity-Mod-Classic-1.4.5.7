@@ -1621,7 +1621,7 @@ namespace CalRD.CalPlayer
 					player.statDefense += 1;
 					player.GetDamage(DamageClass.Generic) += 0.025f;
 					modPlayer.AllCritBoost(1);
-					player.GetKnockback(DamageClass.Summon).Base += 0.25f;
+					player.GetKnockback(DamageClass.Summon) += 0.25f;
 					player.moveSpeed += 0.1f;
 				}
 				else
@@ -1629,7 +1629,7 @@ namespace CalRD.CalPlayer
 					player.statDefense -= 1;
 					player.GetDamage(DamageClass.Generic) -= 0.025f;
 					modPlayer.AllCritBoost(-1);
-					player.GetKnockback(DamageClass.Summon).Base -= 0.25f;
+					player.GetKnockback(DamageClass.Summon) -= 0.25f;
 					player.moveSpeed -= 0.1f;
 				}
 			}
@@ -1722,7 +1722,7 @@ namespace CalRD.CalPlayer
 				player.statDefense += 4;
 				player.GetDamage(DamageClass.Generic) += 0.04f;
 				modPlayer.AllCritBoost(4);
-				player.GetKnockback(DamageClass.Summon).Base += 0.5f;
+				player.GetKnockback(DamageClass.Summon) += 0.5f;
 				player.moveSpeed += 0.1f;
 			}
 			if (modPlayer.moonLordLore)
@@ -1733,7 +1733,7 @@ namespace CalRD.CalPlayer
 					player.statDefense += 10;
 					player.GetDamage(DamageClass.Generic) += 0.1f;
 					modPlayer.AllCritBoost(10);
-					player.GetKnockback(DamageClass.Summon).Base += 1.5f;
+					player.GetKnockback(DamageClass.Summon) += 1.5f;
 					player.moveSpeed += 0.15f;
 				}
 				else
@@ -2676,7 +2676,7 @@ namespace CalRD.CalPlayer
 					player.statDefense -= 10;
 				}
 				player.GetDamage(DamageClass.Generic) += 0.05f;
-				player.GetKnockback(DamageClass.Summon).Base += 0.5f;
+				player.GetKnockback(DamageClass.Summon) += 0.5f;
 				player.moveSpeed += 0.05f;
 			}
 
@@ -2722,7 +2722,7 @@ namespace CalRD.CalPlayer
 				player.statDefense += 5;
 				player.GetDamage(DamageClass.Generic) += 0.06f;
 				modPlayer.AllCritBoost(2);
-				player.GetKnockback(DamageClass.Summon).Base += 1f;
+				player.GetKnockback(DamageClass.Summon) += 1f;
 				player.moveSpeed += 0.15f;
 			}
 
@@ -2744,7 +2744,7 @@ namespace CalRD.CalPlayer
 			{
 				player.maxMinions += 2;
 				player.GetDamage(DamageClass.Generic) += 0.12f;
-				player.GetKnockback(DamageClass.Summon).Base += 1.2f;
+				player.GetKnockback(DamageClass.Summon) += 1.2f;
 				player.pickSpeed -= 0.15f;
 				if (Main.eclipse || !Main.dayTime)
 					player.statDefense += 30;
@@ -3140,7 +3140,7 @@ namespace CalRD.CalPlayer
 				player.statDefense += integerTypeBoost;
 				player.GetDamage(DamageClass.Generic) += damageBoost;
 				modPlayer.AllCritBoost(critBoost);
-				player.GetKnockback(DamageClass.Summon).Base += floatTypeBoost;
+				player.GetKnockback(DamageClass.Summon) += floatTypeBoost;
 				player.moveSpeed += floatTypeBoost;
 				double wingTimeBoost = 1 + floatTypeBoost;
 				if (player.wingTimeMax > 0)
@@ -3686,7 +3686,7 @@ namespace CalRD.CalPlayer
 					if (offenseBuffs)
 					{
 						player.GetDamage(DamageClass.Summon) += 0.15f;
-						player.GetKnockback(DamageClass.Summon).Base += 0.15f;
+						player.GetKnockback(DamageClass.Summon) += 0.15f;
 						player.moveSpeed += 0.25f;
 						player.statDefense -= 15;
 						if (!player.Calamity().yharonLore)
@@ -4012,16 +4012,21 @@ namespace CalRD.CalPlayer
 			//not sure where else this should go
 			if (modPlayer.forbiddenCirclet)
 			{
-				float rogueDmg = player.GetDamage(DamageClass.Throwing).Additive + modPlayer.throwingDamage - 1f;
-				float minionDmg = player.GetDamage(DamageClass.Summon).Base;
-				if (minionDmg < rogueDmg)
+				ref StatModifier rogueDmg = ref player.GetDamage(DamageClass.Throwing);
+				ref StatModifier minionDmg = ref player.GetDamage(DamageClass.Summon);
+				float boostToSummonFromRogue = 0f;
+				float boostToRogueFromSummon = 0f;
+				if (minionDmg.Additive < rogueDmg.Additive)
 				{
-					player.GetDamage(DamageClass.Summon).Base = rogueDmg;
+					boostToSummonFromRogue = rogueDmg.Additive + modPlayer.throwingDamage - 1f - minionDmg.Additive;
 				}
-				if (rogueDmg < minionDmg)
+				if (rogueDmg.Additive < minionDmg.Additive)
 				{
-					modPlayer.throwingDamage = minionDmg - player.GetDamage(DamageClass.Throwing).Additive + 1f;
+					boostToRogueFromSummon = minionDmg.Additive - rogueDmg.Additive + modPlayer.throwingDamage - 1f;;
 				}
+
+				rogueDmg += boostToSummonFromRogue;
+				minionDmg += boostToRogueFromSummon;
 			}
 
 			// 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%

@@ -25,11 +25,6 @@ namespace CalRD.NPCs.CeaselessVoid
             Main.npcFrameCount[NPC.type] = 6;
 			NPCID.Sets.TrailingMode[NPC.type] = 1;
 		}
-        
-        public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
-        {
-	        modifiers.SetMaxDamage(1);
-        }
 
         public override void SetDefaults()
         {

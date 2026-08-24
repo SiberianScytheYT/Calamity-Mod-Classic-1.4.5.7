@@ -665,7 +665,12 @@ namespace CalRD.NPCs.HiveMind
 
         public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
         {
-            if (phase2timer < 0 && modifiers.FinalDamage.Base > 1)
+            modifiers.ModifyHitInfo += ReelbackToggle;
+        }
+
+        public void ReelbackToggle(ref NPC.HitInfo hit)
+        {
+            if (phase2timer < 0 && hit.Damage > 1)
             {
                 NPC.velocity *= -4f;
                 ReelBack();

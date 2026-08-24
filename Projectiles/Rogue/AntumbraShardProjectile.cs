@@ -80,8 +80,7 @@ namespace CalRD.Projectiles.Rogue
             target.immune[Projectile.owner] = 2;
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             Projectile.damage /= 2;
             if (Projectile.damage < 1)
@@ -89,6 +88,5 @@ namespace CalRD.Projectiles.Rogue
                 Projectile.damage = 1;
             }
         }
-        */
     }
 }

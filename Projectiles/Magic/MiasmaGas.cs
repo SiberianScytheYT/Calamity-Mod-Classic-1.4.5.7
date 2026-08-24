@@ -53,13 +53,11 @@ namespace CalRD.Projectiles.Magic
             Projectile.ai[1] = 1f;
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
             Projectile.ai[1] = 1f;
 		}
-		*/
 
         public override void OnKill(int timeLeft)
         {

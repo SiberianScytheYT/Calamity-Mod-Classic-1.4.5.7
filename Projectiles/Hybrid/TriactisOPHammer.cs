@@ -142,8 +142,7 @@ namespace CalRD.Projectiles.Hybrid
             }
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (Projectile.owner == Main.myPlayer)
             {
@@ -169,7 +168,6 @@ namespace CalRD.Projectiles.Hybrid
                 Main.dust[num624].velocity *= 2f;
             }
         }
-        */
 
         public override bool PreDraw(ref Color lightColor)
         {

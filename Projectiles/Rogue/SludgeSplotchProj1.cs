@@ -96,11 +96,11 @@ namespace CalRD.Projectiles.Rogue
             SoundEngine.PlaySound(SoundID.NPCDeath9.WithVolumeScale(2), Projectile.position);
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*{
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
             target.AddBuff(BuffID.Slow, 240);
             SoundEngine.PlaySound(SoundID.NPCDeath9.WithVolumeScale(2), Projectile.position);
-        }*/
+        }
 
         public override void OnKill(int timeLeft)
         {

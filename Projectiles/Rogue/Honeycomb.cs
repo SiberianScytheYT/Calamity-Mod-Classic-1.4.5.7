@@ -109,8 +109,7 @@ namespace CalRD.Projectiles.Rogue
 			}
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
 			Projectile.velocity.X = -Projectile.velocity.X;
 			Projectile.velocity.Y = -Projectile.velocity.Y;
@@ -135,7 +134,6 @@ namespace CalRD.Projectiles.Rogue
 				split += 1;
 			}
         }
-        */
 
         public override bool PreDraw(ref Color lightColor)
         {

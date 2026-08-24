@@ -45,14 +45,12 @@ namespace CalRD.Projectiles.Melee.Spears
 			target.AddBuff(BuffID.Venom, 300);
 		}
 
-		//public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-		/*
+		public override void OnHitPlayer(Player target, Player.HurtInfo info)
 		{
-			OnHitEffects(target.Center, crit);
+			OnHitEffects(target.Center, false);
 			target.AddBuff(BuffID.Venom, 300);
 		}
-		*/
-
+		
 		private void OnHitEffects(Vector2 targetPos, bool crit)
 		{
             if (crit)

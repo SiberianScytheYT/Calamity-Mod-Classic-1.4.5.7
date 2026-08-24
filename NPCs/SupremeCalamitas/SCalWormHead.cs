@@ -22,11 +22,6 @@ namespace CalRD.NPCs.SupremeCalamitas
         {
             //DisplayName.SetDefault("Sepulcher");
         }
-        
-        public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
-        {
-	        modifiers.SetMaxDamage(1);
-        }
 
         public override void SetDefaults()
         {

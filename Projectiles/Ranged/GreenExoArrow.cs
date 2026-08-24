@@ -59,7 +59,7 @@ namespace CalRD.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.ExoDebuffs();
 
-        // public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */ => target.ExoDebuffs();
+        // public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.ExoDebuffs();
 
         public override Color? GetAlpha(Color lightColor) => new Color(0, 250, 0, Projectile.alpha);
 

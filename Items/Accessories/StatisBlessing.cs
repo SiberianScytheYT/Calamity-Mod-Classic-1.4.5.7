@@ -32,7 +32,7 @@ namespace CalRD.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.tearMinions = true;
-            player.GetKnockback(DamageClass.Summon).Base += 2.5f;
+            player.GetKnockback(DamageClass.Summon) += 2.5f;
             player.GetDamage(DamageClass.Summon) += 0.1f;
             player.maxMinions += 2;
         }

@@ -123,14 +123,12 @@ namespace CalRD.Projectiles.Melee
 			target.ExoDebuffs();
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             Projectile.scale += (maxScale - 1) / (float)penetrationAmt;
             Projectile.ai[1] = 5 + Main.rand.Next(-2, 3);
 
 			target.ExoDebuffs();
         }
-        */
     }
 }

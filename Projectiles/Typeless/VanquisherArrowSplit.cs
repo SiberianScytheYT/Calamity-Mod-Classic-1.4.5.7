@@ -66,9 +66,9 @@ namespace CalRD.Projectiles.Typeless
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*{
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
-		}*/
+		}
     }
 }

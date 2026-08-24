@@ -12,8 +12,6 @@ namespace CalRD.Projectiles.Rogue
     public class UrchinStingerProj : ModProjectile
     {
         public override string Texture => "CalRD/Items/Weapons/Rogue/UrchinStinger";
-
-        private int projdmg = 0;
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Stinger");
@@ -53,7 +51,7 @@ namespace CalRD.Projectiles.Rogue
                 if (Projectile.localAI[0] % 40 == 0 && Projectile.ai[0] == 1f)
                 {
                     Vector2 projspeed = new Vector2(Main.rand.NextFloat(-4f, 4f), Main.rand.NextFloat(-4f, 4f));
-                    int proj = Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center, projspeed, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(projdmg * 0.5f), 1f, Projectile.owner, 0f, 0f);
+                    int proj = Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center, projspeed, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(Projectile.damage * 0.5f), 1f, Projectile.owner, 0f, 0f);
                     Main.projectile[proj].Calamity().forceRogue = true;
                 }
                 return false;
@@ -64,12 +62,11 @@ namespace CalRD.Projectiles.Rogue
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (Projectile.Calamity().stealthStrike)
-            {
-                projdmg = Projectile.damage;
-                Projectile.ModifyHitNPCSticky(4, false);
-            }
+                Projectile.ModifyHitNPCSticky(4);
         }
 
+        public override bool? CanDamage() => Projectile.ai[0] == 1f ? false : base.CanDamage();
+        
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             if (Projectile.Calamity().stealthStrike)
@@ -88,10 +85,10 @@ namespace CalRD.Projectiles.Rogue
             target.AddBuff(BuffID.Venom, 360);
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*{
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
             target.AddBuff(BuffID.Venom, 360);
-        }*/
+        }
 
         public override bool PreDraw(ref Color lightColor)
         {

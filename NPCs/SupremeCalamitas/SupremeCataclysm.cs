@@ -213,10 +213,15 @@ namespace CalRD.NPCs.SupremeCalamitas
 
         public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
         {
-            if (modifiers.FinalDamage.Base >= NPC.lifeMax * 0.5f)
-            {
-                modifiers.SetMaxDamage(0);
-            }
+	        modifiers.ModifyHitInfo += NoDamage;
+        }
+        
+        public void NoDamage(ref NPC.HitInfo hit)
+        {
+	        if (hit.Damage >= NPC.lifeMax * 0.5f)
+	        {
+		        hit.Damage = 0;
+	        }
         }
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

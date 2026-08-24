@@ -85,12 +85,10 @@ namespace CalRD.Projectiles.Magic
             Projectile.damage = (int)(((double)Projectile.damage * (double)Projectile.localAI[0]) * (0.5D + (0.5D / (double)Projectile.penetrate)));
         }
         
-        //public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
         {
-            damage = (int)(((double)damage * (double)Projectile.localAI[0]) * (0.5D + (0.5D / (double)Projectile.penetrate)));
+            info.Damage = (int)(((double)info.Damage * (double)Projectile.localAI[0]) * (0.5D + (0.5D / (double)Projectile.penetrate)));
         }
-        */
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {

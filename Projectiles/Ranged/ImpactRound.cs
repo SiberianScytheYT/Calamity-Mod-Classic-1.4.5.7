@@ -48,12 +48,9 @@ namespace CalRD.Projectiles.Ranged
 
 		public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
 		{
-			double damageMult = 1D;
-			if (modifiers.ToHitInfo(target.damage, true, modifiers.Knockback.Base, false, 0f).Crit)
-				damageMult += 0.25;
+			modifiers.CritDamage += 0.25f;
 			if (target.Inorganic())
-				damageMult += 0.1;
-			Projectile.damage = (int)(Projectile.damage * damageMult);
+				modifiers.SourceDamage *= 1.1f;
 		}
 
 		public override bool PreDraw(ref Color lightColor) => Projectile.timeLeft < 600;

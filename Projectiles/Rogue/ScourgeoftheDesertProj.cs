@@ -46,8 +46,8 @@ namespace CalRD.Projectiles.Rogue
             }
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*{
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
             if (Projectile.Calamity().stealthStrike)
             {
                 if (StealthDamageCap == 0)
@@ -58,7 +58,7 @@ namespace CalRD.Projectiles.Rogue
                 Projectile.damage = (int)((BaseDamage * ((StealthDamageCap > 10 ? 10 : StealthDamageCap) * 20) / 100) + BaseDamage); //20% damage boost per hit, max of 200%
                 StealthDamageCap++;
             }
-        }*/
+        }
 
         public override void AI()
         {

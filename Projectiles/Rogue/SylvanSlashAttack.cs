@@ -122,8 +122,8 @@ namespace CalRD.Projectiles.Rogue
 			}
 		}
 
-		//public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*{
+		public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
 			Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 			if (Projectile.owner == Main.myPlayer)
@@ -144,6 +144,6 @@ namespace CalRD.Projectiles.Rogue
 					Projectile.NewProjectile(Entity.GetSource_FromThis(), player.Center.X, player.Center.Y, -vector1.X * speedMult, -vector1.Y * speedMult, ModContent.ProjectileType<SylvanSlash>(), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner, 0f, 0f);
 				}
 			}
-		}*/
+		}
     }
 }

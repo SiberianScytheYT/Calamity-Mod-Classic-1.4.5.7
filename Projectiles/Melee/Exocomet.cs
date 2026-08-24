@@ -108,11 +108,10 @@ namespace CalRD.Projectiles.Melee
 			CalamityGlobalProjectile.SpawnLifeStealProjectile(Projectile, Main.player[Projectile.owner], healAmt, ModContent.ProjectileType<Exoheal>(), 1200f, 1f);
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
 			target.ExoDebuffs();
-            float healAmt = (float)damage * 0.01f;
+            float healAmt = (float)info.Damage * 0.01f;
             if ((int)healAmt == 0)
             {
                 return;
@@ -123,7 +122,6 @@ namespace CalRD.Projectiles.Melee
             }
 			CalamityGlobalProjectile.SpawnLifeStealProjectile(Projectile, Main.player[Projectile.owner], healAmt, ModContent.ProjectileType<Exoheal>(), 1200f, 1f);
         }
-        */
 
         public override bool PreDraw(ref Color lightColor)
         {

@@ -2129,9 +2129,14 @@ namespace CalRD.NPCs.SupremeCalamitas
 
         public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
         {
-	        if (modifiers.FinalDamage.Base >= NPC.lifeMax * 0.5f)
+	        modifiers.ModifyHitInfo += NoDamage;
+        }
+        
+        public void NoDamage(ref NPC.HitInfo hit)
+        {
+	        if (hit.Damage >= NPC.lifeMax * 0.5f)
 	        {
-		        modifiers.SetMaxDamage(0);
+		        hit.Damage = 0;
 	        }
         }
 

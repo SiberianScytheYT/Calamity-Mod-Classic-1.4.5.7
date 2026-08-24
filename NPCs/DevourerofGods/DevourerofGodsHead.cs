@@ -881,12 +881,17 @@ namespace CalRD.NPCs.DevourerofGods
 
         public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
         {
-            if (modifiers.FinalDamage.Base >= NPC.lifeMax * 0.5f)
+            modifiers.ModifyHitInfo += ButcherBlock;
+        }
+
+        public void ButcherBlock(ref NPC.HitInfo hit)
+        {
+            if (hit.Damage >= NPC.lifeMax * 0.5f)
             {
                 string key = "You think...you can butcher...ME!?";
                 Color messageColor = Color.Cyan;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
-                modifiers.SetMaxDamage(0);
+                hit.Damage = 0;
             }
         }
 

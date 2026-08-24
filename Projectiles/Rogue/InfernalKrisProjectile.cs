@@ -86,8 +86,7 @@ namespace CalRD.Projectiles.Rogue
             }
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
 			int debuffTime = 60 * (Projectile.Calamity().stealthStrike ? Main.rand.Next(4,8) : Main.rand.Next(3,6));
             target.AddBuff(BuffID.OnFire, debuffTime);
@@ -109,7 +108,6 @@ namespace CalRD.Projectiles.Rogue
                 SoundEngine.PlaySound(SoundID.Item74, Projectile.position);
             }
         }
-        */
 
         public override bool PreDraw(ref Color lightColor)
         {

@@ -81,11 +81,10 @@ namespace CalRD.Projectiles.Hybrid
 			CalamityGlobalProjectile.SpawnLifeStealProjectile(Projectile, Main.player[Projectile.owner], healAmt, ModContent.ProjectileType<RoyalHeal>(), 1200f, 1.5f);
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 600);
-            float healAmt = (float)damage * 0.015f;
+            float healAmt = (float)info.Damage * 0.015f;
             if ((int)healAmt == 0)
             {
                 return;
@@ -96,7 +95,6 @@ namespace CalRD.Projectiles.Hybrid
             }
 			CalamityGlobalProjectile.SpawnLifeStealProjectile(Projectile, Main.player[Projectile.owner], healAmt, ModContent.ProjectileType<RoyalHeal>(), 1200f, 1.5f);
         }
-        */
 
         public override bool PreDraw(ref Color lightColor)
         {

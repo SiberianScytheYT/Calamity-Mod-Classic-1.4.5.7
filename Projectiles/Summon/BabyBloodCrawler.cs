@@ -137,8 +137,8 @@ namespace CalRD.Projectiles.Summon
 			}
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*{
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
 			if (Main.rand.NextBool(2))
 			{
 				for (int n = 0; n < Main.rand.Next(1, 3); n++)
@@ -157,6 +157,6 @@ namespace CalRD.Projectiles.Summon
 					Projectile.NewProjectile(Entity.GetSource_FromThis(), x, y, num13, num14, ModContent.ProjectileType<BloodRain>(), (int)((float)Projectile.damage * Main.rand.NextFloat(0.7f, 1f)), Projectile.knockBack * Main.rand.NextFloat(0.7f, 1f), Projectile.owner, 0f, 0f);
 				}
 			}
-        }*/
+        }
     }
 }

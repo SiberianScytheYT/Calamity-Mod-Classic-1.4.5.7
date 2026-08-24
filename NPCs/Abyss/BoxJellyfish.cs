@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalRD.Items.Weapons.Magic;
+using Terraria.GameContent.Bestiary;
 using Terraria.ModLoader.Utilities;
 
 namespace CalRD.NPCs.Abyss

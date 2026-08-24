@@ -69,8 +69,7 @@ namespace CalRD.Projectiles.Ranged
             }
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
 			CalamityPlayer modPlayer = Main.player[Projectile.owner].Calamity();
             target.AddBuff(BuffID.Electrified, 180);
@@ -80,16 +79,15 @@ namespace CalRD.Projectiles.Ranged
 				{
 					Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlanarRipperExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                 }
-				if (crit)
+				/*if (crit)
 				{
 					if (modPlayer.planarSpeedBoost < 20)
 					{
 						modPlayer.planarSpeedBoost++;
 					}
-				}
+				}*/
             }
         }
-        */
 
         public override bool PreDraw(ref Color lightColor)
         {

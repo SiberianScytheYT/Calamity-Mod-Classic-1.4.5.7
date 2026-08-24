@@ -114,10 +114,9 @@ namespace CalRD.Projectiles.Magic
             Projectile.StickyProjAI(15);
         }
 
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            Projectile.ModifyHitNPCSticky(3, false);
-        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => Projectile.ModifyHitNPCSticky(3);
+        
+        public override bool? CanDamage() => Projectile.ai[0] == 1f ? false : base.CanDamage();
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
@@ -143,13 +142,11 @@ namespace CalRD.Projectiles.Magic
             target.AddBuff(BuffID.Venom, 300);
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
             target.AddBuff(BuffID.Venom, 300);
         }
-        */
 
         public override void OnKill(int timeLeft)
         {

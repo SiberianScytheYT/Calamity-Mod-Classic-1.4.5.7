@@ -88,8 +88,7 @@ namespace CalRD.Projectiles.Rogue
             target.AddBuff(ModContent.BuffType<Plague>(), 300);
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (Projectile.ai[0] == 0f)
             {
@@ -99,6 +98,5 @@ namespace CalRD.Projectiles.Rogue
             }
             target.AddBuff(ModContent.BuffType<Plague>(), 300);
         }
-        */
     }
 }

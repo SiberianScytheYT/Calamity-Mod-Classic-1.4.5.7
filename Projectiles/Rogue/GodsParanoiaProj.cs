@@ -102,10 +102,7 @@ namespace CalRD.Projectiles.Rogue
 			}
 		}
 
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-			Projectile.ModifyHitNPCSticky(10, true);
-        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => Projectile.ModifyHitNPCSticky(10);
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
@@ -127,11 +124,9 @@ namespace CalRD.Projectiles.Rogue
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120);
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120);
         }
-        */
     }
 }

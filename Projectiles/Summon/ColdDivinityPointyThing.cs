@@ -287,15 +287,15 @@ namespace CalRD.Projectiles.Summon
             }
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*{
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
             target.AddBuff(BuffID.Frostburn, 300);
             if (circlingPlayer)
             {
                 recharging = 300;
                 dust(20);
             }
-        }*/
+        }
 
         public override void OnKill(int timeLeft)
         {

@@ -63,13 +63,13 @@ namespace CalRD.Projectiles.Rogue
             }
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*{
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
             if (target.statLife <= 0)
             {
 				CalamityGlobalProjectile.SpawnLifeStealProjectile(Projectile, Main.player[Projectile.owner], 10, ModContent.ProjectileType<ShinobiHealOrb>(), 1200f, 0f);
             }
-        }*/
+        }
 
         public override void OnKill(int timeLeft)
         {

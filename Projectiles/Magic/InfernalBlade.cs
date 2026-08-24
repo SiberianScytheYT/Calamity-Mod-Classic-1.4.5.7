@@ -122,13 +122,11 @@ namespace CalRD.Projectiles.Magic
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
 			OnHitEffects(target.Center);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
         }
-        */
 
 		private void OnHitEffects(Vector2 targetPos)
 		{

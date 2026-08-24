@@ -1457,7 +1457,6 @@ namespace CalRD.NPCs
             //modifiers.SourceDamage = Main.CalculateDamage((int)modifiers.SourceDamage, effectiveDefense);
 
             // DR applies after vanilla defense.
-            //modifiers.SourceDamage.Base = (float)ApplyDR(npc, modifiers.SourceDamage.Base);
             ApplyDR(npc, ref modifiers);
 
             // Add Yellow Candle damage if the NPC isn't supposed to be "near invincible"

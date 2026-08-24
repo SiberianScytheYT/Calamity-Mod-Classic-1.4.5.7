@@ -95,7 +95,7 @@ namespace CalRD.Items.Accessories
                         bool magic = player.ActiveItem().CountsAsClass(DamageClass.Magic);
                         if (summon)
                         {
-                            player.GetKnockback(DamageClass.Summon).Base += 0.10f;
+                            player.GetKnockback(DamageClass.Summon) += 0.10f;
                             player.AddBuff(BuffID.Bewitched, 60, true);
                         }
                         else if (rogue)

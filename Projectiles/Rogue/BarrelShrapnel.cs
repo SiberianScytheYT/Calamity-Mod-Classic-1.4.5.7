@@ -48,12 +48,10 @@ namespace CalRD.Projectiles.Rogue
             target.AddBuff(BuffID.OnFire, 60 * 4);
             Projectile.Kill();
         }
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(BuffID.OnFire, 60 * 4);
             Projectile.Kill();
         }
-        */
     }
 }

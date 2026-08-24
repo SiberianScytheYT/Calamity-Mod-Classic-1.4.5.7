@@ -36,7 +36,7 @@ namespace CalRD.Items.Accessories
             modPlayer.tearMinions = true; //temporal sadness
             modPlayer.voltaicJelly = true; //electrified
             modPlayer.starTaintedGenerator = true; //astral infection and irradiated
-            player.GetKnockback(DamageClass.Summon).Base += 3f;
+            player.GetKnockback(DamageClass.Summon) += 3f;
             player.GetDamage(DamageClass.Summon) += 0.15f;
             player.maxMinions += 4;
         }

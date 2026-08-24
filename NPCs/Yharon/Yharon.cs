@@ -2864,17 +2864,20 @@ namespace CalRD.NPCs.Yharon
         public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
         {
 			// Safeguard if damage would kill phase 1 before phase 2.
-			if (phaseOneLoot && (modifiers.FinalDamage.Base >= NPC.life || (modifiers.ToHitInfo(modifiers.FinalDamage.Base, true, modifiers.Knockback.Base, false, 0f).Crit && modifiers.FinalDamage.Base * 2 >= NPC.life)))
-			{
-				float lifeAboveTenPercent = NPC.life - NPC.lifeMax * 0.1f;
-				modifiers.FinalDamage.Base = MathHelper.Clamp((float)modifiers.FinalDamage.Base, 0f, lifeAboveTenPercent);
-			}
+			modifiers.ModifyHitInfo += Safeguard;
 
             // Safeguard to prevent damage which would allow skipping phase 2.
             if (!startSecondAI && dropLoot)
-            {
 	            modifiers.SetMaxDamage(0);
-            }
+        }
+
+        public void Safeguard(ref NPC.HitInfo hit)
+        {
+	        if (phaseOneLoot && (hit.Damage >= NPC.life || (hit.Crit && hit.Damage * 2 >= NPC.life)))
+	        {
+		        float lifeAboveTenPercent = NPC.life - NPC.lifeMax * 0.1f;
+		        hit.Damage = (int)MathHelper.Clamp((float)hit.Damage, 0f, lifeAboveTenPercent);
+	        }
         }
         #endregion
 

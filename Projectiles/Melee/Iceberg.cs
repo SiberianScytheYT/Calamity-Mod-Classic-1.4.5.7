@@ -51,8 +51,7 @@ namespace CalRD.Projectiles.Melee
             double newDamageMult = 1.0 - ((double)Projectile.timeLeft / 300.0);
             Projectile.damage = (int)((double)Projectile.damage * newDamageMult);
             Projectile.knockBack = 0f;
-            if (modifiers.ToHitInfo(target.damage, true, modifiers.Knockback.Base, false, 0f).Crit || target.buffImmune[ModContent.BuffType<GlacialState>()])
-                Projectile.damage *= 2;
+            modifiers.CritDamage += 1f;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

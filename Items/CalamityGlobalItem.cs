@@ -32,6 +32,7 @@ using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -2884,156 +2885,155 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 
 		// NOTE: this function applies to all treasure bags, even modded ones (despite the name).
         #region Boss Bag Changes
-		/*public override void ModifyItemLoot(Item item, ItemLoot loot)
+		public override void ModifyItemLoot(Item item, ItemLoot loot)
         {
-			if (context == "crate")
-			{
-				switch (item.type)
+			switch (item.type)
 				{
 					case ItemID.WoodenCrate:
-                        DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<WulfrumShard>(), 4, 3, 5);
+                        loot.Add(new CommonDrop(ModContent.ItemType<WulfrumShard>(), 4, 3, 5));
                         break;
 
 					case ItemID.IronCrate:
-                        DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<WulfrumShard>(), 4, 5, 8);
-                        DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<AncientBoneDust>(), 4, 5, 8);
+                        loot.Add(new CommonDrop(ModContent.ItemType<WulfrumShard>(), 4, 5, 8));
+                        loot.Add(new CommonDrop(ModContent.ItemType<AncientBoneDust>(), 4, 5, 8));
                         break;
 
 					case ItemID.CorruptFishingCrate:
-                        DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<EbonianGel>(), 4, 5, 8);
-                        DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<MurkySludge>(), 5, 1, 3);
+                        loot.Add(new CommonDrop(ModContent.ItemType<EbonianGel>(), 4, 5, 8));
+                        loot.Add(new CommonDrop(ModContent.ItemType<MurkySludge>(), 5, 1, 3));
                         break;
 
 					case ItemID.CrimsonFishingCrate:
-                        DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<EbonianGel>(), 4, 5, 8);
-                        DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<MurkySludge>(), 5, 1, 3);
+                        loot.Add(new CommonDrop(ModContent.ItemType<EbonianGel>(), 4, 5, 8));
+                        loot.Add(new CommonDrop(ModContent.ItemType<MurkySludge>(), 5, 1, 3));
                         break;
 
 					case ItemID.HallowedFishingCrate:
-                        DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<UnholyEssence>(), NPC.downedMoonlord, 0.2f, 5, 10);
-                        DropHelper.DropItemCondition(player.GetSource_FromThis(), player, (WorldGen.crimson ? ModContent.ItemType<ProfanedRagePotion>() : ModContent.ItemType<HolyWrathPotion>()), CalamityWorld.downedProvidence, 0.2f, 1, 3);
+                        loot.AddIf(() => NPC.downedMoonlord, ModContent.ItemType<UnholyEssence>(),  5, 5, 10);
+                        loot.AddIf(() => CalamityWorld.downedProvidence, (WorldGen.crimson ? ModContent.ItemType<ProfanedRagePotion>() : ModContent.ItemType<HolyWrathPotion>()), 5, 1, 3);
                         break;
 
 					case ItemID.DungeonFishingCrate:
-                        DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ItemID.Ectoplasm, NPC.downedPlantBoss, 0.3f, 5, 10);
-                        DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<Phantoplasm>(), NPC.downedMoonlord, 0.2f, 5, 10);
+                        loot.AddIf(() => NPC.downedPlantBoss, ItemID.Ectoplasm, 3, 5, 10);
+                        loot.AddIf(() => NPC.downedMoonlord, ModContent.ItemType<Phantoplasm>(), 5, 5, 10);
                         break;
 
 					case ItemID.JungleFishingCrate:
-                        DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<MurkyPaste>(), 5, 1, 3);
-                        DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<BeetleJuice>(), Main.hardMode, 0.2f, 1, 3);
-                        DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<TrapperBulb>(), Main.hardMode, 0.2f, 1, 3);
-                        DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ItemID.ChlorophyteBar, (CalamityWorld.downedCalamitas || NPC.downedPlantBoss), 0.25f, 5, 10);
-                        DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<DraedonBar>(), NPC.downedPlantBoss, 0.25f, 5, 10);
-                        DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<PlagueCellCluster>(), NPC.downedGolemBoss, 0.2f, 3, 6);
-                        DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<UeliaceBar>(), CalamityWorld.downedProvidence, 0.25f, 5, 10);
+                        loot.Add(new CommonDrop(ModContent.ItemType<MurkyPaste>(), 5, 1, 3));
+                        loot.AddIf(() => Main.hardMode, ModContent.ItemType<BeetleJuice>(), 5, 1, 3);
+                        loot.AddIf(() => Main.hardMode, ModContent.ItemType<TrapperBulb>(), 5, 1, 3);
+                        loot.AddIf(() => (CalamityWorld.downedCalamitas || NPC.downedPlantBoss), ItemID.ChlorophyteBar, 4, 5, 10);
+                        loot.AddIf(() => NPC.downedPlantBoss, ModContent.ItemType<DraedonBar>(), 4, 5, 10);
+                        loot.AddIf(() => NPC.downedGolemBoss, ModContent.ItemType<PlagueCellCluster>(), 5, 3, 6);
+                        loot.AddIf(() => CalamityWorld.downedProvidence, ModContent.ItemType<UeliaceBar>(), 4, 5, 10);
                         break;
 
 					case ItemID.FloatingIslandFishingCrate:
-                        DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<AerialiteBar>(), (CalamityWorld.downedHiveMind || CalamityWorld.downedPerforator), 0.25f, 5, 10);
-                        DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<EssenceofCinder>(), Main.hardMode, 0.2f, 5, 15);
-                        DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<GalacticaSingularity>(), NPC.downedMoonlord, 0.1f, 1, 3);
+                        loot.AddIf(() => (CalamityWorld.downedHiveMind || CalamityWorld.downedPerforator), ModContent.ItemType<AerialiteBar>(), 4, 5, 10);
+                        loot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofCinder>(), 5, 5, 15);
+                        loot.AddIf(() => NPC.downedMoonlord, ModContent.ItemType<GalacticaSingularity>(), 10, 1, 3);
                         break;
-				}
-			}
-
-            if (context == "bossBag")
-            {
-                // Give a chance for Laudanum, Stress Pills and Heart of Darkness from every boss bag
-                
-
-                switch (arg)
-                {
+                    
+            // Give a chance for Laudanum, Stress Pills and Heart of Darkness from every boss bag
+                    
                     // King Slime
                     case ItemID.KingSlimeBossBag:
-                        DropHelper.DropRevBagAccessories(player.GetSource_FromThis(), player);
-                        DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<CrownJewel>(), CalamityWorld.revenge);
+                        loot.AddRevBagAccessories();
+                        var ksRev = loot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.revenge));
+                        ksRev.Add(ModContent.ItemType<CrownJewel>());
                         break;
 
                     // Eye of Cthulhu
                     case ItemID.EyeOfCthulhuBossBag:
-                        DropHelper.DropRevBagAccessories(player.GetSource_FromThis(), player);
-                        DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<VictoryShard>(), 3, 5);
-                        DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<TeardropCleaver>(), 3);
-                        DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<CounterScarf>(), CalamityWorld.revenge);
+                        var EoCRev = loot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.revenge));
+                        loot.AddRevBagAccessories();
+                        loot.Add(new CommonDrop(ModContent.ItemType<VictoryShard>(), 1, 3, 5));
+                        loot.Add(new CommonDrop(ModContent.ItemType<TeardropCleaver>(), 3));
+                        EoCRev.Add(ModContent.ItemType<CounterScarf>());
                         break;
 
                     // Queen Bee
                     case ItemID.QueenBeeBossBag:
-                        DropHelper.DropRevBagAccessories(player.GetSource_FromThis(), player);
-                        DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.Stinger, 8, 12);
-                        DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<HardenedHoneycomb>(), 50, 75);
+                        loot.AddRevBagAccessories();
+                        loot.Add(new CommonDrop(ItemID.Stinger, 1, 8, 12));
+                        loot.Add(new CommonDrop(ModContent.ItemType<HardenedHoneycomb>(), 1, 50, 75));
                         break;
 
                     // Skeletron
                     case ItemID.SkeletronBossBag:
-                        DropHelper.DropRevBagAccessories(player.GetSource_FromThis(), player);
-                        DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<ClothiersWrath>(), DropHelper.RareVariantDropRateInt);
+                        loot.AddRevBagAccessories();
+                        loot.Add(new CommonDrop(ModContent.ItemType<ClothiersWrath>(), DropHelper.RareVariantDropRateInt));
                         break;
 
                     // Wall of Flesh
                     case ItemID.WallOfFleshBossBag:
-                        DropHelper.DropRevBagAccessories(player.GetSource_FromThis(), player);
-                        DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<Meowthrower>(), 3);
-                        DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<BlackHawkRemote>(), 3);
-                        DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<BlastBarrel>(), 3);
-                        DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<RogueEmblem>(), 4);
-                        DropHelper.DropItemFromSetChance(player.GetSource_FromThis(), player, 0.2f, ItemID.CorruptionKey, ItemID.CrimsonKey);
-                        DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<MLGRune>(), !CalamityWorld.demonMode); // Demon Trophy
+                        var WoFDT = loot.DefineConditionalDropSet(DropHelper.If(() => !CalamityWorld.demonMode));
+                        loot.AddRevBagAccessories();
+                        loot.Add(new CommonDrop(ModContent.ItemType<Meowthrower>(), 3));
+                        loot.Add(new CommonDrop(ModContent.ItemType<BlackHawkRemote>(), 3));
+                        loot.Add(new CommonDrop(ModContent.ItemType<BlastBarrel>(), 3));
+                        loot.Add(new CommonDrop(ModContent.ItemType<RogueEmblem>(), 4));
+                        loot.Add(ItemDropRule.Common(ItemID.CorruptionKey, 5));
+                        loot.Add(ItemDropRule.Common(ItemID.CrimsonKey, 5));
+                        WoFDT.Add(ModContent.ItemType<MLGRune>()); // Demon Trophy
                         break;
 
                     // Destroyer
                     case ItemID.DestroyerBossBag:
-                        DropHelper.DropRevBagAccessories(player.GetSource_FromThis(), player);
-                        float shpcChance = DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<SHPC>(), CalamityWorld.revenge, shpcChance);
+                        var destroRev = loot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.revenge));
+                        loot.AddRevBagAccessories();
+                        int shpcChance = DropHelper.LegendaryDropRateInt;
+                        destroRev.Add(ModContent.ItemType<SHPC>(), shpcChance);
                         break;
 
                     // Plantera
                     case ItemID.PlanteraBossBag:
-                        DropHelper.DropRevBagAccessories(player.GetSource_FromThis(), player);
-                        DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<LivingShard>(), 16, 22);
-                        float bFluxChance = DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<BlossomFlux>(), CalamityWorld.revenge, bFluxChance);
-                        DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.JungleKey, 5);
+                        var plantRev = loot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.revenge));
+                        loot.AddRevBagAccessories();
+                        loot.Add(new CommonDrop(ModContent.ItemType<LivingShard>(), 1, 16, 22));
+                        int bFluxChance = DropHelper.LegendaryDropRateInt;
+                        plantRev.Add(ModContent.ItemType<BlossomFlux>(), bFluxChance);
+                        loot.Add(new CommonDrop(ItemID.JungleKey, 5));
                         break;
 
                     // Golem
                     case ItemID.GolemBossBag:
-                        DropHelper.DropRevBagAccessories(player.GetSource_FromThis(), player);
-                        float aegisChance = DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<AegisBlade>(), CalamityWorld.revenge, aegisChance);
-                        DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<EssenceofCinder>(), 8, 13);
-						DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<LeadWizard>(), DropHelper.RareVariantDropRateInt);
+                        var golemRev = loot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.revenge));
+                        loot.AddRevBagAccessories();
+                        int aegisChance = DropHelper.LegendaryDropRateInt;
+                        golemRev.Add(ModContent.ItemType<AegisBlade>(), aegisChance);
+                        loot.Add(new CommonDrop(ModContent.ItemType<EssenceofCinder>(), 1, 8, 13));
+						loot.Add(new CommonDrop(ModContent.ItemType<LeadWizard>(), DropHelper.RareVariantDropRateInt));
                         break;
 
                     // Duke Fishron
                     case ItemID.FishronBossBag:
-                        DropHelper.DropRevBagAccessories(player.GetSource_FromThis(), player);
-                        float baronChance = DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<BrinyBaron>(), CalamityWorld.revenge, baronChance);
-                        DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<DukesDecapitator>(), 4);
+                        var fishronRev = loot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.revenge));
+                        loot.AddRevBagAccessories();
+                        int baronChance = DropHelper.LegendaryDropRateInt;
+                        fishronRev.Add(ModContent.ItemType<BrinyBaron>(), baronChance);
+                        loot.Add(new CommonDrop(ModContent.ItemType<DukesDecapitator>(), 4));
                         break;
 
                     // Betsy
                     case ItemID.BossBagBetsy:
-                        DropHelper.DropRevBagAccessories(player.GetSource_FromThis(), player);
-                        float vesuviusChance = DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<Vesuvius>(), CalamityWorld.revenge, vesuviusChance);
+                        var betsyRev = loot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.revenge));
+                        loot.AddRevBagAccessories();
+                        int vesuviusChance = DropHelper.LegendaryDropRateInt;
+                        betsyRev.Add(ModContent.ItemType<Vesuvius>(), vesuviusChance);
                         break;
 
                     // Moon Lord
                     case ItemID.MoonLordBossBag:
-                        DropHelper.DropRevBagAccessories(player.GetSource_FromThis(), player);
-                        DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.LunarOre, 50, 50);
-                        DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<MLGRune2>()); // Celestial Onion
-                        DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<UtensilPoker>(), 8);
-                        DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<GrandDad>(), DropHelper.RareVariantDropRateInt);
-                        DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<Infinity>(), DropHelper.RareVariantDropRateInt);
+                        loot.AddRevBagAccessories();
+                        loot.Add(new CommonDrop(ItemID.LunarOre, 1, 50, 50));
+                        loot.Add(new CommonDrop(ModContent.ItemType<MLGRune2>(), 1)); // Celestial Onion
+                        loot.Add(new CommonDrop(ModContent.ItemType<UtensilPoker>(), 8));
+                        loot.Add(new CommonDrop(ModContent.ItemType<GrandDad>(), DropHelper.RareVariantDropRateInt));
+                        loot.Add(new CommonDrop(ModContent.ItemType<Infinity>(), DropHelper.RareVariantDropRateInt));
                         break;
                 }
-            }
-        }*/
+        }
         #endregion
         #region Armor Set Changes
         public override string IsArmorSet(Item head, Item body, Item legs)
@@ -3374,7 +3374,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 player.noFallDmg = true;
                 if (player.head == ArmorIDs.Head.SpookyHelmet && player.body == ArmorIDs.Body.SpookyBreastplate && player.legs == ArmorIDs.Legs.SpookyLeggings)
                 {
-                    player.GetKnockback(DamageClass.Summon).Base += 2f;
+                    player.GetKnockback(DamageClass.Summon) += 2f;
                     player.GetDamage(DamageClass.Summon) += 0.05f;
                 }
             }

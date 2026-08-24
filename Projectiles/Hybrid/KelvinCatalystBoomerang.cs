@@ -167,8 +167,7 @@ namespace CalRD.Projectiles.Hybrid
             SoundEngine.PlaySound(SoundID.Item30, Projectile.position);
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(BuffID.Frostburn, 240);
             if (Projectile.owner == Main.myPlayer && Main.player[Projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<KelvinCatalystStar>()] < 25)
@@ -191,7 +190,6 @@ namespace CalRD.Projectiles.Hybrid
             }
             SoundEngine.PlaySound(SoundID.Item30, Projectile.position);
         }
-        */
 
         public override bool PreDraw(ref Color lightColor)
         {

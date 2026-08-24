@@ -107,15 +107,13 @@ namespace CalRD.Projectiles.Hybrid
 			target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
 		}
 
-		//public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-		/*
+		public override void OnHitPlayer(Player target, Player.HurtInfo info)
 		{
 			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
 			target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
 			target.AddBuff(ModContent.BuffType<Plague>(), 120);
 			target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
 		}
-		*/
 
 		public override bool PreDraw(ref Color lightColor)
 		{

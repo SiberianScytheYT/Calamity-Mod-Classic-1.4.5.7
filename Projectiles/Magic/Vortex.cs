@@ -150,12 +150,10 @@ namespace CalRD.Projectiles.Magic
 			target.ExoDebuffs();
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
 			target.ExoDebuffs();
         }
-        */
 
         public override bool PreDraw(ref Color lightColor)
         {

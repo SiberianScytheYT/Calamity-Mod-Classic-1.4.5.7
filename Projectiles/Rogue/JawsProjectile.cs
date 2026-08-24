@@ -54,10 +54,9 @@ namespace CalRD.Projectiles.Rogue
             Projectile.StickyProjAI(15);
         }
 
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            Projectile.ModifyHitNPCSticky(6, false);
-        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => Projectile.ModifyHitNPCSticky(6);
+        
+        public override bool? CanDamage() => Projectile.ai[0] == 1f ? false : base.CanDamage();
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
@@ -72,8 +71,7 @@ namespace CalRD.Projectiles.Rogue
             }
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
 			Player player = Main.player[Projectile.owner];
             target.AddBuff(BuffID.Venom, 240);
@@ -85,7 +83,6 @@ namespace CalRD.Projectiles.Rogue
                 Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<JawsShockwave>(), (int)(100f * player.RogueDamage()), 10f, Projectile.owner, 0, 0);
             }
         }
-        */
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

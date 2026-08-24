@@ -205,16 +205,16 @@ namespace CalRD.Projectiles.Hybrid
 			}
 		}
 
-		//public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
-		/*{
+		public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
+		{
 			if (Projectile.ai[0] == 1f && Main.myPlayer == Projectile.owner)
 			{
 				int hammer = Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center, new Vector2(0, -15f), ModContent.ProjectileType<PwnagehammerProjStealthStrike>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner, 0f, Projectile.ai[1]);
 				Main.projectile[hammer].localAI[0] = Math.Sign(Projectile.velocity.X);
-				/*Main.projectile[hammer].Calamity().rogue = Projectile.Calamity().rogue;
+				Main.projectile[hammer].Calamity().rogue = Projectile.Calamity().rogue;
 				Main.projectile[hammer].netUpdate = true;
 			}
-		}*/
+		}
 
 		public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
 		{

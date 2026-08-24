@@ -186,7 +186,7 @@ namespace CalRD.Projectiles.Typeless
                 modifiers.SetCrit();
         }
 
-        //public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
+        //public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
         /*{
             if (Main.player[Projectile.owner].Calamity().omegaBlueHentai)
                 crit = true;
@@ -206,29 +206,29 @@ namespace CalRD.Projectiles.Typeless
                     if (Main.player[projectile.owner].statLife > Main.player[projectile.owner].statLifeMax2)
                         Main.player[projectile.owner].statLife = Main.player[projectile.owner].statLifeMax2;
                     Main.player[projectile.owner].HealEffect(healAmount, false);*/
-                    Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ProjectileID.SpiritHeal, 0, 0f, Projectile.owner, Projectile.owner, healAmount);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ProjectileID.SpiritHeal, 0, 0f, Projectile.owner, Projectile.owner, healAmount);
                 }
             }
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*{
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
             if (Projectile.owner == Main.myPlayer && Main.player[Projectile.owner].lifeSteal > 0f && !Main.player[Projectile.owner].moonLeech)
             {
-                int healAmount = 10 * damage / Projectile.damage; //should always be around max, less if enemy has defense/DR
+                int healAmount = 10 * info.Damage / Projectile.damage; //should always be around max, less if enemy has defense/DR
                 if (healAmount > 0)
                 {
                     Main.player[Projectile.owner].lifeSteal -= healAmount;
                     if (Main.player[Projectile.owner].Calamity().omegaBlueHentai) //hentai always crits, this makes it have same lifesteal delay
-                        Main.player[Projectile.owner].lifeSteal += healAmount / 2;*/
+                        Main.player[Projectile.owner].lifeSteal += healAmount / 2;
                     /*Main.player[projectile.owner].statLife += healAmount;
                     if (Main.player[projectile.owner].statLife > Main.player[projectile.owner].statLifeMax2)
                         Main.player[projectile.owner].statLife = Main.player[projectile.owner].statLifeMax2;
                     Main.player[projectile.owner].HealEffect(healAmount, false);*/
-                    /*Projectile.NewProjectile(Entity.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ProjectileID.SpiritHeal, 0, 0f, Projectile.owner, Projectile.owner, healAmount);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ProjectileID.SpiritHeal, 0, 0f, Projectile.owner, Projectile.owner, healAmount);
                 }
             }
-        }*/
+        }
 
         public override bool PreDraw(ref Color lightColor)
         {

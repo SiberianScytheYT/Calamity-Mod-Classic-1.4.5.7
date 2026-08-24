@@ -154,8 +154,8 @@ namespace CalRD.Projectiles.Rogue
             }
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*{
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
 			Projectile.ai[0] = 1f;
             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
             SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
@@ -165,6 +165,6 @@ namespace CalRD.Projectiles.Rogue
                     Projectile.width, Projectile.height, (int)CalamityDusts.SulfurousSeaAcid,
                     Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
-        }*/
+        }
     }
 }

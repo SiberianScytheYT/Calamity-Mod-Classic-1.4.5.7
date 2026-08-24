@@ -64,11 +64,11 @@ namespace CalRD.Projectiles.Rogue
 				player.AddBuff(ModContent.BuffType<Mushy>(), 720);
         }
 
-        //public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        /*{
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
             Player player = Main.player[Projectile.owner];
 			if (Projectile.Calamity().stealthStrike)
 				player.AddBuff(ModContent.BuffType<Mushy>(), 720);
-        }*/
+        }
     }
 }
