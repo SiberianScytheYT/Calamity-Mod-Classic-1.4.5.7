@@ -30,6 +30,14 @@ namespace CalRD.NPCs.Abyss
             Main.npcFrameCount[NPC.type] = 11;
         }
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+			{
+				new FlavorTextBestiaryInfoElement("Squid that have grown to monstrous sizes, these are one of the apex predators of the abyssal depths.")
+			});
+		}
+
         public override void SetDefaults()
         {
             NPC.npcSlots = 9f;
