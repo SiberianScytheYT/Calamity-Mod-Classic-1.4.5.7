@@ -19,7 +19,15 @@ namespace CalRD.NPCs.Abyss
             //DisplayName.SetDefault("Bloatfish");
             Main.npcFrameCount[NPC.type] = 4;
         }
-
+        
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+			{
+				new FlavorTextBestiaryInfoElement("Large fish which can easily resist the crushing pressure of the depths and any efforts to pierce their skin.")
+			});
+		}
+        
         public override void SetDefaults()
         {
             NPC.noGravity = true;
