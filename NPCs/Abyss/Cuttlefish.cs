@@ -43,7 +43,15 @@ namespace CalRD.NPCs.Abyss
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<CuttlefishBanner>();
         }
-
+		
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+			{
+				new FlavorTextBestiaryInfoElement("Despite the cuddly appearance, these squid-like creatures prove capable ambush predators.")
+			});
+		}
+		
         public override void AI()
         {
             NPC.spriteDirection = (NPC.direction > 0) ? 1 : -1;
