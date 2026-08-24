@@ -18,7 +18,15 @@ namespace CalRD.NPCs.Abyss
             //DisplayName.SetDefault("Box Jellyfish");
             Main.npcFrameCount[NPC.type] = 4;
         }
-
+		
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+			{
+				new FlavorTextBestiaryInfoElement("These jellyfish unique for their cube-like shape act like ambush predators, waiting for something edible to approach them to then hastily swim towards prey in an effort to consume it.")
+			});
+		}
+		
         public override void SetDefaults()
         {
             NPC.noGravity = true;
