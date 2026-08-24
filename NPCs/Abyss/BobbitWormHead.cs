@@ -21,7 +21,15 @@ namespace CalRD.NPCs.Abyss
             //DisplayName.SetDefault("Bobbit Worm");
             Main.npcFrameCount[NPC.type] = 4;
         }
-
+		
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+			{
+				new FlavorTextBestiaryInfoElement("An ambush predator that lurks within the deepest parts of the abyss, it extends out rapidly to snatch unsuspecting prey.")
+			});
+		}
+		
         public override void SetDefaults()
         {
             NPC.lavaImmune = true;
