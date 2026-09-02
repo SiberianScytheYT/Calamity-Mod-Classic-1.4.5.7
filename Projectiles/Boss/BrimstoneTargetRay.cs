@@ -6,6 +6,7 @@ using System.IO;
 using Terraria;
 using Terraria.Enums;
 using Terraria.GameContent;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.Projectiles.Boss
 {
