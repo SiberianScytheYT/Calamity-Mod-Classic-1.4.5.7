@@ -1257,8 +1257,9 @@ namespace CalRD.NPCs
             SpriteEffects effects = npc.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             if (invertedDirection)
                 effects = npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            Vector2 screenOffset = npc.IsABestiaryIconDummy ? Vector2.Zero : Main.screenPosition;
             spriteBatch.Draw(texture,
-                             npc.Center - Main.screenPosition + offset,
+                             npc.Center - screenOffset + offset,
                              npc.frame,
                              Color.White,
                              npc.rotation,

@@ -13,14 +13,17 @@ namespace CalRD.Tiles.Astral
 {
     public class AstralChestLocked : ModTile
     {
-        public override LocalizedText DefaultContainerName(int frameX, int frameY) => ItemLoader.GetItem(ModContent.ItemType<AstralChest>()).GetLocalization("DisplayName");
-
+        public override LocalizedText DefaultContainerName(int frameX, int frameY)
+        {
+            int option = frameX / 36;
+            return this.GetLocalization("MapEntry" + option);
+        }
+        
         public override void SetStaticDefaults()
         {
             this.SetUpChest();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Astral Chest");
-            AddMapEntry(new Color(174, 129, 92), name, MapChestName);
+            AddMapEntry(new Color(174, 129, 92), this.GetLocalization("MapEntry0"), MapChestName);
+            AddMapEntry(new Color(174, 129, 92), this.GetLocalization("MapEntry1"), MapChestName);
             DustType = ModContent.DustType<AstralBasic>();
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
@@ -61,8 +64,10 @@ namespace CalRD.Tiles.Astral
                 top--;
 
             int chest = Chest.FindChest(left, top);
-            return name + (Main.chest[chest].name != "" ? ": " + Main.chest[chest].name : "");
+            return name + (Main.chest[chest].name != "" ? $": {Main.chest[chest].name}" : "");
         }
+
+        public override ushort GetMapOption(int i, int j) => (ushort)(Main.tile[i, j].TileFrameX / 36);
 
         public override void NumDust(int i, int j, bool fail, ref int num)
         {

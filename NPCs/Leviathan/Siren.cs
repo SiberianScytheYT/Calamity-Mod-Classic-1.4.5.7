@@ -12,6 +12,7 @@ using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.NPCs.Leviathan
@@ -29,6 +30,21 @@ namespace CalRD.NPCs.Leviathan
         {
             //DisplayName.SetDefault("Anahita");
             Main.npcFrameCount[NPC.type] = 6;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+	            Scale = 0.5f
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+		        
+		        new FlavorTextBestiaryInfoElement("This elemental was known for her immense power and mastery of water in her home. But that was long ago.")
+	        }); 
         }
 
         public override void SetDefaults()
@@ -747,7 +763,7 @@ namespace CalRD.NPCs.Leviathan
 			SpriteEffects spriteEffects = charging ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			if (NPC.spriteDirection == -1)
 				spriteEffects = charging ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            Main.spriteBatch.Draw(texture, NPC.Center - Main.screenPosition + new Vector2(0f, NPC.gfxOffY), NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, new Vector2((float)width / 2f, (float)height / 2f), NPC.scale, spriteEffects, 0f);
+            Main.spriteBatch.Draw(texture, NPC.Center - screenPos + new Vector2(0f, NPC.gfxOffY), NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, new Vector2((float)width / 2f, (float)height / 2f), NPC.scale, spriteEffects, 0f);
             return false;
         }
 

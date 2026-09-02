@@ -6,6 +6,7 @@ using CalRD.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -17,6 +18,21 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Cnidrion");
             Main.npcFrameCount[NPC.type] = 10;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Scale = 0.8f,
+            };
+            value.Position.X += 48f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundDesert,
+                new FlavorTextBestiaryInfoElement("Enigmatic creatures from the desert that store massive amounts of water within their bodies... is there's something more to them?")
+            });
         }
 
         public override void SetDefaults()

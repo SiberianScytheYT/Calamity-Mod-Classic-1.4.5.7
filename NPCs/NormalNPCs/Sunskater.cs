@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -19,6 +20,15 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Sunskater");
             Main.npcFrameCount[NPC.type] = 4;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+                new FlavorTextBestiaryInfoElement("sunfish gang")
+            });
         }
 
         public override void SetDefaults()

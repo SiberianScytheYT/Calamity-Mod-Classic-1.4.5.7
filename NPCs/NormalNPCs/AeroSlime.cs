@@ -2,6 +2,7 @@ using CalRD.Items.Placeables.Banners;
 using CalRD.Items.Placeables.Ores;
 using CalRD.World;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -13,6 +14,19 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Aero Slime");
             Main.npcFrameCount[NPC.type] = 4;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers();
+            value.Position.Y -= 6;
+            value.PortraitPositionYOverride = -36f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+                new FlavorTextBestiaryInfoElement("The essence of Aerialite Ore has allowed this slime to take to the skies!")
+            });
         }
 
         public override void SetDefaults()

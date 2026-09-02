@@ -4,7 +4,9 @@ using CalRD.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
+using CalRD.BiomeManagers;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,6 +20,22 @@ namespace CalRD.NPCs.SulphurousSea
         {
             //DisplayName.SetDefault("Trasher");
             Main.npcFrameCount[NPC.type] = 8;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                SpriteDirection = 1,
+                Scale = 0.65f,
+                PortraitPositionXOverride = 0f,
+                Position = Vector2.UnitX * 20f
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("Despite their ferocious appearance and great jaw, these crocodiles prefer to scavenge for food and leftovers.")
+            });
         }
 
         public override void SetDefaults()
@@ -40,6 +58,7 @@ namespace CalRD.NPCs.SulphurousSea
             NPC.knockBackResist = 0f;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<TrasherBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Sulphur>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)

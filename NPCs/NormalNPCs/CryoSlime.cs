@@ -2,6 +2,7 @@ using CalRD.Items.Placeables.Banners;
 using CalRD.Items.Placeables.Ores;
 using CalRD.World;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -13,6 +14,15 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Cryo Slime");
             Main.npcFrameCount[NPC.type] = 2;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
+                new FlavorTextBestiaryInfoElement("A slime infused with Cryonic Ore, its crystal spikes look dangerous...")
+            });
         }
 
         public override void SetDefaults()

@@ -2,6 +2,7 @@ using CalRD.Items.Placeables.Banners;
 using CalRD.Items.Critters;
 using System;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -14,6 +15,20 @@ namespace CalRD.NPCs.NormalNPCs
             //DisplayName.SetDefault("Piggy");
             Main.npcFrameCount[NPC.type] = 5;
             Main.npcCatchable[NPC.type] = true;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                SpriteDirection = 1
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+                new FlavorTextBestiaryInfoElement("oink!")
+            });
         }
 
         public override void SetDefaults()
@@ -47,19 +62,22 @@ namespace CalRD.NPCs.NormalNPCs
         {
             if (NPC.velocity.Y == 0f)
             {
-                if (NPC.direction == 1)
+                if (!NPC.IsABestiaryIconDummy)
                 {
-                    NPC.spriteDirection = -1;
-                }
-                if (NPC.direction == -1)
-                {
-                    NPC.spriteDirection = 1;
-                }
-                if (NPC.velocity.X == 0f)
-                {
-                    NPC.frame.Y = 0;
-                    NPC.frameCounter = 0.0;
-                    return;
+                    if (NPC.direction == 1)
+                    {
+                        NPC.spriteDirection = -1;
+                    }
+                    if (NPC.direction == -1)
+                    {
+                        NPC.spriteDirection = 1;
+                    }
+                    if (NPC.velocity.X == 0f)
+                    {
+                        NPC.frame.Y = 0;
+                        NPC.frameCounter = 0.0;
+                        return;
+                    }
                 }
                 NPC.frameCounter += (double)(Math.Abs(NPC.velocity.X) * 0.25f);
                 NPC.frameCounter += 1.0;

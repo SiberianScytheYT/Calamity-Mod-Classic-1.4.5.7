@@ -4,7 +4,9 @@ using CalRD.Items.Placeables.Banners;
 using CalRD.World;
 using Microsoft.Xna.Framework;
 using System;
+using CalRD.BiomeManagers;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -21,6 +23,19 @@ namespace CalRD.NPCs.AquaticScourge
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Aquatic Seeker");
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                CustomTexturePath = "CalRD/ExtraTextures/Bestiary/AquaticSeeker_Bestiary"
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+		
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("A peculiar creature similar in appearance to the Aquatic Scourge. These creatures soar far across sky and ocean in search of food.")
+            });
         }
 
         public override void SetDefaults()
@@ -46,6 +61,7 @@ namespace CalRD.NPCs.AquaticScourge
             NPC.netAlways = true;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<AquaticSeekerBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Sulphur>().Type };
         }
 
         public override void AI()

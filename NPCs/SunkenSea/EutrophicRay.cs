@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -19,6 +20,17 @@ namespace CalRD.NPCs.SunkenSea
         {
             //DisplayName.SetDefault("Eutrophic Ray");
             Main.npcFrameCount[NPC.type] = 5;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers();
+            value.Position.X += 24f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("A stingray that spends most of its time as a docile creature, but that will release its energy reserves as short bursts of speed when threatened.")
+            });
         }
 
         public override void SetDefaults()
@@ -37,6 +49,7 @@ namespace CalRD.NPCs.SunkenSea
             NPC.knockBackResist = 0f;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<EutrophicRayBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<BiomeManagers.SunkenSea>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -154,7 +167,7 @@ namespace CalRD.NPCs.SunkenSea
 
         public override void FindFrame(int frameHeight)
         {
-            NPC.frameCounter += hasBeenHit ? 0.15f : 0f;
+            NPC.frameCounter += hasBeenHit || NPC.IsABestiaryIconDummy ? 0.15f : 0f;
             NPC.frameCounter %= Main.npcFrameCount[NPC.type];
             int frame = (int)NPC.frameCounter;
             NPC.frame.Y = frame * frameHeight;

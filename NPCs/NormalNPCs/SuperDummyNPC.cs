@@ -8,6 +8,11 @@ namespace CalRD.NPCs.NormalNPCs
 		public override void SetStaticDefaults()
 		{
 			//DisplayName.SetDefault("Super Dummy");
+			NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+			{
+				Hide = true
+			};
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
 		}
 
 		public override void SetDefaults()

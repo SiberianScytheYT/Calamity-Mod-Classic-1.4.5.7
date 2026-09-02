@@ -18,6 +18,11 @@ namespace CalRD.NPCs.HiveMind
         {
             //DisplayName.SetDefault("The Hive Mind");
             Main.npcFrameCount[NPC.type] = 16;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Hide = true
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
         }
 
         public override void SetDefaults()

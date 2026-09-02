@@ -1,7 +1,9 @@
+using CalRD.BiomeManagers;
 using CalRD.Items.SummonItems;
 using CalRD.World;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -14,6 +16,14 @@ namespace CalRD.NPCs.AcidRain
             //DisplayName.SetDefault("Bloodworm");
             Main.npcFrameCount[NPC.type] = 7;
             Main.npcCatchable[NPC.type] = true;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("An unnaturally large worm... and a great feast for any fish mad or wise enough to go for it.")
+            });
         }
 
         public override void SetDefaults()
@@ -36,6 +46,7 @@ namespace CalRD.NPCs.AcidRain
             NPC.catchItem = (short)ModContent.ItemType<BloodwormItem>();
             NPC.dontTakeDamageFromHostiles = true;
 			NPC.rarity = 4;
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Sulphur>().Type, ModContent.GetInstance<AcidRainBiome>().Type };
         }
 
         public override void AI()

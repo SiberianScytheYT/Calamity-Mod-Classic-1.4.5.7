@@ -4,6 +4,7 @@ using CalRD.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -33,6 +34,20 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Wulfrum Gyrator");
             Main.npcFrameCount[NPC.type] = 10;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                SpriteDirection = 1
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+                new FlavorTextBestiaryInfoElement("A metal orb made of wulfrum, they fling themselves at their enemies to attack.")
+            });
         }
 
         public override void SetDefaults()

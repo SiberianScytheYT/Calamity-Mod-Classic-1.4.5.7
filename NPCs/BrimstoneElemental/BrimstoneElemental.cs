@@ -14,7 +14,9 @@ using CalRD.Items.Weapons.Summon;
 using CalRD.World;
 using Microsoft.Xna.Framework;
 using System.IO;
+using CalRD.BiomeManagers;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -28,6 +30,23 @@ namespace CalRD.NPCs.BrimstoneElemental
         {
             //DisplayName.SetDefault("Brimstone Elemental");
             Main.npcFrameCount[NPC.type] = 12;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Scale = 0.5f,
+                PortraitScale = 0.64f
+            };
+            value.Position.Y -= 24f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
+                new FlavorTextBestiaryInfoElement("Once a great goddess, all she has within her heart now is hate. Hate for all that might pity her.")
+            });
         }
 
         public override void SetDefaults()
@@ -87,6 +106,7 @@ namespace CalRD.NPCs.BrimstoneElemental
             NPC.HitSound = SoundID.NPCHit23;
             NPC.DeathSound = SoundID.NPCDeath39;
             Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/LeftAlone");
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Crag>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)

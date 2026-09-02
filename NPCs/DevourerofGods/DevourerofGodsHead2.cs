@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.NPCs.DevourerofGods
@@ -21,6 +22,30 @@ namespace CalRD.NPCs.DevourerofGods
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Cosmic Guardian");
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+	            Scale = 0.75f,
+	            PortraitScale = 0.75f,
+	            CustomTexturePath = "CalRD/ExtraTextures/Bestiary/CosmicGuardian_Bestiary",
+	            PortraitPositionXOverride = 40,
+	            PortraitPositionYOverride = 40
+            };
+            value.Position.X += 62f;
+            value.Position.Y += 35f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+	        int associatedNPCType = ModContent.NPCType<DevourerofGodsHeadS>();
+	        bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
+
+	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+	        {
+		        new MoonLordPortraitBackgroundProviderBestiaryInfoElement(),
+		        new FlavorTextBestiaryInfoElement("His right hand man, it will spring into action once the Devourer feels threatened.")
+	        });
         }
 
         public override void SetDefaults()

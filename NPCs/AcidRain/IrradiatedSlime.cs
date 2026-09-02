@@ -5,7 +5,9 @@ using CalRD.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
+using CalRD.BiomeManagers;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.NPCs.AcidRain
@@ -18,6 +20,14 @@ namespace CalRD.NPCs.AcidRain
         {
             //DisplayName.SetDefault("Irradiated Slime");
             Main.npcFrameCount[NPC.type] = 2;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("This slime has been irradiated! Best not to approach it.")
+            });
         }
 
         public override void SetDefaults()
@@ -44,6 +54,7 @@ namespace CalRD.NPCs.AcidRain
             NPC.DeathSound = SoundID.NPCDeath1;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<IrradiatedSlimeBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Sulphur>().Type, ModContent.GetInstance<AcidRainBiome>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)

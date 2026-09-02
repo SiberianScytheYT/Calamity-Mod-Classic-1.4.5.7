@@ -5,7 +5,9 @@ using CalRD.Items.Pets;
 using CalRD.World;
 using Microsoft.Xna.Framework;
 using System;
+using CalRD.BiomeManagers;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.NPCs.AcidRain
@@ -17,6 +19,14 @@ namespace CalRD.NPCs.AcidRain
             //DisplayName.SetDefault("Baby Flak Crab");
             Main.npcFrameCount[NPC.type] = 6;
             Main.npcCatchable[NPC.type] = true;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("Much like other young creatures, they tend to imprint easily to the first large creature they see.")
+            });
         }
 
         public override void SetDefaults()
@@ -42,6 +52,7 @@ namespace CalRD.NPCs.AcidRain
             BannerItem = ModContent.ItemType<FlakCrabBanner>();
             NPC.dontTakeDamageFromHostiles = true;
             NPC.catchItem = (short)ModContent.ItemType<BabyFlakHermit>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Sulphur>().Type, ModContent.GetInstance<AcidRainBiome>().Type };
         }
 
         public override void AI()

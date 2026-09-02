@@ -5,6 +5,7 @@ using CalRD.World;
 using System.IO;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.NPCs.NormalNPCs
@@ -17,6 +18,22 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Angry Dog");
             Main.npcFrameCount[NPC.type] = 9;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Scale = 0.7f,
+                PortraitPositionXOverride = 10f,
+                Velocity = 1.2f
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Snow,
+                new FlavorTextBestiaryInfoElement("very angy boi")
+            });
         }
 
         public override void SetDefaults()

@@ -8,6 +8,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalRD.Items.Fishing.SunkenSeaCatches;
+using Terraria.GameContent.Bestiary;
 using Terraria.ModLoader.Utilities;
 namespace CalRD.NPCs.SunkenSea
 {
@@ -20,6 +21,14 @@ namespace CalRD.NPCs.SunkenSea
             //DisplayName.SetDefault("Baby Ghost Bell");
             Main.npcFrameCount[NPC.type] = 4;
             Main.npcCatchable[NPC.type] = true;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("Like their adult counterparts, they drift gently. Be careful not to hurt them!")
+            });
         }
 
         public override void SetDefaults()
@@ -41,6 +50,7 @@ namespace CalRD.NPCs.SunkenSea
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<GhostBellSmallBanner>();
             NPC.catchItem = (short)ModContent.ItemType<BabyGhostBellItem>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<BiomeManagers.SunkenSea>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)

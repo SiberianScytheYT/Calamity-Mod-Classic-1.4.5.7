@@ -7,12 +7,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using CalRD.BiomeManagers;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalRD.Buffs.StatDebuffs;
 using CalRD.Items.Weapons.Rogue;
+using Terraria.GameContent.Bestiary;
 
 namespace CalRD.NPCs.AcidRain
 {
@@ -22,6 +24,7 @@ namespace CalRD.NPCs.AcidRain
         {
             //DisplayName.SetDefault("Cragmaw Mire");
             Main.npcFrameCount[NPC.type] = 2;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
         }
 
         public override void SetDefaults()
@@ -52,6 +55,15 @@ namespace CalRD.NPCs.AcidRain
             NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Sulphur>().Type, ModContent.GetInstance<AcidRainBiome>().Type };
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("A slime that against all odds developed a calcified shell.")
+            });
         }
         public bool Phase2
         {
@@ -246,6 +258,11 @@ namespace CalRD.NPCs.AcidRain
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D texture = Phase2 ? ModContent.Request<Texture2D>("CalRD/NPCs/AcidRain/CragmawMire2").Value : ModContent.Request<Texture2D>("CalRD/NPCs/AcidRain/CragmawMire").Value;
+            if (NPC.IsABestiaryIconDummy)
+            {
+                Main.EntitySpriteDraw(texture, NPC.Center - screenPos, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, NPC.frame.Size() * 0.5f, NPC.scale, 0, 0);
+                return false;
+            }
             CalRD.DrawTexture(spriteBatch, texture, 0, NPC, drawColor, true);
             return false;
         }

@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -24,6 +25,20 @@ namespace CalRD.NPCs.Astral
 
             if (!Main.dedServ)
                 glowmask = ModContent.Request<Texture2D>("CalRD/NPCs/Astral/SmallSightseerGlow").Value;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                PortraitPositionXOverride = 0
+            };
+            value.Position.X += 15;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("Smaller variants of sightseers, these lack the ability to spit deadly chemicals, and instead charge at their enemies, much like they once did as Demon Eyes.")
+            });
         }
 
         public override void SetDefaults()
@@ -42,6 +57,7 @@ namespace CalRD.NPCs.Astral
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<SmallSightseerBanner>();
             NPC.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
+            SpawnModBiomes = new int[] { ModContent.GetInstance<BiomeManagers.Astral>().Type };
             if (CalamityWorld.downedAstrageldon)
             {
                 NPC.damage = 58;
@@ -53,7 +69,10 @@ namespace CalRD.NPCs.Astral
 
         public override void FindFrame(int frameHeight)
         {
-            NPC.frameCounter += 0.05f + NPC.velocity.Length() * 0.667f;
+            if (NPC.IsABestiaryIconDummy)
+                NPC.frameCounter += 2;
+            else 
+                NPC.frameCounter += 0.05f + NPC.velocity.Length() * 0.667f;
             if (NPC.frameCounter >= 8)
             {
                 NPC.frameCounter = 0;

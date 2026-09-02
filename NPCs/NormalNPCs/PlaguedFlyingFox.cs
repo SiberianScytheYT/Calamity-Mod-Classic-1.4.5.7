@@ -3,6 +3,7 @@ using CalRD.Dusts;
 using CalRD.Items.Materials;
 using CalRD.Items.Placeables.Banners;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -14,6 +15,18 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Melter");
             Main.npcFrameCount[NPC.type] = 4;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers();
+            value.PortraitPositionYOverride = -32f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
+                new FlavorTextBestiaryInfoElement("A flying fox overtaken by plague nanomachines, deadly plague oozes from its mouth.")
+            });
         }
 
         public override void SetDefaults()

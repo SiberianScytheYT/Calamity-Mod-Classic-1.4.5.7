@@ -10,8 +10,10 @@ using CalRD.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
+using CalRD.BiomeManagers;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -28,6 +30,24 @@ namespace CalRD.NPCs.Abyss
         {
             //DisplayName.SetDefault("Reaper Shark");
             Main.npcFrameCount[NPC.type] = 4;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Scale = 0.3f,
+                PortraitPositionXOverride = 54f,
+                PortraitPositionYOverride = -10f,
+                SpriteDirection = 1
+            };
+            value.Position.X += 12f;
+            value.Position.Y -= 50f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("pushups, situps, and plenty of juice")
+            });
         }
 
         public override void SetDefaults()
@@ -73,6 +93,7 @@ namespace CalRD.NPCs.Abyss
             NPC.rarity = 2;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<ReaperSharkBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<AbyssLayer3Biome>().Type, ModContent.GetInstance<AbyssLayer4Biome>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)

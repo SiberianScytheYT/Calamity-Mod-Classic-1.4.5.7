@@ -3,6 +3,7 @@ using CalRD.Items.Placeables;
 using CalRD.Items.Placeables.Banners;
 using System.IO;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -18,6 +19,19 @@ namespace CalRD.NPCs.SunkenSea
         {
             //DisplayName.SetDefault("Clam");
             Main.npcFrameCount[NPC.type] = 5;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                SpriteDirection = 1
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("Regular mollusks that behave like any other.")
+            });
         }
 
         public override void SetDefaults()
@@ -39,6 +53,7 @@ namespace CalRD.NPCs.SunkenSea
             NPC.knockBackResist = 0.05f;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<ClamBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<BiomeManagers.SunkenSea>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)

@@ -30,7 +30,7 @@ namespace CalRD.BiomeManagers
 		
 		public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("CalRD/SulphuricWater");
 		
-		public override string BestiaryIcon => "CalRD/BiomeManagers/SulpherousSeaIcon";
+		public override string BestiaryIcon => "CalRD/BiomeManagers/SulphurousSeaIcon";
 
 		public override string MapBackground => "CalRD/Backgrounds/MapBackgrounds/SulphurBG";
 		

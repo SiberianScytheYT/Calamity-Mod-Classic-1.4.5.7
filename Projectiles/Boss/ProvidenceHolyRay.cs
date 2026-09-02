@@ -18,6 +18,7 @@ namespace CalRD.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Holy Ray");
+            ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
         }
 
         public override void SetDefaults()

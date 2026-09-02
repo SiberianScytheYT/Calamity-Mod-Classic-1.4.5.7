@@ -24,6 +24,7 @@ using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -59,7 +60,26 @@ namespace CalRD.NPCs.Yharon
             //DisplayName.SetDefault("Jungle Dragon, Yharon");
             Main.npcFrameCount[NPC.type] = 7;
 			NPCID.Sets.TrailingMode[NPC.type] = 1;
+			NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+			{
+				Scale = 0.3f,
+				PortraitScale = 0.4f,
+				PortraitPositionYOverride = -16f,
+				SpriteDirection = 1
+			};
+			value.Position.X += 26f;
+			value.Position.Y -= 14f;
+			NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
 		}
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+	        {
+		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
+		        new FlavorTextBestiaryInfoElement("The tyrant's loyal lifelong friend has set his sight on you.")
+	        });
+        }
 
         public override void SetDefaults()
         {
@@ -2577,7 +2597,7 @@ namespace CalRD.NPCs.Yharon
 					color38 = Color.Lerp(color38, color36, amount9);
 					color38 = NPC.GetAlpha(color38);
 					color38 *= (num153 - num155) / 15f;
-					Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+					Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
 					vector41 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
 					vector41 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 					spriteBatch.Draw(texture, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
@@ -2628,14 +2648,14 @@ namespace CalRD.NPCs.Yharon
 					color39 = Color.Lerp(color39, color36, amount9);
 					color39 = NPC.GetAlpha(color39);
 					color39 *= 1f - num157;
-					Vector2 vector42 = NPC.Center + (num160 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
+					Vector2 vector42 = NPC.Center + (num160 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - screenPos;
 					vector42 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
 					vector42 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 					spriteBatch.Draw(texture, vector42, NPC.frame, color39, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 				}
 			}
 
-			Vector2 vector43 = NPC.Center - Main.screenPosition;
+			Vector2 vector43 = NPC.Center - screenPos;
 			vector43 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
 			vector43 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 			spriteBatch.Draw(texture, vector43, NPC.frame, (invincible ? invincibleColor : NPC.GetAlpha(drawColor)), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
@@ -2704,7 +2724,7 @@ namespace CalRD.NPCs.Yharon
 						Color color41 = color40;
 						color41 = Color.Lerp(color41, color36, amount9);
 						color41 *= (num153 - num163) / 15f;
-						Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+						Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
 						vector44 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
 						vector44 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 						spriteBatch.Draw(texture, vector44, NPC.frame, color41, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
@@ -2732,7 +2752,7 @@ namespace CalRD.NPCs.Yharon
 						color42 = Color.Lerp(color42, color36, amount9);
 						color42 = NPC.GetAlpha(color42);
 						color42 *= 1f - num157;
-						Vector2 vector45 = NPC.Center + (num164 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
+						Vector2 vector45 = NPC.Center + (num164 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - screenPos;
 						vector45 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
 						vector45 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 						spriteBatch.Draw(texture, vector45, NPC.frame, color42, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);

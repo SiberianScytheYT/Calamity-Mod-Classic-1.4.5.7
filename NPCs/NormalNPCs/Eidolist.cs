@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.NPCs.NormalNPCs
@@ -19,6 +20,22 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Eidolist");
             Main.npcFrameCount[NPC.type] = 6;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Scale = 0.75f,
+                PortraitPositionYOverride = 16f
+            };
+            value.Position.Y += 10f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheDungeon,
+                new FlavorTextBestiaryInfoElement("A cultist that succumbed to their cult magicks, yet still, they seem to guard something...")
+            });
         }
 
         public override void SetDefaults()
@@ -264,6 +281,9 @@ namespace CalRD.NPCs.NormalNPCs
 
         public override void FindFrame(int frameHeight)
         {
+            if (NPC.IsABestiaryIconDummy)
+                NPC.Opacity = 1f;
+            
             NPC.frameCounter += hasBeenHit ? 0.15f : 0.075f;
             NPC.frameCounter %= Main.npcFrameCount[NPC.type];
             int frame = (int)NPC.frameCounter;

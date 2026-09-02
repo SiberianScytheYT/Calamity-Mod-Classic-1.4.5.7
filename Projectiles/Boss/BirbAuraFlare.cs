@@ -18,6 +18,7 @@ namespace CalRD.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Draconic Aura Flare");
+            ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
         }
 
         public override void SetDefaults()

@@ -21,6 +21,7 @@ using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.NPCs.Leviathan
@@ -37,8 +38,18 @@ namespace CalRD.NPCs.Leviathan
         {
             //DisplayName.SetDefault("The Leviathan");
             Main.npcFrameCount[NPC.type] = 3;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
             if (!Main.dedServ)
                 AttackTexture = ModContent.Request<Texture2D>("CalRD/NPCs/Leviathan/LeviathanAttack", AssetRequestMode.AsyncLoad);
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+	        {
+		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+		        new FlavorTextBestiaryInfoElement("Theorized to be the very last of her kind, this reptile only awakens if her slumber is disturbed.")
+	        });
         }
 
         public override void SetDefaults()
@@ -758,7 +769,7 @@ namespace CalRD.NPCs.Leviathan
 			}
 			Rectangle rectangle = new Rectangle(NPC.frame.X, NPC.frame.Y, texture.Width / 2, texture.Height / 3);
 			Vector2 origin = rectangle.Size() / 2f;
-			spriteBatch.Draw(texture, NPC.Center - Main.screenPosition + new Vector2(xOffset, NPC.gfxOffY), rectangle, NPC.GetAlpha(drawColor), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
+			spriteBatch.Draw(texture, NPC.Center - screenPos + new Vector2(xOffset, NPC.gfxOffY), rectangle, NPC.GetAlpha(drawColor), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
             return false;
         }
 
@@ -766,6 +777,15 @@ namespace CalRD.NPCs.Leviathan
         {
 			int width = 1011;
 			int height = 486;
+			NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+			{
+				Scale = 0.2f,
+				PortraitScale = 0.3f,
+			};
+			NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+
+			if (NPC.IsABestiaryIconDummy)
+				NPC.Opacity = 1f;
 
             if (!initialised)
             {

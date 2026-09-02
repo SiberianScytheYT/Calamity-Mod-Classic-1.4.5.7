@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 
-namespace CalamityModClassicPreTrailer.BiomeManagers.Scenes
+namespace CalRD.BiomeManagers.Scenes
 {
 	public class UniversalCollapse : ModSceneEffect
 	{

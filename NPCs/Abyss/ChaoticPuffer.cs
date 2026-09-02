@@ -1,3 +1,4 @@
+using CalRD.BiomeManagers;
 using CalRD.Buffs.DamageOverTime;
 using CalRD.Items.Placeables.Banners;
 using CalRD.Items.Placeables.Ores;
@@ -55,6 +56,7 @@ namespace CalRD.NPCs.Abyss
             NPC.DeathSound = SoundID.NPCDeath28;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<ChaoticPufferBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<AbyssLayer3Biome>().Type };
         }
 
         public override void AI()
@@ -173,36 +175,7 @@ namespace CalRD.NPCs.Abyss
                     NPC.frame.Y = NPC.frame.Y - frameHeight;
                 }
             }
-            if (puffing)
-            {
-                if (NPC.frame.Y < frameHeight * 3)
-                {
-                    NPC.frame.Y = frameHeight * 3;
-                }
-                if (NPC.frame.Y > frameHeight * 6)
-                {
-                    NPC.frame.Y = frameHeight * 3;
-                }
-            }
-            else if (unpuffing)
-            {
-                if (NPC.frame.Y > frameHeight * 6)
-                {
-                    NPC.frame.Y = frameHeight * 6;
-                }
-                if (NPC.frame.Y < frameHeight * 3)
-                {
-                    NPC.frame.Y = frameHeight * 6;
-                }
-            }
-            else if (!puffedUp)
-            {
-                if (NPC.frame.Y > frameHeight * 3)
-                {
-                    NPC.frame.Y = 0;
-                }
-            }
-            else
+            if (NPC.IsABestiaryIconDummy)
             {
                 if (NPC.frame.Y < frameHeight * 7)
                 {
@@ -213,7 +186,49 @@ namespace CalRD.NPCs.Abyss
                     NPC.frame.Y = frameHeight * 7;
                 }
             }
-
+            else
+            {
+                if (puffing)
+                {
+                    if (NPC.frame.Y < frameHeight * 3)
+                    {
+                        NPC.frame.Y = frameHeight * 3;
+                    }
+                    if (NPC.frame.Y > frameHeight * 6)
+                    {
+                        NPC.frame.Y = frameHeight * 3;
+                    }
+                }
+                else if (unpuffing)
+                {
+                    if (NPC.frame.Y > frameHeight * 6)
+                    {
+                        NPC.frame.Y = frameHeight * 6;
+                    }
+                    if (NPC.frame.Y < frameHeight * 3)
+                    {
+                        NPC.frame.Y = frameHeight * 6;
+                    }
+                }
+                else if (!puffedUp)
+                {
+                    if (NPC.frame.Y > frameHeight * 3)
+                    {
+                        NPC.frame.Y = 0;
+                    }
+                }
+                else
+                {
+                    if (NPC.frame.Y < frameHeight * 7)
+                    {
+                        NPC.frame.Y = frameHeight * 7;
+                    }
+                    if (NPC.frame.Y > frameHeight * 10)
+                    {
+                        NPC.frame.Y = frameHeight * 7;
+                    }
+                }
+            }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

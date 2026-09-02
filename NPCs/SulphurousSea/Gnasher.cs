@@ -1,6 +1,8 @@
+using CalRD.BiomeManagers;
 using CalRD.Items.Placeables.Banners;
 using CalRD.World;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,6 +14,19 @@ namespace CalRD.NPCs.SulphurousSea
         {
             //DisplayName.SetDefault("Gnasher");
             Main.npcFrameCount[NPC.type] = 5;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                SpriteDirection = 1
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("A turtle covered by debris and waste from the sulphurous waters it inhabits. Be careful not to approach it, its jaw strength is quite potent for a creature its size.")
+            });
         }
 
         public override void SetDefaults()
@@ -34,6 +49,7 @@ namespace CalRD.NPCs.SulphurousSea
             }
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<GnasherBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Sulphur>().Type };
         }
 
         public override void AI()

@@ -11,6 +11,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -25,6 +26,24 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Earth Elemental");
             Main.npcFrameCount[NPC.type] = 6;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Scale = 0.4f,
+                PortraitScale = 0.6f,
+                PortraitPositionYOverride = -20f
+            };
+            value.Position.X += 28f;
+            value.Position.Y -= 56f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
+                new FlavorTextBestiaryInfoElement("A man-made elemental run with clockwork mechanisms, records say its previous design resembled a horse.")
+            });
         }
 
         public override void SetDefaults()

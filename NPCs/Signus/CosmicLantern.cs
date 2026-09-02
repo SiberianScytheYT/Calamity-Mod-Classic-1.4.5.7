@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.NPCs.Signus
@@ -17,7 +18,20 @@ namespace CalRD.NPCs.Signus
             //DisplayName.SetDefault("Cosmic Lantern");
             Main.npcFrameCount[NPC.type] = 4;
 			NPCID.Sets.TrailingMode[NPC.type] = 1;
+			NPCID.Sets.BossBestiaryPriority.Add(Type);
 		}
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+	        int associatedNPCType = ModContent.NPCType<Signus>();
+	        bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
+
+	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+	        {
+		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
+		        new FlavorTextBestiaryInfoElement("These lanterns rarely see use in combat, and instead allow their user to see through any form of darkness.")
+	        });
+        }
 
         public override void SetDefaults()
         {
@@ -55,6 +69,9 @@ namespace CalRD.NPCs.Signus
 
         public override void FindFrame(int frameHeight)
         {
+	        if (NPC.IsABestiaryIconDummy)
+		        NPC.Opacity = 1f;
+	        
             NPC.frameCounter += 0.15f;
             NPC.frameCounter %= Main.npcFrameCount[NPC.type];
             int frame = (int)NPC.frameCounter;
@@ -108,14 +125,14 @@ namespace CalRD.NPCs.Signus
 					color38 = Color.Lerp(color38, color36, amount9);
 					color38 = NPC.GetAlpha(color38);
 					color38 *= (float)(num153 - num155) / 15f;
-					Vector2 vector41 = NPC.oldPos[num155] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - Main.screenPosition;
+					Vector2 vector41 = NPC.oldPos[num155] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - screenPos;
 					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
 					vector41 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 				}
 			}
 
-			Vector2 vector43 = NPC.Center - Main.screenPosition;
+			Vector2 vector43 = NPC.Center - screenPos;
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
 			vector43 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
@@ -131,7 +148,7 @@ namespace CalRD.NPCs.Signus
 					color41 = Color.Lerp(color41, color36, amount9);
 					color41 = NPC.GetAlpha(color41);
 					color41 *= (float)(num153 - num163) / 15f;
-					Vector2 vector44 = NPC.oldPos[num163] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - Main.screenPosition;
+					Vector2 vector44 = NPC.oldPos[num163] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - screenPos;
 					vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
 					vector44 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector44, NPC.frame, color41, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);

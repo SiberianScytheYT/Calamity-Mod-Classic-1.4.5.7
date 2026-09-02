@@ -2,6 +2,7 @@ using CalRD.Dusts;
 using CalRD.Items.Materials;
 using CalRD.Items.Placeables.Banners;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -12,6 +13,23 @@ namespace CalRD.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Profaned Energy");
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers
+            {
+                PortraitPositionYOverride = 0f,
+                CustomTexturePath = "CalRD/ExtraTextures/Bestiary/ProfanedEnergy_Bestiary"
+            };
+            value.Position.Y += 30f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+		
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
+                new FlavorTextBestiaryInfoElement("A living altar. Its flame burns fiercely to aid its master.")
+            });
         }
 
         public override void SetDefaults()

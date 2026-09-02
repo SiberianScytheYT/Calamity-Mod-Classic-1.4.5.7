@@ -6,6 +6,7 @@ using CalRD.Items.Materials;
 using CalRD.Items.Placeables.Banners;
 using CalRD.World;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -18,6 +19,15 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Overloaded Soldier");
             Main.npcFrameCount[NPC.type] = 14;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+	        {
+		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
+		        new FlavorTextBestiaryInfoElement("The corpse of a soldier supercharged with Phantoplasm, then reanimated by vengeful spirits.")
+	        });
         }
 
         public override void SetDefaults()
@@ -41,36 +51,54 @@ namespace CalRD.NPCs.NormalNPCs
 
 		public override void FindFrame(int frameHeight)
 		{
-			NPC.frameCounter += (double)Math.Abs(NPC.velocity.X);
-			if (NPC.frameCounter > 6.0)
+			if (NPC.IsABestiaryIconDummy)
 			{
-				NPC.frameCounter = 0.0;
-				NPC.frame.Y = NPC.frame.Y + frameHeight;
-			}
-			if (NPC.velocity.Y == 0f)
-			{
-				if (NPC.direction == 1)
-					NPC.spriteDirection = 1;
-				if (NPC.direction == -1)
-					NPC.spriteDirection = -1;
+				NPC.frameCounter += 1;
+				if (NPC.frameCounter > 6.0)
+				{
+					NPC.frame.Y = NPC.frame.Y + frameHeight;
+					NPC.frameCounter = 0.0;
+				}
+				if (NPC.frame.Y >= frameHeight * 13)
+				{
+					NPC.frame.Y = frameHeight;
+				}
 			}
 			else
 			{
-				NPC.frameCounter = 0.0;
-				NPC.frame.Y = 0;
-				return;
-			}
-			if (NPC.velocity.X == 0f)
-			{
-				NPC.frameCounter = 0.0;
-				NPC.frame.Y = 0;
-			}
-			else
-			{
-				if (NPC.frame.Y < frameHeight)
-					NPC.frame.Y = frameHeight;
-				if (NPC.frame.Y > frameHeight * 13)
-					NPC.frame.Y = frameHeight;
+				NPC.frameCounter += (double)Math.Abs(NPC.velocity.X);
+				if (NPC.frameCounter > 6.0)
+				{
+					NPC.frameCounter = 0.0;
+					NPC.frame.Y = NPC.frame.Y + frameHeight;
+				}
+
+				if (NPC.velocity.Y == 0f)
+				{
+					if (NPC.direction == 1)
+						NPC.spriteDirection = 1;
+					if (NPC.direction == -1)
+						NPC.spriteDirection = -1;
+				}
+				else
+				{
+					NPC.frameCounter = 0.0;
+					NPC.frame.Y = 0;
+					return;
+				}
+
+				if (NPC.velocity.X == 0f)
+				{
+					NPC.frameCounter = 0.0;
+					NPC.frame.Y = 0;
+				}
+				else
+				{
+					if (NPC.frame.Y < frameHeight)
+						NPC.frame.Y = frameHeight;
+					if (NPC.frame.Y > frameHeight * 13)
+						NPC.frame.Y = frameHeight;
+				}
 			}
 		}
 

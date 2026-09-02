@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalRD.NPCs.Astral
@@ -22,6 +24,20 @@ namespace CalRD.NPCs.Astral
             Main.npcFrameCount[NPC.type] = 8;
             if (!Main.dedServ)
                 glowmask = ModContent.Request<Texture2D>("CalRD/NPCs/Astral/AriesGlow").Value;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                PortraitPositionYOverride = -5
+            };
+            value.Position.Y += 20f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("These creatures hop and chase any threat to the infection relentlessly.")
+            });
         }
 
         public override void SetDefaults()
@@ -39,6 +55,7 @@ namespace CalRD.NPCs.Astral
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<AriesBanner>();
             NPC.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
+            SpawnModBiomes = new int[] { ModContent.GetInstance<BiomeManagers.Astral>().Type };
             if (CalamityWorld.downedAstrageldon)
             {
                 NPC.damage = 85;

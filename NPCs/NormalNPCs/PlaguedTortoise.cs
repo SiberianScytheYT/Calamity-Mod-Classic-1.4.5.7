@@ -3,6 +3,7 @@ using CalRD.Dusts;
 using CalRD.Items.Materials;
 using CalRD.Items.Placeables.Banners;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -14,6 +15,15 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Plagueshell");
             Main.npcFrameCount[NPC.type] = 8;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
+                new FlavorTextBestiaryInfoElement("A tortoise overtaken by plague nanomachines, its shell now shines bright silver.")
+            });
         }
 
         public override void SetDefaults()

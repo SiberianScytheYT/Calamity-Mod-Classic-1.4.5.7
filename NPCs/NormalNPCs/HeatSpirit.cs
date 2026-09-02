@@ -4,6 +4,7 @@ using CalRD.Items.Materials;
 using CalRD.Items.Placeables.Banners;
 using System;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -15,6 +16,23 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Heat Spirit");
             Main.npcFrameCount[NPC.type] = 4;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                SpriteDirection = -1,
+                PortraitPositionYOverride = -32f
+            };
+            value.Position.X += 8f;
+            value.Position.Y -= 8f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
+                new FlavorTextBestiaryInfoElement("Once a human that lost their mind to the crags, now it seeks to eliminate any signs of foreign life within its new home.")
+            });
         }
 
         public override void SetDefaults()
@@ -45,23 +63,26 @@ namespace CalRD.NPCs.NormalNPCs
 
         public override void FindFrame(int frameHeight)
         {
-            if (NPC.velocity.X < 0f)
+            if (!NPC.IsABestiaryIconDummy)
             {
-                NPC.direction = -1;
+                if (NPC.velocity.X < 0f)
+                {
+                    NPC.direction = -1;
+                }
+                else
+                {
+                    NPC.direction = 1;
+                }
+                if (NPC.direction == 1)
+                {
+                    NPC.spriteDirection = 1;
+                }
+                if (NPC.direction == -1)
+                {
+                    NPC.spriteDirection = -1;
+                }
+                NPC.rotation = (float)Math.Atan2((double)(NPC.velocity.Y * (float)NPC.direction), (double)(NPC.velocity.X * (float)NPC.direction));
             }
-            else
-            {
-                NPC.direction = 1;
-            }
-            if (NPC.direction == 1)
-            {
-                NPC.spriteDirection = 1;
-            }
-            if (NPC.direction == -1)
-            {
-                NPC.spriteDirection = -1;
-            }
-            NPC.rotation = (float)Math.Atan2((double)(NPC.velocity.Y * (float)NPC.direction), (double)(NPC.velocity.X * (float)NPC.direction));
             NPC.frameCounter += 0.15f;
             NPC.frameCounter %= Main.npcFrameCount[NPC.type];
             int frame = (int)NPC.frameCounter;

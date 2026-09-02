@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -15,6 +16,15 @@ namespace CalRD.NPCs.NormalNPCs
 		{
 			//DisplayName.SetDefault("Shockstorm Shuttle");
 			Main.npcFrameCount[NPC.type] = 4;
+		}
+		
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+			{
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+				new FlavorTextBestiaryInfoElement("A small scouter saucer from a distant civilization, yet still very aggressive. Hopefully the rest of them aren't like that!")
+			});
 		}
 
 		public override void SetDefaults()

@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 using System;
 using Microsoft.Xna.Framework;
 using System.IO;
+using Terraria.GameContent.Bestiary;
 using Terraria.ModLoader.Utilities;
 
 namespace CalRD.NPCs.NormalNPCs
@@ -47,6 +48,20 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Wulfrum Drone");
             Main.npcFrameCount[NPC.type] = 6;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                SpriteDirection = 1
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+                new FlavorTextBestiaryInfoElement("A strange little mechanism of unknown origin, they try to keep away intruders from their territory by swooping down at them.")
+            });
         }
 
         public override void SetDefaults()

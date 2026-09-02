@@ -2,6 +2,7 @@ using CalRD.Items.Placeables.Banners;
 using CalRD.Items.Weapons.Melee;
 using CalRD.World;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -14,6 +15,20 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Mantis Shrimp");
             Main.npcFrameCount[NPC.type] = 6;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                SpriteDirection = 1
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+                new FlavorTextBestiaryInfoElement("These shrimp possess one of the deadliest punches in nature, rivalling the strength of a bullet, and easily breaking sturdy shells.")
+            });
         }
 
         public override void SetDefaults()

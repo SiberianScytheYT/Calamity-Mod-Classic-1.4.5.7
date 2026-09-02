@@ -17,6 +17,7 @@ using System.IO;
 using System.Reflection;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -32,6 +33,27 @@ namespace CalRD.NPCs.DesertScourge
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Desert Scourge");
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Scale = 0.75f,
+                PortraitScale = 0.6f,
+                CustomTexturePath = "CalRD/ExtraTextures/Bestiary/DesertScourge_Bestiary",
+                PortraitPositionXOverride = 40,
+                PortraitPositionYOverride = 40
+            };
+            value.Position.X += 95;
+            value.Position.Y += 45;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
+                new FlavorTextBestiaryInfoElement("Once a great sea worm, it's been reduced to a husk, desperately searching meals to devour on a regular basis.")
+            });
         }
 
         public override void SetDefaults()

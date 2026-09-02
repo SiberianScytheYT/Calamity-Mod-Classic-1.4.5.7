@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
+using CalRD.BiomeManagers;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
@@ -82,6 +83,7 @@ namespace CalRD.NPCs.Abyss
             NPC.rarity = 2;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<ColossalSquidBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<AbyssLayer3Biome>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)

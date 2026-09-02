@@ -8,7 +8,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalRD.Buffs.StatDebuffs;
 using System.IO;
+using CalRD.BiomeManagers;
 using CalRD.Buffs.DamageOverTime;
+using Terraria.GameContent.Bestiary;
 
 namespace CalRD.NPCs.AcidRain
 {
@@ -21,6 +23,14 @@ namespace CalRD.NPCs.AcidRain
         {
             //DisplayName.SetDefault("Water Leech");
             Main.npcFrameCount[NPC.type] = 4;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("They eagerly swim to any prey they can find thanks to their great sense of smell, sucking the blood out of their host and at once also injecting venom onto them.")
+            });
         }
 
         public override void SetDefaults()
@@ -52,6 +62,7 @@ namespace CalRD.NPCs.AcidRain
             NPC.DeathSound = SoundID.NPCDeath1;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<WaterLeechBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Sulphur>().Type, ModContent.GetInstance<AcidRainBiome>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)

@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
+using CalRD.BiomeManagers;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
@@ -27,6 +28,12 @@ namespace CalRD.NPCs.Abyss
         {
             //DisplayName.SetDefault("Devil Fish");
             Main.npcFrameCount[NPC.type] = 16;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                PortraitPositionXOverride = 5f
+            };
+            value.Position.X += 30f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
 		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -55,6 +62,7 @@ namespace CalRD.NPCs.Abyss
             NPC.knockBackResist = 0.85f;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<DevilFishBanner>();
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<AbyssLayer3Biome>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -237,7 +245,7 @@ namespace CalRD.NPCs.Abyss
 
         public override void FindFrame(int frameHeight)
         {
-            if (!NPC.wet)
+            if (!NPC.wet && !NPC.IsABestiaryIconDummy)
             {
                 NPC.frameCounter = 0.0;
                 return;
@@ -266,6 +274,8 @@ namespace CalRD.NPCs.Abyss
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.IsABestiaryIconDummy)
+                return;
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
             {

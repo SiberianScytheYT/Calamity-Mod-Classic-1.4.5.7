@@ -14,6 +14,11 @@ namespace CalRD.NPCs.Ravager
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Rock Pillar");
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+	            Hide = true
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
         }
 
         public override void SetDefaults()

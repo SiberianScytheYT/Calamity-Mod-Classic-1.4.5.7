@@ -20,6 +20,11 @@ namespace CalRD.NPCs.DevourerofGods
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("The Devourer of Gods");
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Hide = true
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
         }
 
         public override void SetDefaults()

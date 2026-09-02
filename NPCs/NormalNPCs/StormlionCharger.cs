@@ -3,6 +3,7 @@ using CalRD.Items.Placeables.Banners;
 using CalRD.Items.Weapons.Summon;
 using CalRD.World;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -14,6 +15,20 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Stormlion");
             Main.npcFrameCount[NPC.type] = 6;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Velocity = 1.2f
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundDesert,
+                new FlavorTextBestiaryInfoElement("This variant of antlion is very unusual with its feeding; As it takes to the surface and reaches upwards with its mandibles to act as lightning rods, feeding off the storms' lightning.")
+            });
         }
 
         public override void SetDefaults()

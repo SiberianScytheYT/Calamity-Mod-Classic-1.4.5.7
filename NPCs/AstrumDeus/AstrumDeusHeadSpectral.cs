@@ -19,6 +19,7 @@ using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -32,7 +33,25 @@ namespace CalRD.NPCs.AstrumDeus
         {
             //DisplayName.SetDefault("Astrum Deus");
 			NPCID.Sets.TrailingMode[NPC.type] = 1;
+			NPCID.Sets.BossBestiaryPriority.Add(Type);
+			NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+			{
+				Scale = 0.70f,
+				PortraitScale = 0.75f,
+				CustomTexturePath = "CalRD/ExtraTextures/Bestiary/AstrumDeus_Bestiary"
+			};
+			value.Position.X += 55f;
+			value.Position.Y += 23f;
+			NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
 		}
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+	        {
+		        new FlavorTextBestiaryInfoElement("After its catastrophic fall to the infection and subsequent demolition by an upstart worm, it seeks to return to the cosmos.")
+	        });
+        }
 
         public override void SetDefaults()
         {
@@ -66,6 +85,7 @@ namespace CalRD.NPCs.AstrumDeus
             NPC.DeathSound = new SoundStyle("CalRD/Sounds/NPCKilled/AstrumDeusDeath");
             NPC.netAlways = true;
             Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/AstrumDeus");
+            SpawnModBiomes = new int[] { ModContent.GetInstance<BiomeManagers.Astral>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)

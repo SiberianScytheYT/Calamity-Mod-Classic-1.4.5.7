@@ -1,6 +1,7 @@
 using CalRD.World;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -13,6 +14,15 @@ namespace CalRD.NPCs.HiveMind
         {
             //DisplayName.SetDefault("Hive Cyst");
             Main.npcFrameCount[NPC.type] = 4;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
+                new FlavorTextBestiaryInfoElement("The result of many corrupted beings fused together, destroying it would be a terrible mistake.")
+            });
         }
 
         public override void SetDefaults()

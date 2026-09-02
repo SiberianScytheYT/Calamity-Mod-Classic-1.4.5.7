@@ -1,8 +1,10 @@
+using CalRD.BiomeManagers;
 using CalRD.Events;
 using CalRD.Items.Placeables.Banners;
 using CalRD.Items.Weapons.Rogue;
 using CalRD.World;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,6 +15,13 @@ namespace CalRD.NPCs.AquaticScourge
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Aquatic Urchin");
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                new FlavorTextBestiaryInfoElement("A spiny animal native to the ocean that flings itself around relentlessly in defense of its territory, though mostly helpless when outside water, given enough time they can make it back home.")
+            });
         }
 
         public override void SetDefaults()
@@ -35,6 +44,7 @@ namespace CalRD.NPCs.AquaticScourge
             NPC.behindTiles = true;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<AquaticUrchinBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Sulphur>().Type };
         }
 
         public override void AI()

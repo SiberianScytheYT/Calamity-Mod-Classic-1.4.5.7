@@ -27,6 +27,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using CalRD.Items.Placeables.Furniture.Trophies;
 using CalRD.Events;
+using Terraria.GameContent.Bestiary;
 
 namespace CalRD.NPCs.SupremeCalamitas
 {
@@ -83,7 +84,24 @@ namespace CalRD.NPCs.SupremeCalamitas
             //DisplayName.SetDefault("Supreme Calamitas");
             Main.npcFrameCount[NPC.type] = 6;
 			NPCID.Sets.TrailingMode[NPC.type] = 1;
+			NPCID.Sets.BossBestiaryPriority.Add(Type);
+			NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+			{
+				Scale = 0.65f,
+				PortraitScale = 0.65f
+			};
+			value.Position.Y -= 10f;
+			NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
 		}
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+	        {
+		        new MoonLordPortraitBackgroundProviderBestiaryInfoElement(),
+		        new FlavorTextBestiaryInfoElement("The Witch herself in the flesh. Her brimstone magic is not something to be taken lightly.")
+	        });
+        }
 
         public override void SetDefaults()
         {
@@ -2192,19 +2210,19 @@ namespace CalRD.NPCs.SupremeCalamitas
 					color38 = Color.Lerp(color38, color36, amount9);
 					color38 = NPC.GetAlpha(color38);
 					color38 *= (num153 - num155) / 15f;
-					Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+					Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
 					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
 					vector41 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 				}
 			}
 
-			Vector2 vector43 = NPC.Center - Main.screenPosition;
+			Vector2 vector43 = NPC.Center - screenPos;
 			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
 			vector43 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
-			texture2D15 = NPC.ai[0] > 1f ? ModContent.Request<Texture2D>("CalRD/NPCs/SupremeCalamitas/SupremeCalamitas2Glow").Value : ModContent.Request<Texture2D>("CalRD/NPCs/SupremeCalamitas/SupremeCalamitasGlow").Value;
+			texture2D15 = NPC.ai[0] > 1f || NPC.IsABestiaryIconDummy ? ModContent.Request<Texture2D>("CalRD/NPCs/SupremeCalamitas/SupremeCalamitas2Glow").Value : ModContent.Request<Texture2D>("CalRD/NPCs/SupremeCalamitas/SupremeCalamitasGlow").Value;
 			Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
 
 			if (CalamityConfig.Instance.Afterimages)
@@ -2214,7 +2232,7 @@ namespace CalRD.NPCs.SupremeCalamitas
 					Color color41 = color37;
 					color41 = Color.Lerp(color41, color36, amount9);
 					color41 *= (num153 - num163) / 15f;
-					Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+					Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
 					vector44 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
 					vector44 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector44, NPC.frame, color41, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);

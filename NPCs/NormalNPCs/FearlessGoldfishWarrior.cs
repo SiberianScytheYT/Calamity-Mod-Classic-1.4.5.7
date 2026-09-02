@@ -7,6 +7,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalRD.Items.Placeables.Banners;
+using Terraria.GameContent.Bestiary;
 using Terraria.ModLoader.Utilities;
 
 namespace CalRD.NPCs.NormalNPCs
@@ -17,6 +18,15 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Fearless Goldfish Warrior");
             Main.npcFrameCount[NPC.type] = 10;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Events.Rain,
+                new FlavorTextBestiaryInfoElement("This brave fish sets out for glorious battle and adventure, equipped with the finest gear the land has to offer!")
+            });
         }
 
         public override void SetDefaults()
@@ -311,7 +321,7 @@ namespace CalRD.NPCs.NormalNPCs
 
         public override void FindFrame(int frameHeight)
         {
-            if (Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) < 18f)
+            if (Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) < 18f || NPC.IsABestiaryIconDummy)
             {
                 NPC.frameCounter += 1.0;
                 if (NPC.frameCounter > 6.0)

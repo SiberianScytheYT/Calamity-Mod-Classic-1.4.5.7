@@ -4,6 +4,7 @@ using CalRD.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,6 +16,15 @@ namespace CalRD.NPCs.HiveMind
         {
             //DisplayName.SetDefault("Dark Heart");
             Main.npcFrameCount[NPC.type] = 4;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
+                new FlavorTextBestiaryInfoElement("It's filled with stagnant corruption water that leaks as it flies overhead, any organic matter that comes into contact with that water is slowly corroded.")
+            });
         }
 
         public override void SetDefaults()

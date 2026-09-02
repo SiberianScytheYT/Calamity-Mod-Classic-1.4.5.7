@@ -8,6 +8,7 @@ using CalRD.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using CalRD.BiomeManagers;
 using Terraria;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
@@ -21,6 +22,12 @@ namespace CalRD.NPCs.Abyss
         {
             //DisplayName.SetDefault("Bobbit Worm");
             Main.npcFrameCount[NPC.type] = 4;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                CustomTexturePath = "CalRD/ExtraTextures/Bestiary/BobbitWorm_Bestiary"
+            };
+            value.Position.Y += 40;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 		
 		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -50,6 +57,7 @@ namespace CalRD.NPCs.Abyss
             NPC.DeathSound = SoundID.NPCDeath1;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<BobbitWormBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<AbyssLayer4Biome>().Type };
         }
 
         public override void AI()

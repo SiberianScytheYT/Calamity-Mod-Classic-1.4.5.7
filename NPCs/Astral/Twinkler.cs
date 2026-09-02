@@ -3,6 +3,7 @@ using System;
 using CalRD.Dusts;
 using CalRD.Items.Critters;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -17,6 +18,14 @@ namespace CalRD.NPCs.Astral
             Main.npcFrameCount[NPC.type] = 8;
             Main.npcCatchable[NPC.type] = true;
         }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+	        {
+		        new FlavorTextBestiaryInfoElement("A rare case of the infection creating a docile creature, it makes excellent bait as it flickers vividly.")
+	        });
+        }
 
         public override void SetDefaults()
         {
@@ -29,6 +38,7 @@ namespace CalRD.NPCs.Astral
             NPC.friendly = true; // prevents critter from getting slagged
             //banner = npc.type;
             //bannerItem = ModContent.ItemType<TwinklerBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<BiomeManagers.Astral>().Type };
         }
 
         public override bool? CanBeHitByItem(Player player, Item item) => true;

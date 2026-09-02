@@ -1,3 +1,4 @@
+using CalRD.BiomeManagers;
 using CalRD.Dusts;
 using CalRD.Items.Materials;
 using CalRD.Items.Pets;
@@ -8,6 +9,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalRD.Buffs.StatDebuffs;
 using CalRD.Buffs.DamageOverTime;
+using Terraria.GameContent.Bestiary;
+
 namespace CalRD.NPCs.AcidRain
 {
 	public class Radiator : ModNPC
@@ -16,6 +19,14 @@ namespace CalRD.NPCs.AcidRain
         {
             //DisplayName.SetDefault("Radiator");
             Main.npcFrameCount[NPC.type] = 4;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("It ingests the potent toxins found in its home and displays them on its back, touching them would be a bad idea.")
+            });
         }
 
         public override void SetDefaults()
@@ -55,6 +66,7 @@ namespace CalRD.NPCs.AcidRain
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<RadiatorBanner>();
             NPC.catchItem = (short)ModContent.ItemType<RadiatingCrystal>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Sulphur>().Type, ModContent.GetInstance<AcidRainBiome>().Type };
         }
 
         public override void AI()

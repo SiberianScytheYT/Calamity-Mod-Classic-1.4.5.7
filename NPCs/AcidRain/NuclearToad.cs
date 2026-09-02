@@ -1,3 +1,4 @@
+using CalRD.BiomeManagers;
 using CalRD.Dusts;
 using CalRD.Projectiles.Enemy;
 using CalRD.Items.Placeables.Banners;
@@ -9,6 +10,8 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalRD.Buffs.StatDebuffs;
+using Terraria.GameContent.Bestiary;
+
 namespace CalRD.NPCs.AcidRain
 {
     public class NuclearToad : ModNPC
@@ -17,6 +20,18 @@ namespace CalRD.NPCs.AcidRain
         {
             //DisplayName.SetDefault("Nuclear Toad");
             Main.npcFrameCount[NPC.type] = 5;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers();
+            value.Position.Y += 8;
+            value.PortraitPositionYOverride = 28f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("When threatened, they burst in an attempt to save the rest of their species.")
+            });
         }
 
         public override void SetDefaults()
@@ -56,6 +71,7 @@ namespace CalRD.NPCs.AcidRain
             NPC.DeathSound = SoundID.NPCDeath1;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<NuclearToadBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Sulphur>().Type, ModContent.GetInstance<AcidRainBiome>().Type };
         }
 
         public override void AI()

@@ -18021,7 +18021,12 @@ Tiles: {
 	AstralTreeSapling.MapEntry: Sapling
 	AstralSilt.MapEntry: Novae Slag
 	AstralCrateTile.MapEntry: Astral Crate
-	AstralChestLocked.MapEntry: Astral Chest
+
+	AstralChestLocked: {
+		MapEntry0: "{$Items.AstralChest.DisplayName}"
+		MapEntry1: Locked {$Items.AstralChest.DisplayName}
+	}
+
 	AstralBeacon.MapEntry: Astral Beacon
 	ArenaTile.MapEntry: Arena
 	ViperVines.MapEntry: Viper Vines
@@ -19596,6 +19601,11 @@ Biomes: {
 	AbyssLayer1Biome: {
 		TownNPCDialogueName: the Abyss Layer1 Biome
 		DisplayName: First Layer of the Abyss
+	}
+
+	AcidRainBiome: {
+		DisplayName: Acid Rain
+		TownNPCDialogueName: the Acid Rain
 	}
 }
 

@@ -2,6 +2,7 @@ using CalRD.Items.Accessories;
 using CalRD.Items.Placeables.Banners;
 using System.IO;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -15,6 +16,15 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Sapphire Crawler");
             Main.npcFrameCount[NPC.type] = 5;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
+                new FlavorTextBestiaryInfoElement("A scaredy lizard from the underground covered in Sapphires, when threatened it will do its best to run away!")
+            });
         }
 
         public override void SetDefaults()

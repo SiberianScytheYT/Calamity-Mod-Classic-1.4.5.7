@@ -100,6 +100,12 @@ namespace CalRD.NPCs.Astral
             //not much we can do. looks fine in-game so /shrug
             if (!Main.dedServ)
                 glowmask = ModContent.Request<Texture2D>("CalRD/NPCs/Astral/AtlasGlow").Value;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                PortraitPositionYOverride = -5
+            };
+            value.Position.Y += 20f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -118,6 +124,7 @@ namespace CalRD.NPCs.Astral
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<AtlasBanner>();
             NPC.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
+            SpawnModBiomes = new int[] { ModContent.GetInstance<BiomeManagers.Astral>().Type };
             if (CalamityWorld.downedAstrageldon)
             {
                 NPC.damage = 100;
@@ -559,7 +566,7 @@ namespace CalRD.NPCs.Astral
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Vector2 position = NPC.position - new Vector2(30, 48) - Main.screenPosition;
+            Vector2 position = NPC.position - new Vector2(30, 48) - screenPos;
             SpriteEffects effect = NPC.direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
             //draw actual sprite

@@ -1,6 +1,7 @@
 using CalRD.Items.Placeables.Banners;
 using System.IO;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -14,6 +15,14 @@ namespace CalRD.NPCs.SunkenSea
         {
             //DisplayName.SetDefault("Sea Floaty");
             Main.npcFrameCount[NPC.type] = 6;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("Strange creatures that hide upon sight of a predator.")
+            });
         }
 
         public override void SetDefaults()
@@ -32,6 +41,7 @@ namespace CalRD.NPCs.SunkenSea
             NPC.DeathSound = SoundID.NPCDeath1;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<SeaFloatyBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<BiomeManagers.SunkenSea>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)

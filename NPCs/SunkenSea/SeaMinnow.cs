@@ -2,6 +2,7 @@ using CalRD.Items.Placeables.Banners;
 using CalRD.Items.Critters;
 using System;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -14,6 +15,14 @@ namespace CalRD.NPCs.SunkenSea
             //DisplayName.SetDefault("Sea Minnow");
             Main.npcFrameCount[NPC.type] = 4;
             Main.npcCatchable[NPC.type] = true;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("These small fish lay at the bottom of the food chain, but also make up most of the sunken sea's population; They feed on whatever scraps fall from the desert above.")
+            });
         }
 
         public override void SetDefaults()
@@ -33,6 +42,7 @@ namespace CalRD.NPCs.SunkenSea
             BannerItem = ModContent.ItemType<SeaMinnowBanner>();
             NPC.chaseable = false;
             NPC.catchItem = (short)ModContent.ItemType<SeaMinnowItem>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<BiomeManagers.SunkenSea>().Type };
         }
 
         public override void AI()

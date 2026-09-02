@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -24,7 +25,22 @@ namespace CalRD.NPCs.CeaselessVoid
             //DisplayName.SetDefault("Ceaseless Void");
             Main.npcFrameCount[NPC.type] = 6;
 			NPCID.Sets.TrailingMode[NPC.type] = 1;
+			NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Scale = 0.55f,
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
 		}
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+	        {
+		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheDungeon,
+		        new FlavorTextBestiaryInfoElement("Created after a failed experiment with the Devourer of Gods' dimension hopping ability, this being desires nothing more than to consume all the life force it can.")
+	        });
+        }
 
         public override void SetDefaults()
         {
@@ -84,14 +100,14 @@ namespace CalRD.NPCs.CeaselessVoid
 					color38 = Color.Lerp(color38, color36, amount9);
 					color38 = NPC.GetAlpha(color38);
 					color38 *= (float)(num153 - num155) / 15f;
-					Vector2 vector41 = NPC.oldPos[num155] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - Main.screenPosition;
+					Vector2 vector41 = NPC.oldPos[num155] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - screenPos;
 					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
 					vector41 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 				}
 			}
 
-			Vector2 vector43 = NPC.Center - Main.screenPosition;
+			Vector2 vector43 = NPC.Center - screenPos;
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
 			vector43 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
@@ -106,7 +122,7 @@ namespace CalRD.NPCs.CeaselessVoid
 					Color color41 = color37;
 					color41 = Color.Lerp(color41, color36, amount9);
 					color41 *= (float)(num153 - num163) / 15f;
-					Vector2 vector44 = NPC.oldPos[num163] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - Main.screenPosition;
+					Vector2 vector44 = NPC.oldPos[num163] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - screenPos;
 					vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
 					vector44 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector44, NPC.frame, color41, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);

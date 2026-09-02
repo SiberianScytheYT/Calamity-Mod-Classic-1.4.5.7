@@ -8,6 +8,7 @@ using CalRD.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using CalRD.BiomeManagers;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
@@ -43,6 +44,7 @@ namespace CalRD.NPCs.Abyss
             NPC.knockBackResist = 0.3f;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<CuttlefishBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<AbyssLayer1Biome>().Type, ModContent.GetInstance<AbyssLayer2Biome>().Type };
         }
 		
 		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -327,7 +329,7 @@ namespace CalRD.NPCs.Abyss
 
         public override void FindFrame(int frameHeight)
         {
-            if (!NPC.wet && !NPC.noTileCollide)
+            if (!NPC.wet && !NPC.noTileCollide && !NPC.IsABestiaryIconDummy)
             {
                 NPC.frameCounter = 0.0;
                 return;

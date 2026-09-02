@@ -3,6 +3,7 @@ using CalRD.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -20,6 +21,30 @@ namespace CalRD.NPCs.DesertScourge
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Desert Scourge");
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Scale = 0.8f,
+                PortraitScale = 0.8f,
+                CustomTexturePath = "CalRD/ExtraTextures/Bestiary/DesertNuisance_Bestiary",
+                PortraitPositionXOverride = 40,
+                PortraitPositionYOverride = 40
+            };
+            value.Position.X += 50;
+            value.Position.Y += 35;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            int associatedNPCType = ModContent.NPCType<DesertScourgeHead>();
+            bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
+
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
+                new FlavorTextBestiaryInfoElement("The Desert Scourge's children. They swarm and tear prey in seconds, and hunt alongside their parent.")
+            });
         }
 
         public override void SetDefaults()

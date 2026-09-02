@@ -5,6 +5,7 @@ using CalRD.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.NPCs.HiveMind
@@ -14,6 +15,15 @@ namespace CalRD.NPCs.HiveMind
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Dank Creeper");
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
+                new FlavorTextBestiaryInfoElement("Guardians of the filthy mind.")
+            });
         }
 
         public override void SetDefaults()

@@ -1,6 +1,8 @@
+using CalRD.BiomeManagers;
 using CalRD.Items.Placeables.Banners;
 using CalRD.Items.Potions;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,6 +14,18 @@ namespace CalRD.NPCs.SulphurousSea
         {
             //DisplayName.SetDefault("Flounder");
             Main.npcFrameCount[NPC.type] = 4;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers();
+            value.Position.Y -= 10f;
+            value.PortraitPositionYOverride = -36f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("Relatively simple fish that launch acid towards their prey in order to subdue it.")
+            });
         }
 
         public override void SetDefaults()
@@ -35,6 +49,7 @@ namespace CalRD.NPCs.SulphurousSea
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<FlounderBanner>();
             NPC.chaseable = false;
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Sulphur>().Type };
         }
 
         public override void AI()
@@ -89,7 +104,7 @@ namespace CalRD.NPCs.SulphurousSea
 
         public override void FindFrame(int frameHeight)
         {
-            if (!NPC.wet)
+            if (!NPC.wet && !NPC.IsABestiaryIconDummy)
             {
                 NPC.frameCounter = 0.0;
                 return;

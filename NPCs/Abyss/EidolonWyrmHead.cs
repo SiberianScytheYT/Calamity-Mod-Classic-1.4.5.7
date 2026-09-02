@@ -11,9 +11,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
+using CalRD.BiomeManagers;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -33,6 +35,21 @@ namespace CalRD.NPCs.Abyss
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Eidolon Wyrm");
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                CustomTexturePath = "CalRD/ExtraTextures/Bestiary/EidolonWyrm_Bestiary",
+                PortraitPositionXOverride = 40
+            };
+            value.Position.X += 40;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("Little is known about these enigmatic creatures.")
+            });
         }
 
         public override void SetDefaults()
@@ -61,6 +78,7 @@ namespace CalRD.NPCs.Abyss
             NPC.rarity = 2;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<EidolonWyrmJuvenileBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<AbyssLayer3Biome>().Type, ModContent.GetInstance<AbyssLayer4Biome>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)

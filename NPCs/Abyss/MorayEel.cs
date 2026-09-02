@@ -2,7 +2,9 @@ using CalRD.Buffs.DamageOverTime;
 using CalRD.Items.Placeables.Banners;
 using CalRD.Items.Weapons.Melee;
 using System.IO;
+using CalRD.BiomeManagers;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -15,6 +17,14 @@ namespace CalRD.NPCs.Abyss
         {
             //DisplayName.SetDefault("Moray Eel");
             Main.npcFrameCount[NPC.type] = 6;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("These eels prefer to remain hidden within underwater structures, only ocassionally roaming open water.")
+            });
         }
 
         public override void SetDefaults()
@@ -35,6 +45,7 @@ namespace CalRD.NPCs.Abyss
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<MorayEelBanner>();
             NPC.chaseable = false;
+            SpawnModBiomes = new int[] { ModContent.GetInstance<AbyssLayer1Biome>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)

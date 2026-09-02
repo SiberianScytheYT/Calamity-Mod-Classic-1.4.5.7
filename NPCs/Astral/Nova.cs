@@ -10,6 +10,7 @@ using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -32,6 +33,22 @@ namespace CalRD.NPCs.Astral
 
             if (!Main.dedServ)
                 glowmask = ModContent.Request<Texture2D>("CalRD/NPCs/Astral/NovaGlow").Value;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Scale = 0.64f,
+                PortraitPositionXOverride = 10f,
+                PortraitPositionYOverride = 8f
+            };
+            value.Position.X += 15;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("Simple creatures lacking in means of offense or defense, instead they charge at enemies and self destruct in order to defend the infection.")
+            });
         }
 
         public override void SetDefaults()
@@ -50,6 +67,7 @@ namespace CalRD.NPCs.Astral
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<NovaBanner>();
             NPC.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
+            SpawnModBiomes = new int[] { ModContent.GetInstance<BiomeManagers.Astral>().Type };
             if (CalamityWorld.downedAstrageldon)
             {
                 NPC.damage = 75;

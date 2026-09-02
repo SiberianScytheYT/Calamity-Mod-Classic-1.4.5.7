@@ -9,9 +9,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
+using CalRD.BiomeManagers;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -27,6 +29,14 @@ namespace CalRD.NPCs.Abyss
         {
             //DisplayName.SetDefault("Luminous Corvina");
             Main.npcFrameCount[NPC.type] = 8;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("This creature's survival methods are unusual, yet clever: Once a potential threat is near it, it will release a shrill pulse, alerting all other creatures of a potential meal's location... While it remains unscathed.")
+            });
         }
 
         public override void SetDefaults()
@@ -46,6 +56,7 @@ namespace CalRD.NPCs.Abyss
             NPC.knockBackResist = 0.85f;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<LuminousCorvinaBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<AbyssLayer2Biome>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -211,7 +222,7 @@ namespace CalRD.NPCs.Abyss
 
         public override void FindFrame(int frameHeight)
         {
-            if (!NPC.wet)
+            if (!NPC.wet && !NPC.IsABestiaryIconDummy)
             {
                 NPC.frameCounter = 0.0;
                 return;
@@ -245,6 +256,8 @@ namespace CalRD.NPCs.Abyss
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.IsABestiaryIconDummy)
+                return;
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
             {

@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -24,7 +25,17 @@ namespace CalRD.NPCs.Calamitas
             //DisplayName.SetDefault("Soul Seeker");
 			Main.npcFrameCount[NPC.type] = 5;
 			NPCID.Sets.TrailingMode[NPC.type] = 1;
+			NPCID.Sets.BossBestiaryPriority.Add(Type);
 		}
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+	        {
+		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+		        new FlavorTextBestiaryInfoElement("Guardians for the clone, they could be empowered Soul Slurpers.")
+	        });
+        }
 
         public override void SetDefaults()
         {
@@ -206,14 +217,14 @@ namespace CalRD.NPCs.Calamitas
 					afterImageColor = Color.Lerp(afterImageColor, white, colorLerpAmt);
 					afterImageColor = NPC.GetAlpha(afterImageColor);
 					afterImageColor *= (afterImageAmt - a) / 15f;
-					Vector2 afterimagePos = NPC.oldPos[a] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+					Vector2 afterimagePos = NPC.oldPos[a] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
 					afterimagePos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
 					afterimagePos += origin * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 					spriteBatch.Draw(texture, afterimagePos, NPC.frame, afterImageColor, NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
 				}
 			}
 
-			Vector2 drawPos = NPC.Center - Main.screenPosition;
+			Vector2 drawPos = NPC.Center - screenPos;
 			drawPos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
 			drawPos += origin * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 			spriteBatch.Draw(texture, drawPos, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
@@ -228,7 +239,7 @@ namespace CalRD.NPCs.Calamitas
 					Color glowColor = glow;
 					glowColor = Color.Lerp(glowColor, white, colorLerpAmt);
 					glowColor *= (afterImageAmt - a) / 15f;
-					Vector2 afterimagePos = NPC.oldPos[a] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+					Vector2 afterimagePos = NPC.oldPos[a] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
 					afterimagePos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
 					afterimagePos += origin * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 					spriteBatch.Draw(texture, afterimagePos, NPC.frame, glowColor, NPC.rotation, origin, NPC.scale, spriteEffects, 0f);

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -16,6 +17,19 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Cosmic Elemental");
             Main.npcFrameCount[NPC.type] = 11;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers();
+            value.Position.Y -= 6f;
+            value.PortraitPositionYOverride = -32f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+	        {
+		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
+		        new FlavorTextBestiaryInfoElement("A strange creature that wanders the caves of the world, even stranger are the trinkets it sometimes holds!")
+	        });
         }
 
         public override void SetDefaults()
@@ -69,7 +83,7 @@ namespace CalRD.NPCs.NormalNPCs
 			{
 				spriteEffects = SpriteEffects.FlipHorizontally;
 			}
-            Main.spriteBatch.Draw(texture, NPC.Center - Main.screenPosition + new Vector2(0f, NPC.gfxOffY), NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, new Vector2(width / 2f, height / 2f), NPC.scale, spriteEffects, 0f);
+            Main.spriteBatch.Draw(texture, NPC.Center - screenPos + new Vector2(0f, NPC.gfxOffY), NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, new Vector2(width / 2f, height / 2f), NPC.scale, spriteEffects, 0f);
             return false;
         }
 

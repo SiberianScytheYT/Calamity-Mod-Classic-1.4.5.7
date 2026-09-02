@@ -1,8 +1,10 @@
+using CalRD.BiomeManagers;
 using CalRD.Buffs.StatDebuffs;
 using CalRD.Items.Materials;
 using CalRD.Items.Placeables.Banners;
 using CalRD.World;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.NPCs.Crags
@@ -13,6 +15,15 @@ namespace CalRD.NPCs.Crags
         {
             //DisplayName.SetDefault("Cultist Assassin");
             Main.npcFrameCount[NPC.type] = 4;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
+                new FlavorTextBestiaryInfoElement("A devotee brought to madness by the power of the brimstone flame.")
+            });
         }
 
         public override void SetDefaults()
@@ -39,6 +50,7 @@ namespace CalRD.NPCs.Crags
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<CultistAssassinBanner>();
 			NPC.buffImmune[BuffID.Confused] = false;
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Crag>().Type };
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

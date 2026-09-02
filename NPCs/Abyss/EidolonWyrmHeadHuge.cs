@@ -10,9 +10,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
+using CalRD.BiomeManagers;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -32,6 +34,25 @@ namespace CalRD.NPCs.Abyss
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Eidolon Wyrm");
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Scale = 0.50f,
+                PortraitScale = 0.6f,
+                PortraitPositionXOverride = 40,
+                CustomTexturePath = "CalRD/ExtraTextures/Bestiary/AdultEidolonWyrm_Bestiary"
+            };
+            value.Position.X += 55;
+            value.Position.Y += 5;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new MoonLordPortraitBackgroundProviderBestiaryInfoElement(),
+                new FlavorTextBestiaryInfoElement("Colossal creatures lurking within the void of the deepest layer of the Abyss.")
+            });
         }
 
         public override void SetDefaults()
@@ -59,6 +80,7 @@ namespace CalRD.NPCs.Abyss
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath6;
             NPC.netAlways = true;
+            SpawnModBiomes = new int[] { ModContent.GetInstance<AbyssLayer4Biome>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)

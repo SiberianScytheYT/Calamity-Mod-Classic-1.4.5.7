@@ -24,6 +24,11 @@ namespace CalRD.NPCs.Polterghast
             //DisplayName.SetDefault("Polterghast");
             Main.npcFrameCount[NPC.type] = 4;
 			NPCID.Sets.TrailingMode[NPC.type] = 1;
+			NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+			{
+				Hide = true
+			};
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
 		}
 
         public override void SetDefaults()

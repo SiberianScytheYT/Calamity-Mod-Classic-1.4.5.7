@@ -8,8 +8,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
+using CalRD.BiomeManagers;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -29,6 +31,25 @@ namespace CalRD.NPCs.Abyss
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Gulper Eel");
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Scale = 0.75f,
+                CustomTexturePath = "CalRD/ExtraTextures/Bestiary/GulperEel_Bestiary",
+                PortraitPositionXOverride = 40,
+                PortraitPositionYOverride = 20
+            };
+            value.Position.X += 50;
+            value.Position.Y += 20;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+            SpawnModBiomes = new int[] { ModContent.GetInstance<AbyssLayer3Biome>().Type, ModContent.GetInstance<AbyssLayer4Biome>().Type };
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("A massive eel that resides within the deeper levels of the abyss; Its jaws can extend to an unnatural degree which allows it to swallow prey completely unnoticed.")
+            });
         }
 
         public override void SetDefaults()
@@ -54,6 +75,7 @@ namespace CalRD.NPCs.Abyss
             NPC.netAlways = true;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<GulperEelBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<AbyssLayer3Biome>().Type, ModContent.GetInstance<AbyssLayer4Biome>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)

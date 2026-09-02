@@ -8,8 +8,10 @@ using CalRD.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
+using CalRD.BiomeManagers;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -26,6 +28,20 @@ namespace CalRD.NPCs.Abyss
         {
             //DisplayName.SetDefault("Mirage Jelly");
             Main.npcFrameCount[NPC.type] = 7;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                PortraitPositionYOverride = 20
+            };
+            value.Position.Y += 30f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("These jellyfish create illusions of themselves to confuse both predator and prey.")
+            });
         }
 
         public override void SetDefaults()
@@ -46,6 +62,7 @@ namespace CalRD.NPCs.Abyss
             NPC.DeathSound = SoundID.NPCDeath28;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<MirageJellyBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<AbyssLayer3Biome>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -175,6 +192,8 @@ namespace CalRD.NPCs.Abyss
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.IsABestiaryIconDummy)
+                return;
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
             {

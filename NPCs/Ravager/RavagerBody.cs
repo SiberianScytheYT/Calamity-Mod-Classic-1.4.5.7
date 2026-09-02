@@ -19,6 +19,7 @@ using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -33,6 +34,24 @@ namespace CalRD.NPCs.Ravager
         {
             //DisplayName.SetDefault("Ravager");
             Main.npcFrameCount[NPC.type] = 7;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+	            Scale = 0.5f,
+	            PortraitPositionYOverride = -40f,
+	            PortraitScale = 0.6f,
+            };
+            value.Position.Y -= 50f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+		
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+	        {
+		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+		        new FlavorTextBestiaryInfoElement("The innumerable corpses of the undead, forced to rise once more in a bid for victory... A great mistake that cost its creators their lives.")
+	        });
         }
 
         public override void SetDefaults()
@@ -103,6 +122,9 @@ namespace CalRD.NPCs.Ravager
 
         public override void FindFrame(int frameHeight)
         {
+	        if (NPC.IsABestiaryIconDummy)
+		        NPC.Opacity = 1f;
+	        
             NPC.frameCounter += 0.15f;
             NPC.frameCounter %= Main.npcFrameCount[NPC.type];
             int frame = (int)NPC.frameCounter;
@@ -726,6 +748,21 @@ namespace CalRD.NPCs.Ravager
                 }
             }
         }
+        
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+	        Vector2 center = new Vector2(NPC.Center.X, NPC.Center.Y);
+	        if (NPC.IsABestiaryIconDummy)
+	        {
+		        spriteBatch.Draw(TextureAssets.Npc[ModContent.NPCType<RavagerClawLeft>()].Value, new Vector2(center.X - screenPos.X - NPC.scale * 180, center.Y - screenPos.Y + 50),
+			        new Rectangle?(new Rectangle(0, 0, TextureAssets.Npc[ModContent.NPCType<RavagerClawLeft>()].Value.Width, TextureAssets.Npc[ModContent.NPCType<RavagerClawLeft>()].Value.Height)),
+			        Color.White, 0f, default, NPC.scale, SpriteEffects.None, 0f);
+		        spriteBatch.Draw(TextureAssets.Npc[ModContent.NPCType<RavagerClawRight>()].Value, new Vector2(center.X - screenPos.X + NPC.scale * 110, center.Y - screenPos.Y + 50),
+			        new Rectangle?(new Rectangle(0, 0, TextureAssets.Npc[ModContent.NPCType<RavagerClawRight>()].Value.Width, TextureAssets.Npc[ModContent.NPCType<RavagerClawRight>()].Value.Height)),
+			        Color.White, 0f, default, NPC.scale, SpriteEffects.None, 0f);
+	        }
+	        return true;
+        }
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
@@ -736,24 +773,33 @@ namespace CalRD.NPCs.Ravager
             }
             Vector2 center = new Vector2(NPC.Center.X, NPC.Center.Y);
             Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
-            Vector2 vector = center - Main.screenPosition;
+            Vector2 vector = center - screenPos;
             vector -= new Vector2(ModContent.Request<Texture2D>("CalRD/NPCs/Ravager/RavagerBodyGlow").Value.Width, ModContent.Request<Texture2D>("CalRD/NPCs/Ravager/RavagerBodyGlow").Value.Height / Main.npcFrameCount[NPC.type]) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + NPC.gfxOffY);
             Color color = new Color(127 - NPC.alpha, 127 - NPC.alpha, 127 - NPC.alpha, 0).MultiplyRGBA(Color.Blue);
             spriteBatch.Draw(ModContent.Request<Texture2D>("CalRD/NPCs/Ravager/RavagerBodyGlow").Value, vector,
                 NPC.frame, color, NPC.rotation, vector11, 1f, spriteEffects, 0f);
+            
+            float legOffset = 20f;
+            float headOffset = 75f;
             Color color2 = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
-            spriteBatch.Draw(ModContent.Request<Texture2D>("CalRD/NPCs/Ravager/RavagerLegRight").Value, new Vector2(center.X - Main.screenPosition.X + 28f, center.Y - Main.screenPosition.Y + 20f), //72
-                new Rectangle?(new Rectangle(0, 0, ModContent.Request<Texture2D>("CalRD/NPCs/Ravager/RavagerLegRight").Value.Width, ModContent.Request<Texture2D>("CalRD/NPCs/Ravager/RavagerLegRight").Value.Height)),
-                color2, 0f, default, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(ModContent.Request<Texture2D>("CalRD/NPCs/Ravager/RavagerLegLeft").Value, new Vector2(center.X - Main.screenPosition.X - 112f, center.Y - Main.screenPosition.Y + 20f), //72
-                new Rectangle?(new Rectangle(0, 0, ModContent.Request<Texture2D>("CalRD/NPCs/Ravager/RavagerLegLeft").Value.Width, ModContent.Request<Texture2D>("CalRD/NPCs/Ravager/RavagerLegLeft").Value.Height)),
-                color2, 0f, default, 1f, SpriteEffects.None, 0f);
-            if (NPC.AnyNPCs(ModContent.NPCType<RavagerHead>()))
+            if (NPC.IsABestiaryIconDummy)
             {
-                spriteBatch.Draw(ModContent.Request<Texture2D>("CalRD/NPCs/Ravager/RavagerHead").Value, new Vector2(center.X - Main.screenPosition.X - 70f, center.Y - Main.screenPosition.Y - 75f),
+	            color2 = Color.White;
+	            legOffset = 60f;
+	            headOffset = 0f;
+            }
+            spriteBatch.Draw(ModContent.Request<Texture2D>("CalRD/NPCs/Ravager/RavagerLegRight").Value, new Vector2(center.X - screenPos.X + NPC.scale * 28f, center.Y - screenPos.Y + legOffset), //72
+                new Rectangle?(new Rectangle(0, 0, ModContent.Request<Texture2D>("CalRD/NPCs/Ravager/RavagerLegRight").Value.Width, ModContent.Request<Texture2D>("CalRD/NPCs/Ravager/RavagerLegRight").Value.Height)),
+                color2, 0f, default, NPC.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.Request<Texture2D>("CalRD/NPCs/Ravager/RavagerLegLeft").Value, new Vector2(center.X - screenPos.X - NPC.scale * 112f, center.Y - screenPos.Y + legOffset), //72
+                new Rectangle?(new Rectangle(0, 0, ModContent.Request<Texture2D>("CalRD/NPCs/Ravager/RavagerLegLeft").Value.Width, ModContent.Request<Texture2D>("CalRD/NPCs/Ravager/RavagerLegLeft").Value.Height)),
+                color2, 0f, default, NPC.scale, SpriteEffects.None, 0f);
+            if (NPC.AnyNPCs(ModContent.NPCType<RavagerHead>()) || NPC.IsABestiaryIconDummy)
+            {
+                spriteBatch.Draw(ModContent.Request<Texture2D>("CalRD/NPCs/Ravager/RavagerHead").Value, new Vector2(center.X - screenPos.X - NPC.scale * 70f, center.Y - screenPos.Y - headOffset),
                     new Rectangle?(new Rectangle(0, 0, ModContent.Request<Texture2D>("CalRD/NPCs/Ravager/RavagerHead").Value.Width, ModContent.Request<Texture2D>("CalRD/NPCs/Ravager/RavagerHead").Value.Height)),
-                    color2, 0f, default, 1f, SpriteEffects.None, 0f);
+                    color2, 0f, default, NPC.scale, SpriteEffects.None, 0f);
             }
         }
 

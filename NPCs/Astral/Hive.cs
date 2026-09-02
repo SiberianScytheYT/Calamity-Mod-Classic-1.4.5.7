@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
 using Terraria.ModLoader;
 
 namespace CalRD.NPCs.Astral
@@ -23,6 +24,14 @@ namespace CalRD.NPCs.Astral
             if (!Main.dedServ)
                 glowmask = ModContent.Request<Texture2D>("CalRD/NPCs/Astral/HiveGlow").Value;
             Main.npcFrameCount[NPC.type] = 6;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("An amalgamation of creatures, these hives will split off small chunks of themselves to attack enemies.")
+            });
         }
 
         public override void SetDefaults()
@@ -40,6 +49,7 @@ namespace CalRD.NPCs.Astral
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<HiveBanner>();
             NPC.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
+            SpawnModBiomes = new int[] { ModContent.GetInstance<BiomeManagers.Astral>().Type };
             if (CalamityWorld.downedAstrageldon)
             {
                 NPC.damage = 90;

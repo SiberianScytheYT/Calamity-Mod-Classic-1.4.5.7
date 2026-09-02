@@ -7,6 +7,7 @@ using CalRD.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.NPCs.NormalNPCs
@@ -17,6 +18,20 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Ice Clasper");
             Main.npcFrameCount[NPC.type] = 6;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers();
+            value.Rotation = MathHelper.ToRadians(45);
+            value.Position.Y += 12;
+            value.PortraitPositionYOverride = 12f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Snow,
+                new FlavorTextBestiaryInfoElement("Skilled hunters that know no bound when hunting prey.")
+            });
         }
 
         public override void SetDefaults()

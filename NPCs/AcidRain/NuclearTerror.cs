@@ -5,11 +5,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
+using CalRD.BiomeManagers;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalRD.Buffs.StatDebuffs;
+using Terraria.GameContent.Bestiary;
 
 namespace CalRD.NPCs.AcidRain
 {
@@ -36,6 +38,23 @@ namespace CalRD.NPCs.AcidRain
             Main.npcFrameCount[NPC.type] = 14;
             NPCID.Sets.TrailCacheLength[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Scale = 0.4f,
+                Direction = 1
+            };
+            value.Position.X += 10f;
+            value.Position.Y += 50f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("A terrifyingly powerful creature that only makes itself known once the worst has come.")
+            });
         }
 
         public override void SetDefaults()
@@ -59,6 +78,7 @@ namespace CalRD.NPCs.AcidRain
             NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit56;
             NPC.DeathSound = SoundID.NPCDeath60;
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Sulphur>().Type, ModContent.GetInstance<AcidRainBiome>().Type };
         }
         public override void SendExtraAI(BinaryWriter writer)
         {

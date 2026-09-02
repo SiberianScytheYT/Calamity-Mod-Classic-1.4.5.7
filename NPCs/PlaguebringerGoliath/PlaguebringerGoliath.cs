@@ -23,6 +23,7 @@ using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -47,7 +48,27 @@ namespace CalRD.NPCs.PlaguebringerGoliath
             //DisplayName.SetDefault("The Plaguebringer Goliath");
             Main.npcFrameCount[NPC.type] = 6;
 			NPCID.Sets.TrailingMode[NPC.type] = 1;
+			NPCID.Sets.BossBestiaryPriority.Add(Type);
+			NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+			{
+				Scale = 0.4f,
+				PortraitScale = 0.5f,
+				PortraitPositionXOverride = -56f,
+				PortraitPositionYOverride = -8f,
+				SpriteDirection = -1
+			};
+			value.Position.X -= 48f;
+			NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
 		}
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+	        {
+		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
+		        new FlavorTextBestiaryInfoElement("A queen bee that has fallen victim to the plague, now it carries out its directives as its strongest soldier.")
+	        });
+        }
 
         public override void SetDefaults()
         {
@@ -1098,14 +1119,14 @@ namespace CalRD.NPCs.PlaguebringerGoliath
 					color38 = Color.Lerp(color38, color36, amount9);
 					color38 = NPC.GetAlpha(color38);
 					color38 *= (num153 - num155) / 15f;
-					Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+					Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
 					vector41 -= new Vector2(texture.Width, texture.Height / frameCount) * NPC.scale / 2f;
 					vector41 += vector11 * NPC.scale + posOffset;
 					spriteBatch.Draw(texture, vector41, new Rectangle?(rectangle), color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 				}
 			}
 
-			Vector2 vector43 = NPC.Center - Main.screenPosition;
+			Vector2 vector43 = NPC.Center - screenPos;
 			vector43 -= new Vector2(texture.Width, texture.Height / frameCount) * NPC.scale / 2f;
 			vector43 += vector11 * NPC.scale + posOffset;
 			spriteBatch.Draw(texture, vector43, new Rectangle?(rectangle), NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
@@ -1119,7 +1140,7 @@ namespace CalRD.NPCs.PlaguebringerGoliath
 					Color color41 = color37;
 					color41 = Color.Lerp(color41, color36, amount9);
 					color41 *= (num153 - num163) / 15f;
-					Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+					Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
 					vector44 -= new Vector2(glowTexture.Width, glowTexture.Height / frameCount) * NPC.scale / 2f;
 					vector44 += vector11 * NPC.scale + posOffset;
 					spriteBatch.Draw(glowTexture, vector44, new Rectangle?(rectangle), color41, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);

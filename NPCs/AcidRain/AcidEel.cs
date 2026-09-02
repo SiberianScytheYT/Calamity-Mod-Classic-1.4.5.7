@@ -1,3 +1,4 @@
+using CalRD.BiomeManagers;
 using CalRD.Dusts;
 using CalRD.Items.Placeables.Banners;
 using CalRD.Items.Materials;
@@ -10,6 +11,8 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalRD.Buffs.StatDebuffs;
+using Terraria.GameContent.Bestiary;
+
 namespace CalRD.NPCs.AcidRain
 {
     public class AcidEel : ModNPC
@@ -20,6 +23,20 @@ namespace CalRD.NPCs.AcidRain
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.TrailCacheLength[NPC.type] = 7;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                PortraitPositionXOverride = 0
+            };
+            value.Position.X += 15;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("Their dorsal fin allows great movement underwater, which allows them to rush towards prey.")
+            });
         }
 
         public override void SetDefaults()
@@ -59,6 +76,7 @@ namespace CalRD.NPCs.AcidRain
             NPC.DeathSound = SoundID.NPCDeath1;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<AcidEelBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Sulphur>().Type, ModContent.GetInstance<AcidRainBiome>().Type };
         }
 
         public override void AI()

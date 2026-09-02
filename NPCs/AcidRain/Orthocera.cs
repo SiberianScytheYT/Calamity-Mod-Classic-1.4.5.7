@@ -5,11 +5,14 @@ using CalRD.Items.Weapons.Summon;
 using CalRD.Projectiles.Enemy;
 using CalRD.World;
 using System;
+using CalRD.BiomeManagers;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using CalRD.Buffs.StatDebuffs;
+using Terraria.GameContent.Bestiary;
+
 namespace CalRD.NPCs.AcidRain
 {
     public class Orthocera : ModNPC
@@ -18,6 +21,14 @@ namespace CalRD.NPCs.AcidRain
         {
             //DisplayName.SetDefault("Orthocera");
             Main.npcFrameCount[NPC.type] = 5;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("A creature thought extinct, yet somehow thriving in the sulphurous sea. You have to wonder what other secrets these waters hold.")
+            });
         }
 
         public override void SetDefaults()
@@ -52,6 +63,7 @@ namespace CalRD.NPCs.AcidRain
             NPC.DeathSound = SoundID.NPCDeath13;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<OrthoceraBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Sulphur>().Type, ModContent.GetInstance<AcidRainBiome>().Type };
         }
 
         public override void AI()

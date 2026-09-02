@@ -1,5 +1,6 @@
 using CalRD.Items.Placeables.Banners;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -11,6 +12,15 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Sand Tortoise");
             Main.npcFrameCount[NPC.type] = 8;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundDesert,
+                new FlavorTextBestiaryInfoElement("Like their jungle and tundra cousins, they prove quite the serious threat with their high speed lunges.")
+            });
         }
 
         public override void SetDefaults()

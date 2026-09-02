@@ -7,6 +7,7 @@ using CalRD.Items.Weapons.Summon;
 using CalRD.World;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,6 +19,14 @@ namespace CalRD.NPCs.Astral
         {
             //DisplayName.SetDefault("Astral Slime");
             Main.npcFrameCount[NPC.type] = 2;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("A slime covered in the infection's essence, it reflects the cosmos above...")
+            });
         }
 
         public override void SetDefaults()
@@ -37,6 +46,7 @@ namespace CalRD.NPCs.Astral
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<AstralSlimeBanner>();
             NPC.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
+            SpawnModBiomes = new int[] { ModContent.GetInstance<BiomeManagers.Astral>().Type };
             if (CalamityWorld.downedAstrageldon)
             {
                 NPC.damage = 65;

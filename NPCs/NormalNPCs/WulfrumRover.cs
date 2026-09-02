@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -27,6 +28,11 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Wulfrum Rover");
             Main.npcFrameCount[NPC.type] = 16;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                SpriteDirection = 1
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -45,6 +51,15 @@ namespace CalRD.NPCs.NormalNPCs
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<WulfrumRoverBanner>();
             NPC.buffImmune[BuffID.Confused] = false;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.DayTime,
+                new FlavorTextBestiaryInfoElement("A small machine of unknown origin, they roam the lands with great duty and curiosity.")
+            });
         }
 
         public override void FindFrame(int frameHeight)

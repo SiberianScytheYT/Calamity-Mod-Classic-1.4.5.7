@@ -9,7 +9,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
+using CalRD.BiomeManagers;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -25,6 +27,14 @@ namespace CalRD.NPCs.AcidRain
             Main.npcFrameCount[NPC.type] = 5;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.TrailCacheLength[NPC.type] = 6;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("These creatures are capable of remaining on the surface of the water, barely noticeable, they're also capable of flight if they need to.")
+            });
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -66,6 +76,7 @@ namespace CalRD.NPCs.AcidRain
             NPC.DeathSound = SoundID.NPCDeath1;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<SulfurousSkaterBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Sulphur>().Type, ModContent.GetInstance<AcidRainBiome>().Type };
 
             NPC.aiStyle = AIType = -1;
         }
@@ -173,7 +184,12 @@ namespace CalRD.NPCs.AcidRain
 
         public override void FindFrame(int frameHeight)
         {
-            if (!Flying)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                SpriteDirection = 1
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+            if (!Flying && !NPC.IsABestiaryIconDummy)
                 NPC.frame.Y = 0;
             else
             {
@@ -192,6 +208,8 @@ namespace CalRD.NPCs.AcidRain
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.IsABestiaryIconDummy)
+                return;
             CalamityGlobalNPC.DrawGlowmask(NPC, spriteBatch, ModContent.Request<Texture2D>(Texture + "Glow").Value, true, Vector2.UnitY * 4f);
             CalamityGlobalNPC.DrawAfterimage(NPC, spriteBatch, drawColor, Color.Transparent, directioning: true, invertedDirection: true);
         }

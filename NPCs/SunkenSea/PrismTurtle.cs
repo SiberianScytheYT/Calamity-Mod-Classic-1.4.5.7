@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -17,6 +18,20 @@ namespace CalRD.NPCs.SunkenSea
         {
             //DisplayName.SetDefault("Prism-Back");
             Main.npcFrameCount[NPC.type] = 5;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                PortraitPositionXOverride = 0
+            };
+            value.Position.X += 15;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("Slow swimmers that occasionally wander to the surface of their habitat to lay eggs.")
+            });
         }
 
         public override void SetDefaults()
@@ -37,6 +52,7 @@ namespace CalRD.NPCs.SunkenSea
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<PrismTurtleBanner>();
 			NPC.chaseable = false;
+            SpawnModBiomes = new int[] { ModContent.GetInstance<BiomeManagers.SunkenSea>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -95,7 +111,7 @@ namespace CalRD.NPCs.SunkenSea
 
         public override void FindFrame(int frameHeight)
         {
-            NPC.frameCounter += NPC.wet ? 0.1f : 0f;
+            NPC.frameCounter += NPC.wet || NPC.IsABestiaryIconDummy ? 0.1f : 0f;
             NPC.frameCounter %= Main.npcFrameCount[NPC.type];
             int frame = (int)NPC.frameCounter;
             NPC.frame.Y = frame * frameHeight;

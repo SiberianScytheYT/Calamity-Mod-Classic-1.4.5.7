@@ -9,6 +9,7 @@ using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -23,7 +24,24 @@ namespace CalRD.NPCs.Astral
             //DisplayName.SetDefault("Fusion Feeder");
             if (!Main.dedServ)
                 glowmask = ModContent.Request<Texture2D>("CalRD/NPCs/Astral/FusionFeederGlow").Value;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Scale = 0.5f,
+                PortraitPositionXOverride = 0f,
+                PortraitPositionYOverride = 0f
+            };
+            value.Position.X += 40f;
+            value.Position.Y -= 6f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
             Main.npcFrameCount[NPC.type] = 4;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("These sand sharks have been completely overriden with the infection's knowledge, and what was once hunger has become thirst for distant stars.")
+            });
         }
 
         public override void SetDefaults()
@@ -44,6 +62,7 @@ namespace CalRD.NPCs.Astral
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<FusionFeederBanner>();
             NPC.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
+            SpawnModBiomes = new int[] { ModContent.GetInstance<BiomeManagers.Astral>().Type };
             if (CalamityWorld.downedAstrageldon)
             {
                 NPC.damage = 65;
@@ -102,12 +121,14 @@ namespace CalRD.NPCs.Astral
         {
             Vector2 offset = new Vector2(0f, 10f);
             Vector2 origin = new Vector2(67f, 23f);
+            if (NPC.IsABestiaryIconDummy)
+                drawColor = Color.White;
 
             //draw shark
-            spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + offset, NPC.frame, drawColor, NPC.rotation, origin, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + offset, NPC.frame, drawColor, NPC.rotation, origin, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
             //draw glowmask
-            spriteBatch.Draw(glowmask, NPC.Center - Main.screenPosition + offset, NPC.frame, Color.White * 0.6f, NPC.rotation, origin, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            spriteBatch.Draw(glowmask, NPC.Center - screenPos + offset, NPC.frame, Color.White * 0.6f, NPC.rotation, origin, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
             return false;
         }

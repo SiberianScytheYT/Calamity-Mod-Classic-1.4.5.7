@@ -11,6 +11,7 @@ using CalRD.World;
 using System.Collections.Generic;
 using CalRD.Utilities;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -31,6 +32,11 @@ namespace CalRD.NPCs.TownNPCs
             NPCID.Sets.AttackTime[NPC.type] = 90;
             NPCID.Sets.AttackAverageChance[NPC.type] = 30;
             NPCID.Sets.HatOffsetY[NPC.type] = 16;
+            NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+	            Velocity = 1f // Draws the NPC in the bestiary as if its walking +1 tiles in the x direction
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifiers);
         }
 
         public override void SetDefaults()
@@ -47,6 +53,15 @@ namespace CalRD.NPCs.TownNPCs
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.knockBackResist = 0.65f;
             AnimationType = NPCID.Guide;
+            SpawnModBiomes = new int[] { ModContent.GetInstance<BiomeManagers.SunkenSea>().Type };
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+	        {
+		        new FlavorTextBestiaryInfoElement("A King displaced from his realm; He knows his tragedy, but has come to peace with it.")
+	        });
         }
 
         public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */

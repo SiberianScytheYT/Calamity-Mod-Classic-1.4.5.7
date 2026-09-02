@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -22,6 +23,27 @@ namespace CalRD.NPCs.StormWeaver
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Storm Weaver");
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Scale = 0.85f,
+                PortraitScale = 0.75f,
+                CustomTexturePath = "CalRD/ExtraTextures/Bestiary/StormWeaver_Bestiary",
+                PortraitPositionXOverride = 40,
+                PortraitPositionYOverride = 40
+            };
+            value.Position.X += 70;
+            value.Position.Y += 55;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+                new FlavorTextBestiaryInfoElement("One of the Devourer's sentinels, still young and inexperienced.. Should the day arrive where its power rivals the Devourer's, he will surely make quick work of it.")
+            });
         }
 
         public override void SetDefaults()

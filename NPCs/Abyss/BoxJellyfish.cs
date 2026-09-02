@@ -3,6 +3,7 @@ using CalRD.Items.Placeables.Banners;
 using CalRD.World;
 using Microsoft.Xna.Framework;
 using System;
+using CalRD.BiomeManagers;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,6 +19,9 @@ namespace CalRD.NPCs.Abyss
         {
             //DisplayName.SetDefault("Box Jellyfish");
             Main.npcFrameCount[NPC.type] = 4;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers();
+            value.Position.Y += 10;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 		
 		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -45,6 +49,7 @@ namespace CalRD.NPCs.Abyss
             NPC.DeathSound = SoundID.NPCDeath28;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<BoxJellyfishBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<AbyssLayer1Biome>().Type };
         }
 
         public override void AI()

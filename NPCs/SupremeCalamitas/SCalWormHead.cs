@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -21,6 +22,27 @@ namespace CalRD.NPCs.SupremeCalamitas
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Sepulcher");
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+	            Scale = 0.8f,
+	            PortraitScale = 0.8f,
+	            CustomTexturePath = "CalRD/ExtraTextures/Bestiary/Sepulcher_Bestiary",
+	            PortraitPositionXOverride = 40f,
+	            PortraitPositionYOverride = 40
+            };
+            value.Position.X += 50f;
+            value.Position.Y += 35f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+	        {
+		        new MoonLordPortraitBackgroundProviderBestiaryInfoElement(),
+		        new FlavorTextBestiaryInfoElement("A mechanical abomination summoned by the Brimstone Witch. Its armor proves unbreakable.")
+	        });
         }
 
         public override void SetDefaults()

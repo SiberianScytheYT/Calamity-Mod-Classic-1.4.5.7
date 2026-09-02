@@ -1,6 +1,7 @@
 using CalRD.Items.Materials;
 using CalRD.Items.Placeables.Banners;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.NPCs.NormalNPCs
@@ -11,6 +12,15 @@ namespace CalRD.NPCs.NormalNPCs
 		{
 			//DisplayName.SetDefault("Wulfrum Slime");
 			Main.npcFrameCount[NPC.type] = 2;
+		}
+		
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+			{
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+				new FlavorTextBestiaryInfoElement("you know, you shouldn't even be here")
+			});
 		}
 
 		public override void SetDefaults()

@@ -15,12 +15,14 @@ using CalRD.NPCs.TownNPCs;
 using CalRD.World;
 using Microsoft.Xna.Framework;
 using System.IO;
+using CalRD.BiomeManagers;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using CalRD.Items.Armor.Vanity;
+using Terraria.GameContent.Bestiary;
 
 namespace CalRD.NPCs.AquaticScourge
 {
@@ -30,6 +32,24 @@ namespace CalRD.NPCs.AquaticScourge
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Aquatic Scourge");
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Scale = 0.6f,
+                PortraitScale = 0.6f,
+                CustomTexturePath = "CalRD/ExtraTextures/Bestiary/AquaticScourge_Bestiary"
+            };
+            value.Position.X += 40f;
+            value.Position.Y += 20f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+		
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("A distant relative of the Desert Scourge, its appearance has been changed heavily by the sulphurous waters; Due to the ample food supply and its adaptions to its environment, it's far less aggressive than its kin.")
+            });
         }
 
         public override void SetDefaults()
@@ -57,7 +77,7 @@ namespace CalRD.NPCs.AquaticScourge
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.netAlways = true;
-            
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Sulphur>().Type };
 			if (CalamityWorld.death || BossRushEvent.BossRushActive)
 				NPC.scale = 1.2f;
 			else if (CalamityWorld.revenge)

@@ -18,6 +18,11 @@ namespace CalRD.NPCs.OldDuke
 		public override void SetStaticDefaults()
 		{
 			//DisplayName.SetDefault("Tooth Ball");
+			NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+			{
+				Hide = true
+			};
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
 		}
 		
 		public override void SetDefaults()

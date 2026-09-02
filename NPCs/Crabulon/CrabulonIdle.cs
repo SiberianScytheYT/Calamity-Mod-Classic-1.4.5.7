@@ -18,6 +18,7 @@ using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.NPCs.Crabulon
@@ -31,6 +32,24 @@ namespace CalRD.NPCs.Crabulon
         {
             //DisplayName.SetDefault("Crabulon");
             Main.npcFrameCount[NPC.type] = 6;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+	            Scale = 0.32f,
+	            PortraitScale = 0.55f,
+	            PortraitPositionYOverride = 54f
+            };
+            value.Position.Y += 80f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+	        {
+		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundMushroom,
+		        new FlavorTextBestiaryInfoElement("Once an ocean crab that migrated towards the underground caves that resembled its home the most... It met an unfortunate fate, now a walking puppet of the shrooms.")
+	        });
         }
 
         public override void SetDefaults()
@@ -620,7 +639,7 @@ namespace CalRD.NPCs.Crabulon
 			Texture2D textureAttackGlow = ModContent.Request<Texture2D>("CalRD/NPCs/Crabulon/CrabulonAttackGlow").Value;
 
 			Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
-			Vector2 vector43 = NPC.Center - Main.screenPosition;
+			Vector2 vector43 = NPC.Center - screenPos;
 			vector43 -= new Vector2(TextureAssets.Npc[NPC.type].Value.Width, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
 			vector43 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 			Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
@@ -628,7 +647,7 @@ namespace CalRD.NPCs.Crabulon
 			if (NPC.ai[0] > 2f)
 			{
 				vector11 = new Vector2(textureAttack.Width / 2, textureAttack.Height / 2);
-				vector43 = NPC.Center - Main.screenPosition;
+				vector43 = NPC.Center - screenPos;
 				vector43 -= new Vector2(textureAttack.Width, textureAttack.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
 				vector43 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 
@@ -639,7 +658,7 @@ namespace CalRD.NPCs.Crabulon
 			else if (NPC.ai[0] == 2f)
 			{
 				vector11 = new Vector2(texture.Width / 2, texture.Height / 2);
-				vector43 = NPC.Center - Main.screenPosition;
+				vector43 = NPC.Center - screenPos;
 				vector43 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
 				vector43 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 

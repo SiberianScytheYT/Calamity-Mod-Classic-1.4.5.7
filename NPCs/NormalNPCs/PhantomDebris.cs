@@ -19,6 +19,11 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Phantom Debris");
             Main.npcFrameCount[NPC.type] = 4;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+	            Velocity = 1.2f
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
         
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)

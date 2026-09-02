@@ -17,6 +17,7 @@ using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -36,6 +37,21 @@ namespace CalRD.NPCs.SunkenSea
         {
             //DisplayName.SetDefault("Giant Clam");
             Main.npcFrameCount[NPC.type] = 12;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Scale = 0.4f,
+            };
+            value.Position.Y += 30f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("An oversized clam large enough to trap a person within it. It might make a good shield, who knows?")
+            });
         }
 
         public override void SetDefaults()
@@ -57,6 +73,7 @@ namespace CalRD.NPCs.SunkenSea
             NPC.rarity = 2;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<GiantClamBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<BiomeManagers.SunkenSea>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -328,7 +345,7 @@ namespace CalRD.NPCs.SunkenSea
                 NPC.frameCounter = 0.0;
                 NPC.frame.Y = NPC.frame.Y + frameHeight;
             }
-            if (hitAmount < 5 || hide)
+            if ((hitAmount < 5 || hide) && !NPC.IsABestiaryIconDummy)
             {
                 NPC.frame.Y = frameHeight * 11;
             }
@@ -389,6 +406,11 @@ namespace CalRD.NPCs.SunkenSea
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D texture = TextureAssets.Npc[NPC.type].Value;
+            if (NPC.IsABestiaryIconDummy)
+            {
+                Main.EntitySpriteDraw(texture, NPC.Center - screenPos, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, NPC.frame.Size() * 0.5f, NPC.scale, 0, 0);
+                return false;   
+            }
             CalRD.DrawTexture(spriteBatch, texture, 0, NPC, drawColor, true);
             return false;
         }

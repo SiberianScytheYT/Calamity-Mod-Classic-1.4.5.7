@@ -13,6 +13,11 @@ namespace CalRD.NPCs.AquaticScourge
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Aquatic Seeker");
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Hide = true
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
         }
 
         public override void SetDefaults()

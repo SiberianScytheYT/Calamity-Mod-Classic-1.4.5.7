@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using Terraria.GameContent.Bestiary;
 using Terraria.ModLoader.Utilities;
 
 namespace CalRD.NPCs.NormalNPCs
@@ -34,6 +35,11 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Wulfrum Pylon");
             Main.npcFrameCount[NPC.type] = 6;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                SpriteDirection = 1
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -54,6 +60,15 @@ namespace CalRD.NPCs.NormalNPCs
             NPC.buffImmune[BuffID.Confused] = false;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<WulfrumPylonBanner>();
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.DayTime,
+                new FlavorTextBestiaryInfoElement("These pyramid shaped machines help their allies by empowering them if they're in their protective force-field.")
+            });
         }
 
         public override void AI()

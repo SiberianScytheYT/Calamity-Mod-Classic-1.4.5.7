@@ -6,11 +6,14 @@ using CalRD.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using CalRD.BiomeManagers;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalRD.Buffs.StatDebuffs;
+using Terraria.GameContent.Bestiary;
+
 namespace CalRD.NPCs.AcidRain
 {
     public class Trilobite : ModNPC
@@ -25,6 +28,14 @@ namespace CalRD.NPCs.AcidRain
             Main.npcFrameCount[NPC.type] = 8;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.TrailCacheLength[NPC.type] = 5;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("An example of an ancient creature persisting in the sulphurous sea, they have remarkable strength to be able to fling themselves, yet weigh as much as they do.")
+            });
         }
 
         public override void SetDefaults()
@@ -58,6 +69,7 @@ namespace CalRD.NPCs.AcidRain
             NPC.DeathSound = SoundID.NPCDeath27;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<TrilobiteBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Sulphur>().Type, ModContent.GetInstance<AcidRainBiome>().Type };
         }
 
         public override void AI()

@@ -7,8 +7,10 @@ using CalRD.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
+using CalRD.BiomeManagers;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -24,6 +26,16 @@ namespace CalRD.NPCs.BrimstoneElemental
         {
             //DisplayName.SetDefault("Brimling");
             Main.npcFrameCount[NPC.type] = 8;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
+                new FlavorTextBestiaryInfoElement("Extensions of the Brimstone Elementals, they possess no mind, and simply serve as additional weapons for the elemental.")
+            });
         }
 
         public override void SetDefaults()
@@ -78,6 +90,7 @@ namespace CalRD.NPCs.BrimstoneElemental
             {
                 NPC.lifeMax = 100000;
             }
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Crag>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)

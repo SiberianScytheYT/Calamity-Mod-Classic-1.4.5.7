@@ -5,6 +5,7 @@ using CalRD.Items.Placeables.Banners;
 using CalRD.Items.Weapons.Ranged;
 using CalRD.World;
 using System;
+using CalRD.BiomeManagers;
 using Terraria;
     using Terraria.GameContent.Bestiary;
 using Terraria.ID;
@@ -47,6 +48,7 @@ namespace CalRD.NPCs.Abyss
             NPC.knockBackResist = 0.9f;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<BloatfishBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<AbyssLayer4Biome>().Type };
         }
 
         public override void AI()
@@ -165,7 +167,7 @@ namespace CalRD.NPCs.Abyss
 
         public override void FindFrame(int frameHeight)
         {
-            if (!NPC.wet)
+            if (!NPC.wet && !NPC.IsABestiaryIconDummy)
             {
                 NPC.frameCounter = 0.0;
                 return;

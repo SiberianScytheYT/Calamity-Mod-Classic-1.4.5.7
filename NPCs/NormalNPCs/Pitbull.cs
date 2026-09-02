@@ -1,6 +1,7 @@
 using CalRD.Items.Placeables.Banners;
 using CalRD.World;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -12,6 +13,21 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Pitbull");
             Main.npcFrameCount[NPC.type] = 10;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Velocity = 1.2f
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+                new FlavorTextBestiaryInfoElement("Rabid, dangerous and uncontrolled dogs that roam unseen in the night.")
+            });
         }
 
         public override void SetDefaults()

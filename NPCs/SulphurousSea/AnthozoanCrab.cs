@@ -6,7 +6,9 @@ using CalRD.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
+using CalRD.BiomeManagers;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -19,6 +21,21 @@ namespace CalRD.NPCs.SulphurousSea
         {
             //DisplayName.SetDefault("Anthozoan Crab");
             Main.npcFrameCount[NPC.type] = 16;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                SpriteDirection = 1
+            };
+            value.Position.Y += 8;
+            value.PortraitPositionYOverride = 28f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            {
+                new FlavorTextBestiaryInfoElement("A strong, territorial crab that hurls boulders to anything that approaches its territory.")
+            });
         }
 
         public override void SetDefaults()
@@ -40,6 +57,7 @@ namespace CalRD.NPCs.SulphurousSea
             NPC.knockBackResist = 0.04f;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<AnthozoanCrabBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Sulphur>().Type };
         }
         public override void SendExtraAI(BinaryWriter writer)
         {

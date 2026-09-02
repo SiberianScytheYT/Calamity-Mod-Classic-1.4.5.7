@@ -28,6 +28,11 @@ namespace CalRD.NPCs.Astral
                 glowmask = ModContent.Request<Texture2D>("CalRD/NPCs/Astral/AstralachneaGroundGlow").Value;
 
             base.SetStaticDefaults();
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Hide = true
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
         }
 
         public override void SetDefaults()

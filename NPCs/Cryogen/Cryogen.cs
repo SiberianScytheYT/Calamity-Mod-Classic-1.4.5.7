@@ -22,6 +22,7 @@ using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -40,6 +41,16 @@ namespace CalRD.NPCs.Cryogen
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Cryogen");
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+	        {
+		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Snow,
+		        new FlavorTextBestiaryInfoElement("An ice cage few have seen in the harshest blizzards, its presence causes an aurora to form in the sky.")
+	        });
         }
 
         public override void SetDefaults()

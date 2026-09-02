@@ -1,6 +1,7 @@
 using CalRD.Items.Placeables.Banners;
 using CalRD.World;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -11,6 +12,15 @@ namespace CalRD.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Bohldohr");
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheTemple,
+                new FlavorTextBestiaryInfoElement("He is here.")
+            });
         }
 
         public override void SetDefaults()

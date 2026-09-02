@@ -1,3 +1,4 @@
+using CalRD.Walls;
 using CalRD.World;
 using Terraria;
 using Terraria.ID;
@@ -22,7 +23,7 @@ namespace CalRD.BiomeManagers
 		int playerPosX = (int)player.Center.X / 16;
 		int playerPosY = (int)player.Center.Y / 16;
 		Tile tile = Framing.GetTileSafely(playerPosX, playerPosY);
-			if (tile.WallType == Mod.Find<ModWall>("EutrophicSandWall").Type || tile.WallType == Mod.Find<ModWall>("NavystoneWall").Type)
+		if (tile.WallType == ModContent.WallType<EutrophicSandWall>() || tile.WallType == ModContent.WallType<NavystoneWall>())
 		{
 			inSunkenSea = true;
 		}

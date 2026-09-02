@@ -5,6 +5,7 @@ using CalRD.Items.Placeables.Banners;
 using CalRD.World;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.NPCs.NormalNPCs
@@ -15,6 +16,15 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Phantom Spirit");
             Main.npcFrameCount[NPC.type] = 4;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheDungeon,
+                new FlavorTextBestiaryInfoElement("One of many spirits imprisoned within the dungeon, an everlasting burning hatred for its jailor fuels it.")
+            });
         }
 
         public override void SetDefaults()

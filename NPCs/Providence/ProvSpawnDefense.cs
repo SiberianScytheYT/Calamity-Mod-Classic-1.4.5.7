@@ -18,6 +18,11 @@ namespace CalRD.NPCs.Providence
             //DisplayName.SetDefault("A Profaned Guardian");
             Main.npcFrameCount[NPC.type] = 6;
 			NPCID.Sets.TrailingMode[NPC.type] = 1;
+			NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+			{
+				Hide = true
+			};
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
 		}
 
         public override void SetDefaults()

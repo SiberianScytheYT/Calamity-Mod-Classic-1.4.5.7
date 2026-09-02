@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -23,6 +24,16 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Impious Immolator");
             Main.npcFrameCount[NPC.type] = 4;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
+                new FlavorTextBestiaryInfoElement("Initially passive burning spirits, they roam the lands peacefully, until something impedes them.")
+            });
         }
 
         public override void SetDefaults()

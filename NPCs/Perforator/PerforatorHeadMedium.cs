@@ -9,6 +9,7 @@ using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.NPCs.Perforator
@@ -19,6 +20,27 @@ namespace CalRD.NPCs.Perforator
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("The Perforator");
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+	            Scale = 0.7f,
+	            PortraitScale = 0.7f,
+	            CustomTexturePath = "CalRD/ExtraTextures/Bestiary/PerforatorMedium_Bestiary",
+	            PortraitPositionXOverride = 40,
+	            PortraitPositionYOverride = 40
+            };
+            value.Position.X += 60;
+            value.Position.Y += 40;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+	        {
+		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
+		        new FlavorTextBestiaryInfoElement("The largest of the perforators, its purpose is to devour.")
+	        });
         }
 
         public override void SetDefaults()

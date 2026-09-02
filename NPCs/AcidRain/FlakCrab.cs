@@ -7,7 +7,9 @@ using CalRD.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
+using CalRD.BiomeManagers;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.NPCs.AcidRain
@@ -18,6 +20,14 @@ namespace CalRD.NPCs.AcidRain
         {
             //DisplayName.SetDefault("Flak Crab");
             Main.npcFrameCount[NPC.type] = 7;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("It would be a regular crab if it weren't for its unusual shell, through which it can expel corrosive water at high speed.")
+            });
         }
 
         public override void SetDefaults()
@@ -49,6 +59,7 @@ namespace CalRD.NPCs.AcidRain
             NPC.DeathSound = SoundID.DD2_WitherBeastDeath;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<FlakCrabBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Sulphur>().Type, ModContent.GetInstance<AcidRainBiome>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -158,12 +169,12 @@ namespace CalRD.NPCs.AcidRain
 
         public override void FindFrame(int frameHeight)
         {
-            if (NPC.localAI[1] < 10f)
+            if (NPC.localAI[1] < 10f && !NPC.IsABestiaryIconDummy)
             {
                 NPC.frame.Y = 0;
                 return;
             }
-            if (NPC.localAI[0] > 0f)
+            if (NPC.localAI[0] > 0f || NPC.IsABestiaryIconDummy)
             {
                 if (NPC.frameCounter++ % 6 == 5)
                 {

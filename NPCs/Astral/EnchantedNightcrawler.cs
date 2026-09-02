@@ -12,6 +12,11 @@ namespace CalRD.NPCs.Astral
             //DisplayName.SetDefault("Enchanted Nightcrawler");
             Main.npcFrameCount[NPC.type] = 2;
             Main.npcCatchable[NPC.type] = true;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Hide = true
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
         }
 
         public override void SetDefaults()

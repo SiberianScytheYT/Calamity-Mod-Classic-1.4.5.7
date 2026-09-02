@@ -17,6 +17,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -30,7 +31,26 @@ namespace CalRD.NPCs.Bumblebirb
             //DisplayName.SetDefault("The Dragonfolly");
             Main.npcFrameCount[NPC.type] = 6;
 			NPCID.Sets.TrailingMode[NPC.type] = 1;
+			NPCID.Sets.BossBestiaryPriority.Add(Type);
+			NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+			{
+				Scale = 0.5f,
+				PortraitScale = 0.85f,
+				PortraitPositionYOverride = 14f
+			};
+			value.Position.X += 20f;
+			value.Position.Y += 8f;
+			NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
 		}
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+	        {
+		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
+		        new FlavorTextBestiaryInfoElement("Failed clones of the Tyrant's loyal dragon, they were released onto the wild on accident, now roaming the jungle unopposed.")
+	        });
+        }
 
         public override string Texture => "CalRD/NPCs/Bumblebirb/Birb";
         public override string BossHeadTexture => "CalRD/NPCs/Bumblebirb/Birb_Head_Boss";
@@ -270,7 +290,7 @@ namespace CalRD.NPCs.Bumblebirb
 					color38 = Color.Lerp(color38, color36, amount9);
 					color38 = NPC.GetAlpha(color38);
 					color38 *= (float)(num153 - num155) / 15f;
-					Vector2 vector41 = NPC.oldPos[num155] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - Main.screenPosition;
+					Vector2 vector41 = NPC.oldPos[num155] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - screenPos;
 					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
 					vector41 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
@@ -325,7 +345,7 @@ namespace CalRD.NPCs.Bumblebirb
 					color39 = Color.Lerp(color39, color36, amount9);
 					color39 = NPC.GetAlpha(color39);
 					color39 *= 1f - num157;
-					Vector2 vector42 = NPC.Center + ((float)num160 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
+					Vector2 vector42 = NPC.Center + ((float)num160 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - screenPos;
 					vector42 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
 					vector42 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector42, NPC.frame, color39, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
@@ -335,7 +355,7 @@ namespace CalRD.NPCs.Bumblebirb
 			Color color2 = drawColor;
 			color2 = Color.Lerp(color2, color36, amount9);
 			color2 = NPC.GetAlpha(color2);
-			Vector2 vector43 = NPC.Center - Main.screenPosition;
+			Vector2 vector43 = NPC.Center - screenPos;
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
 			vector43 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, NPC.frame, (phase3 && calamityGlobalNPC.newAI[3] == 1f ? color2 : NPC.GetAlpha(drawColor)), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
@@ -366,7 +386,7 @@ namespace CalRD.NPCs.Bumblebirb
 						Color color41 = color40;
 						color41 = Color.Lerp(color41, color36, amount9);
 						color41 *= (float)(num153 - num163) / 15f;
-						Vector2 vector44 = NPC.oldPos[num163] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - Main.screenPosition;
+						Vector2 vector44 = NPC.oldPos[num163] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - screenPos;
 						vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
 						vector44 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 						spriteBatch.Draw(texture2D15, vector44, NPC.frame, color41, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
@@ -378,7 +398,7 @@ namespace CalRD.NPCs.Bumblebirb
 						color42 = Color.Lerp(color42, color36, amount9);
 						color42 = NPC.GetAlpha(color42);
 						color42 *= 1f - num157;
-						Vector2 vector45 = NPC.Center + ((float)num164 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
+						Vector2 vector45 = NPC.Center + ((float)num164 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - screenPos;
 						vector45 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
 						vector45 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 						spriteBatch.Draw(texture2D15, vector45, NPC.frame, color42, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);

@@ -7,6 +7,7 @@ using CalRD.World;
 using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -18,6 +19,23 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Scorn Eater");
             Main.npcFrameCount[NPC.type] = 7;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Scale = 0.4f,
+                PortraitScale = 0.67f,
+                PortraitPositionYOverride = 4f
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
+                new FlavorTextBestiaryInfoElement("The strongest of Providence's regular followers, they make any unfaithful being pray.")
+            });
         }
 
         public override void SetDefaults()

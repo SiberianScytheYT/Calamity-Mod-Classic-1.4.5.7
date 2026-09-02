@@ -19,6 +19,11 @@ namespace CalRD.NPCs.Bumblebirb
             //DisplayName.SetDefault("Draconic Swarmer");
             Main.npcFrameCount[NPC.type] = 5;
 			NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Hide = true
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
 		}
 
         public override string Texture => "CalRD/NPCs/Bumblebirb/BumbleFolly";

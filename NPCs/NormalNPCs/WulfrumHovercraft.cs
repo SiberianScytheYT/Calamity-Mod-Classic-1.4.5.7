@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -53,6 +54,11 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Wulfrum Hovercraft");
             Main.npcFrameCount[NPC.type] = 12;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                SpriteDirection = 1
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -71,6 +77,15 @@ namespace CalRD.NPCs.NormalNPCs
             NPC.noTileCollide = true;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<WulfrumHovercraftBanner>();
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.DayTime,
+                new FlavorTextBestiaryInfoElement("These machines travel via propulsion, hovering over the lands. They seek out trespassers, even if their analysis might be inaccurate in the current day.")
+            });
         }
 
         public override void SendExtraAI(BinaryWriter writer)

@@ -6,6 +6,7 @@ using CalRD.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -17,6 +18,15 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Viruling");
             Main.npcFrameCount[NPC.type] = 5;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
+                new FlavorTextBestiaryInfoElement("A derpling overtaken by plague nanomachines, its limbs have come off, now flying instead to infect more of the jungle.")
+            });
         }
 
         public override void SetDefaults()

@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -17,6 +18,23 @@ namespace CalRD.NPCs.Leviathan
         {
             //DisplayName.SetDefault("???");
             Main.npcFrameCount[NPC.type] = 6;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+	            PortraitPositionYOverride = -6f,
+	            Scale = 0.65f,
+	            PortraitScale = 0.75f
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+	        {
+		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+		        new FlavorTextBestiaryInfoElement("An mysterious being... perhaps it's hiding something?")
+	        });
         }
 
         public override void SetDefaults()
@@ -51,6 +69,9 @@ namespace CalRD.NPCs.Leviathan
 
 		public override void FindFrame(int frameHeight)
         {
+	        if (NPC.IsABestiaryIconDummy)
+		        NPC.Opacity = 1f;
+	        
             NPC.frameCounter += 0.1f;
             NPC.frameCounter %= Main.npcFrameCount[NPC.type];
             int frame = (int)NPC.frameCounter;
@@ -92,7 +113,7 @@ namespace CalRD.NPCs.Leviathan
 			Texture2D drawTex = TextureAssets.Npc[NPC.type].Value;
 			Vector2 origin = new Vector2(drawTex.Width / 2, drawTex.Height / 2);
 
-			Vector2 drawPos = NPC.Center - Main.screenPosition;
+			Vector2 drawPos = NPC.Center - screenPos;
 			drawPos -= new Vector2(drawTex.Width, drawTex.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
 			drawPos += origin * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 			spriteBatch.Draw(drawTex, drawPos, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);

@@ -12,6 +12,7 @@ using CalRD.Items.Weapons.Summon;
 using CalRD.NPCs.TownNPCs;
 using System;
 using System.IO;
+using CalRD.BiomeManagers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -20,6 +21,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalRD.Dusts;
 using CalRD.World;
+using Terraria.GameContent.Bestiary;
 
 namespace CalRD.NPCs.OldDuke
 {
@@ -31,7 +33,24 @@ namespace CalRD.NPCs.OldDuke
 			//DisplayName.SetDefault("The Old Duke");
             Main.npcFrameCount[NPC.type] = 7;
 			NPCID.Sets.TrailingMode[NPC.type] = 1;
+			NPCID.Sets.BossBestiaryPriority.Add(Type);
+			NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+			{
+				SpriteDirection = 1,
+				Scale = 0.45f
+			};
+			value.Position.X += 14f;
+			NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
 		}
+		
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+			{
+				new FlavorTextBestiaryInfoElement("The apex predator of the sulphurous sea. It doesn't seem native to the polluted sea, and it's shockingly strong for its apparent age.")
+			});
+		}
+
 		
 		public override void SetDefaults()
 		{
@@ -60,6 +79,7 @@ namespace CalRD.NPCs.OldDuke
             {
                 NPC.buffImmune[k] = true;
             }
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Sulphur>().Type, ModContent.GetInstance<AcidRainBiome>().Type };
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -233,7 +253,7 @@ namespace CalRD.NPCs.OldDuke
 					color38 = Color.Lerp(color38, color36, amount9);
 					color38 = NPC.GetAlpha(color38);
 					color38 *= (num153 - num155) / 15f;
-					Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+					Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
 					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
 					vector41 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
@@ -286,7 +306,7 @@ namespace CalRD.NPCs.OldDuke
 					color39 = Color.Lerp(color39, color36, amount9);
 					color39 = NPC.GetAlpha(color39);
 					color39 *= 1f - num157;
-					Vector2 vector42 = NPC.Center + (num160 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
+					Vector2 vector42 = NPC.Center + (num160 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - screenPos;
 					vector42 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
 					vector42 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector42, NPC.frame, color39, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
@@ -296,7 +316,7 @@ namespace CalRD.NPCs.OldDuke
 			Color color2 = drawColor;
 			color2 = Color.Lerp(color2, color36, amount9);
 			color2 = NPC.GetAlpha(color2);
-			Vector2 vector43 = NPC.Center - Main.screenPosition;
+			Vector2 vector43 = NPC.Center - screenPos;
 			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
 			vector43 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, NPC.frame, (NPC.ai[0] > 9f ? color2 : NPC.GetAlpha(drawColor)), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
@@ -341,7 +361,7 @@ namespace CalRD.NPCs.OldDuke
 						Color color41 = color40;
 						color41 = Color.Lerp(color41, color36, amount9);
 						color41 *= (num153 - num163) / 15f;
-						Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+						Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
 						vector44 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
 						vector44 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 						spriteBatch.Draw(texture2D15, vector44, NPC.frame, color41, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
@@ -353,7 +373,7 @@ namespace CalRD.NPCs.OldDuke
 						color42 = Color.Lerp(color42, color36, amount9);
 						color42 = NPC.GetAlpha(color42);
 						color42 *= 1f - num157;
-						Vector2 vector45 = NPC.Center + (num164 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
+						Vector2 vector45 = NPC.Center + (num164 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - screenPos;
 						vector45 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
 						vector45 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 						spriteBatch.Draw(texture2D15, vector45, NPC.frame, color42, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);

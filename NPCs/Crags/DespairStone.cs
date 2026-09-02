@@ -1,9 +1,11 @@
+using CalRD.BiomeManagers;
 using CalRD.Buffs.StatDebuffs;
 using CalRD.Dusts;
 using CalRD.Items.Materials;
 using CalRD.Items.Placeables.Banners;
 using CalRD.World;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.NPCs.Crags
@@ -13,6 +15,15 @@ namespace CalRD.NPCs.Crags
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Despair Stone");
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
+                new FlavorTextBestiaryInfoElement("A construct made from Brimstone Slag, it's said that its volatile movements are the result of the souls it contains fighting to get out.")
+            });
         }
 
         public override void SetDefaults()
@@ -40,6 +51,7 @@ namespace CalRD.NPCs.Crags
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<DespairStoneBanner>();
 			NPC.buffImmune[BuffID.Confused] = false;
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Crag>().Type };
         }
 
         public override void AI()

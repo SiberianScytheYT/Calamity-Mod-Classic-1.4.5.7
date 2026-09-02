@@ -1,5 +1,6 @@
 using CalRD.Events;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,6 +13,27 @@ namespace CalRD.NPCs.DesertScourge
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Dried Seeker");
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Scale = 0.7f,
+                PortraitScale = 0.7f,
+                CustomTexturePath = "CalRD/ExtraTextures/Bestiary/DriedSeeker_Bestiary",
+                PortraitPositionXOverride = 40f,
+                PortraitPositionYOverride = 40f
+            };
+            value.Position.X += 50f;
+            value.Position.Y += 35f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+		
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
+                new FlavorTextBestiaryInfoElement("A small sea serpent that suffered much the same fate as the Desert Scourge, it serves as a companion in its endless search for food.")
+            });
         }
 
         public override void SetDefaults()

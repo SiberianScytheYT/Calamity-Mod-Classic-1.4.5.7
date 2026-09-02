@@ -1,7 +1,9 @@
 using CalRD.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
 using System;
+using CalRD.BiomeManagers;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,6 +14,14 @@ namespace CalRD.NPCs.AquaticScourge
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Aquatic Parasite");
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("Small yet agile creatures, these creatures can leap out of the water to reach their prey.")
+            });
         }
 
         public override void SetDefaults()
@@ -33,6 +43,7 @@ namespace CalRD.NPCs.AquaticScourge
             NPC.DeathSound = SoundID.NPCDeath1;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<AquaticParasiteBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Sulphur>().Type };
         }
 
         public override void AI()

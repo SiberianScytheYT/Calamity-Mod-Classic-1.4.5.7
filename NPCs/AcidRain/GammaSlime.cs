@@ -8,8 +8,10 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using CalRD.BiomeManagers;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.NPCs.AcidRain
@@ -28,6 +30,14 @@ namespace CalRD.NPCs.AcidRain
         {
             //DisplayName.SetDefault("Gamma Slime");
             Main.npcFrameCount[NPC.type] = 2;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("The slimes in the region grow more powerful as the sea's condition worsens more and more.")
+            });
         }
 
         public override void SetDefaults()
@@ -57,6 +67,7 @@ namespace CalRD.NPCs.AcidRain
             NPC.DeathSound = SoundID.NPCDeath1;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<GammaSlimeBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Sulphur>().Type, ModContent.GetInstance<AcidRainBiome>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)

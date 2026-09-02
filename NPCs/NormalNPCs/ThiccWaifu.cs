@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -21,6 +22,24 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Cloud Elemental");
             Main.npcFrameCount[NPC.type] = 8;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Position = new Vector2(28f, 20f),
+                Scale = 0.65f,
+                PortraitScale = 0.65f,
+                PortraitPositionXOverride = 10f,
+                PortraitPositionYOverride = 2f
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+		
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+                new FlavorTextBestiaryInfoElement("Once a revered deity, she remains angry at the world and the people which abandoned her.")
+            });
         }
 
         public override void SetDefaults()
@@ -249,6 +268,8 @@ namespace CalRD.NPCs.NormalNPCs
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (!NPC.active || NPC.IsABestiaryIconDummy)
+                return true;
             Texture2D texture = ModContent.Request<Texture2D>("CalRD/NPCs/NormalNPCs/ThiccWaifuAttack").Value;
             if (NPC.ai[0] > 0f)
             {

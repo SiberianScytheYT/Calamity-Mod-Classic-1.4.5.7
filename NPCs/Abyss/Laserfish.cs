@@ -6,8 +6,10 @@ using CalRD.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
+using CalRD.BiomeManagers;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -20,6 +22,14 @@ namespace CalRD.NPCs.Abyss
         {
             //DisplayName.SetDefault("Laserfish");
             Main.npcFrameCount[NPC.type] = 6;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("This fish has a symbiotic relationship with bacteria that gather in large sacs on its head, though they blind it, these bacteria release deadly blasts to clear its path and harm any potential predators.")
+            });
         }
 
         public override void SetDefaults()
@@ -40,6 +50,7 @@ namespace CalRD.NPCs.Abyss
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<LaserfishBanner>();
             NPC.chaseable = false;
+            SpawnModBiomes = new int[] { ModContent.GetInstance<AbyssLayer2Biome>().Type, ModContent.GetInstance<AbyssLayer3Biome>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -71,7 +82,7 @@ namespace CalRD.NPCs.Abyss
 
         public override void FindFrame(int frameHeight)
         {
-            if (!NPC.wet)
+            if (!NPC.wet && !NPC.IsABestiaryIconDummy)
             {
                 NPC.frameCounter = 0.0;
                 return;
@@ -84,6 +95,8 @@ namespace CalRD.NPCs.Abyss
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.IsABestiaryIconDummy)
+                return;
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
             {

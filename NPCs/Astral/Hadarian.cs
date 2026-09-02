@@ -10,6 +10,7 @@ using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -24,7 +25,19 @@ namespace CalRD.NPCs.Astral
             //DisplayName.SetDefault("Hadarian");
             if (!Main.dedServ)
                 glowmask = ModContent.Request<Texture2D>("CalRD/NPCs/Astral/HadarianGlow").Value;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers();
+            value.Position.X += 10f;
+            value.Position.Y += 10f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
             Main.npcFrameCount[NPC.type] = 7;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("These creatures possess extremely tough membranes in their wings, allowing them to apply pressure on their enemies even if there's counterattack.")
+            });
         }
 
         public override void SetDefaults()
@@ -42,6 +55,7 @@ namespace CalRD.NPCs.Astral
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<HadarianBanner>();
             NPC.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
+            SpawnModBiomes = new int[] { ModContent.GetInstance<BiomeManagers.Astral>().Type };
             if (CalamityWorld.downedAstrageldon)
             {
                 NPC.damage = 80;
@@ -132,9 +146,9 @@ namespace CalRD.NPCs.Astral
                 Vector2 position = NPC.Bottom - new Vector2(19f, 42f);
                 //20 34 38 42
                 Rectangle src = new Rectangle(20, 34, 38, 42);
-                spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, position - Main.screenPosition, src, drawColor, NPC.rotation, default, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+                spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, position - screenPos, src, drawColor, NPC.rotation, default, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
                 //draw glowmask
-                spriteBatch.Draw(glowmask, position - Main.screenPosition, src, Color.White * 0.6f, NPC.rotation, default, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+                spriteBatch.Draw(glowmask, position - screenPos, src, Color.White * 0.6f, NPC.rotation, default, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
                 return false;
             }
             return true;
@@ -142,6 +156,8 @@ namespace CalRD.NPCs.Astral
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.IsABestiaryIconDummy)
+                return;
             if (NPC.ai[0] != 0f)
             {
                 Vector2 origin = new Vector2(41f, 39f);

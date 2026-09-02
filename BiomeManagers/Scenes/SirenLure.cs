@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityModClassicPreTrailer.BiomeManagers.Scenes
+namespace CalRD.BiomeManagers.Scenes
 {
     public class SirenLure : ModSceneEffect
     {
@@ -26,12 +26,12 @@ namespace CalamityModClassicPreTrailer.BiomeManagers.Scenes
                     inList = true;
                 }
 
-            if (!inList)
-                continue;
-            Rectangle npcBox = new Rectangle((int)npc.Center.X - MusicDistance, (int)npc.Center.Y - MusicDistance,
-                musicDistance, musicDistance);
-            if (screenRect.Intersects(npcBox))
-                return true;
+                if (!inList)
+                    continue;
+                Rectangle npcBox = new Rectangle((int)npc.Center.X - MusicDistance, (int)npc.Center.Y - MusicDistance,
+                    musicDistance, musicDistance);
+                if (screenRect.Intersects(npcBox))
+                    return true;
             }
             return false;
         }

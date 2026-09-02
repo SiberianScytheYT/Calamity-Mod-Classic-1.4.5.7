@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using CalRD.Utilities;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.Localization;
@@ -27,6 +28,11 @@ namespace CalRD.NPCs.TownNPCs
             NPCID.Sets.AttackType[NPC.type] = 0;
             NPCID.Sets.AttackTime[NPC.type] = 60;
             NPCID.Sets.AttackAverageChance[NPC.type] = 15;
+            NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Velocity = 1f // Draws the NPC in the bestiary as if its walking +1 tiles in the x direction
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifiers);
         }
 
         public override void SetDefaults()
@@ -44,6 +50,15 @@ namespace CalRD.NPCs.TownNPCs
             NPC.DeathSound = SoundID.NPCDeath6;
             NPC.knockBackResist = 0.5f;
             AnimationType = NPCID.Guide;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
+                new FlavorTextBestiaryInfoElement("The Creator")
+            });
         }
 
 		public override void AI()

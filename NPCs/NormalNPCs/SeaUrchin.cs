@@ -1,6 +1,7 @@
 using CalRD.Items.Placeables.Banners;
 using CalRD.Items.Weapons.Rogue;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -12,6 +13,14 @@ namespace CalRD.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Sea Urchin");
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+                new FlavorTextBestiaryInfoElement("A spiny animal native to the ocean that flings itself around relentlessly in defense of its territory, though mostly helpless when outside water, given enough time they can make it back home.")
+            });
         }
 
         public override void SetDefaults()

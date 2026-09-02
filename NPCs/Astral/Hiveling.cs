@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
 using Terraria.ModLoader;
 
 namespace CalRD.NPCs.Astral
@@ -21,6 +22,14 @@ namespace CalRD.NPCs.Astral
                 glowmask = ModContent.Request<Texture2D>("CalRD/NPCs/Astral/HivelingGlow").Value;
             Main.npcFrameCount[NPC.type] = 4;
         }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("One sample of a piece of Hive, these can be very threatening in large numbers.")
+            });
+        }
 
         public override void SetDefaults()
         {
@@ -35,6 +44,7 @@ namespace CalRD.NPCs.Astral
             NPC.noGravity = true;
             NPC.value = Item.buyPrice(0, 0, 5, 0);
             NPC.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
+            SpawnModBiomes = new int[] { ModContent.GetInstance<BiomeManagers.Astral>().Type };
             if (CalamityWorld.downedAstrageldon)
             {
                 NPC.damage = 50;

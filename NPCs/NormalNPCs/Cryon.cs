@@ -3,6 +3,7 @@ using CalRD.Items.Materials;
 using CalRD.Items.Placeables.Banners;
 using CalRD.World;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.NPCs.NormalNPCs
@@ -13,6 +14,15 @@ namespace CalRD.NPCs.NormalNPCs
         {
             //DisplayName.SetDefault("Cryon");
             Main.npcFrameCount[NPC.type] = 6;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Snow,
+                new FlavorTextBestiaryInfoElement("Ice constructs with runes inscribed on their heads... Who made them?")
+            });
         }
 
         public override void SetDefaults()
@@ -42,7 +52,7 @@ namespace CalRD.NPCs.NormalNPCs
 
         public override void FindFrame(int frameHeight)
         {
-            if (NPC.velocity.Y > 0f || NPC.velocity.Y < 0f)
+            if ((NPC.velocity.Y > 0f || NPC.velocity.Y < 0f) && !NPC.IsABestiaryIconDummy)
             {
                 NPC.spriteDirection = NPC.direction;
                 NPC.frame.Y = frameHeight * 5;
@@ -50,8 +60,15 @@ namespace CalRD.NPCs.NormalNPCs
             }
             else
             {
+                if (NPC.IsABestiaryIconDummy)
+                {
+                    NPC.frameCounter += 2;
+                }
+                else
+                {
+                    NPC.frameCounter += (double)(NPC.velocity.Length() / 2f);
+                }
                 NPC.spriteDirection = NPC.direction;
-                NPC.frameCounter += (double)(NPC.velocity.Length() / 2f);
                 if (NPC.frameCounter > 12.0)
                 {
                     NPC.frame.Y = NPC.frame.Y + frameHeight;

@@ -19,6 +19,11 @@ namespace CalRD.NPCs.Signus
         {
             //DisplayName.SetDefault("Cosmic Mine");
 			NPCID.Sets.TrailingMode[NPC.type] = 1;
+			NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+			{
+				Hide = true
+			};
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
 		}
 
         public override void SetDefaults()

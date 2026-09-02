@@ -21,6 +21,7 @@ using System.Threading;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -37,7 +38,25 @@ namespace CalRD.NPCs.AstrumAureus
             //DisplayName.SetDefault("Astrum Aureus");
             Main.npcFrameCount[NPC.type] = 6;
 			NPCID.Sets.TrailingMode[NPC.type] = 1;
-		}
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Scale = 0.27f,
+                PortraitScale = 0.45f,
+                PortraitPositionYOverride = -24f
+            };
+            value.Position.Y -= 20f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+		
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+                new FlavorTextBestiaryInfoElement("One of Draedon's machines, even it succumbed to the infection's spread.")
+            });
+        }
 
         public override void SetDefaults()
         {
@@ -90,6 +109,7 @@ namespace CalRD.NPCs.AstrumAureus
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
+            SpawnModBiomes = new int[] { ModContent.GetInstance<BiomeManagers.Astral>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -296,14 +316,14 @@ namespace CalRD.NPCs.AstrumAureus
 					color38 = Color.Lerp(color38, color36, amount9);
 					color38 = NPC.GetAlpha(color38);
 					color38 *= (num153 - num155) / 15f;
-					Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+					Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
 					vector41 -= new Vector2(NPCTexture.Width, NPCTexture.Height / frameCount) * scale / 2f;
 					vector41 += vector11 * scale + new Vector2(0f, 4f + offsetY);
 					spriteBatch.Draw(NPCTexture, vector41, frame, color38, rotation, vector11, scale, spriteEffects, 0f);
 				}
 			}
 
-			Vector2 vector43 = NPC.Center - Main.screenPosition;
+			Vector2 vector43 = NPC.Center - screenPos;
 			vector43 -= new Vector2(NPCTexture.Width, NPCTexture.Height / frameCount) * scale / 2f;
 			vector43 += vector11 * scale + new Vector2(0f, 4f + offsetY);
 			spriteBatch.Draw(NPCTexture, vector43, frame, NPC.GetAlpha(drawColor), rotation, vector11, scale, spriteEffects, 0f);
@@ -321,7 +341,7 @@ namespace CalRD.NPCs.AstrumAureus
 						color41 = Color.Lerp(color41, color36, amount9);
 						color41 = NPC.GetAlpha(color41);
 						color41 *= (num153 - num163) / 15f;
-						Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+						Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
 						vector44 -= new Vector2(GlowMaskTexture.Width, GlowMaskTexture.Height / frameCount) * scale / 2f;
 						vector44 += vector11 * scale + new Vector2(0f, 4f + offsetY);
 						spriteBatch.Draw(GlowMaskTexture, vector44, frame, color41, rotation, vector11, scale, spriteEffects, 0f);

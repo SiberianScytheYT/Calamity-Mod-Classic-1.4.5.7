@@ -8,8 +8,10 @@ using CalRD.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using CalRD.BiomeManagers;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.NPCs.Crags
@@ -21,6 +23,15 @@ namespace CalRD.NPCs.Crags
             //DisplayName.SetDefault("Soul Slurper");
 			NPCID.Sets.TrailingMode[NPC.type] = 1;
 		}
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
+                new FlavorTextBestiaryInfoElement("Guardians of the crags, they relentlessly chase potential threats to their home.")
+            });
+        }
 
         public override void SetDefaults()
         {
@@ -47,6 +58,7 @@ namespace CalRD.NPCs.Crags
             }
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<SoulSlurperBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<Crag>().Type };
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -247,7 +259,7 @@ namespace CalRD.NPCs.Crags
 				}
 			}
 
-			Vector2 vector43 = NPC.Center - Main.screenPosition;
+			Vector2 vector43 = NPC.Center - screenPos;
 			vector43 -= new Vector2((float)texture.Width, (float)(texture.Height)) * NPC.scale / 2f;
 			vector43 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 			spriteBatch.Draw(texture, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
@@ -262,7 +274,7 @@ namespace CalRD.NPCs.Crags
 					Color color41 = color37;
 					color41 = Color.Lerp(color41, color36, amount9);
 					color41 *= (float)(num153 - num163) / 15f;
-					Vector2 vector44 = NPC.oldPos[num163] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - Main.screenPosition;
+					Vector2 vector44 = NPC.oldPos[num163] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - screenPos;
 					vector44 -= new Vector2((float)texture.Width, (float)(texture.Height)) * NPC.scale / 2f;
 					vector44 += vector11 * NPC.scale + new Vector2(0f, 4f + NPC.gfxOffY);
 					spriteBatch.Draw(texture, vector44, NPC.frame, color41, NPC.rotation, vector11, NPC.scale, NPC.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);

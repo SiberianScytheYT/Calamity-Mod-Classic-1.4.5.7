@@ -26,6 +26,11 @@ namespace CalRD.NPCs.Abyss
         {
             //DisplayName.SetDefault("Devil Fish");
             Main.npcFrameCount[NPC.type] = 16;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Hide = true
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
         }
 
         public override void SetDefaults()

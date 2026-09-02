@@ -11,6 +11,11 @@ namespace CalRD.NPCs.SlimeGod
         {
             //DisplayName.SetDefault("Crimson Slime Spawn");
             Main.npcFrameCount[NPC.type] = 2;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Hide = true
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
         }
 
         public override void SetDefaults()

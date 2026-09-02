@@ -3,6 +3,7 @@ using CalRD.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -18,6 +19,23 @@ namespace CalRD.NPCs.SunkenSea
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Sea Serpent");
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                CustomTexturePath = "CalRD/ExtraTextures/Bestiary/SeaSerpent_Bestiary",
+                PortraitPositionXOverride = 40,
+                PortraitPositionYOverride = 20
+            };
+            value.Position.Y += 20;
+            value.Position.X += 40;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("Mostly passive eels that drift along the still waters, if angered however, they prove quite the stubborn attackers!")
+            });
         }
 
         public override void SetDefaults()
@@ -43,6 +61,7 @@ namespace CalRD.NPCs.SunkenSea
             NPC.netAlways = true;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<SeaSerpentBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<BiomeManagers.SunkenSea>().Type };
         }
 
         public override void AI()

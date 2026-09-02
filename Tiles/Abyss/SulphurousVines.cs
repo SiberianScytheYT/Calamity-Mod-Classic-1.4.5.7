@@ -57,7 +57,7 @@ namespace CalRD.Tiles.Abyss
             {
                 if (!Main.tile[i, j + 1].HasTile && Main.tile[i, j + 1].TileType != (ushort)ModContent.TileType<SulphurousVines>())
                 {
-                    if (Main.tile[i, j + 1].LiquidAmount >= 128 && !(Main.tile[i, j + 1].LiquidType == LiquidID.Lava))
+                    if (Main.tile[i, j + 1].LiquidAmount >= 128 && Main.tile[i, j + 1].LiquidType != LiquidID.Lava)
                     {
                         bool flag13 = false;
                         for (int num52 = j; num52 > j - 10; j--)

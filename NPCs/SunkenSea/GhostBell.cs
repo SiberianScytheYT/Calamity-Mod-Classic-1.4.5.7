@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -20,6 +21,14 @@ namespace CalRD.NPCs.SunkenSea
         {
             //DisplayName.SetDefault("Ghost Bell");
             Main.npcFrameCount[NPC.type] = 6;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("Electric jellyfish that drift gently in the sunken sea, their bodies are charged with electricity.")
+            });
         }
 
         public override void SetDefaults()
@@ -39,6 +48,7 @@ namespace CalRD.NPCs.SunkenSea
             NPC.DeathSound = SoundID.NPCDeath28;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<GhostBellBanner>();
+            SpawnModBiomes = new int[] { ModContent.GetInstance<BiomeManagers.SunkenSea>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)

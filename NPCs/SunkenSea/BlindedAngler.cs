@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -17,6 +18,14 @@ namespace CalRD.NPCs.SunkenSea
         {
             //DisplayName.SetDefault("Blinded Angler");
             Main.npcFrameCount[NPC.type] = 6;
+        }
+        
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new FlavorTextBestiaryInfoElement("An angler which uses primitive electroception to hunt prey.")
+            });
         }
 
         public override void SetDefaults()
@@ -37,6 +46,7 @@ namespace CalRD.NPCs.SunkenSea
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<BlindedAnglerBanner>();
 			NPC.chaseable = false;
+            SpawnModBiomes = new int[] { ModContent.GetInstance<BiomeManagers.SunkenSea>().Type };
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -57,7 +67,7 @@ namespace CalRD.NPCs.SunkenSea
 
         public override void FindFrame(int frameHeight)
         {
-            NPC.frameCounter += NPC.wet ? 0.15f : 0f;
+            NPC.frameCounter += NPC.wet || NPC.IsABestiaryIconDummy ? 0.15f : 0f;
             NPC.frameCounter %= Main.npcFrameCount[NPC.type];
             int frame = (int)NPC.frameCounter;
             NPC.frame.Y = frame * frameHeight;
