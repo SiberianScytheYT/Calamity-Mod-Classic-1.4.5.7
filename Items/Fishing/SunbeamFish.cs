@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using CalRD.Items.Materials;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalRD.Items.Fishing
 {
@@ -23,14 +24,8 @@ namespace CalRD.Items.Fishing
             Item.rare = 2;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
-        {
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<EssenceofCinder>(), 5, 10);
-        }
+        public override void ModifyItemLoot(ItemLoot itemLoot) => itemLoot.Add(ModContent.ItemType<EssenceofCinder>(), 1, 5, 10);
     }
 }

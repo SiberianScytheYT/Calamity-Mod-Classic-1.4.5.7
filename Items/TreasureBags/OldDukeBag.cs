@@ -31,34 +31,29 @@ namespace CalRD.Items.TreasureBags
             Item.rare = 10;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
         public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(Item);
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            player.TryGettingDevArmor(player.GetSource_FromThis());
-
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player.GetSource_FromThis(), player,
-                DropHelper.WeightStack<InsidiousImpaler>(w),
-                DropHelper.WeightStack<FetidEmesis>(w),
-                DropHelper.WeightStack<SepticSkewer>(w),
-                DropHelper.WeightStack<VitriolicViper>(w),
-                DropHelper.WeightStack<CadaverousCarrion>(w),
-                DropHelper.WeightStack<ToxicantTwister>(w)
-            );
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<InsidiousImpaler>(),
+                ModContent.ItemType<FetidEmesis>(),
+                ModContent.ItemType<SepticSkewer>(),
+                ModContent.ItemType<VitriolicViper>(),
+                ModContent.ItemType<CadaverousCarrion>(),
+                ModContent.ItemType<ToxicantTwister>()
+            }));
 
             // Equipment
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<DukeScales>(), 10);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<MutatedTruffle>());
+            itemLoot.Add(ModContent.ItemType<DukeScales>(), 10);
+            itemLoot.Add(ModContent.ItemType<MutatedTruffle>());
 
             // Vanity
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<OldDukeMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<OldDukeMask>(), 7);
         }
     }
 }

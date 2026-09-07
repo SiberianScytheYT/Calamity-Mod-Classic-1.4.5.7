@@ -33,36 +33,31 @@ namespace CalRD.Items.TreasureBags
             Item.rare = 9;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            player.TryGettingDevArmor(player.GetSource_FromThis());
-
             // Materials
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<EssenceofChaos>(), 5, 9);
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 25, 35);
+            itemLoot.Add(ModContent.ItemType<EssenceofChaos>(), 1, 5, 9);
+            itemLoot.AddIf(() => CalamityWorld.downedProvidence, ModContent.ItemType<Bloodstone>(), 1, 25, 35);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player.GetSource_FromThis(), player,
-                DropHelper.WeightStack<Brimlance>(w),
-                DropHelper.WeightStack<SeethingDischarge>(w),
-                DropHelper.WeightStack<DormantBrimseeker>(w)
-            );
+           itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<Brimlance>(),
+                ModContent.ItemType<SeethingDischarge>(),
+                ModContent.ItemType<DormantBrimseeker>()
+            }));
 
             // Equipment
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<Abaddon>());
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<Gehenna>());
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<RoseStone>(), 10);
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<Brimrose>(), CalamityWorld.revenge && CalamityWorld.downedProvidence);
+            itemLoot.Add(ModContent.ItemType<Abaddon>());
+            itemLoot.Add(ModContent.ItemType<Gehenna>());
+            itemLoot.Add(ModContent.ItemType<RoseStone>(), 10);
+            itemLoot.AddIf(() => CalamityWorld.revenge && CalamityWorld.downedProvidence, ModContent.ItemType<Brimrose>());
 
             // Vanity
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<CharredRelic>(), CalamityWorld.revenge);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<BrimstoneWaifuMask>(), 7);
+            itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<CharredRelic>());
+            itemLoot.Add(ModContent.ItemType<BrimstoneWaifuMask>(), 7);
         }
     }
 }

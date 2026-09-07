@@ -9,6 +9,7 @@ using CalRD.Items.Weapons.Rogue;
 using CalRD.NPCs.Crabulon;
 using CalRD.World;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -34,33 +35,31 @@ namespace CalRD.Items.TreasureBags
             Item.expert = true;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
             // Materials
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.GlowingMushroom, 25, 35);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.MushroomGrassSeeds, 5, 10);
+            itemLoot.Add(ItemID.GlowingMushroom, 1, 25, 35);
+            itemLoot.Add(ItemID.MushroomGrassSeeds, 1, 5, 10);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player.GetSource_FromThis(), player,
-                DropHelper.WeightStack<MycelialClaws>(w),
-                DropHelper.WeightStack<Fungicide>(w),
-                DropHelper.WeightStack<HyphaeRod>(w),
-                DropHelper.WeightStack<Mycoroot>(w),
-                DropHelper.WeightStack<Shroomerang>(w)
-            );
+           itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<MycelialClaws>(),
+                ModContent.ItemType<Fungicide>(),
+                ModContent.ItemType<HyphaeRod>(),
+                ModContent.ItemType<Mycoroot>(),
+                ModContent.ItemType<Shroomerang>()
+            }));
 
             // Equipment
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<FungalClump>());
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<MushroomPlasmaRoot>(), CalamityWorld.revenge && !player.Calamity().rageBoostOne);
+            itemLoot.Add(ModContent.ItemType<FungalClump>());
+            
+            itemLoot.AddIf(info => CalamityWorld.revenge && !info.player.Calamity().rageBoostOne, ModContent.ItemType<MushroomPlasmaRoot>());
 
             // Vanity
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<CrabulonMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<CrabulonMask>(), 7);
         }
     }
 }

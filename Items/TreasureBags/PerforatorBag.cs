@@ -11,6 +11,7 @@ using CalRD.NPCs.Perforator;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static CalRD.DropHelper;
 
 namespace CalRD.Items.TreasureBags
 {
@@ -34,39 +35,36 @@ namespace CalRD.Items.TreasureBags
             Item.expert = true;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
             // Materials
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.Vertebrae, 10, 20);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.CrimtaneBar, 9, 14);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<BloodSample>(), 30, 40);
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ItemID.Ichor, Main.hardMode, 15, 30);
+            itemLoot.Add(ItemID.Vertebrae, 1, 10, 20);
+            itemLoot.Add(ItemID.CrimtaneBar, 1, 9, 14);
+            itemLoot.Add(ModContent.ItemType<BloodSample>(), 1, 30, 40);
+            itemLoot.AddIf(() => Main.hardMode, ItemID.Ichor, 15, 30);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player.GetSource_FromThis(), player,
-                DropHelper.WeightStack<VeinBurster>(w),
-                DropHelper.WeightStack<BloodyRupture>(w),
-                DropHelper.WeightStack<SausageMaker>(w),
-                DropHelper.WeightStack<Aorta>(w),
-                DropHelper.WeightStack<Eviscerator>(w),
-                DropHelper.WeightStack<BloodBath>(w),
-                DropHelper.WeightStack<BloodClotStaff>(w),
-                DropHelper.WeightStack<ToothBall>(w, 50, 75)
-            );
+           itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new WeightedItemStack[]
+            {
+                ModContent.ItemType<VeinBurster>(),
+                ModContent.ItemType<BloodyRupture>(),
+                ModContent.ItemType<SausageMaker>(),
+                ModContent.ItemType<Aorta>(),
+                ModContent.ItemType<Eviscerator>(),
+                ModContent.ItemType<BloodBath>(),
+                ModContent.ItemType<BloodClotStaff>(),
+                new WeightedItemStack(ModContent.ItemType<ToothBall>(), 1f, 50, 75)
+            }));
 
             // Equipment
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<BloodyWormTooth>());
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<BloodstainedGlove>(), 3);
+            itemLoot.Add(ModContent.ItemType<BloodyWormTooth>());
+            itemLoot.Add(ModContent.ItemType<BloodstainedGlove>(), 3);
 
             // Vanity
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<PerforatorMask>(), 7);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<BloodyVein>(), 10);
+            itemLoot.Add(ModContent.ItemType<PerforatorMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<BloodyVein>(), 10);
         }
     }
 }

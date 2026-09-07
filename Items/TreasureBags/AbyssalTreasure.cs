@@ -1,5 +1,6 @@
 using CalRD.Items.Potions;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -7,6 +8,26 @@ namespace CalRD.Items.TreasureBags
 {
     public class AbyssalTreasure : ModItem
     {
+	    internal static readonly int[] AbyssalTreasurePotions = new int[]
+	    {
+		    ItemID.SpelunkerPotion,
+		    ItemID.MagicPowerPotion,
+		    ItemID.ShinePotion,
+		    ItemID.WaterWalkingPotion,
+		    ItemID.ObsidianSkinPotion,
+		    ItemID.WaterWalkingPotion,
+		    ItemID.GravitationPotion,
+		    ItemID.RegenerationPotion,
+		    ModContent.ItemType<TriumphPotion>(),
+		    ModContent.ItemType<AnechoicCoating>(),
+		    ItemID.GillsPotion,
+		    ItemID.EndurancePotion,
+		    ItemID.HeartreachPotion,
+		    ItemID.FlipperPotion,
+		    ItemID.LifeforcePotion,
+		    ItemID.InfernoPotion
+	    };
+	    
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Abyssal Treasure");
@@ -26,124 +47,37 @@ namespace CalRD.Items.TreasureBags
 
         public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-			// Loops 4 times to compensate for dropping only one treasure now
-			for (int i = 0; i < 4; i++)
-			{
-				if (Main.rand.NextBool(10))
-				{
-					int potionType = Utils.SelectRandom(WorldGen.genRand, new int[]
-					{
-						ItemID.SpelunkerPotion,
-						ItemID.MagicPowerPotion,
-						ItemID.ShinePotion,
-						ItemID.WaterWalkingPotion,
-						ItemID.ObsidianSkinPotion,
-						ItemID.WaterWalkingPotion,
-						ItemID.GravitationPotion,
-						ItemID.RegenerationPotion,
-						ModContent.ItemType<TriumphPotion>(),
-						ModContent.ItemType<AnechoicCoating>(),
-						ItemID.GillsPotion,
-						ItemID.EndurancePotion,
-						ItemID.HeartreachPotion,
-						ItemID.FlipperPotion,
-						ItemID.LifeforcePotion,
-						ItemID.InfernoPotion
-					});
-					DropHelper.DropItem(player.GetSource_FromThis(), player, potionType);
-				}
-				else
-				{
-					switch (Main.rand.Next(10))
-					{
-						case 0:
-							int sglowstickAmt = Main.rand.Next(2, 6);
-							if (Main.expertMode)
-							{
-								sglowstickAmt += Main.rand.Next(1, 7);
-							}
-							DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.SpelunkerGlowstick, sglowstickAmt);
-							break;
-						case 1:
-							DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.HellfireArrow, 10, 20);
-							break;
-						case 2:
-							DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<SunkenStew>());
-							break;
-						case 3:
-							DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.StickyDynamite);
-							break;
-						default:
-							int coinCount = 5000 + Main.rand.Next(-100, 101);
-							while (coinCount > 0)
-							{
-								if (coinCount > 1000000)
-								{
-									int ptCoinAmt = coinCount / 1000000;
-									if (ptCoinAmt > 50 && Main.rand.NextBool(2))
-									{
-										ptCoinAmt /= Main.rand.Next(3) + 1;
-									}
-									if (Main.rand.NextBool(2))
-									{
-										ptCoinAmt /= Main.rand.Next(3) + 1;
-									}
-									coinCount -= 1000000 * ptCoinAmt;
-									DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.PlatinumCoin, ptCoinAmt);
-								}
-								else if (coinCount > 10000)
-								{
-									int auCoinAmt = coinCount / 10000;
-									if (auCoinAmt > 50 && Main.rand.NextBool(2))
-									{
-										auCoinAmt /= Main.rand.Next(3) + 1;
-									}
-									if (Main.rand.NextBool(2))
-									{
-										auCoinAmt /= Main.rand.Next(3) + 1;
-									}
-									coinCount -= 10000 * auCoinAmt;
-									DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.GoldCoin, auCoinAmt);
-								}
-								else if (coinCount > 100)
-								{
-									int agCoinAmt = coinCount / 100;
-									if (agCoinAmt > 50 && Main.rand.NextBool(2))
-									{
-										agCoinAmt /= Main.rand.Next(3) + 1;
-									}
-									if (Main.rand.NextBool(2))
-									{
-										agCoinAmt /= Main.rand.Next(3) + 1;
-									}
-									coinCount -= 100 * agCoinAmt;
-									DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.SilverCoin, agCoinAmt);
-								}
-								else
-								{
-									int cuCoinAmt = coinCount;
-									if (cuCoinAmt > 50 && Main.rand.NextBool(2))
-									{
-										cuCoinAmt /= Main.rand.Next(3) + 1;
-									}
-									if (Main.rand.NextBool(2))
-									{
-										cuCoinAmt /= Main.rand.Next(4) + 1;
-									}
-									if (cuCoinAmt < 1)
-									{
-										cuCoinAmt = 1;
-									}
-									coinCount -= cuCoinAmt;
-									DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.CopperCoin, cuCoinAmt);
-								}
-							}
-							break;
-					}
-				}
-			}
+	        // 1/10 chance for potions
+	        var tenPercentPotions = itemLoot.Add(new OneFromOptionsNotScaledWithLuckDropRule(10, 1, AbyssalTreasurePotions));
+			
+	        // IF YOU DON'T GET POTIONS
+	        // 10% chance for 2-6 spelunker glowsticks in normal mode
+	        // 10% chance for 3-13 spelunker glowsticks in expert mode
+	        // 10% chance 10-20 hellfire arrows
+	        // 10% chance for 1 hadal stew
+	        // 10% chance for 1 sticky dynamite
+	        // 60% chance for 40-60 silver
+	        
+	        // glowstick amounts remain accurate to calamity 1.4.5
+	        // old coin code was convoluted, 40-60 silver seems fine enough (nobody will even notice)
+	        
+	        // 2-6 Spelunker Glowsticks
+	        CommonDrop normalSpelunkerGlowsticks = new ItemDropWithConditionRule(ItemID.SpelunkerGlowstick, 1, 2, 6, new Conditions.NotExpert());
+	        // 3-13 Spelunker Glowsticks
+	        CommonDrop expertSpelunkerGlowsticks = new ItemDropWithConditionRule(ItemID.SpelunkerGlowstick, 1, 3, 13, new Conditions.IsExpert());
+	        // 10-20 Hellfire Arrows
+	        CommonDrop hellfireArrows = new CommonDrop(ItemID.HellfireArrow, 1, 10, 20);
+	        // 1 Hadal Stew
+	        CommonDrop hadalStew = new CommonDrop(ModContent.ItemType<SunkenStew>(), 1);
+	        // 1 Sticky Dynamite
+	        CommonDrop stickyDynamite = new CommonDrop(ItemID.StickyDynamite, 1);
+	        // 40-60 Silver Coin
+	        CommonDrop silver = new CommonDrop(ItemID.SilverCoin, 1, 40, 60);
+	        
+	        OneFromRulesRule otherDrops = new OneFromRulesRule(1, new IItemDropRule[] { normalSpelunkerGlowsticks, expertSpelunkerGlowsticks, hellfireArrows, hadalStew, stickyDynamite, silver, silver, silver, silver, silver, silver });
+	        tenPercentPotions.OnFailedRoll(otherDrops);
         }
     }
 }

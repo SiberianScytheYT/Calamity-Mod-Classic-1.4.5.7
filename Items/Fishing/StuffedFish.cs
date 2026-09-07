@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -24,54 +25,65 @@ namespace CalRD.Items.Fishing
             Item.value = Item.sellPrice(silver: 50);
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
             int herbMin = 1;
             int herbMax = 3;
             int seedMin = 2;
             int seedMax = 5;
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.Daybloom, 0.25f, herbMin, herbMax);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.Moonglow, 0.25f, herbMin, herbMax);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.Waterleaf, 0.25f, herbMin, herbMax);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.Deathweed, 0.25f, herbMin, herbMax);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.Shiverthorn, 0.25f, herbMin, herbMax);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.Fireblossom, 0.25f, herbMin, herbMax);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.Blinkroot, 0.25f, herbMin, herbMax);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.DaybloomSeeds, 0.2f, seedMin, seedMax);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.MoonglowSeeds, 0.2f, seedMin, seedMax);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.WaterleafSeeds, 0.2f, seedMin, seedMax);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.DeathweedSeeds, 0.2f, seedMin, seedMax);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.ShiverthornSeeds, 0.2f, seedMin, seedMax);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.FireblossomSeeds, 0.2f, seedMin, seedMax);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.BlinkrootSeeds, 0.2f, seedMin, seedMax);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.GrassSeeds, 0.1f, seedMin, seedMax);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.JungleGrassSeeds, 0.1f, seedMin, seedMax);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.MushroomGrassSeeds, 0.1f, seedMin, seedMax);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.PumpkinSeed, 0.05f, seedMin, seedMax);
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ItemID.CorruptSeeds, !WorldGen.crimson, 0.05f, seedMin, seedMax);
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ItemID.CrimsonSeeds, WorldGen.crimson, 0.05f, seedMin, seedMax);
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ItemID.HallowedSeeds, Main.hardMode, 0.05f, seedMin, seedMax);
+            itemLoot.Add(ItemID.Daybloom, 4, herbMin, herbMax);
+            itemLoot.Add(ItemID.Moonglow, 4, herbMin, herbMax);
+            itemLoot.Add(ItemID.Waterleaf, 4, herbMin, herbMax);
+            itemLoot.Add(ItemID.Deathweed, 4, herbMin, herbMax);
+            itemLoot.Add(ItemID.Shiverthorn, 4, herbMin, herbMax);
+            itemLoot.Add(ItemID.Fireblossom, 4, herbMin, herbMax);
+            itemLoot.Add(ItemID.Blinkroot, 4, herbMin, herbMax);
+            itemLoot.Add(ItemID.DaybloomSeeds, 5, seedMin, seedMax);
+            itemLoot.Add(ItemID.MoonglowSeeds, 5, seedMin, seedMax);
+            itemLoot.Add(ItemID.WaterleafSeeds, 5, seedMin, seedMax);
+            itemLoot.Add(ItemID.DeathweedSeeds, 5, seedMin, seedMax);
+            itemLoot.Add(ItemID.ShiverthornSeeds, 5, seedMin, seedMax);
+            itemLoot.Add(ItemID.FireblossomSeeds, 5, seedMin, seedMax);
+            itemLoot.Add(ItemID.BlinkrootSeeds, 5, seedMin, seedMax);
+            itemLoot.Add(ItemID.GrassSeeds, 10, seedMin, seedMax);
+            itemLoot.Add(ItemID.JungleGrassSeeds, 10, seedMin, seedMax);
+            itemLoot.Add(ItemID.MushroomGrassSeeds, 10, seedMin, seedMax);
+            itemLoot.Add(ItemID.PumpkinSeed, 20, seedMin, seedMax);
+            itemLoot.AddIf(() => !WorldGen.crimson, ItemID.CorruptSeeds, 20, seedMin, seedMax);
+            itemLoot.AddIf(() => WorldGen.crimson, ItemID.CrimsonSeeds, 20, seedMin, seedMax);
+            itemLoot.AddIf(() => Main.hardMode, ItemID.HallowedSeeds, 20, seedMin, seedMax);
             ModLoader.TryGetMod("ThoriumMod", out Mod thorium);
-            if (thorium != null)
-			{
-				DropHelper.DropItemChance(player.GetSource_FromThis(), player, thorium.Find<ModItem>("MarineKelp").Type, 0.25f, herbMin, herbMax);
-				DropHelper.DropItemChance(player.GetSource_FromThis(), player, thorium.Find<ModItem>("MarineKelpSeeds").Type, 0.1f, seedMin, seedMax);
-			}
+            if (thorium is not null)
+            {
+	            try
+	            {
+		            itemLoot.Add(thorium.Find<ModItem>("MarineKelp").Type, 4, herbMin, herbMax);
+		            itemLoot.Add(thorium.Find<ModItem>("MarineKelpSeeds").Type, 10, seedMin, seedMax); 
+	            }
+	            catch
+	            {
+		            CalRD.Instance.Logger.Debug("One of the items in this file got renamed internally. Please report this in the Calamity Mod Classic 1.4.5.7 bug reports thread in the #bug-reports forum found in the YuHther mods discord server.");
+	            }
+            }
 	        ModLoader.TryGetMod("SacredTools", out Mod shadowsOfAbaddon);
-            if (shadowsOfAbaddon != null)
+            if (shadowsOfAbaddon is not null)
 			{
-				DropHelper.DropItemChance(player.GetSource_FromThis(), player, shadowsOfAbaddon.Find<ModItem>("Welkinbell").Type, 0.25f, herbMin, herbMax);
-				DropHelper.DropItemChance(player.GetSource_FromThis(), player, shadowsOfAbaddon.Find<ModItem>("WelkinbellSeeds").Type, 0.1f, seedMin, seedMax);
-				DropHelper.DropItemCondition(player.GetSource_FromThis(), player, shadowsOfAbaddon.Find<ModItem>("Illumifern").Type, Main.hardMode, 0.25f, herbMin, herbMax);
-				DropHelper.DropItemCondition(player.GetSource_FromThis(), player, shadowsOfAbaddon.Find<ModItem>("IllumifernSeeds").Type, Main.hardMode, 0.1f, seedMin, seedMax);
-				//There's no mod call for Abaddon being dead
-				//DropHelper.DropItemCondition(player.GetSource_FromThis(), player, shadowsOfAbaddon.ItemType("Enduflora"), SacredTools.ModdedWorld.downedAbaddon, 0.25f, herbMin, herbMax);
-				//DropHelper.DropItemCondition(player.GetSource_FromThis(), player, shadowsOfAbaddon.ItemType("EndufloraSeeds"), SacredTools.ModdedWorld.downedAbaddon, 0.1f, seedMin, seedMax);
+				try
+				{
+					itemLoot.Add(shadowsOfAbaddon.Find<ModItem>("Welkinbell").Type, 4, herbMin, herbMax);
+					itemLoot.Add(shadowsOfAbaddon.Find<ModItem>("WelkinbellSeeds").Type, 10, seedMin, seedMax);
+					itemLoot.AddIf(() => Main.hardMode, shadowsOfAbaddon.Find<ModItem>("Illumifern").Type, 4, herbMin, herbMax);
+					itemLoot.AddIf(() => Main.hardMode, shadowsOfAbaddon.Find<ModItem>("IllumifernSeeds").Type, 10, seedMin, seedMax);
+					//There's no mod call for Abaddon being dead
+					//itemLoot.AddIf(() => SacredTools.ModdedWorld.downedAbaddon, shadowsOfAbaddon.ItemType("Enduflora"), 4, herbMin, herbMax);
+					//itemLoot.AddIf(() => SacredTools.ModdedWorld.downedAbaddon, shadowsOfAbaddon.ItemType("EndufloraSeeds"), 10, seedMin, seedMax);
+				}
+				catch
+				{
+					CalRD.Instance.Logger.Debug("One of the items in this file got renamed internally. Please report this in the Calamity Mod Classic 1.4.5.7 bug reports thread in the #bug-reports forum found in the YuHther mods discord server.");
+				}
 			}
         }
     }

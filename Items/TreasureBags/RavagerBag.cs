@@ -10,6 +10,7 @@ using CalRD.Items.Weapons.Summon;
 using CalRD.NPCs.Ravager;
 using CalRD.World;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ModLoader;
 
 namespace CalRD.Items.TreasureBags
@@ -34,39 +35,34 @@ namespace CalRD.Items.TreasureBags
             Item.rare = 9;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            player.TryGettingDevArmor(player.GetSource_FromThis());
-
             // Materials
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<FleshyGeodeT1>(), !CalamityWorld.downedProvidence);
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<FleshyGeodeT2>(), CalamityWorld.downedProvidence);
+            itemLoot.AddIf(() => !CalamityWorld.downedProvidence, ModContent.ItemType<FleshyGeodeT1>());
+            itemLoot.AddIf(() => CalamityWorld.downedProvidence, ModContent.ItemType<FleshyGeodeT2>());
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player.GetSource_FromThis(), player,
-                DropHelper.WeightStack<UltimusCleaver>(w),
-                DropHelper.WeightStack<RealmRavager>(w),
-                DropHelper.WeightStack<Hematemesis>(w),
-                DropHelper.WeightStack<SpikecragStaff>(w),
-                DropHelper.WeightStack<CraniumSmasher>(w)
-            );
+           itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<UltimusCleaver>(),
+                ModContent.ItemType<RealmRavager>(),
+                ModContent.ItemType<Hematemesis>(),
+                ModContent.ItemType<SpikecragStaff>(),
+                ModContent.ItemType<CraniumSmasher>()
+            }));
 
-            DropHelper.DropItemFromSetChance(player.GetSource_FromThis(), player, 0.05f, ModContent.ItemType<CorpusAvertorMelee>(), ModContent.ItemType<CorpusAvertor>());
+            itemLoot.Add(ItemDropRule.OneFromOptions(20, ModContent.ItemType<CorpusAvertorMelee>(), ModContent.ItemType<CorpusAvertor>()));
 
             // Equipment
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<BloodPact>(), 0.5f);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<FleshTotem>(), 0.5f);
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<BloodflareCore>(), CalamityWorld.downedProvidence);
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<InfernalBlood>(), CalamityWorld.revenge && !player.Calamity().rageBoostTwo);
+            itemLoot.Add(ModContent.ItemType<BloodPact>(), 2);
+            itemLoot.Add(ModContent.ItemType<FleshTotem>(), 2);
+            itemLoot.AddIf(() => CalamityWorld.downedProvidence, ModContent.ItemType<BloodflareCore>());
+            itemLoot.AddIf((info) => CalamityWorld.revenge && !info.player.Calamity().rageBoostTwo, ModContent.ItemType<InfernalBlood>());
 
             // Vanity
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<RavagerMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<RavagerMask>(), 7);
         }
     }
 }

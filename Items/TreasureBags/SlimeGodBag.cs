@@ -8,6 +8,7 @@ using CalRD.Items.Weapons.Summon;
 using CalRD.NPCs.SlimeGod;
 using CalRD.World;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -33,33 +34,30 @@ namespace CalRD.Items.TreasureBags
             Item.expert = true;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
             // Materials
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.Gel, 30, 60);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<PurifiedGel>(), 35, 55);
+            itemLoot.Add(ItemID.Gel, 1, 30, 60);
+            itemLoot.Add(ModContent.ItemType<PurifiedGel>(), 1, 35, 55);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player.GetSource_FromThis(), player,
-                DropHelper.WeightStack<OverloadedBlaster>(w),
-                DropHelper.WeightStack<AbyssalTome>(w),
-                DropHelper.WeightStack<EldritchTome>(w),
-                DropHelper.WeightStack<CorroslimeStaff>(w),
-                DropHelper.WeightStack<CrimslimeStaff>(w)
-            );
+           itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<OverloadedBlaster>(),
+                ModContent.ItemType<AbyssalTome>(),
+                ModContent.ItemType<EldritchTome>(),
+                ModContent.ItemType<CorroslimeStaff>(),
+                ModContent.ItemType<CrimslimeStaff>()
+            }));
 
             // Equipment
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<ManaOverloader>());
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<ElectrolyteGelPack>(), CalamityWorld.revenge && !player.Calamity().adrenalineBoostOne);
+            itemLoot.Add(ModContent.ItemType<ManaOverloader>());
+            itemLoot.AddIf(info => CalamityWorld.revenge && !info.player.Calamity().adrenalineBoostOne, ModContent.ItemType<ElectrolyteGelPack>());
 
             // Vanity
-            DropHelper.DropItemFromSetChance(player.GetSource_FromThis(), player, 0.142857f, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
+            itemLoot.Add(ItemDropRule.OneFromOptions(7, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>()));
 
             // Other
         }

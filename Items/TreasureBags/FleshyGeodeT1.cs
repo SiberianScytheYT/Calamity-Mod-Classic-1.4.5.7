@@ -1,5 +1,6 @@
 using CalRD.Items.Materials;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ModLoader;
 
 namespace CalRD.Items.TreasureBags
@@ -25,19 +26,27 @@ namespace CalRD.Items.TreasureBags
 
         public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
             // Materials
-            int barMin = !Main.expertMode ? 1 : 2;
-            int barMax = 3;
-            int coreMin = 1;
-            int coreMax = !Main.expertMode ? 2 : 3;
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<VerstaltiteBar>(), barMin, barMax);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<DraedonBar>(), barMin, barMax);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<CruptixBar>(), barMin, barMax);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<CoreofCinder>(), coreMin, coreMax);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<CoreofEleum>(), coreMin, coreMax);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<CoreofChaos>(), coreMin, coreMax);
+            // Different drop rates on Normal and Expert, so define normal first, then expert
+            // 1-3 bars on Normal, 2-3 bars on Expert
+            // 1-2 cores on Normal, 1-3 cores on Expert
+            var normalOnly = itemLoot.DefineNormalOnlyDropSet();
+            normalOnly.Add(ModContent.ItemType<VerstaltiteBar>(), 1, 1, 3);
+            normalOnly.Add(ModContent.ItemType<DraedonBar>(), 1, 1, 3);
+            normalOnly.Add(ModContent.ItemType<CruptixBar>(), 1, 1, 3);
+            normalOnly.Add(ModContent.ItemType<CoreofCinder>(), 1, 1, 2);
+            normalOnly.Add(ModContent.ItemType<CoreofEleum>(), 1, 1, 2);
+            normalOnly.Add(ModContent.ItemType<CoreofChaos>(), 1, 1, 2);
+            
+            var expertPlus = itemLoot.DefineConditionalDropSet(new Conditions.IsExpert());
+            expertPlus.Add(ModContent.ItemType<VerstaltiteBar>(), 2, 3);
+            expertPlus.Add(ModContent.ItemType<DraedonBar>(), 2, 3);
+            expertPlus.Add(ModContent.ItemType<CruptixBar>(), 2, 3);
+            expertPlus.Add(ModContent.ItemType<CoreofCinder>(), 1, 3);
+            expertPlus.Add(ModContent.ItemType<CoreofEleum>(), 1, 3);
+            expertPlus.Add(ModContent.ItemType<CoreofChaos>(), 1, 3);
         }
     }
 }

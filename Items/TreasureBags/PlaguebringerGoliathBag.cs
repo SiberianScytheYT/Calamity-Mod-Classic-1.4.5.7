@@ -37,41 +37,39 @@ namespace CalRD.Items.TreasureBags
 
         public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            player.TryGettingDevArmor(player.GetSource_FromThis());
-
             // Materials
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<PlagueCellCluster>(), 13, 17);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<InfectedArmorPlating>(), 16, 20);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.Stinger, 4, 8);
+            itemLoot.Add(ModContent.ItemType<PlagueCellCluster>(), 1, 13, 17);
+            itemLoot.Add(ModContent.ItemType<InfectedArmorPlating>(), 1, 16, 20);
+            itemLoot.Add(ItemID.Stinger, 1, 4, 8);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player.GetSource_FromThis(), player,
-                DropHelper.WeightStack<VirulentKatana>(w), // Virulence
-                DropHelper.WeightStack<DiseasedPike>(w),
-                DropHelper.WeightStack<ThePlaguebringer>(w), // Pandemic
-                DropHelper.WeightStack<Malevolence>(w),
-                DropHelper.WeightStack<PestilentDefiler>(w),
-                DropHelper.WeightStack<TheHive>(w),
-                DropHelper.WeightStack<MepheticSprayer>(w), // Blight Spewer
-                DropHelper.WeightStack<PlagueStaff>(w),
-                DropHelper.WeightStack<FuelCellBundle>(w),
-                DropHelper.WeightStack<InfectedRemote>(w),
-                DropHelper.WeightStack<TheSyringe>(w)
-            );
+           itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<VirulentKatana>(), // Virulence
+                ModContent.ItemType<DiseasedPike>(),
+                ModContent.ItemType<ThePlaguebringer>(), // Pandemic
+                ModContent.ItemType<Malevolence>(),
+                ModContent.ItemType<PestilentDefiler>(),
+                ModContent.ItemType<TheHive>(),
+                ModContent.ItemType<MepheticSprayer>(), // Blight Spewer
+                ModContent.ItemType<PlagueStaff>(),
+                ModContent.ItemType<FuelCellBundle>(),
+                ModContent.ItemType<InfectedRemote>(),
+                ModContent.ItemType<TheSyringe>()
+            }));
 
-            float malachiteChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<Malachite>(), CalamityWorld.revenge, malachiteChance);
+            int malachiteChance = DropHelper.LegendaryDropRateInt;
+            itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<Malachite>(),  malachiteChance);
 
             // Equipment
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<ToxicHeart>());
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<BloomStone>(), 10);
+            itemLoot.Add(ModContent.ItemType<ToxicHeart>());
+            itemLoot.Add(ModContent.ItemType<BloomStone>(), 10);
 
             // Vanity
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<PlaguebringerGoliathMask>(), 7);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<PlagueCaller>(), 10);
+            itemLoot.Add(ModContent.ItemType<PlaguebringerGoliathMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<PlagueCaller>(), 10);
         }
     }
 }

@@ -1,5 +1,6 @@
 using CalRD.Items.Materials;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ModLoader;
 
 namespace CalRD.Items.TreasureBags
@@ -26,26 +27,36 @@ namespace CalRD.Items.TreasureBags
 
         public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
             // Materials
-            int barMin = !Main.expertMode ? 5 : 7;
-            int barMax = !Main.expertMode ? 10 : 12;
-            int coreMin = !Main.expertMode ? 1 : 2;
-            int coreMax = !Main.expertMode ? 3 : 4;
-            int bloodstoneMin = !Main.expertMode ? 50 : 60;
-            int bloodstoneMax = !Main.expertMode ? 60 : 70;
-			int lifeAlloyChance = !Main.expertMode ? 2 : 1;
-			int coreofCalChance = !Main.expertMode ? 3 : 2;
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<VerstaltiteBar>(), barMin, barMax);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<DraedonBar>(), barMin, barMax);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<CruptixBar>(), barMin, barMax);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<CoreofCinder>(), coreMin, coreMax);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<CoreofEleum>(), coreMin, coreMax);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<CoreofChaos>(), coreMin, coreMax);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<Bloodstone>(), bloodstoneMin, bloodstoneMax);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<BarofLife>(), lifeAlloyChance, 1, 1);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<CoreofCalamity>(), coreofCalChance, 1, 1);
+            // Different drop rates on Normal and Expert, so define normal first, then expert
+            // 5-10 bars on Normal, 7-12 bars on Expert
+            // 1-3 cores on Normal, 2-4 cores on Expert
+            // 50% chance of life alloy on Normal, 100% on Expert
+            // 33% chance of core of calamity on Normal, 50% on Expert
+            // 50-60 bloodstone on Normal, 60-70 bloodstone on Expert
+            var normalOnly = itemLoot.DefineNormalOnlyDropSet();
+            normalOnly.Add(ModContent.ItemType<VerstaltiteBar>(), 1, 5, 10);
+            normalOnly.Add(ModContent.ItemType<DraedonBar>(), 1, 5, 10);
+            normalOnly.Add(ModContent.ItemType<CruptixBar>(), 1, 5, 10);
+            normalOnly.Add(ModContent.ItemType<CoreofEleum>(), 1, 1, 3);
+            normalOnly.Add(ModContent.ItemType<CoreofCinder>(), 1, 1, 3);
+            normalOnly.Add(ModContent.ItemType<CoreofChaos>(), 1, 1, 3);
+            normalOnly.Add(ModContent.ItemType<BarofLife>(), 2);
+            normalOnly.Add(ModContent.ItemType<CoreofCalamity>(), 3);
+            normalOnly.Add(ModContent.ItemType<Bloodstone>(), 1, 50, 60);
+            
+            var expertPlus = itemLoot.DefineConditionalDropSet(new Conditions.IsExpert());
+            expertPlus.Add(ModContent.ItemType<VerstaltiteBar>(), 1, 7, 12);
+            expertPlus.Add(ModContent.ItemType<DraedonBar>(), 1, 7, 12);
+            expertPlus.Add(ModContent.ItemType<CruptixBar>(), 1, 7, 12);
+            expertPlus.Add(ModContent.ItemType<CoreofEleum>(), 1, 2, 4);
+            expertPlus.Add(ModContent.ItemType<CoreofCinder>(), 1, 2, 4);
+            expertPlus.Add(ModContent.ItemType<CoreofChaos>(), 1, 2, 4);
+            expertPlus.Add(ModContent.ItemType<BarofLife>());
+            expertPlus.Add(ModContent.ItemType<CoreofCalamity>(), 2);
+            expertPlus.Add(ModContent.ItemType<Bloodstone>(), 1, 60, 70);
         }
     }
 }

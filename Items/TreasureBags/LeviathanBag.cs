@@ -37,41 +37,37 @@ namespace CalRD.Items.TreasureBags
 
         public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(Item);
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // siren & levi are available PHM, so this check is necessary to keep vanilla consistency
-            if (Main.hardMode)
-                player.TryGettingDevArmor(player.GetSource_FromThis());
-
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player.GetSource_FromThis(), player,
-                DropHelper.WeightStack<Greentide>(w),
-                DropHelper.WeightStack<Leviatitan>(w),
-                DropHelper.WeightStack<SirensSong>(w),
-                DropHelper.WeightStack<Atlantis>(w),
-                DropHelper.WeightStack<GastricBelcherStaff>(w),
-                DropHelper.WeightStack<BrackishFlask>(w),
-                DropHelper.WeightStack<LeviathanTeeth>(w)
-            );
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<Greentide>(),
+                ModContent.ItemType<Leviatitan>(),
+                ModContent.ItemType<SirensSong>(),
+                ModContent.ItemType<Atlantis>(),
+                ModContent.ItemType<GastricBelcherStaff>(),
+                ModContent.ItemType<BrackishFlask>(),
+                ModContent.ItemType<LeviathanTeeth>()
+            }));
 
             // Equipment
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<LeviathanAmbergris>());
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<LureofEnthrallment>(), 3);
-            float communityChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<TheCommunity>(), CalamityWorld.revenge, communityChance);
+            itemLoot.Add(ModContent.ItemType<LeviathanAmbergris>());
+            itemLoot.Add(ModContent.ItemType<LureofEnthrallment>(), 3);
+            int communityChance = DropHelper.LegendaryDropRateInt;
+            itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<TheCommunity>(), communityChance);
 
             // Vanity
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<LeviathanMask>(), 7);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<AnahitaMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<LeviathanMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<AnahitaMask>(), 7);
 
             // Fishing
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.HotlineFishingHook, 10);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.BottomlessBucket, 10);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.SuperAbsorbantSponge, 10);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.FishingPotion, 5, 5, 8);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.SonarPotion, 5, 5, 8);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.CratePotion, 5, 5, 8);
+            itemLoot.Add(ItemID.HotlineFishingHook, 10);
+            itemLoot.Add(ItemID.BottomlessBucket, 10);
+            itemLoot.Add(ItemID.SuperAbsorbantSponge, 10);
+            itemLoot.Add(ItemID.FishingPotion, 5, 5, 8);
+            itemLoot.Add(ItemID.SonarPotion, 5, 5, 8);
+            itemLoot.Add(ItemID.CratePotion, 5, 5, 8);
         }
     }
 }

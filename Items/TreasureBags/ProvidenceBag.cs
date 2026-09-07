@@ -33,40 +33,35 @@ namespace CalRD.Items.TreasureBags
             Item.expert = true;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            player.TryGettingDevArmor(player.GetSource_FromThis());
-
             // Materials
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<UnholyEssence>(), 25, 35);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<DivineGeode>(), 20, 30);
+            itemLoot.Add(ModContent.ItemType<UnholyEssence>(), 1, 25, 35);
+            itemLoot.Add(ModContent.ItemType<DivineGeode>(), 1, 20, 30);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player.GetSource_FromThis(), player,
-                DropHelper.WeightStack<HolyCollider>(w),
-                DropHelper.WeightStack<SolarFlare>(w),
-                DropHelper.WeightStack<TelluricGlare>(w),
-                DropHelper.WeightStack<BlissfulBombardier>(w),
-                DropHelper.WeightStack<PurgeGuzzler>(w),
-                DropHelper.WeightStack<DazzlingStabberStaff>(w),
-                DropHelper.WeightStack<MoltenAmputator>(w)
-            );
+           itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<HolyCollider>(),
+                ModContent.ItemType<SolarFlare>(),
+                ModContent.ItemType<TelluricGlare>(),
+                ModContent.ItemType<BlissfulBombardier>(),
+                ModContent.ItemType<PurgeGuzzler>(),
+                ModContent.ItemType<DazzlingStabberStaff>(),
+                ModContent.ItemType<MoltenAmputator>()
+            }));
 
-            float pristineFuryChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<PristineFury>(), CalamityWorld.revenge, pristineFuryChance);
+            int pristineFuryChance = DropHelper.LegendaryDropRateInt;
+            itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<PristineFury>(), pristineFuryChance);
 
             // Equipment
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<SamuraiBadge>(), DropHelper.RareVariantDropRateInt);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<BlazingCore>());
+            itemLoot.Add(ModContent.ItemType<SamuraiBadge>(), DropHelper.RareVariantDropRateInt);
+            itemLoot.Add(ModContent.ItemType<BlazingCore>());
 
             // Vanity
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<ProvidenceMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<ProvidenceMask>(), 7);
         }
     }
 }

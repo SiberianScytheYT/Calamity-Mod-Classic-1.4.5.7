@@ -11,6 +11,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalRD.Items.Armor.Vanity;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalRD.Items.TreasureBags
 {
@@ -34,48 +35,41 @@ namespace CalRD.Items.TreasureBags
             Item.expert = true;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
         public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(Item);
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // AS is available PHM, so this check is necessary to keep vanilla consistency
-            if (Main.hardMode)
-                player.TryGettingDevArmor(player.GetSource_FromThis());
-
             // Materials
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<VictoryShard>(), 15, 25);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.Coral, 7, 11);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.Seashell, 7, 11);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.Starfish, 7, 11);
+            itemLoot.Add(ModContent.ItemType<VictoryShard>(), 1, 15, 25);
+            itemLoot.Add(ItemID.Coral, 1, 7, 11);
+            itemLoot.Add(ItemID.Seashell, 1, 7, 11);
+            itemLoot.Add(ItemID.Starfish, 1, 7, 11);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player.GetSource_FromThis(), player,
-                DropHelper.WeightStack<SubmarineShocker>(w),
-                DropHelper.WeightStack<Barinautical>(w),
-                DropHelper.WeightStack<Downpour>(w),
-                DropHelper.WeightStack<DeepseaStaff>(w),
-                DropHelper.WeightStack<ScourgeoftheSeas>(w)
-            );
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<SubmarineShocker>(),
+                ModContent.ItemType<Barinautical>(),
+                ModContent.ItemType<Downpour>(),
+                ModContent.ItemType<DeepseaStaff>(),
+                ModContent.ItemType<ScourgeoftheSeas>()
+            }));
 
-            float searingChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<SeasSearing>(), CalamityWorld.revenge, searingChance);
+            int searingChance = DropHelper.LegendaryDropRateInt;
+            itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<SeasSearing>(),  searingChance);
 
             // Equipment
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<AquaticEmblem>());
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<AeroStone>(), 8);
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<CorrosiveSpine>(), CalamityWorld.revenge, 0.25f);
+            itemLoot.Add(ModContent.ItemType<AquaticEmblem>());
+            itemLoot.Add(ModContent.ItemType<AeroStone>(), 8);
+            itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<CorrosiveSpine>(), 4);
 
             // Vanity
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<AquaticScourgeMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<AquaticScourgeMask>(), 7);
 
             // Fishing
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<BleachedAnglingKit>());
+            itemLoot.Add(ModContent.ItemType<BleachedAnglingKit>());
         }
     }
 }

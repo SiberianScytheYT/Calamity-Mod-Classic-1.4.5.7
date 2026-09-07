@@ -12,6 +12,7 @@ using CalRD.Items.Weapons.Rogue;
 using CalRD.NPCs.AstrumAureus;
 using CalRD.World;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -39,38 +40,36 @@ namespace CalRD.Items.TreasureBags
 
         public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            player.TryGettingDevArmor(player.GetSource_FromThis());
-
             // Materials
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<AstralJelly>(), 12, 16);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<Stardust>(), 30, 40);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.FallenStar, 30, 50);
+            itemLoot.Add(ModContent.ItemType<AstralJelly>(), 1, 12, 16);
+            itemLoot.Add(ModContent.ItemType<Stardust>(), 1, 30, 40);
+            itemLoot.Add(ItemID.FallenStar, 1, 30, 50);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player.GetSource_FromThis(), player,
-                DropHelper.WeightStack<Nebulash>(w),
-                DropHelper.WeightStack<AuroraBlazer>(w),
-                DropHelper.WeightStack<AlulaAustralis>(w),
-                DropHelper.WeightStack<BorealisBomber>(w),
-                DropHelper.WeightStack<AuroradicalThrow>(w)
-            );
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<Nebulash>(),
+                ModContent.ItemType<AuroraBlazer>(),
+                ModContent.ItemType<AlulaAustralis>(),
+                ModContent.ItemType<BorealisBomber>(),
+                ModContent.ItemType<AuroradicalThrow>()
+            }));
 
-            float leonidChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<LeonidProgenitor>(), CalamityWorld.revenge, leonidChance);
+            int leonidChance = DropHelper.LegendaryDropRateInt;
+            itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<LeonidProgenitor>(),  leonidChance);
 
             // Equipment
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<SquishyBeanMount>(), CalamityWorld.revenge && NPC.downedMoonlord);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<GravistarSabaton>());
+            itemLoot.AddIf(() => CalamityWorld.revenge && NPC.downedMoonlord, ModContent.ItemType<SquishyBeanMount>());
+            itemLoot.Add(ModContent.ItemType<GravistarSabaton>());
 
             // Vanity
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<AureusMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<AureusMask>(), 7);
 
             // Other
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<StarlightFuelCell>(), CalamityWorld.revenge && !player.Calamity().adrenalineBoostTwo);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.HallowedKey, 5);
+            itemLoot.AddIf(info => CalamityWorld.revenge && !info.player.Calamity().adrenalineBoostTwo, ModContent.ItemType<StarlightFuelCell>());
+            itemLoot.Add(ItemID.HallowedKey, 5);
         }
     }
 }

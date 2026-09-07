@@ -38,32 +38,30 @@ namespace CalRD.Items.TreasureBags
 
         public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(Item);
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            player.TryGettingDevArmor(player.GetSource_FromThis());
-
             // Materials
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<Stardust>(), 60, 90);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.FallenStar, 100, 180);
+            itemLoot.Add(ModContent.ItemType<Stardust>(), 1, 60, 90);
+            itemLoot.Add(ItemID.FallenStar, 1, 100, 180);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player.GetSource_FromThis(), player,
-                DropHelper.WeightStack<TheMicrowave>(w),
-                DropHelper.WeightStack<StarSputter>(w),
-                DropHelper.WeightStack<Starfall>(w),
-                DropHelper.WeightStack<GodspawnHelixStaff>(w),
-                DropHelper.WeightStack<RegulusRiot>(w)
-            );
+           itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<TheMicrowave>(),
+                ModContent.ItemType<StarSputter>(),
+                ModContent.ItemType<Starfall>(),
+                ModContent.ItemType<GodspawnHelixStaff>(),
+                ModContent.ItemType<RegulusRiot>()
+            }));
 
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<Quasar>(), DropHelper.RareVariantDropRateInt);
+            itemLoot.Add(ModContent.ItemType<Quasar>(), DropHelper.RareVariantDropRateInt);
 
             // Equipment
-            DropHelper.DropItemRIV(player.GetSource_FromThis(), player, ModContent.ItemType<AstralBulwark>(), ModContent.ItemType<HideofAstrumDeus>(), 1f, DropHelper.RareVariantDropRateFloat);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<ChromaticOrb>(), 5);
+            itemLoot.AddRIV(ModContent.ItemType<AstralBulwark>(), ModContent.ItemType<HideofAstrumDeus>(), 1, DropHelper.RareVariantDropRateInt);
+            itemLoot.Add(ModContent.ItemType<ChromaticOrb>(), 5);
 
             // Vanity
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<AstrumDeusMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<AstrumDeusMask>(), 7);
         }
     }
 }

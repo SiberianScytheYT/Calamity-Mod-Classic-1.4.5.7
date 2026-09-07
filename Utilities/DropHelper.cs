@@ -9,6 +9,7 @@ using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Utilities;
 
 namespace CalRD
 {
@@ -344,9 +345,19 @@ namespace CalRD
         public const float DirectWeaponDropRateFloat = 0.25f;
 
         /// <summary>
+        /// Bag weapons (Expert Mode and higher) typically have a 1 in X chance of dropping, where X is this variable.
+        /// </summary>
+        public const int BagWeaponDropRateInt = 3;
+        
+        /// <summary>
         /// Bag weapon drops (Expert Mode and higher) have this chance to drop (decimal number out of 1.0).
         /// </summary>
         public const float BagWeaponDropRateFloat = 0.3333333f;
+            
+        /// <summary>
+        /// Weapons in Expert Mode typically have this chance to drop (as a DropHelper Fraction).
+        /// </summary>
+        public static readonly Fraction BagWeaponDropRateFraction = new(1, BagWeaponDropRateInt);
         #endregion
 
         #region Weighted Item Sets
@@ -383,6 +394,15 @@ namespace CalRD
                 weight = w;
                 minQuantity = min;
                 maxQuantity = max;
+            }
+            
+            internal int ChooseQuantity(UnifiedRandom rng) => rng.Next(minQuantity, maxQuantity + 1);
+            
+            // Allow for implicitly casting integer item IDs into weighted item stacks.
+            // Stack size is assumed to be 1. Weight is assumed to be default.
+            public static implicit operator WeightedItemStack(int id)
+            {
+                return new WeightedItemStack(id, DefaultWeight, 1);
             }
         }
 
@@ -651,6 +671,40 @@ namespace CalRD
         
         #region ILoot extensions
         /// <summary>
+        /// Shorthand to add a simple drop to a loot table.
+        /// </summary>
+        /// <param name="loot">The ILoot interface for the loot table.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRateInt">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <returns>The item drop rule registered.</returns>
+        public static IItemDropRule Add(this ILoot loot, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1)
+        {
+            return loot.Add(ItemDropRule.Common(itemID, dropRateInt, minQuantity, maxQuantity));
+        }
+
+        /// <summary>
+        /// Shorthand to add a simple drop to a loot table using a Fraction drop rate.
+        /// </summary>
+        /// <param name="loot">The ILoot interface for the loot table.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRate">The chance that the item will drop as a DropHelper Fraction.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <returns>The item drop rule registered.</returns>
+        public static IItemDropRule Add(this ILoot loot, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1)
+        {
+            return loot.Add(new CommonDrop(itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator));
+        }
+        /// <summary>
+        /// Shorthand for shorthand: Registers a Normal Mode only LeadingConditionRule for a loot table and returns it to you.
+        /// </summary>
+        /// <param name="loot">The ILoot interface for the loot table.</param>
+        /// <returns>A Normal Mode only LeadingConditionRule.</returns>
+        public static LeadingConditionRule DefineNormalOnlyDropSet(this ILoot loot) => loot.DefineConditionalDropSet(new Conditions.NotExpert());
+        
+        /// <summary>
         /// Registers a LeadingConditionRule for a loot table and returns it so you can add drops to that rule.
         /// </summary>
         /// <param name="loot">The ILoot interface for the loot table.</param>
@@ -662,6 +716,24 @@ namespace CalRD
             loot.Add(rule);
             return rule;
         }
+        
+        /// <summary>
+        /// Shorthand for registering a LeadingConditionRule using DropHelper.If.<br />
+        /// This version does <b>NOT</b> use the DropAttemptInfo struct that is available.
+        /// </summary>
+        /// <param name="loot">The ILoot interface for the loot table.</param>
+        /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
+        /// <returns>The LeadingConditionRule which encapsulates the given lambda.</returns>
+        public static LeadingConditionRule DefineConditionalDropSet(this ILoot loot, Func<bool> lambda) => loot.DefineConditionalDropSet(If(lambda));
+
+        /// <summary>
+        /// Shorthand for registering a LeadingConditionRule using DropHelper.If.<br />
+        /// This version <b>DOES</b> use the DropAttemptInfo struct, and thus the provided lambda requires 1 argument.
+        /// </summary>
+        /// <param name="loot">The ILoot interface for the loot table.</param>
+        /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
+        /// <returns>The LeadingConditionRule which encapsulates the given lambda.</returns>
+        public static LeadingConditionRule DefineConditionalDropSet(this ILoot loot, Func<DropAttemptInfo, bool> lambda) => loot.DefineConditionalDropSet(If(lambda));
         
         /// <summary>
         /// Shorthand to add an arbitrary conditional drop to a loot table.
@@ -762,8 +834,147 @@ namespace CalRD
         {
             return loot.Add(ItemDropRule.ByCondition(If(lambda, ui, desc), itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator));
         }
+        // TODO -- Finish this drop rule
+        /// <summary>
+        /// Drops an item that may instead be replaced by a given Rare Item Variant (RIV).
+        /// </summary>
+        /// <param name="loot">The ILoot interface for the loot table.</param>
+        /// <param name="itemID">The ID of the normal item to drop.</param>
+        /// <param name="rareID">The ID of the rare item to drop.</param>
+        /// <param name="itemChance">The chance that one of the two will drop. Defaults to 1.</param>
+        /// <param name="rareChance">The chance that the RIV will drop. Defaults to 40.</param>
+        /// <returns>The item drop rule registered.</returns>
+        public static IItemDropRule AddRIV(this ILoot loot, int itemID, int rareID, int itemChance, int rareChance = RareVariantDropRateInt)
+        {
+            return loot.Add(new RIVDropRule(itemID, rareID, itemChance, rareChance));
+        }
+        #endregion
+        
+        #region Rare Item Variant Drop Rule
+        public class RIVDropRule : CommonDrop
+        {
+            private int ItemID;
+            private int RareID;
+            private int ItemChance;
+            private int RareChance;
+            public RIVDropRule(int itemID, int rareID, int itemChance, int rareChance = RareVariantDropRateInt)
+                : base(itemID, RareVariantDropRateInt)
+            {
+                ItemID = itemID;
+                RareID = rareID;
+                ItemChance = itemChance;
+                RareChance = rareChance;
+            }
+
+            public override ItemDropAttemptResult TryDroppingItem(DropAttemptInfo info)
+            {
+                ItemDropAttemptResult result = default;
+                float f = Main.rand.NextFloat();
+                bool replaceWithRare = f <= RareChance; // 1/X chance overall of getting RIV
+                if (f <= ItemChance) // 1/X chance of getting original OR the RIV replacing it
+                {
+                    NPC npc = info.npc;
+                    DropItemCondition(npc.GetSource_Loot(), npc, ItemID, !replaceWithRare);
+                    DropItemCondition(npc.GetSource_Loot(), npc, RareID, replaceWithRare);
+                    result.State = ItemDropAttemptResultState.Success;
+                    return result;
+                }
+                result.State = ItemDropAttemptResultState.FailedRandomRoll;
+                return result;
+            }
+        }
         #endregion
 
+        #region "Calamity Style" Drop Rule
+        /// <summary>
+        /// Also known as the "Calamity Style" drop rule.<br />
+        /// Every item in the list has the given chance to drop individually.<br />
+        /// If no items drop, then one of them is forced to drop, chosen at random.
+        /// </summary>
+        public class AllOptionsAtOnceWithPityDropRule : IItemDropRule
+        {
+            public WeightedItemStack[] stacks;
+            public Fraction dropRate;
+            public bool usesLuck;
+            public List<IItemDropRuleChainAttempt> ChainedRules { get; set; }
+
+            public AllOptionsAtOnceWithPityDropRule(Fraction dropRate, bool luck, params WeightedItemStack[] stacks)
+            {
+                this.dropRate = dropRate;
+                this.stacks = stacks;
+                usesLuck = luck;
+                ChainedRules = new List<IItemDropRuleChainAttempt>();
+            }
+
+            public AllOptionsAtOnceWithPityDropRule(Fraction dropRate, bool luck, params int[] itemIDs)
+            {
+                this.dropRate = dropRate;
+                stacks = new WeightedItemStack[itemIDs.Length];
+                for (int i = 0; i < stacks.Length; ++i)
+                    stacks[i] = itemIDs[i]; // implicit conversion operator
+                usesLuck = luck;
+                ChainedRules = new List<IItemDropRuleChainAttempt>();
+            }
+
+            public bool CanDrop(DropAttemptInfo info) => true;
+
+            public ItemDropAttemptResult TryDroppingItem(DropAttemptInfo info)
+            {
+                bool droppedAnything = false;
+
+                // Roll for each drop individually.
+                foreach (WeightedItemStack stack in stacks)
+                {
+                    bool rngRoll = usesLuck ? info.player.RollLuck(dropRate.denominator) < dropRate.numerator : info.rng.NextFloat() < dropRate;
+                    droppedAnything |= rngRoll;
+                    if (rngRoll)
+                        CommonCode.DropItem(info, stack.itemID, stack.ChooseQuantity(info.rng));
+                }
+
+                // If everything fails to drop, force drop one item from the set.
+                if (!droppedAnything)
+                {
+                    WeightedItemStack stack = info.rng.NextFromList(stacks);
+                    CommonCode.DropItem(info, stack.itemID, stack.ChooseQuantity(info.rng));
+                }
+
+                // Calamity style drops cannot fail. You will always get at least one item.
+                ItemDropAttemptResult result = default;
+                result.State = ItemDropAttemptResultState.Success;
+                return result;
+            }
+
+            public void ReportDroprates(List<DropRateInfo> drops, DropRateInfoChainFeed ratesInfo)
+            {
+                int numDrops = stacks.Length;
+                float rawDropRate = dropRate;
+                // Combinatorics:
+                // OPTION 1: [The item drops = Raw Drop Rate]
+                // +
+                // OPTION 2: [ALL items fail to drop = (1-x)^n] * [This item is chosen as pity = 1/n]
+                float dropRateWithPityRoll = rawDropRate + (float)(Math.Pow(1f - rawDropRate, numDrops) * (1f / numDrops));
+                float dropRateAdjustedForParent = dropRateWithPityRoll * ratesInfo.parentDroprateChance;
+
+                // Report the drop rate of each individual item. This calculation includes the fact that each individual item can be guaranteed as pity.
+                foreach (WeightedItemStack stack in stacks)
+                    drops.Add(new DropRateInfo(stack.itemID, stack.minQuantity, stack.maxQuantity, dropRateAdjustedForParent, ratesInfo.conditions));
+
+                Chains.ReportDroprates(ChainedRules, rawDropRate, drops, ratesInfo);
+            }
+        }
+
+        public static IItemDropRule CalamityStyle(Fraction dropRateForEachItem, params WeightedItemStack[] stacks) => CalamityStyle(dropRateForEachItem, true, stacks);
+        public static IItemDropRule CalamityStyle(Fraction dropRateForEachItem, bool luck, params WeightedItemStack[] stacks)
+        {
+            return new AllOptionsAtOnceWithPityDropRule(dropRateForEachItem, luck, stacks);
+        }
+        public static IItemDropRule CalamityStyle(Fraction dropRateForEachItem, params int[] itemIDs) => CalamityStyle(dropRateForEachItem, true, itemIDs);
+        public static IItemDropRule CalamityStyle(Fraction dropRateForEachItem, bool luck, params int[] itemIDs)
+        {
+            return new AllOptionsAtOnceWithPityDropRule(dropRateForEachItem, luck, itemIDs);
+        }
+        #endregion
+        
         #region Specific Drop Helpers
         // Code copied from Player.QuickSpawnClonedItem, which was added by TML.
         /// <summary>

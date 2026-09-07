@@ -1,5 +1,6 @@
 using CalRD.Items.Potions;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -7,6 +8,25 @@ namespace CalRD.Items.TreasureBags
 {
     public class SulphuricTreasure : ModItem
     {
+	    private readonly int[] SulphuricTreasurePotions = new int[]
+	    {
+		    ItemID.SpelunkerPotion,
+		    ItemID.MagicPowerPotion,
+		    ItemID.ShinePotion,
+		    ItemID.WaterWalkingPotion,
+		    ItemID.ObsidianSkinPotion,
+		    ItemID.WaterWalkingPotion,
+		    ItemID.GravitationPotion,
+		    ItemID.RegenerationPotion,
+		    ModContent.ItemType<TriumphPotion>(),
+		    ModContent.ItemType<AnechoicCoating>(),
+		    ItemID.GillsPotion,
+		    ItemID.EndurancePotion,
+		    ItemID.HeartreachPotion,
+		    ItemID.FlipperPotion,
+		    ItemID.LifeforcePotion,
+		    ItemID.InfernoPotion
+	    };
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Sulphuric Treasure");
@@ -26,124 +46,39 @@ namespace CalRD.Items.TreasureBags
 
         public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-			// Loops 4 times to compensate for dropping only one treasure now
-			for (int i = 0; i < 4; i++)
-			{
-				if (Main.rand.NextBool(15))
-				{
-					int potionType = Utils.SelectRandom(WorldGen.genRand, new int[]
-					{
-						ItemID.SpelunkerPotion,
-						ItemID.MagicPowerPotion,
-						ItemID.ShinePotion,
-						ItemID.WaterWalkingPotion,
-						ItemID.ObsidianSkinPotion,
-						ItemID.WaterWalkingPotion,
-						ItemID.GravitationPotion,
-						ItemID.RegenerationPotion,
-						ModContent.ItemType<TriumphPotion>(),
-						ModContent.ItemType<AnechoicCoating>(),
-						ItemID.GillsPotion,
-						ItemID.EndurancePotion,
-						ItemID.HeartreachPotion,
-						ItemID.FlipperPotion,
-						ItemID.LifeforcePotion,
-						ItemID.InfernoPotion
-					});
-					DropHelper.DropItem(player.GetSource_FromThis(), player, potionType);
-				}
-				else
-				{
-					switch (Main.rand.Next(10))
-					{
-						case 0:
-							int glowstickAmt = Main.rand.Next(2, 6);
-							if (Main.expertMode)
-							{
-								glowstickAmt += Main.rand.Next(1, 7);
-							}
-							DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.Glowstick, glowstickAmt);
-							break;
-						case 1:
-							DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.JestersArrow, 10, 20);
-							break;
-						case 2:
-							DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.HealingPotion);
-							break;
-						case 3:
-							DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.Bomb, 5, 8);
-							break;
-						default:
-							int coinCount = 5000 + Main.rand.Next(-100, 101);
-							while (coinCount > 0)
-							{
-								if (coinCount > 1000000)
-								{
-									int ptCoinAmt = coinCount / 1000000;
-									if (ptCoinAmt > 50 && Main.rand.NextBool(2))
-									{
-										ptCoinAmt /= Main.rand.Next(3) + 1;
-									}
-									if (Main.rand.NextBool(2))
-									{
-										ptCoinAmt /= Main.rand.Next(3) + 1;
-									}
-									coinCount -= 1000000 * ptCoinAmt;
-									DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.PlatinumCoin, ptCoinAmt);
-								}
-								else if (coinCount > 10000)
-								{
-									int auCoinAmt = coinCount / 10000;
-									if (auCoinAmt > 50 && Main.rand.NextBool(2))
-									{
-										auCoinAmt /= Main.rand.Next(3) + 1;
-									}
-									if (Main.rand.NextBool(2))
-									{
-										auCoinAmt /= Main.rand.Next(3) + 1;
-									}
-									coinCount -= 10000 * auCoinAmt;
-									DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.GoldCoin, auCoinAmt);
-								}
-								else if (coinCount > 100)
-								{
-									int agCoinAmt = coinCount / 100;
-									if (agCoinAmt > 50 && Main.rand.NextBool(2))
-									{
-										agCoinAmt /= Main.rand.Next(3) + 1;
-									}
-									if (Main.rand.NextBool(2))
-									{
-										agCoinAmt /= Main.rand.Next(3) + 1;
-									}
-									coinCount -= 100 * agCoinAmt;
-									DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.SilverCoin, agCoinAmt);
-								}
-								else
-								{
-									int cuCoinAmt = coinCount;
-									if (cuCoinAmt > 50 && Main.rand.NextBool(2))
-									{
-										cuCoinAmt /= Main.rand.Next(3) + 1;
-									}
-									if (Main.rand.NextBool(2))
-									{
-										cuCoinAmt /= Main.rand.Next(4) + 1;
-									}
-									if (cuCoinAmt < 1)
-									{
-										cuCoinAmt = 1;
-									}
-									coinCount -= cuCoinAmt;
-									DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.CopperCoin, cuCoinAmt);
-								}
-							}
-							break;
-					}
-				}
-			}
+	        // 1/15 chance for potions
+	        var oneInFifteenPotions = itemLoot.Add(new OneFromOptionsNotScaledWithLuckDropRule(15, 1, SulphuricTreasurePotions));
+	        
+	        // IF YOU DONT GET POTIONS
+	        // 10% chance for 2-6 Glowsticks in normal mode
+	        // 10% chance for 3-13 Glowsticks in expert mode
+	        // 10% chance for 10-20 Jester Arrows
+	        // 10% chance for 1 Healing Potion
+	        // 10% chance for 5-8 BOMBS?!
+	        // 0% chance for Lamp Oil (no item in game)
+	        // 60% chance for 40-60 Silver Coins
+	        
+	        // glowstick amounts remain accurate to calamity 1.4.5
+	        // old coin code was convoluted, 40-60 silver seems fine enough (nobody will even notice)
+	        
+	        // 2-6 Spelunker Glowsticks
+	        CommonDrop normalGlowsticks = new ItemDropWithConditionRule(ItemID.Glowstick, 1, 2, 6, new Conditions.NotExpert());
+	        // 3-13 Spelunker Glowsticks
+	        CommonDrop expertGlowsticks = new ItemDropWithConditionRule(ItemID.Glowstick, 1, 3, 13, new Conditions.IsExpert());
+	        // 10-20 Jester Arrows
+	        CommonDrop jesterArrows = new CommonDrop(ItemID.JestersArrow, 1, 10, 20);
+	        // 1 Healing Potion
+	        CommonDrop healingPotion = new CommonDrop(ItemID.HealingPotion, 1);
+	        // 5-8 Bombs
+	        CommonDrop bombs = new CommonDrop(ItemID.Bomb, 1, 5, 8);
+	        // 40-60 Silver Coin
+	        CommonDrop silver = new CommonDrop(ItemID.SilverCoin, 1, 40, 60);
+	        
+	        OneFromRulesRule otherDrops = new OneFromRulesRule(1, new IItemDropRule[] { normalGlowsticks, expertGlowsticks, jesterArrows, healingPotion, bombs, silver, silver, silver, silver, silver, silver });
+
+	        oneInFifteenPotions.OnFailedRoll(otherDrops);
         }
     }
 }

@@ -36,45 +36,40 @@ namespace CalRD.Items.TreasureBags
             Item.expert = true;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            player.TryGettingDevArmor(player.GetSource_FromThis());
-
             // Materials
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<CryoBar>(), 20, 40);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<EssenceofEleum>(), 5, 9);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.FrostCore);
+            itemLoot.Add(ModContent.ItemType<CryoBar>(), 1, 20, 40);
+            itemLoot.Add(ModContent.ItemType<EssenceofEleum>(), 1, 5, 9);
+            itemLoot.Add(ItemID.FrostCore);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player.GetSource_FromThis(), player,
-                DropHelper.WeightStack<Avalanche>(w),
-                DropHelper.WeightStack<GlacialCrusher>(w),
-                DropHelper.WeightStack<EffluviumBow>(w),
-                DropHelper.WeightStack<BittercoldStaff>(w),
-                DropHelper.WeightStack<SnowstormStaff>(w),
-                DropHelper.WeightStack<Icebreaker>(w)
-            );
+           itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<Avalanche>(),
+                ModContent.ItemType<GlacialCrusher>(),
+                ModContent.ItemType<EffluviumBow>(),
+                ModContent.ItemType<BittercoldStaff>(),
+                ModContent.ItemType<SnowstormStaff>(),
+                ModContent.ItemType<Icebreaker>()
+            }));
 
-            float divinityChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<ColdDivinity>(), CalamityWorld.revenge, divinityChance);
+            int divinityChance = DropHelper.LegendaryDropRateInt;
+            itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<ColdDivinity>(), divinityChance);
 
             // Equipment
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<SoulofCryogen>());
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<FrostFlare>(), CalamityWorld.revenge);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<CryoStone>(), 10);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<Regenator>(), DropHelper.RareVariantDropRateInt);
+            itemLoot.Add(ModContent.ItemType<SoulofCryogen>());
+            itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<FrostFlare>());
+            itemLoot.Add(ModContent.ItemType<CryoStone>(), 10);
+            itemLoot.Add(ModContent.ItemType<Regenator>(), DropHelper.RareVariantDropRateInt);
 
             // Vanity
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<CryogenMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<CryogenMask>(), 7);
 
             // Other
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.FrozenKey, 5);
+            itemLoot.Add(ItemID.FrozenKey, 5);
         }
     }
 }

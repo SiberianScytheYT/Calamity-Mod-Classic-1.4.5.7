@@ -36,10 +36,7 @@ namespace CalRD.Projectiles.Summon
 
         internal ref float Time => ref Projectile.ai[1];
         internal ref float TotalWormSegments => ref Projectile.localAI[0];
-
-        private static bool Use_TML_0_11_7_7_Hacky_Netcode = true;
-
-
+        
         // Helper functions because Mechworm does a lot of checking for either itself or its target being near the edge of the world.
         private static Vector2 WorldTopLeft(int tileDist = 15) => new Vector2(tileDist * 16f);
         private static Vector2 WorldBottomRight(int tileDist = 15) => new Vector2(Main.maxTilesX - tileDist, Main.maxTilesY - tileDist) * 16f;
@@ -73,12 +70,6 @@ namespace CalRD.Projectiles.Summon
         #region Syncing
         public override void SendExtraAI(BinaryWriter writer)
         {
-            // TODO -- remove when TML updates to 0.11.7.8
-            // TML 0.11.7.7 SPECIFIC FIX (because they were too slow to update): Write an extra UUID here.
-            // This is necessary because NetMessage case 27 and MessageBuffer case 27 are out of order with each other.
-            if (Use_TML_0_11_7_7_Hacky_Netcode)
-                writer.Write((short)Projectile.projUUID);
-
             byte enumByte = (byte)CurrentAttackState;
             writer.Write(enumByte);
             writer.Write(AttackStateTimer);
@@ -100,12 +91,6 @@ namespace CalRD.Projectiles.Summon
             EndRiftGateUUID = reader.ReadInt32();
             TeleportStartingPoint = reader.ReadVector2();
             TeleportEndingPoint = reader.ReadVector2();
-
-            // TODO -- remove when TML updates to 0.11.7.8
-            // TML 0.11.7.7 SPECIFIC FIX (because they were too slow to update): Read and dump an extra UUID here.
-            // This is necessary because NetMessage case 27 and MessageBuffer case 27 are out of order with each other.
-            if (Use_TML_0_11_7_7_Hacky_Netcode)
-                _ = reader.ReadInt16();
         }
         #endregion
 

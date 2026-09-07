@@ -33,36 +33,31 @@ namespace CalRD.Items.TreasureBags
             Item.expert = true;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            player.TryGettingDevArmor(player.GetSource_FromThis());
-
             // Materials
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<CalamityDust>(), 14, 18);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<BlightedLens>(), 1, 3);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<EssenceofChaos>(), 5, 9);
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 35, 45);
+            itemLoot.Add(ModContent.ItemType<CalamityDust>(), 1, 14, 18);
+            itemLoot.Add(ModContent.ItemType<BlightedLens>(), 1, 1, 3);
+            itemLoot.Add(ModContent.ItemType<EssenceofChaos>(), 1, 5, 9);
+            itemLoot.AddIf(() => CalamityWorld.downedProvidence, ModContent.ItemType<Bloodstone>(), 1, 35, 45);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player.GetSource_FromThis(), player,
-                DropHelper.WeightStack<TheEyeofCalamitas>(w),
-                DropHelper.WeightStack<Animosity>(w),
-                DropHelper.WeightStack<CalamitasInferno>(w),
-                DropHelper.WeightStack<BlightedEyeStaff>(w)
-            );
+           itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<TheEyeofCalamitas>(),
+                ModContent.ItemType<Animosity>(),
+                ModContent.ItemType<CalamitasInferno>(),
+                ModContent.ItemType<BlightedEyeStaff>()
+            }));
 
             // Equipment
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<CalamityRing>());
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<ChaosStone>(), 10);
+            itemLoot.Add(ModContent.ItemType<CalamityRing>());
+            itemLoot.Add(ModContent.ItemType<ChaosStone>(), 10);
 
             // Vanity
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<CalamitasMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<CalamitasMask>(), 7);
         }
     }
 }

@@ -10,6 +10,7 @@ using CalRD.World;
 using Terraria;
 using Terraria.ModLoader;
 using CalRD.Items.Armor.Vanity;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalRD.Items.TreasureBags
 {
@@ -35,30 +36,29 @@ namespace CalRD.Items.TreasureBags
 
         public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            player.TryGettingDevArmor(player.GetSource_FromThis());
-
             // Materials
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<EffulgentFeather>(), 15, 21);
+            itemLoot.Add(ModContent.ItemType<EffulgentFeather>(), 1, 15, 21);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player.GetSource_FromThis(), player,
-                DropHelper.WeightStack<GildedProboscis>(w),
-                DropHelper.WeightStack<GoldenEagle>(w),
-                DropHelper.WeightStack<RougeSlash>(w)
-            );
+           itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<GildedProboscis>(),
+                ModContent.ItemType<GoldenEagle>(),
+                ModContent.ItemType<RougeSlash>()
+            }));
 
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<Swordsplosion>(), DropHelper.RareVariantDropRateInt);
+            itemLoot.Add(ModContent.ItemType<Swordsplosion>(), DropHelper.RareVariantDropRateInt);
 
             // Equipment
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<DynamoStemCells>());
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<BirdSeed>(), 3);
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<RedLightningContainer>(), CalamityWorld.revenge && !player.Calamity().rageBoostThree);
+            itemLoot.Add(ModContent.ItemType<DynamoStemCells>());
+            itemLoot.Add(ModContent.ItemType<BirdSeed>(), 3);
+            
+            itemLoot.AddIf(info => CalamityWorld.revenge && !info.player.Calamity().rageBoostThree, ModContent.ItemType<RedLightningContainer>());
 
             // Vanity
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<BumblefuckMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<BumblefuckMask>(), 7);
         }
     }
 }

@@ -12,6 +12,7 @@ using CalRD.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ModLoader;
 
 namespace CalRD.Items.TreasureBags
@@ -41,37 +42,32 @@ namespace CalRD.Items.TreasureBags
 			Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalRD/Items/TreasureBags/PolterghastBagGlow").Value);
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            player.TryGettingDevArmor(player.GetSource_FromThis());
-
             // Materials
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<RuinousSoul>(), 10, 20);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<Phantoplasm>(), 20, 30);
+            itemLoot.Add(ModContent.ItemType<RuinousSoul>(), 1, 10, 20);
+            itemLoot.Add(ModContent.ItemType<Phantoplasm>(), 1, 20, 30);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player.GetSource_FromThis(), player,
-                DropHelper.WeightStack<TerrorBlade>(w),
-                DropHelper.WeightStack<BansheeHook>(w),
-                DropHelper.WeightStack<DaemonsFlame>(w),
-                DropHelper.WeightStack<FatesReveal>(w),
-                DropHelper.WeightStack<GhastlyVisage>(w),
-                DropHelper.WeightStack<EtherealSubjugator>(w),
-                DropHelper.WeightStack<GhoulishGouger>(w)
-            );
+           itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<TerrorBlade>(),
+                ModContent.ItemType<BansheeHook>(),
+                ModContent.ItemType<DaemonsFlame>(),
+                ModContent.ItemType<FatesReveal>(),
+                ModContent.ItemType<GhastlyVisage>(),
+                ModContent.ItemType<EtherealSubjugator>(),
+                ModContent.ItemType<GhoulishGouger>()
+            }));
 
             // Equipment
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<Affliction>());
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<Ectoheart>(), CalamityWorld.revenge && !player.Calamity().adrenalineBoostThree);
+            itemLoot.Add(ModContent.ItemType<Affliction>());
+            itemLoot.AddIf(info => CalamityWorld.revenge && !info.player.Calamity().adrenalineBoostThree, ModContent.ItemType<Ectoheart>());
 
             // Vanity
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<PolterghastMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<PolterghastMask>(), 7);
         }
     }
 }

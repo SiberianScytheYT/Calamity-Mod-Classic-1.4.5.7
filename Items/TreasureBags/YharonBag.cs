@@ -33,35 +33,30 @@ namespace CalRD.Items.TreasureBags
             Item.expert = true;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
         
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            player.TryGettingDevArmor(player.GetSource_FromThis());
-
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player.GetSource_FromThis(), player,
-                DropHelper.WeightStack<DragonRage>(w),
-                DropHelper.WeightStack<TheBurningSky>(w),
-                DropHelper.WeightStack<DragonsBreath>(w),
-                DropHelper.WeightStack<ChickenCannon>(w),
-                DropHelper.WeightStack<PhoenixFlameBarrage>(w),
-                DropHelper.WeightStack<AngryChickenStaff>(w), // Yharon Kindle Staff
-                DropHelper.WeightStack<ProfanedTrident>(w), // Infernal Spear
-                DropHelper.WeightStack<FinalDawn>(w)
-            );
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<DragonRage>(),
+                ModContent.ItemType<TheBurningSky>(),
+                ModContent.ItemType<DragonsBreath>(),
+                ModContent.ItemType<ChickenCannon>(),
+                ModContent.ItemType<PhoenixFlameBarrage>(),
+                ModContent.ItemType<AngryChickenStaff>(), // Yharon Kindle Staff
+                ModContent.ItemType<ProfanedTrident>(), // Infernal Spear
+                ModContent.ItemType<FinalDawn>()
+            }));
 
             // Equipment
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<YharimsGift>());
+            itemLoot.Add(ModContent.ItemType<YharimsGift>());
 
             // Vanity
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<YharonMask>(), 7);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<ForgottenDragonEgg>(), 10);
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ModContent.ItemType<FoxDrive>(), CalamityWorld.revenge);
+            itemLoot.Add(ModContent.ItemType<YharonMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<ForgottenDragonEgg>(), 10);
+            itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<FoxDrive>());
         }
     }
 }

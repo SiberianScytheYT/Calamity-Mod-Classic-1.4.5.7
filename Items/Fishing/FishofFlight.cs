@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -24,14 +25,8 @@ namespace CalRD.Items.Fishing
             Item.value = Item.sellPrice(gold: 1);
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
-        {
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.SoulofFlight, 2, 5);
-        }
+        public override void ModifyItemLoot(ItemLoot itemLoot) => itemLoot.Add(ItemID.SoulofFlight, 1, 2, 5);
     }
 }

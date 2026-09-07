@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -29,24 +30,31 @@ namespace CalRD.Items.Fishing
             return true;
         }
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
             int gemMin = 1;
             int gemMax = 3;
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.Amethyst, 0.5f, gemMin, gemMax);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.Topaz, 0.4f, gemMin, gemMax);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.Sapphire, 0.3f, gemMin, gemMax);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.Emerald, 0.2f, gemMin, gemMax);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.Ruby, 0.15f, gemMin, gemMax);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.Diamond, 0.1f, gemMin, gemMax);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.Amber, 0.25f, gemMin, gemMax);
+            itemLoot.Add(ItemID.Amethyst, 2, gemMin, gemMax);
+            itemLoot.Add(ItemID.Topaz, 2, gemMin, gemMax);
+            itemLoot.Add(new CommonDrop(ItemID.Sapphire, 30, gemMin, gemMax, 100));
+            itemLoot.Add(ItemID.Emerald, 5, gemMin, gemMax);
+            itemLoot.Add(new CommonDrop(ItemID.Ruby, 15, gemMin, gemMax, 100));
+            itemLoot.Add(ItemID.Diamond, 10, gemMin, gemMax);
+            itemLoot.Add(ItemID.Amber, 4, gemMin, gemMax);
             ModLoader.TryGetMod("ThoriumMod", out Mod thorium);
-            if (thorium != null)
+            if (thorium is not null)
 			{
-				DropHelper.DropItemChance(player.GetSource_FromThis(), player, thorium.Find<ModItem>("Pearl").Type, 0.25f, gemMin, gemMax);
-				DropHelper.DropItemChance(player.GetSource_FromThis(), player, thorium.Find<ModItem>("Opal").Type, 0.25f, gemMin, gemMax);
-				DropHelper.DropItemChance(player.GetSource_FromThis(), player, thorium.Find<ModItem>("Onyx").Type, 0.25f, gemMin, gemMax);
-			}
+                try
+                {
+                    itemLoot.Add(thorium.Find<ModItem>("Pearl").Type, 4, gemMin, gemMax); 
+                    itemLoot.Add(thorium.Find<ModItem>("Opal").Type, 4, gemMin, gemMax);
+                    itemLoot.Add(thorium.Find<ModItem>("Onyx").Type, 4, gemMin, gemMax);
+                }
+                catch
+                {
+                    CalRD.Instance.Logger.Debug("One of the items in this file got renamed internally. Please report this in the Calamity Mod Classic 1.4.5.7 bug reports thread in the #bug-reports forum found in the YuHther mods discord server.");
+                }
+            }
         }
     }
 }

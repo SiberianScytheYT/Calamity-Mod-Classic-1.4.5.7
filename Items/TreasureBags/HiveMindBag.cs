@@ -10,6 +10,7 @@ using CalRD.NPCs.HiveMind;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static CalRD.DropHelper;
 
 namespace CalRD.Items.TreasureBags
 {
@@ -33,37 +34,34 @@ namespace CalRD.Items.TreasureBags
             Item.expert = true;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
             // Materials
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.RottenChunk, 10, 20);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.DemoniteBar, 9, 14);
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<TrueShadowScale>(), 30, 40);
-            DropHelper.DropItemCondition(player.GetSource_FromThis(), player, ItemID.CursedFlame, Main.hardMode, 15, 30);
+            itemLoot.Add(ItemID.RottenChunk, 1, 10, 20);
+            itemLoot.Add(ItemID.DemoniteBar, 1, 9, 14);
+            itemLoot.Add(ModContent.ItemType<TrueShadowScale>(), 1, 30, 40);
+            itemLoot.AddIf(() => Main.hardMode, ItemID.CursedFlame, 15, 30);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player.GetSource_FromThis(), player,
-                DropHelper.WeightStack<PerfectDark>(w),
-                DropHelper.WeightStack<LeechingDagger>(w),
-                DropHelper.WeightStack<Shadethrower>(w),
-                DropHelper.WeightStack<ShadowdropStaff>(w),
-                DropHelper.WeightStack<ShaderainStaff>(w),
-                DropHelper.WeightStack<DankStaff>(w),
-                DropHelper.WeightStack<RotBall>(w, 50, 75)
-            );
+           itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new WeightedItemStack[]
+            {
+                ModContent.ItemType<PerfectDark>(),
+                ModContent.ItemType<LeechingDagger>(),
+                ModContent.ItemType<Shadethrower>(),
+                ModContent.ItemType<ShadowdropStaff>(),
+                ModContent.ItemType<ShaderainStaff>(),
+                ModContent.ItemType<DankStaff>(),
+                new WeightedItemStack(ModContent.ItemType<RotBall>(), 1f, 50, 75)
+            }));
 
             // Equipment
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<RottenBrain>());
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<FilthyGlove>(), 3);
+            itemLoot.Add(ModContent.ItemType<RottenBrain>());
+            itemLoot.Add(ModContent.ItemType<FilthyGlove>(), 3);
 
             // Vanity
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<HiveMindMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<HiveMindMask>(), 7);
         }
     }
 }

@@ -8,6 +8,7 @@ using CalRD.Items.Weapons.Summon;
 using CalRD.Tiles.SunkenSea;
 using CalRD.World;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -41,55 +42,49 @@ namespace CalRD.Items.Fishing.SunkenSeaCatches
 
         public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+            var postHardmodeClam = itemLoot.DefineConditionalDropSet(() => CalamityWorld.downedCLAMHardMode);
+            
             //Modded materials
-			DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<Items.Placeables.Navystone>(), 10, 30);
-			DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<Items.Placeables.EutrophicSand>(), 10, 30);
-            if (CalamityWorld.downedDesertScourge)
-            {
-				DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<PrismShard>(), 10, 20);
-				DropHelper.DropItem(player.GetSource_FromThis(), player, ModContent.ItemType<Items.Placeables.SeaPrism>(), 5, 10);
-            }
-            if (Main.hardMode)
-            {
-                DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<MolluskHusk>(), 0.5f, 5, 15);
-            }
+            itemLoot.Add(ModContent.ItemType<Items.Placeables.Navystone>(), 1, 10, 30);
+            itemLoot.Add(ModContent.ItemType<Items.Placeables.EutrophicSand>(), 1, 10, 30);
+            
+            itemLoot.AddIf(() => CalamityWorld.downedDesertScourge, ModContent.ItemType<PrismShard>(), 1, 10, 20);
+            itemLoot.AddIf(() => CalamityWorld.downedDesertScourge, ModContent.ItemType<Items.Placeables.SeaPrism>(), 1, 5, 10);
+            itemLoot.AddIf(() => Main.hardMode, ModContent.ItemType<MolluskHusk>(), 2, 5, 15);
 
             // Weapons
-            DropHelper.DropItemFromSetCondition(player.GetSource_FromThis(), player, CalamityWorld.downedCLAMHardMode, 0.2f,
+            postHardmodeClam.Add(new OneFromOptionsNotScaledWithLuckDropRule(5,
                 ModContent.ItemType<ShellfishStaff>(),
                 ModContent.ItemType<ClamCrusher>(),
                 ModContent.ItemType<Poseidon>(),
-                ModContent.ItemType<ClamorRifle>());
+                ModContent.ItemType<ClamorRifle>()));
 
             //Bait
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.MasterBait, 10, 1, 2);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.JourneymanBait, 5, 1, 3);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ModContent.ItemType<SeaMinnowItem>(), 5, 1, 3);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.ApprenticeBait, 3, 2, 3);
+            itemLoot.Add(ItemID.MasterBait, 10, 1, 2);
+            itemLoot.Add(ItemID.JourneymanBait, 5, 1, 3);
+            itemLoot.Add(ModContent.ItemType<SeaMinnowItem>(), 5, 1, 3);
+            itemLoot.Add(ItemID.ApprenticeBait, 3, 2, 3);
 
             //Potions
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.ObsidianSkinPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.SwiftnessPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.IronskinPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.NightOwlPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.ShinePotion, 10, 1, 3);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.MiningPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.HeartreachPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.TrapsightPotion, 10, 1, 3); //Dangersense Potion
-            if (Main.hardMode)
-            {
-                DropHelper.DropItem(player.GetSource_FromThis(), player, Main.rand.Next(100) >= 49 ? ItemID.GreaterHealingPotion: ItemID.GreaterManaPotion, 5, 10);
-            }
-            else
-            {
-                DropHelper.DropItem(player.GetSource_FromThis(), player, Main.rand.Next(100) >= 49 ? ItemID.HealingPotion : ItemID.ManaPotion, 5, 10);
-            }
+            itemLoot.Add(ItemID.ObsidianSkinPotion, 10, 1, 3);
+            itemLoot.Add(ItemID.SwiftnessPotion, 10, 1, 3);
+            itemLoot.Add(ItemID.IronskinPotion, 10, 1, 3);
+            itemLoot.Add(ItemID.NightOwlPotion, 10, 1, 3);
+            itemLoot.Add(ItemID.ShinePotion, 10, 1, 3);
+            itemLoot.Add(ItemID.MiningPotion, 10, 1, 3);
+            itemLoot.Add(ItemID.HeartreachPotion, 10, 1, 3);
+            itemLoot.Add(ItemID.TrapsightPotion, 10, 1, 3); //Dangersense Potion
+            
+            itemLoot.AddIf(() => Main.hardMode, ItemID.GreaterHealingPotion, 1, 5, 10);
+            itemLoot.AddIf(() => Main.hardMode, ItemID.GreaterManaPotion, 1, 5, 10);
+            itemLoot.AddIf(() => !Main.hardMode, ItemID.HealingPotion, 1, 5, 10);
+            itemLoot.AddIf(() => !Main.hardMode, ItemID.ManaPotion, 1, 5, 10);
 
             //Money
-            DropHelper.DropItem(player.GetSource_FromThis(), player, ItemID.SilverCoin, 10, 90);
-            DropHelper.DropItemChance(player.GetSource_FromThis(), player, ItemID.GoldCoin, 0.5f, 1, 5);
+            itemLoot.Add(ItemID.SilverCoin, 1, 10, 90);
+            itemLoot.Add(ItemID.GoldCoin, 2, 1, 5);
         }
     }
 }
