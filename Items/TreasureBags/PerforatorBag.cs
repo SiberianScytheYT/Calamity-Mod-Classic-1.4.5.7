@@ -43,7 +43,7 @@ namespace CalRD.Items.TreasureBags
             itemLoot.Add(ItemID.Vertebrae, 1, 10, 20);
             itemLoot.Add(ItemID.CrimtaneBar, 1, 9, 14);
             itemLoot.Add(ModContent.ItemType<BloodSample>(), 1, 30, 40);
-            itemLoot.AddIf(() => Main.hardMode, ItemID.Ichor, 15, 30);
+            itemLoot.AddIf(() => Main.hardMode, ItemID.Ichor, 1, 15, 30);
 
             // Weapons
            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new WeightedItemStack[]

@@ -42,7 +42,7 @@ namespace CalRD.Items.TreasureBags
             itemLoot.Add(ItemID.RottenChunk, 1, 10, 20);
             itemLoot.Add(ItemID.DemoniteBar, 1, 9, 14);
             itemLoot.Add(ModContent.ItemType<TrueShadowScale>(), 1, 30, 40);
-            itemLoot.AddIf(() => Main.hardMode, ItemID.CursedFlame, 15, 30);
+            itemLoot.AddIf(() => Main.hardMode, ItemID.CursedFlame, 1, 15, 30);
 
             // Weapons
            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new WeightedItemStack[]

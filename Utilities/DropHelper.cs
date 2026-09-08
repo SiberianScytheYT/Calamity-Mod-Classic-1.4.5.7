@@ -834,55 +834,6 @@ namespace CalRD
         {
             return loot.Add(ItemDropRule.ByCondition(If(lambda, ui, desc), itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator));
         }
-        // TODO -- Finish this drop rule
-        /// <summary>
-        /// Drops an item that may instead be replaced by a given Rare Item Variant (RIV).
-        /// </summary>
-        /// <param name="loot">The ILoot interface for the loot table.</param>
-        /// <param name="itemID">The ID of the normal item to drop.</param>
-        /// <param name="rareID">The ID of the rare item to drop.</param>
-        /// <param name="itemChance">The chance that one of the two will drop. Defaults to 1.</param>
-        /// <param name="rareChance">The chance that the RIV will drop. Defaults to 40.</param>
-        /// <returns>The item drop rule registered.</returns>
-        public static IItemDropRule AddRIV(this ILoot loot, int itemID, int rareID, int itemChance, int rareChance = RareVariantDropRateInt)
-        {
-            return loot.Add(new RIVDropRule(itemID, rareID, itemChance, rareChance));
-        }
-        #endregion
-        
-        #region Rare Item Variant Drop Rule
-        public class RIVDropRule : CommonDrop
-        {
-            private int ItemID;
-            private int RareID;
-            private int ItemChance;
-            private int RareChance;
-            public RIVDropRule(int itemID, int rareID, int itemChance, int rareChance = RareVariantDropRateInt)
-                : base(itemID, RareVariantDropRateInt)
-            {
-                ItemID = itemID;
-                RareID = rareID;
-                ItemChance = itemChance;
-                RareChance = rareChance;
-            }
-
-            public override ItemDropAttemptResult TryDroppingItem(DropAttemptInfo info)
-            {
-                ItemDropAttemptResult result = default;
-                float f = Main.rand.NextFloat();
-                bool replaceWithRare = f <= RareChance; // 1/X chance overall of getting RIV
-                if (f <= ItemChance) // 1/X chance of getting original OR the RIV replacing it
-                {
-                    NPC npc = info.npc;
-                    DropItemCondition(npc.GetSource_Loot(), npc, ItemID, !replaceWithRare);
-                    DropItemCondition(npc.GetSource_Loot(), npc, RareID, replaceWithRare);
-                    result.State = ItemDropAttemptResultState.Success;
-                    return result;
-                }
-                result.State = ItemDropAttemptResultState.FailedRandomRoll;
-                return result;
-            }
-        }
         #endregion
 
         #region "Calamity Style" Drop Rule

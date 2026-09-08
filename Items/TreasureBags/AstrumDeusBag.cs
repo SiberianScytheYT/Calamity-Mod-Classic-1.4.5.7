@@ -57,7 +57,8 @@ namespace CalRD.Items.TreasureBags
             itemLoot.Add(ModContent.ItemType<Quasar>(), DropHelper.RareVariantDropRateInt);
 
             // Equipment
-            itemLoot.AddRIV(ModContent.ItemType<AstralBulwark>(), ModContent.ItemType<HideofAstrumDeus>(), 1, DropHelper.RareVariantDropRateInt);
+            itemLoot.Add(ModContent.ItemType<AstralBulwark>());
+            itemLoot.Add(ModContent.ItemType<HideofAstrumDeus>(), DropHelper.RareVariantDropRateInt);
             itemLoot.Add(ModContent.ItemType<ChromaticOrb>(), 5);
 
             // Vanity

@@ -41,12 +41,12 @@ namespace CalRD.Items.TreasureBags
             normalOnly.Add(ModContent.ItemType<CoreofChaos>(), 1, 1, 2);
             
             var expertPlus = itemLoot.DefineConditionalDropSet(new Conditions.IsExpert());
-            expertPlus.Add(ModContent.ItemType<VerstaltiteBar>(), 2, 3);
-            expertPlus.Add(ModContent.ItemType<DraedonBar>(), 2, 3);
-            expertPlus.Add(ModContent.ItemType<CruptixBar>(), 2, 3);
-            expertPlus.Add(ModContent.ItemType<CoreofCinder>(), 1, 3);
-            expertPlus.Add(ModContent.ItemType<CoreofEleum>(), 1, 3);
-            expertPlus.Add(ModContent.ItemType<CoreofChaos>(), 1, 3);
+            expertPlus.Add(ModContent.ItemType<VerstaltiteBar>(), 1, 2, 3);
+            expertPlus.Add(ModContent.ItemType<DraedonBar>(), 1, 2, 3);
+            expertPlus.Add(ModContent.ItemType<CruptixBar>(), 1, 2, 3);
+            expertPlus.Add(ModContent.ItemType<CoreofCinder>(), 1, 1, 3);
+            expertPlus.Add(ModContent.ItemType<CoreofEleum>(), 1, 1, 3);
+            expertPlus.Add(ModContent.ItemType<CoreofChaos>(), 1, 1, 3);
         }
     }
 }

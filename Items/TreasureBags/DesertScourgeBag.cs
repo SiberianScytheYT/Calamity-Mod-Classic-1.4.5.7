@@ -53,8 +53,7 @@ namespace CalRD.Items.TreasureBags
                 ModContent.ItemType<ScourgeoftheDesert>()
             }));
             
-            // If the RIV roll for Dune Hopper succeeds, REPLACE Scourge of the Desert with a guaranteed Dune Hopper.
-            itemLoot.AddRIV(ModContent.ItemType<ScourgeoftheDesert>(), ModContent.ItemType<DuneHopper>(), 1, 1);
+            itemLoot.Add(ModContent.ItemType<DuneHopper>(), DropHelper.RareVariantDropRateInt);
 
             // Equipment
             itemLoot.Add(ModContent.ItemType<OceanCrest>());
