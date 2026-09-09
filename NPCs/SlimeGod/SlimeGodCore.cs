@@ -651,7 +651,7 @@ namespace CalRD.NPCs.SlimeGod
 
             npcLoot.Add(ModContent.ItemType<SlimeGodTrophy>(), 10);
             npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedSlimeGod, ModContent.ItemType<KnowledgeSlimeGod>(), 1);
-            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedSlimeGod, 3, 1, 0);
+            npcLoot.AddResidentEvilAmmo(info => !CalamityWorld.downedSlimeGod, 3, 1, 0);
 
 			// Purified Jam is once per player, but drops for all players.
 			npcLoot.AddConditionalPerPlayer(info =>

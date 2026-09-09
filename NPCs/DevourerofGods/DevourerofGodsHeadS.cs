@@ -1133,7 +1133,7 @@ namespace CalRD.NPCs.DevourerofGods
             npcLoot.Add(ModContent.ItemType<SupremeHealingPotion>(), 1, 5, 15);
             npcLoot.Add(ModContent.ItemType<DevourerofGodsTrophy>(), 10);
             npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedDoG, ModContent.ItemType<KnowledgeDevourerofGods>(), 1);
-            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedDoG, 6, 3, 2);
+            npcLoot.AddResidentEvilAmmo(info => !CalamityWorld.downedDoG, 6, 3, 2);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			var normalOnly = npcLoot.DefineNormalOnlyDropSet();

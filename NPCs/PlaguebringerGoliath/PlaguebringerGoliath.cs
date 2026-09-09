@@ -1186,7 +1186,7 @@ namespace CalRD.NPCs.PlaguebringerGoliath
 
             npcLoot.Add(ModContent.ItemType<PlaguebringerGoliathTrophy>(), 10);
             npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedPlaguebringer, ModContent.ItemType<KnowledgePlaguebringerGoliath>(), 1);
-            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedPlaguebringer, 4, 2, 1);
+            npcLoot.AddResidentEvilAmmo(info => !CalamityWorld.downedPlaguebringer, 4, 2, 1);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			var normalOnly = npcLoot.DefineNormalOnlyDropSet();

@@ -217,7 +217,7 @@ namespace CalRD.NPCs.NormalNPCs
             npcLoot.Add(ModContent.ItemType<WulfrumShard>(), 1, 1, 3);
             npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<WulfrumShard>());
             npcLoot.Add(ModContent.ItemType<WulfrumBattery>(), 14);
-			npcLoot.AddIf(() => Supercharged, ModContent.ItemType<EnergyCore>());
+			npcLoot.AddIf(info => info.npc.ModNPC<WulfrumDrone>().Supercharged, ModContent.ItemType<EnergyCore>());
         }
     }
 }

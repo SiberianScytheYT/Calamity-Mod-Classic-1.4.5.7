@@ -2091,7 +2091,7 @@ namespace CalRD.NPCs.SupremeCalamitas
             // Other
             npcLoot.Add(ModContent.ItemType<SupremeCalamitasTrophy>(), 10);
             npcLoot.AddIf(() => !CalamityWorld.downedSCal, ModContent.ItemType<KnowledgeCalamitas>());
-            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedSCal, 6, 3, 2);
+            npcLoot.AddResidentEvilAmmo(info => !CalamityWorld.downedSCal, 6, 3, 2);
             npcLoot.AddIf(() =>
             {
 	            if (Main.player[NPC.target].Calamity().sCalKillCount == 0 &&

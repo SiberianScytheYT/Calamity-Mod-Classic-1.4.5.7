@@ -852,7 +852,7 @@ namespace CalRD.NPCs.Ravager
 
             npcLoot.Add(ModContent.ItemType<RavagerTrophy>(), 10);
             npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedScavenger, ModContent.ItemType<KnowledgeRavager>(), 1);
-            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedScavenger, 4, 2, 1);
+            npcLoot.AddResidentEvilAmmo(info => !CalamityWorld.downedScavenger, 4, 2, 1);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			var normalOnly = npcLoot.DefineNormalOnlyDropSet();

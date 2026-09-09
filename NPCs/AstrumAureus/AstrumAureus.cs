@@ -366,7 +366,7 @@ namespace CalRD.NPCs.AstrumAureus
 
             npcLoot.Add(ModContent.ItemType<AstrageldonTrophy>(), 10);
             npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedAstrageldon, ModContent.ItemType<KnowledgeAstrumAureus>(), 1);
-            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedAstrageldon, 4, 2, 1);
+            npcLoot.AddResidentEvilAmmo(info => !CalamityWorld.downedAstrageldon, 4, 2, 1);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();

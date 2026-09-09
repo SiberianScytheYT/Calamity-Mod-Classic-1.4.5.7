@@ -287,7 +287,7 @@ namespace CalRD.NPCs.NormalNPCs
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ModContent.ItemType<WulfrumShard>(), 1, 2, 3);
-			npcLoot.AddIf(() => Supercharged, ModContent.ItemType<EnergyCore>());
+			npcLoot.AddIf(info => info.npc.ModNPC<WulfrumHovercraft>().Supercharged, ModContent.ItemType<EnergyCore>());
             npcLoot.Add(ModContent.ItemType<WulfrumBattery>(), 14);
         }
     }

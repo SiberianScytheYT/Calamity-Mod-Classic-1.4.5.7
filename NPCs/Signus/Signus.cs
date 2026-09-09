@@ -807,7 +807,7 @@ namespace CalRD.NPCs.Signus
                 // Other
                 bool lastSentinelKilled = CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && !CalamityWorld.downedSentinel3;
                 npcLoot.AddConditionalPerPlayer(() => lastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>(), 1);
-                npcLoot.AddResidentEvilAmmo(CalamityWorld.downedSentinel3, 5, 2, 1);
+                npcLoot.AddResidentEvilAmmo(info => !CalamityWorld.downedSentinel3, 5, 2, 1);
             }
         }
         

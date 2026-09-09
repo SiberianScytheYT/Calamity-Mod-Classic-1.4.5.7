@@ -199,7 +199,7 @@ namespace CalRD.NPCs.BrimstoneElemental
             npcLoot.Add(ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
             npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedBrimstoneElemental, ModContent.ItemType<KnowledgeBrimstoneCrag>(), 1);
             npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedBrimstoneElemental, ModContent.ItemType<KnowledgeBrimstoneElemental>(), 1);
-            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedBrimstoneElemental, 4, 2, 1);
+            npcLoot.AddResidentEvilAmmo(info => !CalamityWorld.downedBrimstoneElemental, 4, 2, 1);
 
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {

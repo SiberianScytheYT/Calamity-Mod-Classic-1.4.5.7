@@ -175,7 +175,7 @@ namespace CalRD.NPCs.AquaticScourge
 			npcLoot.Add(ModContent.ItemType<AquaticScourgeTrophy>(), 10);
 			npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedAquaticScourge, ModContent.ItemType<KnowledgeAquaticScourge>(), true, desc: null);
             npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedAquaticScourge, ModContent.ItemType<KnowledgeSulphurSea>(), true, desc: null); 
-            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedAquaticScourge, 4, 2, 1);
+            npcLoot.AddResidentEvilAmmo(info => !CalamityWorld.downedAquaticScourge, 4, 2, 1);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();

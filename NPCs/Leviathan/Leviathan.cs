@@ -714,7 +714,7 @@ namespace CalRD.NPCs.Leviathan
 
 	        npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedLeviathan && LastAnLStanding(), ModContent.ItemType<KnowledgeOcean>(), 1);
 	        npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedLeviathan && LastAnLStanding(), ModContent.ItemType<KnowledgeLeviathanandSiren>(), 1);
-	        lastStanding.AddResidentEvilAmmo(CalamityWorld.downedLeviathan, 4, 2, 1);
+	        lastStanding.AddResidentEvilAmmo(info => !CalamityWorld.downedLeviathan, 4, 2, 1);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();

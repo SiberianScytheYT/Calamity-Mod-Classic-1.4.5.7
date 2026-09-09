@@ -760,7 +760,7 @@ namespace CalRD.NPCs.HiveMind
 
             npcLoot.Add(ModContent.ItemType<HiveMindTrophy>(), 10);
             npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedHiveMind, ModContent.ItemType<KnowledgeHiveMind>(), 1);
-            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedHiveMind, 2, 0, 0);
+            npcLoot.AddResidentEvilAmmo(info => !CalamityWorld.downedHiveMind, 2, 0, 0);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			var normalOnly = npcLoot.DefineNormalOnlyDropSet();
@@ -784,10 +784,10 @@ namespace CalRD.NPCs.HiveMind
                 }));
 
                 //Equipment
-                npcLoot.Add(ModContent.ItemType<FilthyGlove>(), 4);
+                normalOnly.Add(ModContent.ItemType<FilthyGlove>(), 4);
 
                 // Vanity
-                npcLoot.Add(ModContent.ItemType<HiveMindMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<HiveMindMask>(), 7);
             }
         }
 

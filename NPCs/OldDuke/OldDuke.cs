@@ -398,7 +398,7 @@ namespace CalRD.NPCs.OldDuke
 
             npcLoot.Add(ModContent.ItemType<OldDukeTrophy>(), 10);
             npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedBoomerDuke, ModContent.ItemType<KnowledgeOldDuke>(), 1);
-            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedBoomerDuke, 6, 3, 2);
+            npcLoot.AddResidentEvilAmmo(info => !CalamityWorld.downedBoomerDuke, 6, 3, 2);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			var normalOnly = npcLoot.DefineNormalOnlyDropSet();

@@ -1225,14 +1225,14 @@ namespace CalRD
         /// Adds finite use "Resident Evil" ammunition to the given loot table, if the downed boolean isn't already true.
         /// </summary>
         /// /// <param name="loot">The ILoot interface for the loot table.</param>
-        /// <param name="alreadyKilled">A downed boolean corresponding to this NPC. Use "false" to always drop ammo.</param>
+        /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
         /// <param name="magnum">The number of Magnum Rounds to drop.</param>
         /// <param name="bazooka">The number of Grenade Rounds to drop.</param>
         /// <param name="hydra">The number of Explosive Shells to drop.</param>
         /// <returns>The total amount of ammunition dropped.</returns>
-        public static void AddResidentEvilAmmo(this ILoot loot, bool alreadyKilled, int magnum, int bazooka, int hydra)
+        public static void AddResidentEvilAmmo(this ILoot loot, Func<DropAttemptInfo, bool> lambda, int magnum, int bazooka, int hydra, bool ui = true, string desc = null)
         {
-            var rule = new LeadingConditionRule(If(() => !alreadyKilled));
+            LeadingConditionRule rule = new(If(lambda, ui, desc));
             if (magnum != 0)
                 rule.Add(ItemDropRule.Common(ModContent.ItemType<MagnumRounds>(), 1, magnum, magnum));
             if (bazooka != 0)
@@ -1246,14 +1246,14 @@ namespace CalRD
         /// Adds finite use "Resident Evil" ammunition to the given loot table, if the downed boolean isn't already true.
         /// </summary>
         /// /// <param name="loot">The ILoot interface for the loot table.</param>
-        /// <param name="alreadyKilled">A downed boolean corresponding to this NPC. Use "false" to always drop ammo.</param>
+        /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
         /// <param name="magnum">The number of Magnum Rounds to drop.</param>
         /// <param name="bazooka">The number of Grenade Rounds to drop.</param>
         /// <param name="hydra">The number of Explosive Shells to drop.</param>
         /// <returns>The total amount of ammunition dropped.</returns>
-        public static void AddResidentEvilAmmo(this LeadingConditionRule mainRule, bool alreadyKilled, int magnum, int bazooka, int hydra)
+        public static void AddResidentEvilAmmo(this LeadingConditionRule mainRule, Func<DropAttemptInfo, bool> lambda, int magnum, int bazooka, int hydra, bool ui = true, string desc = null)
         {
-            var rule = new LeadingConditionRule(If(() => !alreadyKilled));
+            LeadingConditionRule rule = new(If(lambda, ui, desc));
             if (magnum != 0)
                 rule.Add(ItemDropRule.Common(ModContent.ItemType<MagnumRounds>(), 1, magnum, magnum));
             if (bazooka != 0)
@@ -1261,110 +1261,6 @@ namespace CalRD
             if (hydra != 0)
                 rule.Add(ItemDropRule.Common(ModContent.ItemType<ExplosiveShells>(), 1, hydra, hydra));
             mainRule.Add(rule);
-        }
-
-        /// <summary>
-        /// Drops finite use "Resident Evil" ammunition from the given NPC, if the downed boolean isn't already true.
-        /// </summary>
-        /// <param name="src">The NPC the item(s) belongs to.</param>
-        /// <param name="theBoss">The NPC to drop ammo from.</param>
-        /// <param name="alreadyKilled">A downed boolean corresponding to this NPC. Use "false" to always drop ammo.</param>
-        /// <param name="magnum">The number of Magnum Rounds to drop.</param>
-        /// <param name="bazooka">The number of Grenade Rounds to drop.</param>
-        /// <param name="hydra">The number of Explosive Shells to drop.</param>
-        /// <returns>The total amount of ammunition dropped.</returns>
-        public static int DropResidentEvilAmmo(IEntitySource src, NPC theBoss, bool alreadyKilled, int magnum, int bazooka, int hydra)
-        {
-            if (alreadyKilled)
-                return 0;
-
-            int dropped = 0;
-            dropped += DropItem(src, theBoss, ModContent.ItemType<MagnumRounds>(), magnum);
-            dropped += DropItem(src,theBoss, ModContent.ItemType<GrenadeRounds>(), bazooka);
-            dropped += DropItem(src,theBoss, ModContent.ItemType<ExplosiveShells>(), hydra);
-            return dropped;
-        }
-
-        /// <summary>
-        /// Randomly peppers stacks of 1 of the specified item all across the given NPC's hitbox.<br></br>
-        /// Makes it appear as though the NPC "explodes" into a cloud of many identical items. Best used with floating items such as Souls.
-        /// </summary>
-        /// <param name="src">The NPC the item(s) belongs to.</param>
-        /// <param name="npc">The NPC which should drop the item(s).</param>
-        /// <param name="itemID">The ID of the item(s) to drop.</param>
-        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
-        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 0, meaning the minimum quantity is always used.</param>
-        /// <param name="stackSize">The number of items to place in each separate stack.</param>
-        /// <returns>The number of items dropped. Not always equal to quantity if stack size isn't 1.</returns>
-        public static int DropItemSpray(IEntitySource src, NPC npc, int itemID, int minQuantity = 1, int maxQuantity = 0, int stackSize = 1)
-        {
-            int quantity;
-
-            // If they're equal (or for some reason max is less??) then just drop the minimum amount.
-            if (maxQuantity <= minQuantity)
-                quantity = minQuantity;
-
-            // Otherwise pick a random amount to drop, inclusive.
-            else
-                quantity = Main.rand.Next(minQuantity, maxQuantity + 1);
-
-            int dropped = 0;
-            Vector2 pos = Vector2.Zero;
-            for (int i = 0; i < quantity; i += stackSize)
-            {
-                pos.X = Main.rand.NextFloat(npc.Hitbox.Left, npc.Hitbox.Right);
-                pos.Y = Main.rand.NextFloat(npc.Hitbox.Top, npc.Hitbox.Bottom);
-                Item.NewItem(src, pos, itemID, stackSize);
-                dropped += stackSize;
-            }
-
-            return dropped;
-        }
-
-        /// <summary>
-        /// Drops an item that may instead be replaced by a given Rare Item Variant (RIV).
-        /// </summary>
-        /// <param name="src">The NPC the item(s) belongs to.</param>
-        /// <param name="npc">The NPC which should drop the item.</param>
-        /// <param name="itemID">The ID of the normal item to drop.</param>
-        /// <param name="rareID">The ID of the rare item to drop.</param>
-        /// <param name="itemChance">The chance that one of the two will drop. A decimal number <= 1.0.</param>
-        /// <param name="rareChance">The chance that the RIV will drop. A decimal number <= 1.0.</param>
-        /// <returns>Whether an item was spawned.</returns>
-        public static bool DropItemRIV(IEntitySource src, NPC npc, int itemID, int rareID, float itemChance, float rareChance = RareVariantDropRateFloat)
-        {
-            float f = Main.rand.NextFloat();
-            bool replaceWithRare = f <= rareChance; // 1/X chance overall of getting RIV
-            if (f <= itemChance) // 1/X chance of getting original OR the RIV replacing it
-            {
-                DropItemCondition(src, npc, itemID, !replaceWithRare);
-                DropItemCondition(src, npc, rareID, replaceWithRare);
-                return true;
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Drops an item that may instead be replaced by a given Rare Item Variant (RIV).
-        /// </summary>
-        /// <param name="src">The NPC the item(s) belongs to.</param>
-        /// <param name="player">The player which should receive the item.</param>
-        /// <param name="itemID">The ID of the normal item to drop.</param>
-        /// <param name="rareID">The ID of the rare item to drop.</param>
-        /// <param name="itemChance">The chance that one of the two will drop. A decimal number <= 1.0.</param>
-        /// <param name="rareChance">The chance that the RIV will drop. A decimal number <= 1.0.</param>
-        /// <returns>Whether an item was spawned.</returns>
-        public static bool DropItemRIV(IEntitySource src, Player player, int itemID, int rareID, float itemChance, float rareChance = RareVariantDropRateFloat)
-        {
-            float f = Main.rand.NextFloat();
-            bool replaceWithRare = f <= rareChance; // 1/X chance overall of getting RIV
-            if (f <= itemChance) // 1/X chance of getting original OR the RIV replacing it
-            {
-                DropItemCondition(src, player, itemID, !replaceWithRare);
-                DropItemCondition(src, player, rareID, replaceWithRare);
-                return true;
-            }
-            return false;
         }
         #endregion
 

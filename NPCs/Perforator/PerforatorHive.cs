@@ -377,7 +377,7 @@ namespace CalRD.NPCs.Perforator
 
             npcLoot.Add(ModContent.ItemType<PerforatorTrophy>(), 10);
             npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedPerforator, ModContent.ItemType<KnowledgePerforators>(), 1);
-            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedPerforator, 2, 0, 0);
+            npcLoot.AddResidentEvilAmmo(info => !CalamityWorld.downedPerforator, 2, 0, 0);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			var normalOnly = npcLoot.DefineNormalOnlyDropSet();

@@ -933,7 +933,7 @@ namespace CalRD.NPCs.Polterghast
 
             npcLoot.Add(ModContent.ItemType<PolterghastTrophy>(), 10);
             npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedPolterghast, ModContent.ItemType<KnowledgePolterghast>(), 1);
-            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedPolterghast, 6, 3, 2);
+            npcLoot.AddResidentEvilAmmo(info => !CalamityWorld.downedPolterghast, 6, 3, 2);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();

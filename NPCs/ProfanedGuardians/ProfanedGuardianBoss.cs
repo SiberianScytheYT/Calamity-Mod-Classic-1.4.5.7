@@ -452,7 +452,7 @@ namespace CalRD.NPCs.ProfanedGuardians
             npcLoot.Add(ModContent.ItemType<RelicOfDeliverance>(), 4);
             npcLoot.Add(ModContent.ItemType<ProfanedCore>());
             npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedGuardians, ModContent.ItemType<KnowledgeProfanedGuardians>(), 1);
-            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedGuardians, 5, 2, 1);
+            npcLoot.AddResidentEvilAmmo(info => !CalamityWorld.downedGuardians, 5, 2, 1);
         }
         
         public override void OnKill()

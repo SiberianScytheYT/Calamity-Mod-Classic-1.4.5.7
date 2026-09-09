@@ -433,7 +433,7 @@ namespace CalRD.NPCs.Bumblebirb
 
             npcLoot.Add(ModContent.ItemType<BumblebirbTrophy>(), 10);
             npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedBumble, ModContent.ItemType<KnowledgeBumblebirb>(), 1);
-            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedBumble, 5, 2, 1);
+            npcLoot.AddResidentEvilAmmo(info => !CalamityWorld.downedBumble, 5, 2, 1);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			var normalOnly = npcLoot.DefineNormalOnlyDropSet();

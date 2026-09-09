@@ -92,8 +92,8 @@ namespace CalRD.NPCs.Astral
         {
             npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<Stardust>(), 1, 1, 3);
             npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Stardust>(), 2, 1, 3);
-            npcLoot.AddIf(() => CalamityWorld.downedStarGod && Main.expertMode, ModContent.ItemType<AstralOre>(), 11, 16);
-            npcLoot.AddIf(() => CalamityWorld.downedStarGod && !Main.expertMode, ModContent.ItemType<AstralOre>(), 8, 12);
+            npcLoot.AddIf(() => CalamityWorld.downedStarGod && Main.expertMode, ModContent.ItemType<AstralOre>(), 1, 11, 16);
+            npcLoot.AddIf(() => CalamityWorld.downedStarGod && !Main.expertMode, ModContent.ItemType<AstralOre>(), 1, 8, 12);
             npcLoot.AddIf(() => CalamityWorld.downedAstrageldon && CalamityWorld.defiled, ModContent.ItemType<AbandonedSlimeStaff>(), DropHelper.DefiledDropRateInt);
             npcLoot.AddIf(() => CalamityWorld.downedAstrageldon && !CalamityWorld.defiled, ModContent.ItemType<AbandonedSlimeStaff>(), 33);
         }

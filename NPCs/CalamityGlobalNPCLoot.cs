@@ -281,16 +281,16 @@ namespace CalRD.NPCs
         {
             if (npc.type == NPCID.KingSlime)
             {
-                npcLoot.AddIf(() => Main.expertMode, ItemID.Gel, 90, 120);
-                npcLoot.AddIf(() => !Main.expertMode, ItemID.Gel, 60, 80);
+                npcLoot.AddIf(() => Main.expertMode, ItemID.Gel, 1, 90, 120);
+                npcLoot.AddIf(() => !Main.expertMode, ItemID.Gel, 1, 60, 80);
 
                 npcLoot.AddConditionalPerPlayer(() => !NPC.downedSlimeKing, ModContent.ItemType<KnowledgeKingSlime>(), 1);
-                npcLoot.AddResidentEvilAmmo(NPC.downedSlimeKing, 2, 0, 0);
+                npcLoot.AddResidentEvilAmmo(info => !NPC.downedSlimeKing, 2, 0, 0);
 			}
             else if (npc.type == NPCID.EyeofCthulhu)
             {
                 npcLoot.AddConditionalPerPlayer(() => !NPC.downedBoss1, ModContent.ItemType<KnowledgeEyeofCthulhu>(), 1);
-                npcLoot.AddResidentEvilAmmo(NPC.downedBoss1, 2, 0, 0);
+                npcLoot.AddResidentEvilAmmo(info => !NPC.downedBoss1, 2, 0, 0);
 			}
             else if ((npc.boss && (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)) || npc.type == NPCID.BrainofCthulhu)
             {
@@ -298,18 +298,18 @@ namespace CalRD.NPCs
                 npcLoot.AddConditionalPerPlayer(() => !WorldGen.crimson && !NPC.downedBoss2, ModContent.ItemType<KnowledgeEaterofWorlds>(), true);
                 npcLoot.AddConditionalPerPlayer(() => WorldGen.crimson && !NPC.downedBoss2, ModContent.ItemType<KnowledgeCrimson>(), true);
                 npcLoot.AddConditionalPerPlayer(() => WorldGen.crimson && !NPC.downedBoss2, ModContent.ItemType<KnowledgeBrainofCthulhu>(), true);
-                npcLoot.AddResidentEvilAmmo(NPC.downedBoss2, 2, 0, 0);
+                npcLoot.AddResidentEvilAmmo(info => !NPC.downedBoss2, 2, 0, 0);
 			}
             else if (npc.type == NPCID.QueenBee)
             {
                 npcLoot.AddConditionalPerPlayer(() => !NPC.downedQueenBee, ModContent.ItemType<KnowledgeQueenBee>(), true);
-                npcLoot.AddResidentEvilAmmo(NPC.downedQueenBee, 2, 0, 0);
+                npcLoot.AddResidentEvilAmmo(info => !NPC.downedQueenBee, 2, 0, 0);
 			}
             else if (npc.type == NPCID.SkeletronHead)
             {
                 npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<ClothiersWrath>(), DropHelper.RareVariantDropRateInt);
                 npcLoot.AddConditionalPerPlayer(() => !NPC.downedBoss3, ModContent.ItemType<KnowledgeSkeletron>(), true);
-                npcLoot.AddResidentEvilAmmo(NPC.downedBoss3, 3, 1, 0);
+                npcLoot.AddResidentEvilAmmo(info => !NPC.downedBoss3, 3, 1, 0);
 			}
             else if (npc.type == NPCID.WallofFlesh)
             {
@@ -325,12 +325,12 @@ namespace CalRD.NPCs
 
                 npcLoot.AddConditionalPerPlayer(() => !Main.hardMode, ModContent.ItemType<KnowledgeUnderworld>(), true);
                 npcLoot.AddConditionalPerPlayer(() => !Main.hardMode, ModContent.ItemType<KnowledgeWallofFlesh>(), true);
-                npcLoot.AddResidentEvilAmmo(Main.hardMode, 3, 1, 0);
+                npcLoot.AddResidentEvilAmmo(info => Main.hardMode, 3, 1, 0);
             }
             else if (npc.type == NPCID.Retinazer || npc.type == NPCID.Spazmatism)
             {
                 npcLoot.AddConditionalPerPlayer(() => !NPC.downedMechBoss2, ModContent.ItemType<KnowledgeTwins>(), 1);
-                npcLoot.AddResidentEvilAmmo(NPC.downedMechBoss2, 4, 2, 1);
+                npcLoot.AddResidentEvilAmmo(info => !NPC.downedMechBoss2, 4, 2, 1);
                 npcLoot.AddIf(() => CalamityGlobalNPC.DraedonMayhem, ModContent.ItemType<MysteriousCircuitry>(), 1, 8, 16);
                 npcLoot.AddIf(() => CalamityGlobalNPC.DraedonMayhem, ModContent.ItemType<DubiousPlating>(), 1, 8, 16);
                 npcLoot.AddConditionalPerPlayer(ShouldDropMechLore, ModContent.ItemType<KnowledgeMechs>(), 1);
@@ -338,7 +338,7 @@ namespace CalRD.NPCs
             else if (npc.type == NPCID.TheDestroyer)
             {
                 npcLoot.AddConditionalPerPlayer(() => !NPC.downedMechBoss1, ModContent.ItemType<KnowledgeDestroyer>(), true);
-                npcLoot.AddResidentEvilAmmo(NPC.downedMechBoss1, 4, 2, 1);
+                npcLoot.AddResidentEvilAmmo(info => !NPC.downedMechBoss1, 4, 2, 1);
                 npcLoot.AddIf(() => CalamityGlobalNPC.DraedonMayhem, ModContent.ItemType<MysteriousCircuitry>(), 1, 8, 16);
                 npcLoot.AddIf(() => CalamityGlobalNPC.DraedonMayhem,  ModContent.ItemType<DubiousPlating>(), 1, 8, 16);
                 npcLoot.AddConditionalPerPlayer(ShouldDropMechLore, ModContent.ItemType<KnowledgeMechs>(), 1);
@@ -347,7 +347,7 @@ namespace CalRD.NPCs
             {
                 npcLoot.AddConditionalPerPlayer(() => !NPC.downedMechBoss3, ModContent.ItemType<KnowledgeSkeletronPrime>(), true);
                 npcLoot.AddConditionalPerPlayer(info => info.npc.ai[1] == 2f && CalamityWorld.revenge, ModContent.ItemType<GoldBurdenBreaker>(), true);
-                npcLoot.AddResidentEvilAmmo(NPC.downedMechBoss3, 4, 2, 1);
+                npcLoot.AddResidentEvilAmmo(info => !NPC.downedMechBoss3, 4, 2, 1);
                 npcLoot.AddIf(() => CalamityGlobalNPC.DraedonMayhem, ModContent.ItemType<MysteriousCircuitry>(), 1, 8, 16);
                 npcLoot.AddIf(() => CalamityGlobalNPC.DraedonMayhem, ModContent.ItemType<DubiousPlating>(), 1, 8, 16);
                 npcLoot.AddConditionalPerPlayer(ShouldDropMechLore, ModContent.ItemType<KnowledgeMechs>(), 1);
@@ -356,30 +356,30 @@ namespace CalRD.NPCs
             {
                 npcLoot.AddIf(() => !Main.expertMode, ItemID.JungleKey, 5);
                 npcLoot.AddConditionalPerPlayer(() => !NPC.downedPlantBoss, ModContent.ItemType<KnowledgePlantera>(), true);
-                npcLoot.AddResidentEvilAmmo(NPC.downedPlantBoss, 4, 2, 1);
+                npcLoot.AddResidentEvilAmmo(info => !NPC.downedPlantBoss, 4, 2, 1);
             }
             else if (npc.type == NPCID.Golem)
             {
-                npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<EssenceofCinder>(), 5, 10);
+                npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<EssenceofCinder>(), 1, 5, 10);
 				npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<LeadWizard>(), DropHelper.RareVariantDropRateInt);
                 npcLoot.AddConditionalPerPlayer(() => !NPC.downedGolemBoss, ItemID.Picksaw, true);
                 npcLoot.AddConditionalPerPlayer(() => !NPC.downedGolemBoss, ModContent.ItemType<KnowledgeGolem>(), true);
-                npcLoot.AddResidentEvilAmmo(NPC.downedGolemBoss, 4, 2, 1);
+                npcLoot.AddResidentEvilAmmo(info => !NPC.downedGolemBoss, 4, 2, 1);
             }
             else if (npc.type == NPCID.DD2Betsy && !CalamityWorld.downedBetsy)
             {
-                npcLoot.AddResidentEvilAmmo(CalamityWorld.downedBetsy, 4, 2, 1);
+                npcLoot.AddResidentEvilAmmo(info => !CalamityWorld.downedBetsy, 4, 2, 1);
             }
             else if (npc.type == NPCID.DukeFishron)
             {
                 npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<DukesDecapitator>(), 5);
                 npcLoot.AddConditionalPerPlayer(() => !NPC.downedFishron, ModContent.ItemType<KnowledgeDukeFishron>(), true);
-                npcLoot.AddResidentEvilAmmo(NPC.downedPlantBoss, 4, 2, 1);
+                npcLoot.AddResidentEvilAmmo(info => !NPC.downedPlantBoss, 4, 2, 1);
 			}
             else if (npc.type == NPCID.CultistBoss)
             {
                 npcLoot.AddConditionalPerPlayer(() => !NPC.downedAncientCultist, ModContent.ItemType<KnowledgeLunaticCultist>(), true);
-                npcLoot.AddResidentEvilAmmo(NPC.downedAncientCultist, 4, 2, 1);
+                npcLoot.AddResidentEvilAmmo(info => !NPC.downedAncientCultist, 4, 2, 1);
 
                 // Blood Moon lore item
                 npcLoot.AddConditionalPerPlayer(() => Main.bloodMoon, ModContent.ItemType<KnowledgeBloodMoon>(), true);
@@ -393,7 +393,7 @@ namespace CalRD.NPCs
                 npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<GrandDad>(), DropHelper.RareVariantDropRateInt);
                 npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Infinity>(), DropHelper.RareVariantDropRateInt);
                 npcLoot.AddConditionalPerPlayer(() => !NPC.downedMoonlord, ModContent.ItemType<KnowledgeMoonLord>(), true);
-                npcLoot.AddResidentEvilAmmo(NPC.downedMoonlord, 5, 2, 1);
+                npcLoot.AddResidentEvilAmmo(info => !NPC.downedMoonlord, 5, 2, 1);
             }
 			//Since Calamity makes it spawn in pre-hardmode, don't want to cause other mods to freak out if they use it as a tier gate (like a new weapon or something)
 			else if (npc.type == NPCID.GreenJellyfish)
@@ -1481,7 +1481,7 @@ namespace CalRD.NPCs
                     break;
 
                 case NPCID.Plantera:
-                    npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<LivingShard>(), 12, 18);
+                    npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<LivingShard>(), 1, 12, 18);
                     break;
 
                 case NPCID.SolarSpearman: //Drakanian

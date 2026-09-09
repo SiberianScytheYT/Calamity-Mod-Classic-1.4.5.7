@@ -1079,7 +1079,7 @@ namespace CalRD.NPCs.Cryogen
 
             npcLoot.Add(ModContent.ItemType<CryogenTrophy>(), 10);
             npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedCryogen, ModContent.ItemType<KnowledgeCryogen>(), 1);
-            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedCryogen, 4, 2, 1);
+            npcLoot.AddResidentEvilAmmo(info => !CalamityWorld.downedCryogen, 4, 2, 1);
 
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {

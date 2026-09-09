@@ -683,7 +683,7 @@ namespace CalRD.NPCs.Crabulon
 
             npcLoot.Add(ModContent.ItemType<CrabulonTrophy>(), 10);
             npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedCrabulon, ModContent.ItemType<KnowledgeCrabulon>(), 1);
-            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedCrabulon, 2, 0, 0);
+            npcLoot.AddResidentEvilAmmo(info => !CalamityWorld.downedCrabulon, 2, 0, 0);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			var normalOnly = npcLoot.DefineNormalOnlyDropSet();

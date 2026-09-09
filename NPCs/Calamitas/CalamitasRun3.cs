@@ -202,7 +202,7 @@ namespace CalRD.NPCs.Calamitas
             npcLoot.AddPerPlayer(ItemID.BrokenHeroSword);
             npcLoot.Add(ModContent.ItemType<CalamitasTrophy>(), 10);
             npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedCalamitas, ModContent.ItemType<KnowledgeCalamitasClone>(), 1);
-            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedCalamitas, 4, 2, 1);
+            npcLoot.AddResidentEvilAmmo(info => !CalamityWorld.downedCalamitas, 4, 2, 1);
 
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {

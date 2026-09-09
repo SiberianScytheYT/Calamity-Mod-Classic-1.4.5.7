@@ -1308,7 +1308,7 @@ namespace CalRD.NPCs.Providence
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<ProvidenceBag>()));
             npcLoot.Add(ModContent.ItemType<ProvidenceTrophy>(), 10);
             npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedProvidence, ModContent.ItemType<KnowledgeProvidence>(), 1);
-            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedProvidence, 5, 2, 1);
+            npcLoot.AddResidentEvilAmmo(info => !CalamityWorld.downedProvidence, 5, 2, 1);
 
             npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedProvidence, ModContent.ItemType<RuneofCos>(), 1);
 

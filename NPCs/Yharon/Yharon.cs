@@ -2820,12 +2820,12 @@ namespace CalRD.NPCs.Yharon
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.DirectWeaponDropRateFraction, weapons));
 
                 // Vanity
-                npcLoot.Add(ModContent.ItemType<YharonMask>(), 7);
-                npcLoot.Add(ModContent.ItemType<ForgottenDragonEgg>(), 10);
+                normalOnly.Add(ModContent.ItemType<YharonMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<ForgottenDragonEgg>(), 10);
             }
 
             // These drops only occur in Phase 2 (where you actually kill Yharon)
-            var phaseTwo = npcLoot.DefineConditionalDropSet(() => startSecondAI && !phaseOneLoot);
+            var phaseTwo = npcLoot.DefineConditionalDropSet(info => info.npc.ModNPC<Yharon>().startSecondAI && !info.npc.ModNPC<Yharon>().phaseOneLoot);
             {
                 // Materials
                 phaseTwo.AddConditionalPerPlayer(() => Main.expertMode, ModContent.ItemType<HellcasterFragment>(), 1, 22, 28);
@@ -2841,12 +2841,12 @@ namespace CalRD.NPCs.Yharon
                 phaseTwo.AddIf(() => !Main.expertMode, ModContent.ItemType<YharimsCrystal>(), 100);
 
                 // Vanity
-                npcLoot.Add(ModContent.ItemType<YharonTrophy>(), 10);
+                phaseTwo.Add(ModContent.ItemType<YharonTrophy>(), 10);
 
                 // Other
                 //phaseTwo.Add(ModContent.ItemType<BossRush>());
                 phaseTwo.AddConditionalPerPlayer(() => !CalamityWorld.downedYharon, ModContent.ItemType<KnowledgeYharon>(), 1);
-                phaseTwo.AddResidentEvilAmmo(CalamityWorld.downedYharon, 6, 3, 2);
+                phaseTwo.AddResidentEvilAmmo(info => !CalamityWorld.downedYharon, 6, 3, 2);
             }
         }
         

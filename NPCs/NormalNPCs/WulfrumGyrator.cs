@@ -193,7 +193,7 @@ namespace CalRD.NPCs.NormalNPCs
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ModContent.ItemType<WulfrumShard>(), 1, 1, 2);
-			npcLoot.AddIf(() => Supercharged, ModContent.ItemType<EnergyCore>());
+			npcLoot.AddIf(info => info.npc.ModNPC<WulfrumGyrator>().Supercharged, ModContent.ItemType<EnergyCore>());
             npcLoot.Add(ModContent.ItemType<WulfrumBattery>(), 14);
         }
     }

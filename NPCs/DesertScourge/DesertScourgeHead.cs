@@ -554,7 +554,7 @@ namespace CalRD.NPCs.DesertScourge
             npcLoot.Add(ItemID.LesserHealingPotion, 1, 8, 14);
             npcLoot.Add(ModContent.ItemType<DesertScourgeTrophy>(), 10);
             npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedDesertScourge, ModContent.ItemType<KnowledgeDesertScourge>(), 1);
-            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedDesertScourge, 2, 0, 0);
+            npcLoot.AddResidentEvilAmmo(info => !CalamityWorld.downedDesertScourge, 2, 0, 0);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			var normalOnly = npcLoot.DefineNormalOnlyDropSet();
@@ -581,15 +581,15 @@ namespace CalRD.NPCs.DesertScourge
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.DirectWeaponDropRateFraction, weapons));
 
                 // Equipment
-                npcLoot.Add(ModContent.ItemType<AeroStone>(), 10);
-                npcLoot.Add(ModContent.ItemType<SandCloak>(), 10);
-                npcLoot.Add(ModContent.ItemType<DeepDiver>(), DropHelper.RareVariantDropRateInt);
+                normalOnly.Add(ModContent.ItemType<AeroStone>(), 10);
+                normalOnly.Add(ModContent.ItemType<SandCloak>(), 10);
+                normalOnly.Add(ModContent.ItemType<DeepDiver>(), DropHelper.RareVariantDropRateInt);
 
                 // Vanity
-                npcLoot.Add(ModContent.ItemType<DesertScourgeMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<DesertScourgeMask>(), 7);
 
                 // Fishing
-                npcLoot.Add(ModContent.ItemType<SandyAnglingKit>());
+                normalOnly.Add(ModContent.ItemType<SandyAnglingKit>());
             }
         }
         #endregion
