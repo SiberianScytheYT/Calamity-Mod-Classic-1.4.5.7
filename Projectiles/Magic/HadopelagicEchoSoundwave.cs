@@ -82,7 +82,7 @@ namespace CalRD.Projectiles.Magic
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            Projectile.damage = (int)(((double)Projectile.damage * (double)Projectile.localAI[0]) * (0.5D + (0.5D / (double)Projectile.penetrate)));
+	        modifiers.SourceDamage *= Projectile.localAI[0] * (0.5f + (0.5f / Projectile.penetrate));
         }
         
         public override void OnHitPlayer(Player target, Player.HurtInfo info)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */

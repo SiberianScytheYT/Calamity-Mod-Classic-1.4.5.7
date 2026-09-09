@@ -30,7 +30,7 @@ namespace CalRD.Projectiles.Typeless.FiniteUse
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            Projectile.damage += target.lifeMax / 150; //120 + 30 = 150 + (100000 / 150 = 666) = 816 * 15 (pellets) = 12240 * 2 (explosion) = 24480 = 24.48% of boss HP
+            modifiers.SourceDamage.Flat += target.lifeMax / 150; //120 + 30 = 150 + (100000 / 150 = 666) = 816 * 15 (pellets) = 12240 * 2 (explosion) = 24480 = 24.48% of boss HP
             if (Projectile.damage > target.lifeMax / 90 && CalamityPlayer.areThereAnyDamnBosses)
                 Projectile.damage = target.lifeMax / 90;
         }

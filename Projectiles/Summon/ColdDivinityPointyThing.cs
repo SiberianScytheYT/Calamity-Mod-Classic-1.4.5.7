@@ -278,12 +278,12 @@ namespace CalRD.Projectiles.Summon
             {
                 dust(30);
                 SoundEngine.PlaySound(SoundID.NPCHit5, Projectile.position);
-                Projectile.damage = (int)(Projectile.damage * 1.1f);
+                modifiers.SourceDamage *= 1.1f;
             }
             else if (circling && target == this.target && Projectile.timeLeft > 60)
             {
                 dust(5);
-                Projectile.damage = (int)(Projectile.damage * 0.2f); //nerfffffff the nerf because nerf? nerf.
+                modifiers.SourceDamage *= 0.2f; //nerfffffff the nerf because nerf? nerf.
             }
         }
 

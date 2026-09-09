@@ -115,7 +115,7 @@ namespace CalRD.Projectiles.Rogue
         {
 			if (target.type == ModContent.NPCType<StormWeaverHeadNaked>() || target.type == ModContent.NPCType<StormWeaverBodyNaked>() || target.type == ModContent.NPCType<StormWeaverTailNaked>())
             {
-                Projectile.damage /= 5;
+                modifiers.SourceDamage *= 0.2f;
             }
 
             float dist1 = Vector2.Distance(Projectile.Center, target.Hitbox.TopLeft());

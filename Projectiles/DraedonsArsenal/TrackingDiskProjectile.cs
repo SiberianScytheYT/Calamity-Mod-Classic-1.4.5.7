@@ -130,7 +130,7 @@ namespace CalRD.Projectiles.DraedonsArsenal
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            Projectile.damage -= target.defense / 4;
+            modifiers.SourceDamage.Flat -= target.defense / 4;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

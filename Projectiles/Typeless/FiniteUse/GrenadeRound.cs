@@ -64,7 +64,7 @@ namespace CalRD.Projectiles.Typeless.FiniteUse
         {
             if (target.Inorganic())
             {
-                Projectile.damage += target.lifeMax / 20; //500 + 200 = 700 + (100000 / 20 = 5000) = 5700 * 2 (explosion) = 11400 = 11.4% of boss HP
+                modifiers.SourceDamage.Flat += target.lifeMax / 20; //500 + 200 = 700 + (100000 / 20 = 5000) = 5700 * 2 (explosion) = 11400 = 11.4% of boss HP
             }
             if (Projectile.damage > target.lifeMax / 12 && CalamityPlayer.areThereAnyDamnBosses)
                 Projectile.damage = target.lifeMax / 12;

@@ -3062,7 +3062,7 @@ namespace CalRD.NPCs
 
 			// Nerfed because these are really overpowered
 			if (projectile.type == ProjectileID.CursedDartFlame)
-				projectile.damage /= 2;
+				modifiers.SourceDamage *= 0.5f;
 
 			// Expert Mode resists, mostly worms
 			if (Main.expertMode)
@@ -3074,19 +3074,19 @@ namespace CalRD.NPCs
 
 					if (ProjectileID.Sets.StardustDragon[projectile.type] || projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>())
 					{
-						projectile.damage = (int)(projectile.damage * 0.25);
+						modifiers.SourceDamage *= 0.25f;
 					}
 					else if (projectile.type == ProjectileType<RainbowBoom>() || projectile.type == ProjectileType<RainBolt>() || projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ProjectileType<ForbiddenSunProjectile>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileType<Tornado>())
 					{
-						projectile.damage = (int)(projectile.damage * 0.5);
+						modifiers.SourceDamage *= 0.5f;
 					}
 					else if (projectile.type == ProjectileID.Electrosphere)
 					{
-						projectile.damage = (int)(projectile.damage * 0.6);
+						modifiers.SourceDamage *= 0.6f;
 					}
 					else if (projectile.type == ProjectileType<SolarBeam2>() || projectile.type == ProjectileID.InfernoFriendlyBolt || projectile.type == ProjectileID.InfernoFriendlyBlast || projectile.type == ProjectileID.RainbowFront || projectile.type == ProjectileID.RainbowBack || projectile.type == ProjectileType<PlagueFang>() || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<IceCluster>() || projectile.type == ProjectileID.ChargedBlasterLaser)
 					{
-						projectile.damage = (int)(projectile.damage * 0.75);
+						modifiers.SourceDamage *= 0.75f;
 					}
 				}
 				else if (CosmicGuardianIDs.Contains(npc.type) || DarkEnergyIDs.Contains(npc.type))
@@ -3101,29 +3101,29 @@ namespace CalRD.NPCs
 
 					if (projectile.type == ProjectileType<ShatteredSunScorchedBlade>())
 					{
-						projectile.damage = (int)(projectile.damage * 0.9);
+						modifiers.SourceDamage *= 0.9f;
 					}
 					else if (projectile.type == ProjectileType<MoltenAmputatorProj>() || projectile.type == ProjectileType<MoltenBlobThrown>())
 					{
 						if (projectile.penetrate == -1)
 							projectile.penetrate = projectile.Calamity().stealthStrike ? 6 : 9;
-						projectile.damage = (int)(projectile.damage * 0.75);
+						modifiers.SourceDamage *= 0.75f;
 					}
 					else if (projectile.type == ProjectileType<PristineFire>() || projectile.type == ProjectileType<PristineSecondary>())
 					{
-						projectile.damage = (int)(projectile.damage * 0.5);
+						modifiers.SourceDamage *= 0.5f;
 					}
 					else if (projectile.type == ProjectileType<ElementalAxeMinion>() || projectile.type == ProjectileType<DazzlingStabber>())
 					{
-						projectile.damage = (int)(projectile.damage * 0.5);
+						modifiers.SourceDamage *= 0.5f;
 					}
 					else if (projectile.type == ProjectileType<WavePounderBoom>())
 					{
-						projectile.damage = (int)(projectile.damage * 0.4);
+						modifiers.SourceDamage *= 0.4f;
 					}
 					else if (ProjectileID.Sets.StardustDragon[projectile.type])
 					{
-						projectile.damage = (int)(projectile.damage * 0.1);
+						modifiers.SourceDamage *= 0.1f;
 					}
 				}
 				else if (DestroyerIDs.Contains(npc.type))
@@ -3133,23 +3133,23 @@ namespace CalRD.NPCs
 
 					if (projectile.type == ProjectileType<FossilShardThrown>() || projectile.type == ProjectileType<DesecratedBubble>() || projectile.type == ProjectileType<KelvinCatalystStar>() || projectile.type == ProjectileType<RainbowTrail>())
 					{
-						projectile.damage = (int)(projectile.damage * 0.75);
+						modifiers.SourceDamage *= 0.75f;
 					}
 					else if (projectile.type == ProjectileType<DormantBrimseekerBab>())
 					{
-						projectile.damage = (int)(projectile.damage * 0.5);
+						modifiers.SourceDamage *= 0.5f;
 					}
 					else if (projectile.type == ProjectileType<SulphuricNukesplosion>())
 					{
-						projectile.damage = (int)(projectile.damage * 0.38);
+						modifiers.SourceDamage *= 0.38f;
 					}
 					else if (projectile.type == ProjectileType<VoltageStream>())
 					{
-						projectile.damage = (int)(projectile.damage * 0.3);
+						modifiers.SourceDamage *= 0.3f;
 					}
 					else if (projectile.type == ProjectileType<SeasSearingSpout>())
 					{
-						projectile.damage = (int)(projectile.damage * 0.25);
+						modifiers.SourceDamage *= 0.25f;
 					}
 				}
 				else if (AquaticScourgeIDs.Contains(npc.type))
@@ -3159,21 +3159,21 @@ namespace CalRD.NPCs
 
 					if (projectile.type == ProjectileType<FlameBeamTip>() || projectile.type == ProjectileType<FlameBeamTip2>())
 					{
-						projectile.damage = (int)(projectile.damage * 0.9);
+						modifiers.SourceDamage *= 0.9f;
 					}
 					else if (projectile.type == ProjectileType<VoltageStream>())
 					{
-						projectile.damage = (int)(projectile.damage * 0.75);
+						modifiers.SourceDamage *= 0.75f;
 					}
 					if (projectile.type == ProjectileType<SHPExplosion>() || projectile.type == ProjectileType<DormantBrimseekerBab>() || projectile.type == ProjectileType<PoleWarperSummon>())
 					{
-						projectile.damage = (int)(projectile.damage * 0.5);
+						modifiers.SourceDamage *= 0.5f;
 					}
 					else if (projectile.type == ProjectileType<Brimblast>())
 					{
 						if (projectile.penetrate == -1)
 							projectile.penetrate = 2;
-						projectile.damage = (int)(projectile.damage * 0.1);
+						modifiers.SourceDamage *= 0.1f;
 					}
 				}
 				else if (PerforatorIDs.Contains(npc.type))
@@ -3190,7 +3190,7 @@ namespace CalRD.NPCs
 
 					if (projectile.type == ProjectileType<SparklingBeam>())
 					{
-						projectile.damage = (int)(projectile.damage * 0.7);
+						modifiers.SourceDamage *= 0.7f;
 					}
 				}
 				else if (DesertScourgeIDs.Contains(npc.type))
@@ -3205,44 +3205,44 @@ namespace CalRD.NPCs
 			{
 				if (projectile.type == ProjectileType<CrescentMoonFlail>())
 				{
-					projectile.damage = (int)(projectile.damage * 0.55);
+					modifiers.SourceDamage *= 0.55f;
 				}
 				else if (projectile.type == ProjectileType<CalamariInk>())
 				{
-					projectile.damage = (int)(projectile.damage * 0.5);
+					modifiers.SourceDamage *= 0.5f;
 				}
 				else if (projectile.type == ProjectileType<BloodBombExplosion>() || projectile.type == ProjectileType<CrescentMoonProj>())
 				{
-					projectile.damage = (int)(projectile.damage * 0.6);
+					modifiers.SourceDamage *= 0.6f;
 				}
 				else if (projectile.type == ProjectileType<GhastlySoulLarge>() || projectile.type == ProjectileType<GhastlySoulMedium>() || projectile.type == ProjectileType<GhastlySoulSmall>() || projectile.type == ProjectileType<GhostFire>())
 				{
-					projectile.damage = (int)(projectile.damage * 0.75);
+					modifiers.SourceDamage *= 0.75f;
 				}
 				else if (projectile.type == ProjectileID.LunarFlare)
 				{
-					projectile.damage = (int)(projectile.damage * 0.8);
+					modifiers.SourceDamage *= 0.8f;
 				}
 			}
 			else if (npc.type == NPCID.CultistBoss)
 			{
 				if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
 				{
-					projectile.damage = (int)(projectile.damage * 0.75);
+					modifiers.SourceDamage *= 0.75f;
 				}
 			}
 			else if (npc.type == NPCID.DukeFishron)
 			{
 				if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
 				{
-					projectile.damage = (int)(projectile.damage * 1.35);
+					modifiers.SourceDamage *= 1.35f;
 				}
 			}
 			else if (npc.type == NPCType<Providence.Providence>())
 			{
 				if (projectile.type == ProjectileType<ElementalAxeMinion>())
 				{
-					projectile.damage = (int)(projectile.damage * 1.5);
+					modifiers.SourceDamage *= 1.5f;
 				}
 			}
 		}

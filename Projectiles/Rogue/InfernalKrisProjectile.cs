@@ -59,7 +59,8 @@ namespace CalRD.Projectiles.Rogue
         {
             if (Projectile.timeLeft < spinTime)
             {
-                Projectile.damage = (int)(Projectile.damage * 1.75f) + Main.rand.Next(0, 6);
+                modifiers.SourceDamage *= 1.75f;
+                modifiers.SourceDamage.Flat += Main.rand.Next(0, 6);
             }
         }
 

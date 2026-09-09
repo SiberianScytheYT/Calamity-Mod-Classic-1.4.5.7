@@ -135,7 +135,7 @@ namespace CalRD.Projectiles.Rogue
 		{
 			if (Projectile.ai[1] <= 40f && Projectile.ai[0] != 1f)
 			{
-				Projectile.damage /= 3;
+                modifiers.SourceDamage *= 0.3333f;
 			}
 		}
 

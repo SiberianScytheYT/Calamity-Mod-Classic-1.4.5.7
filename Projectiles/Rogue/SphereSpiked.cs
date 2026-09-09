@@ -44,7 +44,7 @@ namespace CalRD.Projectiles.Rogue
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            Projectile.damage = (int)(Projectile.damage * 1.2);
+            modifiers.SourceDamage *= 1.2f;
             if(Main.rand.NextBool(10))
                 modifiers.SetCrit();
         }

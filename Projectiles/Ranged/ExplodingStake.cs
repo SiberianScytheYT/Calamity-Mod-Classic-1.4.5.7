@@ -73,7 +73,7 @@ namespace CalRD.Projectiles.Ranged
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (target.type == NPCID.Vampire || target.type == NPCID.VampireBat)
-                Projectile.damage += target.lifeMax * 3;
+                modifiers.SourceDamage.Flat += target.lifeMax * 3;
         }
     }
 }

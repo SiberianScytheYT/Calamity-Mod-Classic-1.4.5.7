@@ -54,7 +54,7 @@ namespace CalRD.Projectiles.DraedonsArsenal
 
 		public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
 		{
-			Projectile.damage -= target.defense / 5;
+			modifiers.SourceDamage.Flat -= target.defense / 5;
 		}
 
 		public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

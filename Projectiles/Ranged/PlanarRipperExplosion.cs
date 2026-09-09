@@ -68,7 +68,7 @@ namespace CalRD.Projectiles.Ranged
 
 		public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
 		{
-			Projectile.damage = (int)(Projectile.damage * 0.8);
+			modifiers.SourceDamage *= 0.8f;
 		}
 
 		public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

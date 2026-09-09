@@ -48,8 +48,8 @@ namespace CalRD.Projectiles.Melee
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            double newDamageMult = 1.0 - ((double)Projectile.timeLeft / 300.0);
-            Projectile.damage = (int)((double)Projectile.damage * newDamageMult);
+            float newDamageMult = 1.0f - (Projectile.timeLeft / 300.0f);
+            modifiers.SourceDamage *= newDamageMult;
             Projectile.knockBack = 0f;
             modifiers.CritDamage += 1f;
         }

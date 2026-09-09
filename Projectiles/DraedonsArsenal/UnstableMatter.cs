@@ -73,11 +73,11 @@ namespace CalRD.Projectiles.DraedonsArsenal
 		public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
 		{
 			if (!HasCollidedWithATile)
-				Projectile.damage /= 3;
+				modifiers.SourceDamage *= 0.3333f;
 			else if (Projectile.penetrate == -1)
 				Projectile.penetrate = 1;
 
-			Projectile.damage += target.defense / 3;
+			modifiers.SourceDamage.Flat += target.defense / 3;
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)

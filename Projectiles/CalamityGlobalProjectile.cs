@@ -1280,12 +1280,12 @@ namespace CalRD.Projectiles
             {
                 if (target.Inorganic() && hasInorganicEnemyHitBoost)
                 {
-                    projectile.damage += (int)(target.lifeMax * inorganicEnemyHitBoost);
+                    modifiers.SourceDamage.Flat += (int)(target.lifeMax * inorganicEnemyHitBoost);
                     inorganicEnemyHitEffect?.Invoke(target);
                 }
                 if (target.Organic() && hasOrganicEnemyHitBoost)
                 {
-                    projectile.damage += (int)(target.lifeMax * organicEnemyHitBoost);
+                    modifiers.SourceDamage.Flat += (int)(target.lifeMax * organicEnemyHitBoost);
                     organicEnemyHitEffect?.Invoke(target);
                 }
             }

@@ -129,7 +129,7 @@ namespace CalRD.Projectiles.Typeless
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            Projectile.damage = (int)(Projectile.damage * 0.3);
+            modifiers.SourceDamage *= 0.3f;
         }
     }
 }

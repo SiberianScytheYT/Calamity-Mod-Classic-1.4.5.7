@@ -137,7 +137,7 @@ namespace CalRD.Projectiles.DraedonsArsenal
 					{
 						target.velocity.X = 0f;
 						target.velocity.Y = 0f;
-						Projectile.damage += target.lifeMax / 250;
+						modifiers.SourceDamage.Flat += target.lifeMax / 250;
 					}
 				}
 			}

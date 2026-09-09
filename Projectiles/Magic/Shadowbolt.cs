@@ -56,7 +56,7 @@ namespace CalRD.Projectiles.Magic
 			{
 				return;
 			}
-			Projectile.damage = (int)(Projectile.damage * 1.1);
+			modifiers.SourceDamage *= 1.1f;
 		}
 
         public override void AI()

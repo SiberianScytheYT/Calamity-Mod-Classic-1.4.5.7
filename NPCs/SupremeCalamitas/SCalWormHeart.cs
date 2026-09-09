@@ -58,7 +58,7 @@ namespace CalRD.NPCs.SupremeCalamitas
         {
             if (projectile.type == ModContent.ProjectileType<Celestus2>())
             {
-                projectile.damage = (int)(projectile.damage * 0.66);
+                modifiers.SourceDamage *= 0.66f;
             }
         }
 

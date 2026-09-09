@@ -113,7 +113,7 @@ namespace CalRD.Projectiles.DraedonsArsenal
 			if (!target.boss)
 			{
 				if (target.Inorganic())
-					Projectile.damage += target.lifeMax / 250;
+					modifiers.SourceDamage.Flat += target.lifeMax / 250;
 			}
 		}
 

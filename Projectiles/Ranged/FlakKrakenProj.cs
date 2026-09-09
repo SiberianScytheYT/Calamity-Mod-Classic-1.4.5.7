@@ -132,7 +132,7 @@ namespace CalRD.Projectiles.Ranged
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            Projectile.damage = (int)(Projectile.damage * Projectile.localAI[0]);
+            modifiers.SourceDamage *= Projectile.localAI[0];
         }
 
         public override Color? GetAlpha(Color lightColor)

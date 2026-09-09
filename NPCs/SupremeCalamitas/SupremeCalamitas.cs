@@ -2155,7 +2155,7 @@ namespace CalRD.NPCs.SupremeCalamitas
         {
             if (projectile.type == ModContent.ProjectileType<SonOfYharon>())
             {
-                projectile.damage /= 2;
+	            modifiers.SourceDamage *= 0.5f;
             }
         }
 

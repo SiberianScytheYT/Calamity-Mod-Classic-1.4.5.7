@@ -138,7 +138,7 @@ namespace CalRD.Projectiles.Rogue
             damageScale /= radius;
             damageScale = 1f - damageScale;
 
-            Projectile.damage = (int)(Projectile.damage * damageScale);
+            modifiers.SourceDamage *= damageScale;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

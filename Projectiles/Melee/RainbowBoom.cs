@@ -89,7 +89,7 @@ namespace CalRD.Projectiles.Melee
 
 		public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
 		{
-			Projectile.damage = (int)(Projectile.damage * 0.9);
+			modifiers.SourceDamage *= 0.9f;
 		}
 	}
 }

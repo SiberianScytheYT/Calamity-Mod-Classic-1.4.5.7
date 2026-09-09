@@ -57,8 +57,8 @@ namespace CalRD.Projectiles.Ranged
 			return false;
 		}
 
-		public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => Projectile.damage += OnHitEffect(Main.player[Projectile.owner]);
-		public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers) => Projectile.damage += OnHitEffect(Main.player[Projectile.owner]);
+		public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => modifiers.SourceDamage.Flat += OnHitEffect(Main.player[Projectile.owner]);
+		public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers) => modifiers.SourceDamage.Flat += OnHitEffect(Main.player[Projectile.owner]);
 
 		// Returns the amount of bonus damage that should be dealt. Boosts life regeneration appropriately as a side effect.
 		private int OnHitEffect(Player owner)
