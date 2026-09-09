@@ -88,9 +88,6 @@ namespace CalRD.NPCs.NormalNPCs
             }
         }
 
-        public override void OnKill()
-        {
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EssenceofCinder>(), 3);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<EssenceofCinder>(), 3);
     }
 }

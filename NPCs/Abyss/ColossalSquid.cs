@@ -574,14 +574,14 @@ namespace CalRD.NPCs.Abyss
             target.AddBuff(BuffID.Darkness, 600, true);
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, CalamityGlobalNPCLoot.halibutCannonBaseDropChance / 100, 1, 1);
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.BlackInk, 3, 5);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 2, 26, 38);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 5, 7);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<CalamarisLament>(), CalamityWorld.downedPolterghast, 3, 1, 1);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<InkBomb>(), 10, 1, 1);
+            npcLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<HalibutCannon>(), CalamityGlobalNPCLoot.halibutCannonBaseDropChance / 100);
+            npcLoot.Add(ItemID.BlackInk, 1, 3, 5);
+            npcLoot.AddIf(() => CalamityWorld.downedCalamitas && !Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 26, 38);
+            npcLoot.AddIf(() => CalamityWorld.downedCalamitas && Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 5, 7);
+            npcLoot.AddIf(() => CalamityWorld.downedPolterghast, ModContent.ItemType<CalamarisLament>(), 3);
+            npcLoot.Add(ModContent.ItemType<InkBomb>(), 10);
         }
 
         public override void HitEffect(NPC.HitInfo hit)

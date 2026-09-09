@@ -137,12 +137,12 @@ namespace CalRD.NPCs.Crags
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 3, 1, 1);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<BlightedLens>(), Main.hardMode, 2, 1, 1);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ItemID.Lens, 2);
+            npcLoot.AddIf(() => CalamityWorld.downedProvidence, ModContent.ItemType<Bloodstone>(), 2);
+            npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofChaos>(), 3);
+            npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<BlightedLens>(), 2);
+            npcLoot.Add(ItemID.Lens, 2);
         }
     }
 }

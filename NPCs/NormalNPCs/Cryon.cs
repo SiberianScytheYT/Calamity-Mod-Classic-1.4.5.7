@@ -114,9 +114,6 @@ namespace CalRD.NPCs.NormalNPCs
             }
         }
 
-        public override void OnKill()
-        {
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EssenceofEleum>(), 0.5f);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<EssenceofEleum>(), 2);
     }
 }

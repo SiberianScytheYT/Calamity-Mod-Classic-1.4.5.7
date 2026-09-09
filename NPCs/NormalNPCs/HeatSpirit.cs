@@ -115,9 +115,6 @@ namespace CalRD.NPCs.NormalNPCs
             }
         }
 
-        public override void OnKill()
-        {
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EssenceofChaos>(), 0.25f);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<EssenceofChaos>(), 4);
     }
 }

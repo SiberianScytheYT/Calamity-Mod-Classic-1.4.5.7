@@ -444,20 +444,23 @@ namespace CalRD.NPCs.ProfanedGuardians
             potionType = ItemID.GreaterHealingPotion;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             // Profaned Guardians have no actual drops and no treasure bag
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<ProfanedGuardianMask>(), 7);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<ProfanedGuardianTrophy>(), 10);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<RelicOfDeliverance>(), 4);
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<ProfanedCore>());
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgeProfanedGuardians>(), true, !CalamityWorld.downedGuardians);
-            DropHelper.DropResidentEvilAmmo(NPC.GetSource_FromThis(), NPC, CalamityWorld.downedGuardians, 5, 2, 1);
+            npcLoot.Add(ModContent.ItemType<ProfanedGuardianMask>(), 7);
+            npcLoot.Add(ModContent.ItemType<ProfanedGuardianTrophy>(), 10);
+            npcLoot.Add(ModContent.ItemType<RelicOfDeliverance>(), 4);
+            npcLoot.Add(ModContent.ItemType<ProfanedCore>());
+            npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedGuardians, ModContent.ItemType<KnowledgeProfanedGuardians>(), 1);
+            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedGuardians, 5, 2, 1);
+        }
+        
+        public override void OnKill()
+        {
+           CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard }, CalamityWorld.downedGuardians);
 
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard }, CalamityWorld.downedGuardians);
-
-			// Mark the Profaned Guardians as dead
-			CalamityWorld.downedGuardians = true;
+            // Mark the Profaned Guardians as dead
+            CalamityWorld.downedGuardians = true;
             CalamityNetcode.SyncWorld();
         }
 

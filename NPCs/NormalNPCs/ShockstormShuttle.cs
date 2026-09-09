@@ -577,10 +577,10 @@ namespace CalRD.NPCs.NormalNPCs
 			target.AddBuff(BuffID.Electrified, 120, true);
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ItemID.MartianConduitPlating, NPC.downedGolemBoss, 1, 10, 30);
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EssenceofCinder>(), 3);
+			npcLoot.AddIf(() => NPC.downedGolemBoss, ItemID.MartianConduitPlating, 1, 10, 30);
+			npcLoot.Add(ModContent.ItemType<EssenceofCinder>(), 3);
 		}
 	}
 }

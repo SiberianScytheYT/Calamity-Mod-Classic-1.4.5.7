@@ -342,12 +342,16 @@ namespace CalRD.NPCs.SulphurousSea
         {
             if (!NPC.savedAngler && !NPC.AnyNPCs(NPCID.Angler) && !NPC.AnyNPCs(NPCID.SleepingAngler) && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC(NPC.GetSource_FromThis(), (int)NPC.Center.X, (int)NPC.Center.Y, NPCID.Angler, 0, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.Center.Y, NPCID.Angler);
                 NPC.savedAngler = true;
             }
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ItemID.DivingHelmet, 20);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<TrashmanTrashcan>(), 20);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ItemID.Gatligator, Main.hardMode, 10, 1, 1);
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemID.DivingHelmet, 20);
+            npcLoot.Add(ModContent.ItemType<TrashmanTrashcan>(), 20);
+            npcLoot.AddIf(() => Main.hardMode, ItemID.Gatligator, 10);
         }
 
         public override void HitEffect(NPC.HitInfo hit)

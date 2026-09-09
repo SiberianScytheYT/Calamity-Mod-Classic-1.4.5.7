@@ -32,6 +32,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -1302,53 +1303,71 @@ namespace CalRD.NPCs.Providence
             return false;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropBags(ModContent.ItemType<ProvidenceBag>(), NPC);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<ProvidenceTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgeProvidence>(), true, !CalamityWorld.downedProvidence);
-            DropHelper.DropResidentEvilAmmo(NPC.GetSource_FromThis(), NPC, CalamityWorld.downedProvidence, 5, 2, 1);
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<ProvidenceBag>()));
+            npcLoot.Add(ModContent.ItemType<ProvidenceTrophy>(), 10);
+            npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedProvidence, ModContent.ItemType<KnowledgeProvidence>(), 1);
+            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedProvidence, 5, 2, 1);
 
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<RuneofCos>(), true, !CalamityWorld.downedProvidence);
+            npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedProvidence, ModContent.ItemType<RuneofCos>(), 1);
 
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedProvidence);
-
-			// Accessories clientside only in Expert. Both drop if she is defeated at night.
-			DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<ElysianWings>(), Main.expertMode, biomeType != 2 || !hasTakenDaytimeDamage);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<ElysianAegis>(), Main.expertMode, biomeType == 2 || !hasTakenDaytimeDamage);
+			// Slight inaccuracy: both accessories are always clientside. Both drop if she is defeated at night.
+			npcLoot.AddConditionalPerPlayer(info =>
+			{
+				Providence prov = info.npc.ModNPC<Providence>();
+				return prov.biomeType != 2 || !prov.hasTakenDaytimeDamage;
+			}, ModContent.ItemType<ElysianWings>(), true, desc: null);
+			npcLoot.AddConditionalPerPlayer(info =>
+			{
+				Providence prov = info.npc.ModNPC<Providence>();
+				return prov.biomeType == 2 || !prov.hasTakenDaytimeDamage;
+			}, ModContent.ItemType<ElysianAegis>(), true, desc: null);
 
 			// Drops pre-scal, cannot be sold, does nothing aka purely vanity. Requires at least expert for consistency with other post scal dev items.
-			bool shouldDrop = challenge/* || (Main.expertMode && Main.rand.NextBool(CalamityWorld.downedSCal ? 10 : 200))*/;
-			DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<ProfanedSoulCrystal>(), true, shouldDrop);
-
+			npcLoot.DefineConditionalDropSet(DropHelper.If(info =>
+			{
+				Providence prov = info.npc.ModNPC<Providence>();
+				return prov.challenge;
+			}, () => Main.expertMode)).Add(ModContent.ItemType<ProfanedSoulCrystal>());
 			// Special drop for defeating her at night
-			DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<ProfanedMoonlightDye>(), true, !hasTakenDaytimeDamage, 3, 4);
+			npcLoot.AddIf(info =>
+			{
+				Providence prov = info.npc.ModNPC<Providence>();
+				return !prov.hasTakenDaytimeDamage;
+			}, ModContent.ItemType<ProfanedMoonlightDye>(), 1, 3, 4, desc: null);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
-			if (!Main.expertMode)
+			var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
                 // Materials
-                DropHelper.DropItemSpray(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<UnholyEssence>(), 20, 30);
-                DropHelper.DropItemSpray(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<DivineGeode>(), 15, 20);
+                normalOnly.Add(ModContent.ItemType<UnholyEssence>(), 1, 20, 30);
+                normalOnly.Add(ModContent.ItemType<DivineGeode>(), 1, 15, 20);
 
 				// Weapons
-				float w = DropHelper.DirectWeaponDropRateFloat;
-				DropHelper.DropEntireWeightedSet(NPC.GetSource_FromThis(), NPC,
-					DropHelper.WeightStack<HolyCollider>(w),
-					DropHelper.WeightStack<SolarFlare>(w),
-					DropHelper.WeightStack<TelluricGlare>(w),
-					DropHelper.WeightStack<BlissfulBombardier>(w),
-					DropHelper.WeightStack<PurgeGuzzler>(w),
-					DropHelper.WeightStack<DazzlingStabberStaff>(w),
-					DropHelper.WeightStack<MoltenAmputator>(w)
-				);
+				int[] weapons = new int[]
+				{
+					ModContent.ItemType<HolyCollider>(),
+					ModContent.ItemType<SolarFlare>(),
+					ModContent.ItemType<TelluricGlare>(),
+					ModContent.ItemType<BlissfulBombardier>(),
+					ModContent.ItemType<PurgeGuzzler>(),
+					ModContent.ItemType<DazzlingStabberStaff>(),
+					ModContent.ItemType<MoltenAmputator>()
+				};
+				normalOnly.Add(DropHelper.CalamityStyle(DropHelper.DirectWeaponDropRateFraction, weapons));
 
 				// Equipment
-				DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<SamuraiBadge>(), 40);
+				normalOnly.Add(ModContent.ItemType<SamuraiBadge>(), 40);
 
                 // Vanity
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<ProvidenceMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<ProvidenceMask>(), 7);
             }
+        }
+        
+        public override void OnKill()
+        {
+            CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedProvidence);
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {

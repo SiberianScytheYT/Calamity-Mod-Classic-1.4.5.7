@@ -589,18 +589,15 @@ namespace CalRD.NPCs.SlimeGod
         {
             potionType = ItemID.HealingPotion;
         }
-
-        // If the un-split Crimulan Slime God gets one-shotted last, it should drop the boss loot
+		
         public override void OnKill()
         {
-            bool otherSlimeGodsAlive =
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) ||
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGod>()) ||
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) ||
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>());
-            if (!otherSlimeGodsAlive)
-                SlimeGodCore.DropSlimeGodLoot(NPC);
+	        if (SlimeGodCore.LastSlimeGodStanding())
+		        SlimeGodCore.RealOnKill(NPC);
         }
+
+        // If the un-split Crimulan Slime God gets one-shotted last, it should drop the boss loot
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => SlimeGodCore.DropSlimeGodLoot(npcLoot);
 
         public override bool CheckActive()
         {

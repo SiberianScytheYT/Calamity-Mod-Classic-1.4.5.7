@@ -351,12 +351,11 @@ namespace CalRD.NPCs.SulphurousSea
             target.AddBuff(BuffID.Rabies, 300, true);
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<SulphuricAcidCannon>(), CalamityWorld.downedPolterghast, 3, 1, 1);
-            int item = Item.NewItem(NPC.GetSource_FromThis(), NPC.Center, NPC.Size, ItemID.SharkFin, Main.rand.Next(2, 5), false, 0, false, false);
-            Main.item[item].color = new Color(151, 115, 57, 255);
-            NetMessage.SendData(MessageID.ItemTweaker, -1, -1, null, item, 1f, 0f, 0f, 0, 0, 0);
+            npcLoot.AddIf(() => CalamityWorld.downedPolterghast, ModContent.ItemType<SulphuricAcidCannon>(), 3);
+            npcLoot.Add(ItemID.SharkFin, 1, 2, 5);
+            
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

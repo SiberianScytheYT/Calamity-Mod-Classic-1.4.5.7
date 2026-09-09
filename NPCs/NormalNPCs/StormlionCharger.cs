@@ -78,11 +78,12 @@ namespace CalRD.NPCs.NormalNPCs
             target.AddBuff(BuffID.Electrified, 90, true);
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<StormjawStaff>(), 0.2f, 1, 1);
+            npcLoot.Add(ModContent.ItemType<StormjawStaff>(), 5);
             //100% chance if DS isn't dead yet, otherwise 50%
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<StormlionMandible>(), !CalamityWorld.downedDesertScourge ? 1f : 0.5f, 1, 1);
+            npcLoot.AddIf(() => !CalamityWorld.downedDesertScourge, ModContent.ItemType<StormlionMandible>());
+            npcLoot.AddIf(() => CalamityWorld.downedDesertScourge, ModContent.ItemType<StormlionMandible>(), 2);
         }
     }
 }

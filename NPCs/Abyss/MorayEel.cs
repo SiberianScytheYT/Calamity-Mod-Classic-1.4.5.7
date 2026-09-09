@@ -99,10 +99,11 @@ namespace CalRD.NPCs.Abyss
             return SpawnCondition.OceanMonster.Chance * 0.1f;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<DepthBlade>(), Main.expertMode ? 10 : 15);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ItemID.Flipper, 20);
+            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<DepthBlade>(), 10);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<DepthBlade>(), 15);
+            npcLoot.Add(ItemID.Flipper, 20);
         }
 
         public override void HitEffect(NPC.HitInfo hit)

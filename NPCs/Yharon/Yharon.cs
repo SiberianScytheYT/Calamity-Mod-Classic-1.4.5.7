@@ -25,6 +25,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -2796,7 +2797,60 @@ namespace CalRD.NPCs.Yharon
             return !dropLoot;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            // Bags occur in either phase 1 or 2, as they don't contain phase 2 only drops
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<YharonBag>()));
+
+            // Phase 1 drops: Contained in the bag, so they only drop directly on Normal
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            {
+                // Weapons
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<DragonRage>(),
+                    ModContent.ItemType<TheBurningSky>(),
+                    ModContent.ItemType<DragonsBreath>(),
+                    ModContent.ItemType<ChickenCannon>(),
+                    ModContent.ItemType<PhoenixFlameBarrage>(),
+                    ModContent.ItemType<AngryChickenStaff>(), // Yharon Kindle Staff
+                    ModContent.ItemType<ProfanedTrident>(), // Infernal Spear
+                    ModContent.ItemType<FinalDawn>()
+                };
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.DirectWeaponDropRateFraction, weapons));
+
+                // Vanity
+                npcLoot.Add(ModContent.ItemType<YharonMask>(), 7);
+                npcLoot.Add(ModContent.ItemType<ForgottenDragonEgg>(), 10);
+            }
+
+            // These drops only occur in Phase 2 (where you actually kill Yharon)
+            var phaseTwo = npcLoot.DefineConditionalDropSet(() => startSecondAI && !phaseOneLoot);
+            {
+                // Materials
+                phaseTwo.AddConditionalPerPlayer(() => Main.expertMode, ModContent.ItemType<HellcasterFragment>(), 1, 22, 28);
+                phaseTwo.AddConditionalPerPlayer(() => Main.expertMode, ModContent.ItemType<HellcasterFragment>(), 1, 15, 22);
+
+                // Equipment
+                phaseTwo.AddIf(() => Main.expertMode, ModContent.ItemType<DrewsWings>());
+
+                // Weapons
+                phaseTwo.AddConditionalPerPlayer(() => Main.expertMode, ModContent.ItemType<VoidVortex>(), DropHelper.RareVariantDropRateInt);
+                phaseTwo.AddIf(() => !Main.expertMode, ModContent.ItemType<VoidVortex>(), DropHelper.RareVariantDropRateInt);
+                phaseTwo.AddConditionalPerPlayer(() => Main.expertMode, ModContent.ItemType<YharimsCrystal>(), 100); //not affected by defiled and not a leggie
+                phaseTwo.AddIf(() => !Main.expertMode, ModContent.ItemType<YharimsCrystal>(), 100);
+
+                // Vanity
+                npcLoot.Add(ModContent.ItemType<YharonTrophy>(), 10);
+
+                // Other
+                //phaseTwo.Add(ModContent.ItemType<BossRush>());
+                phaseTwo.AddConditionalPerPlayer(() => !CalamityWorld.downedYharon, ModContent.ItemType<KnowledgeYharon>(), 1);
+                phaseTwo.AddResidentEvilAmmo(CalamityWorld.downedYharon, 6, 3, 2);
+            }
+        }
+        
+		public override void OnKill()
         {
             // If Yharon runs away in phase 1 and the Eclipse isn't buffed yet, notify players of the buffed Solar Eclipse
             if (!startSecondAI && !CalamityWorld.buffedEclipse)
@@ -2810,54 +2864,9 @@ namespace CalRD.NPCs.Yharon
             }
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.buffedEclipse);
-
-            // Bags occur in either phase 1 or 2, as they don't contain phase 2 only drops
-            DropHelper.DropBags(ModContent.ItemType<YharonBag>(), NPC);
-
-            // Phase 1 drops: Contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
-            {
-                // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC.GetSource_FromThis(), NPC,
-                    DropHelper.WeightStack<DragonRage>(w),
-                    DropHelper.WeightStack<TheBurningSky>(w),
-                    DropHelper.WeightStack<DragonsBreath>(w),
-                    DropHelper.WeightStack<ChickenCannon>(w),
-                    DropHelper.WeightStack<PhoenixFlameBarrage>(w),
-                    DropHelper.WeightStack<AngryChickenStaff>(w), // Yharon Kindle Staff
-                    DropHelper.WeightStack<ProfanedTrident>(w), // Infernal Spear
-                    DropHelper.WeightStack<FinalDawn>(w)
-                );
-
-                // Vanity
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<YharonMask>(), 7);
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<ForgottenDragonEgg>(), 10);
-            }
-
-            // These drops only occur in Phase 2 (where you actually kill Yharon)
+			
             if (startSecondAI && !phaseOneLoot)
             {
-                // Materials
-                int soulFragMin = Main.expertMode ? 22 : 15;
-                int soulFragMax = Main.expertMode ? 28 : 22;
-                DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<HellcasterFragment>(), true, soulFragMin, soulFragMax);
-
-                // Equipment
-                DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<DrewsWings>(), Main.expertMode);
-
-                // Weapons
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<VoidVortex>(), Main.expertMode, DropHelper.RareVariantDropRateInt);
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<YharimsCrystal>(), Main.expertMode, 100); //not affected by defiled and not a leggie
-
-                // Vanity
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<YharonTrophy>(), 10);
-
-                // Other
-                //DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<BossRush>());
-                DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgeYharon>(), true, !CalamityWorld.downedYharon);
-                DropHelper.DropResidentEvilAmmo(NPC.GetSource_FromThis(), NPC, CalamityWorld.downedYharon, 6, 3, 2);
-
                 // If Yharon has not been killed yet, notify players of Auric Ore
                 if (!CalamityWorld.downedYharon)
                 {

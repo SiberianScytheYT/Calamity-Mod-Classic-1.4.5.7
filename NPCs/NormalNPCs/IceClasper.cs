@@ -288,11 +288,11 @@ namespace CalRD.NPCs.NormalNPCs
             }
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-			DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EssenceofEleum>());
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<FrostBarrier>(), 10);
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AncientIceChunk>(), 3);
+            npcLoot.Add(ModContent.ItemType<EssenceofEleum>());
+			npcLoot.Add(ModContent.ItemType<FrostBarrier>(), 10);
+			npcLoot.Add(ModContent.ItemType<AncientIceChunk>(), 3);
         }
     }
 }

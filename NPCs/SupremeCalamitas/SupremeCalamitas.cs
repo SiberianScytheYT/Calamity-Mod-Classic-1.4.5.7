@@ -28,6 +28,7 @@ using Terraria.ModLoader;
 using CalRD.Items.Placeables.Furniture.Trophies;
 using CalRD.Events;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalRD.NPCs.SupremeCalamitas
 {
@@ -2045,23 +2046,17 @@ namespace CalRD.NPCs.SupremeCalamitas
             return false;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DeathMessage();
-
-            // Incrase the player's SCal kill count
-            if (Main.player[NPC.target].Calamity().sCalKillCount < 5)
-                Main.player[NPC.target].Calamity().sCalKillCount++;
-
             // Materials
-            int essenceMin = Main.expertMode ? 30 : 20;
-            int essenceMax = Main.expertMode ? 40 : 30;
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<CalamitousEssence>(), true, essenceMin, essenceMax);
+            npcLoot.AddConditionalPerPlayer(() => Main.expertMode, ModContent.ItemType<CalamitousEssence>(), 1, 30, 40);
+            npcLoot.AddConditionalPerPlayer(() => !Main.expertMode, ModContent.ItemType<CalamitousEssence>(), 1, 20, 30);
 
             // Weapons
 
 			// All non-hybrid weapons are listed twice so that the drop rates are actually equal between each unique weapon
-			DropHelper.DropItemFromSetCondition(NPC.GetSource_FromThis(), NPC, true, Main.expertMode,
+			int[] weapons = new int[]
+			{
 				ModContent.ItemType<Animus>(), ModContent.ItemType<Animus>(),
 				ModContent.ItemType<Azathoth>(), ModContent.ItemType<Azathoth>(),
 				ModContent.ItemType<Contagion>(), ModContent.ItemType<Contagion>(),
@@ -2082,18 +2077,38 @@ namespace CalRD.NPCs.SupremeCalamitas
 				ModContent.ItemType<Endogenesis>(), ModContent.ItemType<Endogenesis>(),
 				ModContent.ItemType<BensUmbrella>(), ModContent.ItemType<BensUmbrella>(), //Temporal Umbrella
 				ModContent.ItemType<PrototypeAndromechaRing>(), ModContent.ItemType<PrototypeAndromechaRing>()
-			);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Vehemenc>(), Main.expertMode, CalamityWorld.revenge);
+			};
+			// slight inaccuracy: scal's drops are instanced per player.
+			npcLoot.Add(ItemDropRule.OneFromOptions(1, weapons));
+			
+            npcLoot.AddConditionalPerPlayer(() => CalamityWorld.revenge, ModContent.ItemType<Vehemenc>(), 1);
 
             // Vanity
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<BrimstoneJewel>(), Main.expertMode);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Levi>(), true, CalamityWorld.death);
+            npcLoot.AddConditionalPerPlayer(() => Main.expertMode, ModContent.ItemType<BrimstoneJewel>(), Main.expertMode);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<BrimstoneJewel>(), 1, 1, 1, !Main.expertMode);
+            npcLoot.AddConditionalPerPlayer(() => CalamityWorld.death, ModContent.ItemType<Levi>(), 1);
 
             // Other
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<SupremeCalamitasTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgeCalamitas>(), true, !CalamityWorld.downedSCal);
-            DropHelper.DropResidentEvilAmmo(NPC.GetSource_FromThis(), NPC, CalamityWorld.downedSCal, 6, 3, 2);
+            npcLoot.Add(ModContent.ItemType<SupremeCalamitasTrophy>(), 10);
+            npcLoot.AddIf(() => !CalamityWorld.downedSCal, ModContent.ItemType<KnowledgeCalamitas>());
+            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedSCal, 6, 3, 2);
+            npcLoot.AddIf(() =>
+            {
+	            if (Main.player[NPC.target].Calamity().sCalKillCount == 0 &&
+	                Main.LocalPlayer.Calamity().sCalDeathCount == 3) // Three deaths exactly rewards Lul
+		            return true;
+	            return false;
+            }, ModContent.ItemType<CheatTestThing>());
+        }
+        
+        public override void OnKill()
+        {
+            DeathMessage();
 
+            // Incrase the player's SCal kill count
+            if (Main.player[NPC.target].Calamity().sCalKillCount < 5)
+                Main.player[NPC.target].Calamity().sCalKillCount++;
+			
             // Mark Supreme Calamitas as dead
             CalamityWorld.downedSCal = true;
             CalamityNetcode.SyncWorld();
@@ -2121,7 +2136,6 @@ namespace CalRD.NPCs.SupremeCalamitas
                         break;
                     case 3: // Three deaths exactly rewards Lul
                         key = "Third time's the charm. Here's a special reward.";
-                        DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<CheatTestThing>());
                         break;
                     default: // Four or more deaths: Lul is permanently missed
                         key = "At long last I am free...for a time. I'll keep coming back, just like you. Until we meet again, farewell.";

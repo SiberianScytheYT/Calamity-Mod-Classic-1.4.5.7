@@ -240,10 +240,10 @@ namespace CalRD.NPCs.Abyss
             return 0f;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, CalamityGlobalNPCLoot.halibutCannonBaseDropChance, 1, 1);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<ChaoticOre>(), NPC.downedGolemBoss, 1f, 10, 26);
+            npcLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<HalibutCannon>(), CalamityGlobalNPCLoot.halibutCannonBaseDropChance, 1, 1);
+            npcLoot.AddIf(() => NPC.downedGolemBoss, ModContent.ItemType<ChaoticOre>(), 1, 10, 26);
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)

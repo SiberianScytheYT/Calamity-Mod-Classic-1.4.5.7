@@ -124,12 +124,12 @@ namespace CalRD.NPCs.NormalNPCs
             }
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AridArtifact>(), 3);
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<SlagMagnum>(), 4);
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Aftershock>(), 4);
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EarthenPike>(), 4);
+			npcLoot.Add(ModContent.ItemType<AridArtifact>(), 3);
+			npcLoot.Add(ModContent.ItemType<SlagMagnum>(), 4);
+			npcLoot.Add(ModContent.ItemType<Aftershock>(), 4);
+			npcLoot.Add(ModContent.ItemType<EarthenPike>(), 4);
         }
 
         public override void HitEffect(NPC.HitInfo hit)

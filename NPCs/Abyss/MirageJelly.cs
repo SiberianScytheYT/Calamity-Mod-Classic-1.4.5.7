@@ -226,17 +226,20 @@ namespace CalRD.NPCs.Abyss
             return 0f;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AbyssShocker>(), NPC.downedBoss3, 10, 1, 1);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, CalamityGlobalNPCLoot.halibutCannonBaseDropChance, 1, 1);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 2, 5, 7);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 5, 7);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<LifeJelly>(), Main.expertMode ? 5 : 7);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<ManaJelly>(), Main.expertMode ? 5 : 7);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<VitalJelly>(), Main.expertMode ? 5 : 7);
-			float necklaceDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : 0.01f;
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ItemID.JellyfishNecklace, necklaceDropRate);
+            npcLoot.AddIf(() => NPC.downedBoss3, ModContent.ItemType<AbyssShocker>(), 10, 1, 1);
+            npcLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<HalibutCannon>(), CalamityGlobalNPCLoot.halibutCannonBaseDropChance, 1, 1);
+            npcLoot.AddIf(() => CalamityWorld.downedCalamitas, ModContent.ItemType<DepthCells>(), 2, 5, 7);
+            npcLoot.AddIf(() => CalamityWorld.downedCalamitas && Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 5, 7);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<LifeJelly>(), 7);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<ManaJelly>(), 7);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<VitalJelly>(),  7);
+            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<LifeJelly>(), 5);
+            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<ManaJelly>(), 5);
+            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<VitalJelly>(), 5);
+            npcLoot.AddIf(() => CalamityWorld.defiled, ItemID.JellyfishNecklace, DropHelper.DefiledDropRateInt);
+			npcLoot.Add(ItemID.JellyfishNecklace, 100);
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)

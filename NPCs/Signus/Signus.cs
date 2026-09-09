@@ -19,6 +19,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.NPCs.Signus
@@ -777,37 +778,41 @@ namespace CalRD.NPCs.Signus
             potionType = ItemID.SuperHealingPotion;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             // Only drop items if fought alone
-            if (CalamityWorld.DoGSecondStageCountdown <= 0)
+            var alone = new LeadingConditionRule(DropHelper.If(() => CalamityWorld.DoGSecondStageCountdown <= 0));
             {
                 // Materials
-                DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<TwistingNether>(), true, 2, 3);
+                npcLoot.AddPerPlayer(ModContent.ItemType<TwistingNether>(), 1, 2, 3);
 
                 // Weapons
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<CosmicKunai>(), Main.expertMode ? 3 : 4);
-				DropHelper.DropItemRIV(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Cosmilamp>(), ModContent.ItemType<LanternoftheSoul>(), Main.expertMode ? 0.3333f : 0.25f, DropHelper.RareVariantDropRateFloat);
+                npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<CosmicKunai>(), 3);
+                npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<CosmicKunai>(), 4);
+                npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<Cosmilamp>(), 3);
+                npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Cosmilamp>(), 4);
+                npcLoot.Add(ModContent.ItemType<LanternoftheSoul>(), DropHelper.RareVariantDropRateInt);
 
 				//Equipment
-                DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<SpectralVeil>(), CalamityWorld.revenge, 4, 1, 1);
+                npcLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<SpectralVeil>(), 4);
 
                 // Vanity
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<SignusTrophy>(), 10);
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<SignusMask>(), 7);
-				if (Main.rand.NextBool(20))
-				{
-					DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AncientGodSlayerHelm>());
-					DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AncientGodSlayerChestplate>());
-					DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AncientGodSlayerLeggings>());
-				}
+                npcLoot.Add(ModContent.ItemType<SignusTrophy>(), 10);
+                npcLoot.Add(ModContent.ItemType<SignusMask>(), 7);
+                var godSlayerVanity = ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20);
+                godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>()));
+                godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>()));
+                alone.Add(godSlayerVanity);
 
                 // Other
                 bool lastSentinelKilled = CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && !CalamityWorld.downedSentinel3;
-                DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
-                DropHelper.DropResidentEvilAmmo(NPC.GetSource_FromThis(), NPC, CalamityWorld.downedSentinel3, 5, 2, 1);
+                npcLoot.AddConditionalPerPlayer(() => lastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>(), 1);
+                npcLoot.AddResidentEvilAmmo(CalamityWorld.downedSentinel3, 5, 2, 1);
             }
-
+        }
+        
+        public override void OnKill()
+        {
             // If DoG's fight is active, set the timer precisely for DoG phase 2 to spawn
             if (CalamityWorld.DoGSecondStageCountdown > 600)
             {

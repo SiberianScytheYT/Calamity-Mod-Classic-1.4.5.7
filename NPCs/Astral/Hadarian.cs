@@ -220,11 +220,11 @@ namespace CalRD.NPCs.Astral
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Stardust>(), 2, 3);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Stardust>(), Main.expertMode);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<HadarianMembrane>(), CalamityWorld.downedAstrageldon, 2, 1, 2);
+            npcLoot.Add(ModContent.ItemType<Stardust>(), 1, 2, 3);
+            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<Stardust>());
+            npcLoot.AddIf(() => CalamityWorld.downedAstrageldon, ModContent.ItemType<HadarianMembrane>(), 2, 1, 2);
         }
     }
 }

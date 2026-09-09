@@ -231,10 +231,11 @@ namespace CalRD.NPCs.AcidRain
             }
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<CorrodedFossil>(), 3 * (CalamityWorld.downedPolterghast ? 5 : 1), 1, 3);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<SulphurousGrabber>(), 20);
+            npcLoot.AddIf(() => CalamityWorld.downedPolterghast, ModContent.ItemType<CorrodedFossil>(), 15, 1, 3);
+            npcLoot.AddIf(() => CalamityWorld.downedPolterghast, ModContent.ItemType<CorrodedFossil>(), 3, 1, 3);
+            npcLoot.Add(ModContent.ItemType<SulphurousGrabber>(), 20);
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)

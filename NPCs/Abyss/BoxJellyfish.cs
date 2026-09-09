@@ -214,12 +214,13 @@ namespace CalRD.NPCs.Abyss
             }
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-			int abyssShockerChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 40 : 50;
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AbyssShocker>(), NPC.downedBoss3, abyssShockerChance, 1, 1);
-			float necklaceDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : 0.01f;
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ItemID.JellyfishNecklace, necklaceDropRate);
+            npcLoot.AddIf(() => NPC.downedBoss3 && CalamityWorld.defiled, ModContent.ItemType<AbyssShocker>(), DropHelper.DefiledDropRateInt);
+            npcLoot.AddIf(() => NPC.downedBoss3 && Main.expertMode, ModContent.ItemType<AbyssShocker>(), 40);
+            npcLoot.AddIf(() => NPC.downedBoss3 && !Main.expertMode, ModContent.ItemType<AbyssShocker>(), 50);
+            npcLoot.AddIf(() => CalamityWorld.defiled, ItemID.JellyfishNecklace, DropHelper.DefiledDropRateInt);
+			npcLoot.Add(ItemID.JellyfishNecklace, 100);
 		}
     }
 }

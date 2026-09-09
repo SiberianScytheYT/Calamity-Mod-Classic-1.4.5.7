@@ -262,11 +262,12 @@ namespace CalRD.NPCs.Crags
             return spawnInfo.Player.Calamity().ZoneCalamity ? 0.25f : 0f;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 3, 1, 1);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<GaelsGreatsword>(), CalamityWorld.downedYharon, CalamityWorld.defiled ? 0.05f : 0.02f);
+            npcLoot.AddIf(() => CalamityWorld.downedProvidence, ModContent.ItemType<Bloodstone>(), 2);
+            npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofChaos>(), 3);
+            npcLoot.AddIf(() => CalamityWorld.downedYharon && CalamityWorld.defiled, ModContent.ItemType<GaelsGreatsword>(), 20);
+            npcLoot.AddIf(() => CalamityWorld.downedYharon && !CalamityWorld.defiled, ModContent.ItemType<GaelsGreatsword>(), 50);
         }
 
         public override void HitEffect(NPC.HitInfo hit)

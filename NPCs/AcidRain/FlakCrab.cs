@@ -161,10 +161,11 @@ namespace CalRD.NPCs.AcidRain
             return null;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<CorrodedFossil>(), 3 * (CalamityWorld.downedPolterghast ? 5 : 1), 1, 3);
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<FlakToxicannon>(), 0.05f);
+            npcLoot.AddIf(() => CalamityWorld.downedPolterghast, ModContent.ItemType<CorrodedFossil>(), 15, 1, 3);
+            npcLoot.AddIf(() => !CalamityWorld.downedPolterghast, ModContent.ItemType<CorrodedFossil>(), 3, 1, 3);
+			npcLoot.Add(ModContent.ItemType<FlakToxicannon>(), 20);
         }
 
         public override void FindFrame(int frameHeight)

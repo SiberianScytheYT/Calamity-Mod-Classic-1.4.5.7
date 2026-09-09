@@ -70,10 +70,10 @@ namespace CalRD.NPCs.NormalNPCs
 			}
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<WulfrumShard>(), 1, 1);
-			DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<WulfrumShard>(), Main.expertMode, 0.5f, 1, 1);
+			npcLoot.Add(ModContent.ItemType<WulfrumShard>());
+			npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<WulfrumShard>(), 2);
 		}
 	}
 }

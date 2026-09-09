@@ -22,6 +22,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.NPCs.Leviathan
@@ -691,56 +692,70 @@ namespace CalRD.NPCs.Leviathan
         // The Leviathan runs the same loot code as Anahita, but only if she dies last.
         public override void OnKill()
         {
-			//Trophy dropped regardless of Anahita, precedent of Twins
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<LeviathanTrophy>(), 10);
-
-            if (!NPC.AnyNPCs(ModContent.NPCType<Siren>()))
-                DropSirenLeviLoot(NPC);
+            if (LastAnLStanding())
+            {
+	            // Mark Siren & Levi as dead
+	            CalamityWorld.downedLeviathan = true;
+	            CalamityNetcode.SyncWorld();
+            }
+        }
+        
+        public static bool LastAnLStanding()
+        {
+	        int count = NPC.CountNPCS(ModContent.NPCType<Siren>()) + NPC.CountNPCS(ModContent.NPCType<Leviathan>());
+	        return count <= 1;
         }
 
         // This loot code is shared with Anahita.
-        public static void DropSirenLeviLoot(NPC npc)
+        public static void DropSirenLeviLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropBags(ModContent.ItemType<LeviathanBag>(), npc);
+	        var lastStanding = npcLoot.DefineConditionalDropSet(() => LastAnLStanding());
+	        lastStanding.Add(ItemDropRule.BossBag(ModContent.ItemType<LeviathanBag>()));
 
-            DropHelper.DropItemCondition(npc.GetSource_FromThis(), npc, ModContent.ItemType<KnowledgeOcean>(), true, !CalamityWorld.downedLeviathan);
-            DropHelper.DropItemCondition(npc.GetSource_FromThis(), npc, ModContent.ItemType<KnowledgeLeviathanandSiren>(), true, !CalamityWorld.downedLeviathan);
-            DropHelper.DropResidentEvilAmmo(npc.GetSource_FromThis(), npc, CalamityWorld.downedLeviathan, 4, 2, 1);
+	        npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedLeviathan && LastAnLStanding(), ModContent.ItemType<KnowledgeOcean>(), 1);
+	        npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedLeviathan && LastAnLStanding(), ModContent.ItemType<KnowledgeLeviathanandSiren>(), 1);
+	        lastStanding.AddResidentEvilAmmo(CalamityWorld.downedLeviathan, 4, 2, 1);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            lastStanding.Add(normalOnly);
             {
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(npc.GetSource_FromThis(), npc,
-                    DropHelper.WeightStack<Greentide>(w),
-                    DropHelper.WeightStack<Leviatitan>(w),
-                    DropHelper.WeightStack<SirensSong>(w),
-                    DropHelper.WeightStack<Atlantis>(w),
-                    DropHelper.WeightStack<GastricBelcherStaff>(w),
-                    DropHelper.WeightStack<BrackishFlask>(w),
-                    DropHelper.WeightStack<LeviathanTeeth>(w)
-                );
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<Greentide>(),
+                    ModContent.ItemType<Leviatitan>(),
+                    ModContent.ItemType<SirensSong>(),
+                    ModContent.ItemType<Atlantis>(),
+                    ModContent.ItemType<GastricBelcherStaff>(),
+                    ModContent.ItemType<BrackishFlask>(),
+                    ModContent.ItemType<LeviathanTeeth>()
+                };
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.DirectWeaponDropRateFraction, weapons));
 
                 // Equipment
-                DropHelper.DropItemChance(npc.GetSource_FromThis(), npc, ModContent.ItemType<LureofEnthrallment>(), 4);
+                normalOnly.Add(ModContent.ItemType<LureofEnthrallment>(), 4);
 
                 // Vanity
-                DropHelper.DropItemChance(npc.GetSource_FromThis(), npc, ModContent.ItemType<LeviathanMask>(), 7);
-                DropHelper.DropItemChance(npc.GetSource_FromThis(), npc, ModContent.ItemType<AnahitaMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<LeviathanMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<AnahitaMask>(), 7);
 
                 // Fishing
-                DropHelper.DropItemChance(npc.GetSource_FromThis(), npc, ItemID.HotlineFishingHook, 10);
-                DropHelper.DropItemChance(npc.GetSource_FromThis(), npc, ItemID.BottomlessBucket, 10);
-                DropHelper.DropItemChance(npc.GetSource_FromThis(), npc, ItemID.SuperAbsorbantSponge, 10);
-                DropHelper.DropItemChance(npc.GetSource_FromThis(), npc, ItemID.FishingPotion, 5, 5, 8);
-                DropHelper.DropItemChance(npc.GetSource_FromThis(), npc, ItemID.SonarPotion, 5, 5, 8);
-                DropHelper.DropItemChance(npc.GetSource_FromThis(), npc, ItemID.CratePotion, 5, 5, 8);
+                normalOnly.Add(ItemID.HotlineFishingHook, 10);
+                normalOnly.Add(ItemID.BottomlessBucket, 10);
+                normalOnly.Add(ItemID.SuperAbsorbantSponge, 10);
+                normalOnly.Add(ItemID.FishingPotion, 5, 5, 8);
+                normalOnly.Add(ItemID.SonarPotion, 5, 5, 8);
+                normalOnly.Add(ItemID.CratePotion, 5, 5, 8);
             }
+        }
 
-            // Mark Siren & Levi as dead
-            CalamityWorld.downedLeviathan = true;
-            CalamityNetcode.SyncWorld();
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+	        DropSirenLeviLoot(npcLoot);
+	        
+	        //Trophy dropped regardless of Anahita, precedent of Twins
+	        npcLoot.Add(ModContent.ItemType<LeviathanTrophy>(), 10);
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)

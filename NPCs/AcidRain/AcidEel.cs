@@ -154,10 +154,11 @@ namespace CalRD.NPCs.AcidRain
             }
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<SulfuricScale>(), 2 * (CalamityWorld.downedAquaticScourge ? 6 : 1), 1, 3);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<SlitheringEels>(), CalamityWorld.downedAquaticScourge, 0.05f);
+            npcLoot.AddIf(() => CalamityWorld.downedAquaticScourge, ModContent.ItemType<SulfuricScale>(), 12, 1, 3);
+            npcLoot.AddIf(() => !CalamityWorld.downedAquaticScourge, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
+            npcLoot.AddIf(() => CalamityWorld.downedAquaticScourge, ModContent.ItemType<SlitheringEels>(), 20);
         }
 
         public override void FindFrame(int frameHeight)

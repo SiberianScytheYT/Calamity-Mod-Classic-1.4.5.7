@@ -21,6 +21,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -753,45 +754,47 @@ namespace CalRD.NPCs.HiveMind
             potionType = ItemID.HealingPotion;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropBags(ModContent.ItemType<HiveMindBag>(), NPC);
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<HiveMindBag>()));
 
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<HiveMindTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgeHiveMind>(), true, !CalamityWorld.downedHiveMind);
-            DropHelper.DropResidentEvilAmmo(NPC.GetSource_FromThis(), NPC, CalamityWorld.downedHiveMind, 2, 0, 0);
-
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Dryad }, CalamityWorld.downedHiveMind);
+            npcLoot.Add(ModContent.ItemType<HiveMindTrophy>(), 10);
+            npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedHiveMind, ModContent.ItemType<KnowledgeHiveMind>(), 1);
+            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedHiveMind, 2, 0, 0);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
-			if (!Main.expertMode)
+			var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
                 // Materials
-                DropHelper.DropItemSpray(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<TrueShadowScale>(), 25, 30);
-                DropHelper.DropItemSpray(NPC.GetSource_FromThis(), NPC, ItemID.DemoniteBar, 7, 10);
-                DropHelper.DropItemSpray(NPC.GetSource_FromThis(), NPC, ItemID.RottenChunk, 9, 15);
-                if (Main.hardMode)
-                    DropHelper.DropItemSpray(NPC.GetSource_FromThis(), NPC, ItemID.CursedFlame, 10, 20);
+                normalOnly.Add(ModContent.ItemType<TrueShadowScale>(), 1, 25, 30);
+                normalOnly.Add(ItemID.DemoniteBar, 1, 7, 10);
+                normalOnly.Add(ItemID.RottenChunk, 1, 9, 15);
+                normalOnly.AddIf(() => Main.hardMode, ItemID.CursedFlame, 1, 10, 20);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC.GetSource_FromThis(), NPC,
-                    DropHelper.WeightStack<PerfectDark>(w),
-                    DropHelper.WeightStack<LeechingDagger>(w),
-                    DropHelper.WeightStack<Shadethrower>(w),
-                    DropHelper.WeightStack<ShadowdropStaff>(w),
-                    DropHelper.WeightStack<ShaderainStaff>(w),
-                    DropHelper.WeightStack<DankStaff>(w),
-                    DropHelper.WeightStack<RotBall>(w, 30, 50)
-                );
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.DirectWeaponDropRateFraction, new DropHelper.WeightedItemStack[]
+                {
+                    ModContent.ItemType<PerfectDark>(),
+                    ModContent.ItemType<LeechingDagger>(),
+                    ModContent.ItemType<Shadethrower>(),
+                    ModContent.ItemType<ShadowdropStaff>(),
+                    ModContent.ItemType<ShaderainStaff>(),
+                    ModContent.ItemType<DankStaff>(),
+                    new DropHelper.WeightedItemStack(ModContent.ItemType<RotBall>(), 1f, 30, 50),
+                }));
 
                 //Equipment
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<FilthyGlove>(), 4);
+                npcLoot.Add(ModContent.ItemType<FilthyGlove>(), 4);
 
                 // Vanity
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<HiveMindMask>(), 7);
+                npcLoot.Add(ModContent.ItemType<HiveMindMask>(), 7);
             }
+        }
 
+        public override void OnKill()
+        {
+            CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Dryad }, CalamityWorld.downedHiveMind);
+            
             // If neither The Hive Mind nor The Perforator Hive have been killed yet, notify players of Aerialite Ore
             if (!CalamityWorld.downedHiveMind && !CalamityWorld.downedPerforator)
             {

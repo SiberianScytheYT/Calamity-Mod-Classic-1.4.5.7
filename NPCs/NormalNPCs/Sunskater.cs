@@ -219,10 +219,7 @@ namespace CalRD.NPCs.NormalNPCs
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, true);
         }
 
-        public override void OnKill()
-        {
-			DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EssenceofCinder>(), Main.hardMode, 3, 1, 1);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofCinder>(), 3);
 
         public override void HitEffect(NPC.HitInfo hit)
         {

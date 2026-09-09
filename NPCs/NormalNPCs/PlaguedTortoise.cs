@@ -80,9 +80,6 @@ namespace CalRD.NPCs.NormalNPCs
             target.AddBuff(ModContent.BuffType<Plague>(), 300, true);
         }
 
-        public override void OnKill()
-        {
-			DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<PlagueCellCluster>(), 3, 4);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<PlagueCellCluster>(), 1, 3, 4);
     }
 }

@@ -547,15 +547,11 @@ namespace CalRD.NPCs.SlimeGod
 
 		public override void OnKill()
         {
-            bool otherSlimeGodsAlive =
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) ||
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGod>()) ||
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) ||
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()) ||
-                NPC.CountNPCS(ModContent.NPCType<SlimeGodRunSplit>()) > 1; // the other crimulan split is alive
-            if (!otherSlimeGodsAlive)
-                SlimeGodCore.DropSlimeGodLoot(NPC);
+	        if (SlimeGodCore.LastSlimeGodStanding())
+		        SlimeGodCore.RealOnKill(NPC);
         }
+		
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => SlimeGodCore.DropSlimeGodLoot(npcLoot);
 
         public override bool CheckActive()
         {

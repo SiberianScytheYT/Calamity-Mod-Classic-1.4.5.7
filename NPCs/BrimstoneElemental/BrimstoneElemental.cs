@@ -17,6 +17,7 @@ using System.IO;
 using CalRD.BiomeManagers;
 using Terraria;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -191,40 +192,44 @@ namespace CalRD.NPCs.BrimstoneElemental
             potionType = ItemID.GreaterHealingPotion;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropBags(ModContent.ItemType<BrimstoneWaifuBag>(), NPC);
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<BrimstoneWaifuBag>()));
 
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgeBrimstoneCrag>(), true, !CalamityWorld.downedBrimstoneElemental);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgeBrimstoneElemental>(), true, !CalamityWorld.downedBrimstoneElemental);
-            DropHelper.DropResidentEvilAmmo(NPC.GetSource_FromThis(), NPC, CalamityWorld.downedBrimstoneElemental, 4, 2, 1);
+            npcLoot.Add(ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
+            npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedBrimstoneElemental, ModContent.ItemType<KnowledgeBrimstoneCrag>(), 1);
+            npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedBrimstoneElemental, ModContent.ItemType<KnowledgeBrimstoneElemental>(), 1);
+            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedBrimstoneElemental, 4, 2, 1);
 
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard }, CalamityWorld.downedBrimstoneElemental);
-
-			if (!Main.expertMode)
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
 				//Materials
-                DropHelper.DropItemSpray(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EssenceofChaos>(), 4, 8);
-				DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 1f, 20, 30);
+                normalOnly.Add(ModContent.ItemType<EssenceofChaos>(), 1, 4, 8);
+                normalOnly.AddIf(() => CalamityWorld.downedProvidence, ModContent.ItemType<Bloodstone>(), 1, 20, 30);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC.GetSource_FromThis(), NPC,
-                    DropHelper.WeightStack<Brimlance>(w),
-                    DropHelper.WeightStack<SeethingDischarge>(w),
-                    DropHelper.WeightStack<DormantBrimseeker>(w)
-                );
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<Brimlance>(),
+                    ModContent.ItemType<SeethingDischarge>(),
+                    ModContent.ItemType<DormantBrimseeker>()
+                };
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.DirectWeaponDropRateFraction, weapons));
 
                 // Equipment
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<RoseStone>(), 10);
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Abaddon>(), 2);
+                normalOnly.Add(ModContent.ItemType<RoseStone>(), 10);
+                normalOnly.Add(ModContent.ItemType<Abaddon>(), 2);
 
                 // Vanity
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<BrimstoneWaifuMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<BrimstoneWaifuMask>(), 7);
             }
+        }
 
-			//if brimmy hasn't been killed, you can mine charred ore
+        public override void OnKill()
+        {
+            CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard }, CalamityWorld.downedBrimstoneElemental);
+            
+            //if brimmy hasn't been killed, you can mine charred ore
             string key2 = "A protective spell has been lifted from the crags! You can now mine Charred Ore.";
             Color messageColor2 = Color.Crimson;
             if (!CalamityWorld.downedBrimstoneElemental)

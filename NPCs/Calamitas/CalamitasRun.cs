@@ -172,11 +172,13 @@ namespace CalRD.NPCs.Calamitas
             return NPC.Calamity().newAI[0] == 1f;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<CataclysmTrophy>(), 10);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<BrimstoneFlamesprayer>(), Main.expertMode ? 10 : 12);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<BrimstoneFlameblaster>(), Main.expertMode ? 10 : 12);
+            npcLoot.Add(ModContent.ItemType<CataclysmTrophy>(), 10);
+            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<BrimstoneFlamesprayer>(), 10);
+            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<BrimstoneFlameblaster>(), 10);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<BrimstoneFlamesprayer>(), 12);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<BrimstoneFlameblaster>(), 12);
         }
 
         public override void HitEffect(NPC.HitInfo hit)

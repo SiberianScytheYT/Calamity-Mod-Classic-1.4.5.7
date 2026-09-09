@@ -21,6 +21,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -194,56 +195,60 @@ namespace CalRD.NPCs.Calamitas
 			return false;
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropBags(ModContent.ItemType<CalamitasBag>(), NPC);
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<CalamitasBag>()));
 
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.BrokenHeroSword, true);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<CalamitasTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgeCalamitasClone>(), !CalamityWorld.downedCalamitas);
-            DropHelper.DropResidentEvilAmmo(NPC.GetSource_FromThis(), NPC, CalamityWorld.downedCalamitas, 4, 2, 1);
+            npcLoot.AddPerPlayer(ItemID.BrokenHeroSword);
+            npcLoot.Add(ModContent.ItemType<CalamitasTrophy>(), 10);
+            npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedCalamitas, ModContent.ItemType<KnowledgeCalamitasClone>(), 1);
+            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedCalamitas, 4, 2, 1);
 
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedCalamitas);
-
-			if (!Main.expertMode)
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
 				//Materials
-                DropHelper.DropItemSpray(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EssenceofChaos>(), 4, 8);
-                DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<CalamityDust>(), 9, 14);
-                DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<BlightedLens>(), 1, 2);
-				DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 1f, 30, 40);
+				normalOnly.Add(ModContent.ItemType<EssenceofChaos>(), 1, 4, 8);
+                normalOnly.Add(ModContent.ItemType<CalamityDust>(), 1, 9, 14);
+                normalOnly.Add(ModContent.ItemType<BlightedLens>(), 1, 1, 2);
+                normalOnly.AddIf(() => CalamityWorld.downedProvidence, ModContent.ItemType<Bloodstone>(), 1, 30, 40);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC.GetSource_FromThis(), NPC,
-                    DropHelper.WeightStack<TheEyeofCalamitas>(w),
-                    DropHelper.WeightStack<Animosity>(w),
-                    DropHelper.WeightStack<CalamitasInferno>(w),
-                    DropHelper.WeightStack<BlightedEyeStaff>(w)
-                );
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<TheEyeofCalamitas>(),
+                    ModContent.ItemType<Animosity>(),
+                    ModContent.ItemType<CalamitasInferno>(),
+                    ModContent.ItemType<BlightedEyeStaff>()
+                };
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.DirectWeaponDropRateFraction, weapons));
 
                 // Equipment
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<ChaosStone>(), 10);
+                normalOnly.Add(ModContent.ItemType<ChaosStone>(), 10);
 
                 // Vanity
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<CalamitasMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<CalamitasMask>(), 7);
             }
+        }
 
-            // Abyss awakens after killing Calamitas
-            string key = "The ocean depths are trembling.";
-            Color messageColor = Color.RoyalBlue;
+        public override void OnKill()
+        {
+	        CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedCalamitas);
 
-            if (!CalamityWorld.downedCalamitas)
-            {
-                if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-                    SoundEngine.PlaySound(new SoundStyle("CalRD/Sounds/Custom/WyrmScream"), Main.player[Main.myPlayer].position);
+	        // Abyss awakens after killing Calamitas
+	        string key = "The ocean depths are trembling.";
+	        Color messageColor = Color.RoyalBlue;
 
-                CalamityUtils.DisplayLocalizedText(key, messageColor);
-            }
+	        if (!CalamityWorld.downedCalamitas)
+	        {
+		        if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
+			        SoundEngine.PlaySound(new SoundStyle("CalRD/Sounds/Custom/WyrmScream"), Main.player[Main.myPlayer].position);
 
-            // Mark Calamitas as dead
-            CalamityWorld.downedCalamitas = true;
-            CalamityNetcode.SyncWorld();
+		        CalamityUtils.DisplayLocalizedText(key, messageColor);
+	        }
+
+	        // Mark Calamitas as dead
+	        CalamityWorld.downedCalamitas = true;
+	        CalamityNetcode.SyncWorld();
         }
 
         public override void BossLoot(ref string name, ref int potionType)

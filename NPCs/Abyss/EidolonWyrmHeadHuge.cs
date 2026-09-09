@@ -481,16 +481,16 @@ namespace CalRD.NPCs.Abyss
             return 0f;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Voidstone>(), 80, 100);
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EidolicWail>());
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<SoulEdge>());
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge);
+            npcLoot.Add(ModContent.ItemType<Voidstone>(), 1, 80, 100);
+            npcLoot.Add(ModContent.ItemType<EidolicWail>());
+            npcLoot.Add(ModContent.ItemType<SoulEdge>());
+            npcLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<HalibutCannon>());
 
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1, 50, 108);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 15, 27);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 21, 32);
+            npcLoot.AddIf(() => CalamityWorld.downedCalamitas && !Main.expertMode, ModContent.ItemType<Lumenite>(), 1, 50, 108);
+            npcLoot.AddIf(() => CalamityWorld.downedCalamitas && Main.expertMode, ModContent.ItemType<Lumenite>(), 2, 15, 27);
+            npcLoot.AddIf(() => NPC.downedPlantBoss, ItemID.Ectoplasm, 1, 21, 32);
         }
 
         public override void HitEffect(NPC.HitInfo hit)

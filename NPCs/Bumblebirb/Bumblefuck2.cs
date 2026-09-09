@@ -329,10 +329,7 @@ namespace CalRD.NPCs.Bumblebirb
 
 		public override bool PreKill() => !CalamityPlayer.areThereAnyDamnBosses;
 
-		public override void OnKill()
-		{
-			DropHelper.DropItemSpray(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EffulgentFeather>(), 2, 4);
-		}
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<EffulgentFeather>(), 1, 2, 4);
 
 		public override void FindFrame(int frameHeight)
         {

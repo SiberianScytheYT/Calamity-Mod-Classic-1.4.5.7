@@ -172,10 +172,11 @@ namespace CalRD.NPCs.Calamitas
 			return NPC.Calamity().newAI[0] == 1f;
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<CatastropheTrophy>(), 10);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<CrushsawCrasher>(), Main.expertMode ? 10 : 12);
+            npcLoot.Add(ModContent.ItemType<CatastropheTrophy>(), 10);
+            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<CrushsawCrasher>(), 10);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<CrushsawCrasher>(), 12);
         }
 
         public override void HitEffect(NPC.HitInfo hit)

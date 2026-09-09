@@ -793,13 +793,22 @@ namespace CalRD.NPCs.Leviathan
         }
 
         // Anahita runs the same loot code as the Leviathan, but only if she dies last.
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+	        Leviathan.DropSirenLeviLoot(npcLoot);
+	        
+			//Trophy dropped regardless of Levi, precedent of Twins
+            npcLoot.Add(ModContent.ItemType<AnahitaTrophy>(), 10);
+        }
+        
         public override void OnKill()
         {
-			//Trophy dropped regardless of Levi, precedent of Twins
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AnahitaTrophy>(), 10);
-
-            if (!NPC.AnyNPCs(ModContent.NPCType<Leviathan>()))
-                Leviathan.DropSirenLeviLoot(NPC);
+	        if (Leviathan.LastAnLStanding())
+	        {
+		        // Mark Siren & Levi as dead
+		        CalamityWorld.downedLeviathan = true;
+		        CalamityNetcode.SyncWorld();
+	        }
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)

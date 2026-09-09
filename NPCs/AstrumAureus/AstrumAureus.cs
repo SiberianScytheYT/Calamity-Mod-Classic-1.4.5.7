@@ -22,6 +22,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -359,41 +360,46 @@ namespace CalRD.NPCs.AstrumAureus
             potionType = ItemID.GreaterHealingPotion;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropBags(ModContent.ItemType<AstrageldonBag>(), NPC);
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<AstrageldonBag>()));
 
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AstrageldonTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgeAstrumAureus>(), true, !CalamityWorld.downedAstrageldon);
-            DropHelper.DropResidentEvilAmmo(NPC.GetSource_FromThis(), NPC, CalamityWorld.downedAstrageldon, 4, 2, 1);
-
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard, ModContent.NPCType<FAP>() }, CalamityWorld.downedAstrageldon);
+            npcLoot.Add(ModContent.ItemType<AstrageldonTrophy>(), 10);
+            npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedAstrageldon, ModContent.ItemType<KnowledgeAstrumAureus>(), 1);
+            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedAstrageldon, 4, 2, 1);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
-			if (!Main.expertMode)
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
                 // Materials
-                DropHelper.DropItemSpray(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Stardust>(), 20, 30);
-                DropHelper.DropItemSpray(NPC.GetSource_FromThis(), NPC, ItemID.FallenStar, 25, 40);
+                normalOnly.Add(ModContent.ItemType<Stardust>(), 1, 20, 30);
+                normalOnly.Add(ItemID.FallenStar, 1, 25, 40);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC.GetSource_FromThis(), NPC,
-                    DropHelper.WeightStack<Nebulash>(w),
-                    DropHelper.WeightStack<AuroraBlazer>(w),
-                    DropHelper.WeightStack<AlulaAustralis>(w),
-                    DropHelper.WeightStack<BorealisBomber>(w),
-                    DropHelper.WeightStack<AuroradicalThrow>(w)
-                );
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<Nebulash>(),
+                    ModContent.ItemType<AuroraBlazer>(),
+                    ModContent.ItemType<AlulaAustralis>(),
+                    ModContent.ItemType<BorealisBomber>(),
+                    ModContent.ItemType<AuroradicalThrow>()
+                };
+                
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.DirectWeaponDropRateFraction, weapons));
 
                 // Vanity
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AureusMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<AureusMask>(), 7);
 
                 // Other
-                DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AstralJelly>(), 9, 12);
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ItemID.HallowedKey, 5);
+                normalOnly.Add(ModContent.ItemType<AstralJelly>(), 1, 9, 12);
+                normalOnly.Add(ItemID.HallowedKey, 5);
             }
+        }
 
+        public override void OnKill()
+        {
+            CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard, ModContent.NPCType<FAP>() }, CalamityWorld.downedAstrageldon);
+            
             // Drop an Astral Meteor if applicable
             ThreadPool.QueueUserWorkItem(WorldGenerationMethods.AstralMeteorThreadWrapper);
 

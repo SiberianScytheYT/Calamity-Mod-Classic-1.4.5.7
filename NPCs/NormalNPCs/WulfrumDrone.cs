@@ -212,12 +212,12 @@ namespace CalRD.NPCs.NormalNPCs
             }
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<WulfrumShard>(), 1, 3);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<WulfrumShard>(), Main.expertMode);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<WulfrumBattery>(), 0.07f);
-			DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EnergyCore>(), Supercharged);
+            npcLoot.Add(ModContent.ItemType<WulfrumShard>(), 1, 1, 3);
+            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<WulfrumShard>());
+            npcLoot.Add(ModContent.ItemType<WulfrumBattery>(), 14);
+			npcLoot.AddIf(() => Supercharged, ModContent.ItemType<EnergyCore>());
         }
     }
 }

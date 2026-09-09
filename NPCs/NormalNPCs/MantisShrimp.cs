@@ -119,9 +119,9 @@ namespace CalRD.NPCs.NormalNPCs
             return SpawnCondition.OceanMonster.Chance * 0.2f;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-			DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<MantisClaws>(), NPC.downedPlantBoss, 0.2f);
+			npcLoot.AddIf(() => NPC.downedPlantBoss, ModContent.ItemType<MantisClaws>(), 5);
         }
 
         public override void HitEffect(NPC.HitInfo hit)

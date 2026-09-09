@@ -309,10 +309,7 @@ namespace CalRD.NPCs.ProfanedGuardians
             return true;
         }
 
-        public override void OnKill()
-        {
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<RelicOfConvergence>(), 4);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<RelicOfConvergence>(), 4);
 
         public override void BossLoot(ref string name, ref int potionType)
         {

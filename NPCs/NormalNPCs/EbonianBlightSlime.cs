@@ -78,10 +78,10 @@ namespace CalRD.NPCs.NormalNPCs
             target.AddBuff(BuffID.Weak, 120, true);
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EbonianGel>(), 15, 20);
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.Gel, 10, 14);
+            npcLoot.Add(ModContent.ItemType<EbonianGel>(), 1, 15, 20);
+            npcLoot.Add(ItemID.Gel, 1, 10, 14);
         }
     }
 }

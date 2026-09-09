@@ -162,11 +162,11 @@ namespace CalRD.NPCs.NormalNPCs
             }
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ItemID.Leather, 1, 1, 2);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Cryophobia>(), 100);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EssenceofEleum>(), CalamityWorld.downedCryogen, 3, 1, 1);
+            npcLoot.Add(ItemID.Leather, 1, 1, 2);
+            npcLoot.Add(ModContent.ItemType<Cryophobia>(), 100);
+            npcLoot.AddIf(() => CalamityWorld.downedCryogen, ModContent.ItemType<EssenceofEleum>(), 3, 1, 1);
         }
     }
 }

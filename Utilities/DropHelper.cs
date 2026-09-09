@@ -340,10 +340,20 @@ namespace CalRD
         public const float RareVariantDropRateFloat = 0.025f;
 
         /// <summary>
+        /// Direct weapon drops (straight from the boss in Normal Mode) have a 1 in X chance of dropping, where X is this variable.
+        /// </summary>
+        public const int DirectWeaponDropRateInt = 4;
+        
+        /// <summary>
         /// Direct weapon drops (straight from the boss in Normal Mode) have this chance to drop (decimal number out of 1.0).
         /// </summary>
         public const float DirectWeaponDropRateFloat = 0.25f;
 
+        /// <summary>
+        /// Weapons in Expert Mode typically have this chance to drop (as a DropHelper Fraction).
+        /// </summary>
+        public static readonly Fraction DirectWeaponDropRateFraction = new(1, DirectWeaponDropRateInt);
+        
         /// <summary>
         /// Bag weapons (Expert Mode and higher) typically have a 1 in X chance of dropping, where X is this variable.
         /// </summary>
@@ -671,6 +681,14 @@ namespace CalRD
         
         #region ILoot extensions
         /// <summary>
+        /// Drops the correct number of boss bags for Armageddon.
+        /// </summary>
+        /// <param name="mainRule">The LeadingConditionRule which should drop this item as one of its chains.</param>
+        /// <param name ="bossBag">The Item type corresponding to the boss bag.</param>
+        /// <returns>The number of boss bags dropped.</returns>
+        public static IItemDropRule AddArmageddonBags(this LeadingConditionRule mainRule, int bossBag) => mainRule.OnSuccess(ItemDropRule.Common(bossBag, 1, ArmageddonExtraBags, ArmageddonExtraBags));
+        
+        /// <summary>
         /// Shorthand to add a simple drop to a loot table.
         /// </summary>
         /// <param name="loot">The ILoot interface for the loot table.</param>
@@ -926,6 +944,79 @@ namespace CalRD
         }
         #endregion
         
+        #region Per Player Drop Rule
+        public class PerPlayerDropRule : CommonDrop
+        {
+            // Calamity Classic 1.4.5 also defaults this to vanilla's 15 minutes, to be period accurate.
+            private const int DefaultDropProtectionTime = 54000; // 15 minutes
+            private int protectionTime;
+
+            public PerPlayerDropRule(int itemID, int denominator, int minQuantity = 1, int maxQuantity = 1, int numerator = 1, int protectFrames = DefaultDropProtectionTime)
+                : base(itemID, denominator, minQuantity, maxQuantity, numerator)
+            {
+                protectionTime = protectFrames;
+            }
+
+            public PerPlayerDropRule(int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1)
+                : base(itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator)
+            {
+                protectionTime = DefaultDropProtectionTime;
+            }
+
+            // Overriding CanDrop is unnecessary. This drop rule has no condition.
+            // If you want to use a condition with PerPlayerDropRule, use DropHelper.If
+
+            public override ItemDropAttemptResult TryDroppingItem(DropAttemptInfo info)
+            {
+                ItemDropAttemptResult result = default;
+                if (info.rng.Next(chanceDenominator) < chanceNumerator)
+                {
+                    int stack = info.rng.Next(amountDroppedMinimum, amountDroppedMaximum + 1);
+                    TryDropInternal(info, itemId, stack);
+                    result.State = ItemDropAttemptResultState.Success;
+                    return result;
+                }
+
+                result.State = ItemDropAttemptResultState.FailedRandomRoll;
+                return result;
+            }
+
+            // The contents of this method are more or less copied from CommonCode.DropItemLocalPerClientAndSetNPCMoneyTo0
+            private void TryDropInternal(DropAttemptInfo info, int itemId, int stack)
+            {
+                if (itemId <= 0 || itemId >= ItemLoader.ItemCount)
+                    return;
+
+                // If server-side, then the item must be spawned for each client individually.
+                if (Main.dedServ)
+                {
+                    NPC npc = info.npc;
+                    int idx = Item.NewItem(npc.GetSource_Loot(), npc.Center, itemId, stack, true, -1);
+                    if (idx < Main.maxItems)
+                    {
+                        Main.timeItemSlotCannotBeReusedFor[idx] = protectionTime;
+                        foreach (Player player in Main.ActivePlayers)
+                            NetMessage.SendData(MessageID.InstancedItem, player.whoAmI, -1, null, idx);
+                        Main.item[idx].active = false;
+                    }
+                }
+
+                // Otherwise just drop the item.
+                else
+                    CommonCode.DropItem(info, itemId, stack);
+            }
+        }
+
+        public static IItemDropRule PerPlayer(int itemID, int denominator = 1, int minQuantity = 1, int maxQuantity = 1, int numerator = 1)
+        {
+            return new PerPlayerDropRule(itemID, denominator, minQuantity, maxQuantity, numerator);
+        }
+        public static IItemDropRule PerPlayer(int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1)
+        {
+            return PerPlayer(itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator);
+        }
+        #endregion
+        
         #region Specific Drop Helpers
         // Code copied from Player.QuickSpawnClonedItem, which was added by TML.
         /// <summary>
@@ -983,6 +1074,141 @@ namespace CalRD
             }
             return r;
         }
+        
+        /// <summary>
+        /// Shorthand for shorthand: Registers an item to drop per-player.<br />
+        /// Intended for lore items, but can be used generally for instanced drops.
+        /// </summary>
+        /// <param name="loot">The ILoot interface for the loot table.</param>
+        /// <param name="itemID">The item ID to drop.</param>
+        /// <returns>A LeadingConditionRule which you can attach more PerPlayer or other rules to as you want.</returns>
+        public static IItemDropRule AddPerPlayer(this ILoot loot, int itemID, int denominator = 1, int minQuantity = 1, int maxQuantity = 1, int numerator = 1) => loot.Add(PerPlayer(itemID, denominator, minQuantity, maxQuantity, numerator));
+        
+        /// <summary>
+        /// Shorthand for shorthand: Registers an item to drop per-player.<br />
+        /// Intended for lore items, but can be used generally for instanced drops.
+        /// </summary>
+        /// <param name="mainRule">The LeadingConditionRule which should drop this item as one of its chains.</param>
+        /// <param name="itemID">The item ID to drop.</param>
+        /// <returns>A LeadingConditionRule which you can attach more PerPlayer or other rules to as you want.</returns>
+        public static IItemDropRule AddPerPlayer(this LeadingConditionRule mainRule, int itemID, int denominator = 1, int minQuantity = 1, int maxQuantity = 1, int numerator = 1) => mainRule.OnSuccess(PerPlayer(itemID, denominator, minQuantity, maxQuantity, numerator));
+        
+        /// <summary>
+        /// Shorthand for shorthand: Registers an item to drop per-player on the specified condition.<br />
+        /// Intended for lore items, but can be used generally for instanced drops.
+        /// </summary>
+        /// <param name="mainRule">The LeadingConditionRule which should drop this item as one of its chains.</param>
+        /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
+        /// <param name="itemID">The item ID to drop.</param>
+        /// <param name="denominator">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
+        /// <returns>A LeadingConditionRule which you can attach more PerPlayer or other rules to as you want.</returns>
+        public static LeadingConditionRule AddConditionalPerPlayer(this LeadingConditionRule mainRule, Func<bool> lambda, int itemID, int denominator = 1, int minQuantity = 1, int maxQuantity = 1, int numerator = 1, bool ui = true, string desc = null)
+        {
+            LeadingConditionRule lcr = new(If(lambda, ui, desc));
+            lcr.Add(PerPlayer(itemID, denominator, minQuantity, maxQuantity, numerator));
+            mainRule.OnSuccess(lcr);
+            return mainRule;
+        }
+        
+        /// <summary>
+        /// Shorthand for shorthand: Registers an item to drop per-player on the specified condition.<br />
+        /// Intended for lore items, but can be used generally for instanced drops.
+        /// </summary>
+        /// <param name="mainRule">The LeadingConditionRule which should drop this item as one of its chains.</param>
+        /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
+        /// <param name="itemID">The item ID to drop.</param>
+        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
+        /// <returns>A LeadingConditionRule which you can attach more PerPlayer or other rules to as you want.</returns>
+        public static LeadingConditionRule AddConditionalPerPlayer(this LeadingConditionRule mainRule, Func<bool> lambda, int itemID, bool ui = true, string desc = null)
+        {
+            LeadingConditionRule lcr = new(If(lambda, ui, desc));
+            lcr.Add(PerPlayer(itemID));
+            mainRule.OnSuccess(lcr);
+            return mainRule;
+        }
+        
+        /// <summary>
+        /// Shorthand for shorthand: Registers an item to drop per-player on the specified condition.<br />
+        /// Intended for lore items, but can be used generally for instanced drops.
+        /// </summary>
+        /// <param name="loot">The ILoot interface for the loot table.</param>
+        /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
+        /// <param name="itemID">The item ID to drop.</param>
+        /// <param name="denominator">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
+        /// <returns>A LeadingConditionRule which you can attach more PerPlayer or other rules to as you want.</returns>
+        public static LeadingConditionRule AddConditionalPerPlayer(this ILoot loot, Func<bool> lambda, int itemID, int denominator = 1, int minQuantity = 1, int maxQuantity = 1, int numerator = 1, bool ui = true, string desc = null)
+        {
+            LeadingConditionRule lcr = new(If(lambda, ui, desc));
+            lcr.Add(PerPlayer(itemID, denominator, minQuantity, maxQuantity, numerator));
+            loot.Add(lcr);
+            return lcr;
+        }
+        
+        /// <summary>
+        /// Shorthand for shorthand: Registers an item to drop per-player on the specified condition.<br />
+        /// Intended for lore items, but can be used generally for instanced drops.
+        /// </summary>
+        /// <param name="loot">The ILoot interface for the loot table.</param>
+        /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
+        /// <param name="itemID">The item ID to drop.</param>
+        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
+        /// <returns>A LeadingConditionRule which you can attach more PerPlayer or other rules to as you want.</returns>
+        public static LeadingConditionRule AddConditionalPerPlayer(this ILoot loot, Func<bool> lambda, int itemID, bool ui = true, string desc = null)
+        {
+            LeadingConditionRule lcr = new(If(lambda, ui, desc));
+            lcr.Add(PerPlayer(itemID));
+            loot.Add(lcr);
+            return lcr;
+        }
+
+        /// <summary>
+        /// Shorthand for shorthand: Registers an item to drop per-player on the specified condition.<br />
+        /// Intended for lore items, but can be used generally for instanced drops.
+        /// </summary>
+        /// <param name="loot">The ILoot interface for the loot table.</param>
+        /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
+        /// <param name="itemID">The item ID to drop.</param>
+        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
+        /// <returns>A LeadingConditionRule which you can attach more PerPlayer or other rules to as you want.</returns>
+        public static LeadingConditionRule AddConditionalPerPlayer(this ILoot loot, Func<DropAttemptInfo, bool> lambda, int itemID, bool ui = true, string desc = null)
+        {
+            LeadingConditionRule lcr = new(If(lambda, ui, desc));
+            lcr.Add(PerPlayer(itemID));
+            loot.Add(lcr);
+            return lcr;
+        }
+        
+        /// <summary>
+        /// Shorthand for shorthand: Registers an item to drop per-player on the specified condition.<br />
+        /// Intended for lore items, but can be used generally for instanced drops.
+        /// </summary>
+        /// <param name="loot">The ILoot interface for the loot table.</param>
+        /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
+        /// <param name="itemID">The item ID to drop.</param>
+        /// <param name="dropRateInt">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
+        /// <returns>A LeadingConditionRule which you can attach more PerPlayer or other rules to as you want.</returns>
+        public static LeadingConditionRule AddConditionalPerPlayer(this ILoot loot, Func<DropAttemptInfo, bool> lambda, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1, bool ui = true, string desc = null)
+        {
+            LeadingConditionRule lcr = new(If(lambda, ui, desc));
+            lcr.Add(PerPlayer(itemID, dropRateInt, minQuantity, maxQuantity));
+            loot.Add(lcr);
+            return lcr;
+        }
 
         /// <summary>
         /// Adds the Revengeance Mode bag accessories to the given loot table.
@@ -993,6 +1219,48 @@ namespace CalRD
             var lcr = new LeadingConditionRule(If(() => CalamityWorld.revenge));
             lcr.Add(new OneFromOptionsDropRule(20, 1,  ModContent.ItemType<StressPills>(), ModContent.ItemType<Laudanum>(), ModContent.ItemType<HeartofDarkness>()));
             loot.Add(lcr);
+        }
+        
+        /// <summary>
+        /// Adds finite use "Resident Evil" ammunition to the given loot table, if the downed boolean isn't already true.
+        /// </summary>
+        /// /// <param name="loot">The ILoot interface for the loot table.</param>
+        /// <param name="alreadyKilled">A downed boolean corresponding to this NPC. Use "false" to always drop ammo.</param>
+        /// <param name="magnum">The number of Magnum Rounds to drop.</param>
+        /// <param name="bazooka">The number of Grenade Rounds to drop.</param>
+        /// <param name="hydra">The number of Explosive Shells to drop.</param>
+        /// <returns>The total amount of ammunition dropped.</returns>
+        public static void AddResidentEvilAmmo(this ILoot loot, bool alreadyKilled, int magnum, int bazooka, int hydra)
+        {
+            var rule = new LeadingConditionRule(If(() => !alreadyKilled));
+            if (magnum != 0)
+                rule.Add(ItemDropRule.Common(ModContent.ItemType<MagnumRounds>(), 1, magnum, magnum));
+            if (bazooka != 0)
+                rule.Add(ItemDropRule.Common(ModContent.ItemType<GrenadeRounds>(), 1, bazooka, bazooka));
+            if (hydra != 0)
+                rule.Add(ItemDropRule.Common(ModContent.ItemType<ExplosiveShells>(), 1, hydra, hydra));
+            loot.Add(rule);
+        }
+        
+        /// <summary>
+        /// Adds finite use "Resident Evil" ammunition to the given loot table, if the downed boolean isn't already true.
+        /// </summary>
+        /// /// <param name="loot">The ILoot interface for the loot table.</param>
+        /// <param name="alreadyKilled">A downed boolean corresponding to this NPC. Use "false" to always drop ammo.</param>
+        /// <param name="magnum">The number of Magnum Rounds to drop.</param>
+        /// <param name="bazooka">The number of Grenade Rounds to drop.</param>
+        /// <param name="hydra">The number of Explosive Shells to drop.</param>
+        /// <returns>The total amount of ammunition dropped.</returns>
+        public static void AddResidentEvilAmmo(this LeadingConditionRule mainRule, bool alreadyKilled, int magnum, int bazooka, int hydra)
+        {
+            var rule = new LeadingConditionRule(If(() => !alreadyKilled));
+            if (magnum != 0)
+                rule.Add(ItemDropRule.Common(ModContent.ItemType<MagnumRounds>(), 1, magnum, magnum));
+            if (bazooka != 0)
+                rule.Add(ItemDropRule.Common(ModContent.ItemType<GrenadeRounds>(), 1, bazooka, bazooka));
+            if (hydra != 0)
+                rule.Add(ItemDropRule.Common(ModContent.ItemType<ExplosiveShells>(), 1, hydra, hydra));
+            mainRule.Add(rule);
         }
 
         /// <summary>

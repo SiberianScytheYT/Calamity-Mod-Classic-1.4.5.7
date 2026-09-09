@@ -12,6 +12,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -139,55 +140,57 @@ namespace CalRD.NPCs.CeaselessVoid
 			CalamityAI.CeaselessVoidAI(NPC, Mod);
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             // Only drop items if fought alone
-            if (CalamityWorld.DoGSecondStageCountdown <= 0)
+            var alone = new LeadingConditionRule(DropHelper.If(() => CalamityWorld.DoGSecondStageCountdown <= 0));
             {
                 // Materials
-                DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<DarkPlasma>(), true, 2, 3);
+                alone.AddPerPlayer(ModContent.ItemType<DarkPlasma>(), 1, 2, 3);
 
                 // Weapons
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<MirrorBlade>(), Main.expertMode ? 3 : 4);
+                alone.Add(ModContent.ItemType<MirrorBlade>(), Main.expertMode ? 3 : 4);
 
                 // Equipment
-				DropHelper.DropItemRIV(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<ArcanumoftheVoid>(), ModContent.ItemType<TheEvolution>(), 0.2f, DropHelper.RareVariantDropRateFloat);
+                alone.Add(ModContent.ItemType<ArcanumoftheVoid>(), 5); 
+                alone.Add(ModContent.ItemType<TheEvolution>(), DropHelper.RareVariantDropRateInt);
 
                 // Vanity
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<CeaselessVoidTrophy>(), 10);
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<CeaselessVoidMask>(), 7);
-				if (Main.rand.NextBool(20))
-				{
-					DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AncientGodSlayerHelm>());
-					DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AncientGodSlayerChestplate>());
-					DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AncientGodSlayerLeggings>());
-				}
+                alone.Add(ModContent.ItemType<CeaselessVoidTrophy>(), 10);
+                alone.Add(ModContent.ItemType<CeaselessVoidMask>(), 7);
+                var godSlayerVanity = ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20);
+                godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>()));
+                godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>()));
+                alone.Add(godSlayerVanity);
 
                 // Other
                 bool lastSentinelKilled = !CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
-                DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
-                DropHelper.DropResidentEvilAmmo(NPC.GetSource_FromThis(), NPC, CalamityWorld.downedSentinel1, 5, 2, 1);
+                alone.AddConditionalPerPlayer(() => lastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
+                alone.AddResidentEvilAmmo(CalamityWorld.downedSentinel1, 5, 2, 1);
             }
+        }
 
-            // If DoG's fight is active, set the timer for the remaining two sentinels
-            else if (CalamityWorld.DoGSecondStageCountdown > 14460)
-            {
-                CalamityWorld.DoGSecondStageCountdown = 14460;
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    var netMessage = Mod.GetPacket();
-                    netMessage.Write((byte)CalRDMessageType.DoGCountdownSync);
-                    netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-                    netMessage.Send();
-                }
-            }
+        public override void OnKill()
+        {
+	        // If DoG's fight is active, set the timer for the remaining two sentinels
+	        if (CalamityWorld.DoGSecondStageCountdown > 14460)
+	        {
+		        CalamityWorld.DoGSecondStageCountdown = 14460;
+		        if (Main.netMode == NetmodeID.Server)
+		        {
+			        var netMessage = Mod.GetPacket();
+			        netMessage.Write((byte)CalRDMessageType.DoGCountdownSync);
+			        netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
+			        netMessage.Send();
+		        }
+	        }
 
-			// Mark Ceaseless Void as dead
-			if (CalamityWorld.DoGSecondStageCountdown <= 0)
-			{
-				CalamityWorld.downedSentinel1 = true;
-				CalamityNetcode.SyncWorld();
-			}
+	        // Mark Ceaseless Void as dead
+	        if (CalamityWorld.DoGSecondStageCountdown <= 0)
+	        {
+		        CalamityWorld.downedSentinel1 = true;
+		        CalamityNetcode.SyncWorld();
+	        }
         }
 
         public override void BossLoot(ref string name, ref int potionType)

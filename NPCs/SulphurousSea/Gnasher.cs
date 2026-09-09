@@ -123,10 +123,7 @@ namespace CalRD.NPCs.SulphurousSea
             return 0f;
         }
 
-        public override void OnKill()
-        {
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ItemID.TurtleShell, Main.hardMode, 10, 1, 1);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddIf(() => Main.hardMode, ItemID.TurtleShell, 10);
 
         public override void HitEffect(NPC.HitInfo hit)
         {

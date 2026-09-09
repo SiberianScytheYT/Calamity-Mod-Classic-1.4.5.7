@@ -310,13 +310,14 @@ namespace CalRD.NPCs.NormalNPCs
             }
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.Coral, 1, 3);
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.Starfish, 1, 3);
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.Seashell, 1, 3);
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<VictoryShard>(), 1, 3);
-            DropHelper.DropItemRIV(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AmidiasSpark>(), ModContent.ItemType<TheTransformer>(), 0.25f, 0.01f);
+            npcLoot.Add(ItemID.Coral, 1, 1, 3);
+            npcLoot.Add(ItemID.Starfish, 1, 1, 3);
+            npcLoot.Add(ItemID.Seashell, 1, 1, 3);
+            npcLoot.Add(ModContent.ItemType<VictoryShard>(), 1, 1, 3);
+            npcLoot.Add(ModContent.ItemType<AmidiasSpark>(), 4);
+            npcLoot.Add(ModContent.ItemType<TheTransformer>(), 100);
         }
     }
 }

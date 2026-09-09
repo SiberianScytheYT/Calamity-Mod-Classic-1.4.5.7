@@ -14,6 +14,7 @@ using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.NPCs.StormWeaver
@@ -637,54 +638,57 @@ namespace CalRD.NPCs.StormWeaver
             return false;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             // Only drop items if fought alone
-            if (CalamityWorld.DoGSecondStageCountdown <= 0)
+            var alone = new LeadingConditionRule(DropHelper.If(() => CalamityWorld.DoGSecondStageCountdown <= 0));
             {
                 // Materials
-                DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<ArmoredShell>(), true, 5, 8);
+                alone.AddPerPlayer(ModContent.ItemType<ArmoredShell>(), 1, 5, 8);
 
                 // Weapons
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<TheStorm>(), Main.expertMode ? 3 : 4);
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<StormDragoon>(), Main.expertMode ? 3 : 4);
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Thunderstorm>(), DropHelper.RareVariantDropRateFloat);
+                alone.AddIf(() => Main.expertMode, ModContent.ItemType<TheStorm>(), 3);
+                alone.AddIf(() => !Main.expertMode, ModContent.ItemType<TheStorm>(), 4);
+                alone.AddIf(() => Main.expertMode, ModContent.ItemType<StormDragoon>(), 3);
+                alone.AddIf(() => !Main.expertMode, ModContent.ItemType<StormDragoon>(), 4);
+                alone.Add(ModContent.ItemType<Thunderstorm>(), DropHelper.RareVariantDropRateInt);
 
                 // Vanity
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<WeaverTrophy>(), 10);
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<StormWeaverMask>(), 7);
-				if (Main.rand.NextBool(20))
-				{
-					DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AncientGodSlayerHelm>());
-					DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AncientGodSlayerChestplate>());
-					DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AncientGodSlayerLeggings>());
-				}
+                alone.Add(ModContent.ItemType<WeaverTrophy>(), 10);
+                alone.Add(ModContent.ItemType<StormWeaverMask>(), 7);
+                var godSlayerVanity = ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20);
+                godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>()));
+                godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>()));
+                alone.Add(godSlayerVanity);
 
                 // Other
                 bool lastSentinelKilled = CalamityWorld.downedSentinel1 && !CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
-                DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
-                DropHelper.DropResidentEvilAmmo(NPC.GetSource_FromThis(), NPC, CalamityWorld.downedSentinel2, 5, 2, 1);
+                npcLoot.AddConditionalPerPlayer(() => lastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>(), 1);
+                alone.AddResidentEvilAmmo(CalamityWorld.downedSentinel2, 5, 2, 1);
             }
+        }
 
-            // If DoG's fight is active, set the timer for Signus' phase
-            if (CalamityWorld.DoGSecondStageCountdown > 7260)
-            {
-                CalamityWorld.DoGSecondStageCountdown = 7260;
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    var netMessage = Mod.GetPacket();
-                    netMessage.Write((byte)CalRDMessageType.DoGCountdownSync);
-                    netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-                    netMessage.Send();
-                }
-            }
+        public override void OnKill()
+        {
+	        // If DoG's fight is active, set the timer for Signus' phase
+	        if (CalamityWorld.DoGSecondStageCountdown > 7260)
+	        {
+		        CalamityWorld.DoGSecondStageCountdown = 7260;
+		        if (Main.netMode == NetmodeID.Server)
+		        {
+			        var netMessage = Mod.GetPacket();
+			        netMessage.Write((byte)CalRDMessageType.DoGCountdownSync);
+			        netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
+			        netMessage.Send();
+		        }
+	        }
 
-			// Mark Storm Weaver as dead
-			if (CalamityWorld.DoGSecondStageCountdown <= 0)
-			{
-				CalamityWorld.downedSentinel2 = true;
-				CalamityNetcode.SyncWorld();
-			}
+	        // Mark Storm Weaver as dead
+	        if (CalamityWorld.DoGSecondStageCountdown <= 0)
+	        {
+		        CalamityWorld.downedSentinel2 = true;
+		        CalamityNetcode.SyncWorld();
+	        }
         }
 
         public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */

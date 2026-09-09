@@ -164,11 +164,11 @@ namespace CalRD.NPCs.SunkenSea
             }
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<VoltaicJelly>(), CalamityWorld.downedDesertScourge, 0.2f);
-			float necklaceDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : 0.01f;
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ItemID.JellyfishNecklace, necklaceDropRate);
+            npcLoot.AddIf(() => CalamityWorld.downedDesertScourge, ModContent.ItemType<VoltaicJelly>(), 5);
+			npcLoot.AddIf(() => CalamityWorld.defiled, ItemID.JellyfishNecklace, DropHelper.DefiledDropRateInt);
+            npcLoot.AddIf(() => !CalamityWorld.defiled, ItemID.JellyfishNecklace, 100);
         }
     }
 }

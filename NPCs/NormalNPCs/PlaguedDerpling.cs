@@ -199,9 +199,6 @@ namespace CalRD.NPCs.NormalNPCs
             }
         }
 
-        public override void OnKill()
-        {
-			DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<PlagueCellCluster>(), 1, 2);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<PlagueCellCluster>(), 1, 1, 2);
     }
 }

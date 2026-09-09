@@ -410,10 +410,10 @@ namespace CalRD.NPCs.NormalNPCs
             }
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-			DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.TinHelmet);
-			DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ItemID.MagicDagger, Main.hardMode);
+            npcLoot.Add(ItemID.TinHelmet);
+			npcLoot.AddIf(() => Main.hardMode, ItemID.MagicDagger);
         }
     }
 }

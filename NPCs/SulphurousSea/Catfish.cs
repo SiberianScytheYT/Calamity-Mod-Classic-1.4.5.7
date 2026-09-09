@@ -107,10 +107,7 @@ namespace CalRD.NPCs.SulphurousSea
             return 0f;
         }
 
-        public override void OnKill()
-        {
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ItemID.DivingHelmet, 20);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ItemID.DivingHelmet, 20);
 
         public override void HitEffect(NPC.HitInfo hit)
         {

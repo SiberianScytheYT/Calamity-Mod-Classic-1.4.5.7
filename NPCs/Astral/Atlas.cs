@@ -643,14 +643,13 @@ namespace CalRD.NPCs.Astral
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180, true);
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            int minStardust = Main.expertMode ? 7 : 6;
-            int maxStardust = Main.expertMode ? 9 : 8;
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Stardust>(), minStardust, maxStardust);
+            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<Stardust>(), 1, 7, 9);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Stardust>(), 1, 6, 8);
 
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<TitanArm>(), CalamityWorld.downedAstrageldon, 7, 1, 1);
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<TitanHeart>());
+            npcLoot.AddIf(() => CalamityWorld.downedAstrageldon, ModContent.ItemType<TitanArm>(), 7);
+            npcLoot.Add(ModContent.ItemType<TitanHeart>());
         }
     }
 }

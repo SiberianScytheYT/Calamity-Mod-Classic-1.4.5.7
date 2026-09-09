@@ -563,11 +563,11 @@ namespace CalRD.NPCs.Perforator
             return false;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-			DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<BloodSample>(), 4, 8);
-			DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.CrimtaneBar, 3, 5);
-			DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.Vertebrae, 2, 4);
+            npcLoot.Add(ModContent.ItemType<BloodSample>(), 1, 4, 8);
+            npcLoot.Add(ItemID.CrimtaneBar, 1, 3, 5);
+            npcLoot.Add(ItemID.Vertebrae, 1, 2, 4);
 		}
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)

@@ -74,9 +74,6 @@ namespace CalRD.NPCs.NormalNPCs
             }
         }
 
-        public override void OnKill()
-        {
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<PerennialOre>(), 10, 26);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<PerennialOre>(), 1, 10, 26);
     }
 }

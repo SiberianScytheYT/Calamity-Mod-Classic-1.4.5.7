@@ -81,14 +81,12 @@ namespace CalRD.NPCs.NormalNPCs
             target.AddBuff(BuffID.Confused, 120, true);
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            int item = Item.NewItem(NPC.GetSource_FromThis(), NPC.Center, NPC.Size, ModContent.ItemType<EbonianGel>(), Main.rand.Next(15, 21), false, 0, false, false);
-            Main.item[item].notAmmo = true;
-            NetMessage.SendData(MessageID.ItemTweaker, -1, -1, null, item, 1f, 0f, 0f, 0, 0, 0);
+            npcLoot.Add(ModContent.ItemType<EbonianGel>(), 1, 15, 21);
 
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.Gel, 10, 14);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Carnage>(), NPC.downedBoss3, 0.01f, 1, 1);
+            npcLoot.Add(ItemID.Gel, 1, 10, 14);
+            npcLoot.AddIf(() => NPC.downedBoss3, ModContent.ItemType<Carnage>(), 100);
         }
     }
 }

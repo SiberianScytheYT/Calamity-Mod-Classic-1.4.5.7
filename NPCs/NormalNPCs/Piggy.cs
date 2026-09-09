@@ -98,10 +98,7 @@ namespace CalRD.NPCs.NormalNPCs
             }
         }
 
-        public override void OnKill()
-        {
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.Bacon, 1, 1);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ItemID.Bacon);
 
         public override void HitEffect(NPC.HitInfo hit)
         {

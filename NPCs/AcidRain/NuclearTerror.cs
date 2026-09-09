@@ -449,9 +449,6 @@ namespace CalRD.NPCs.AcidRain
         {
             target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
         }
-        public override void OnKill()
-        {
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<GammaHeart>(), 3);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<GammaHeart>(), 3);
     }
 }

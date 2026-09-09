@@ -152,12 +152,12 @@ namespace CalRD.NPCs.NormalNPCs
             }
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<WulfrumShard>());
-			DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EnergyCore>(), Supercharged);
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<RoverDrive>(), 10);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<WulfrumBattery>(), 0.07f);
+            npcLoot.Add(ModContent.ItemType<WulfrumShard>());
+			npcLoot.AddIf(() => Supercharged, ModContent.ItemType<EnergyCore>());
+			npcLoot.Add(ModContent.ItemType<RoverDrive>(), 10);
+            npcLoot.Add(ModContent.ItemType<WulfrumBattery>(), 14);
         }
     }
 }

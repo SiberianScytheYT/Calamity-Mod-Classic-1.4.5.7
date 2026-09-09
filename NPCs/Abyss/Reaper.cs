@@ -680,19 +680,17 @@ namespace CalRD.NPCs.Abyss
             return 0f;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, CalamityGlobalNPCLoot.halibutCannonBaseDropChance / 100, 1, 1);
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Voidstone>(), 40, 50);
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AnechoicCoating>(), 2, 3);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 2, 10, 17);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 4, 5);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<ReaperTooth>(), CalamityWorld.downedPolterghast, 1f, 3, 4);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<DeepSeaDumbbell>(), CalamityWorld.downedPolterghast, 3, 1, 1);
-			if (CalamityWorld.downedPolterghast)
-			{
-				DropHelper.DropItemRIV(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Valediction>(), ModContent.ItemType<TheReaper>(), 0.3333f, 0.01f);
-			}
+            npcLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<HalibutCannon>(), CalamityGlobalNPCLoot.halibutCannonBaseDropChance / 100, 1, 1);
+            npcLoot.Add(ModContent.ItemType<Voidstone>(), 1, 40, 50);
+            npcLoot.Add(ModContent.ItemType<AnechoicCoating>(), 1, 2, 3);
+            npcLoot.AddIf(() => CalamityWorld.downedCalamitas && !Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 10, 17);
+            npcLoot.AddIf(() => CalamityWorld.downedCalamitas && Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 4, 5);
+            npcLoot.AddIf(() => CalamityWorld.downedPolterghast, ModContent.ItemType<ReaperTooth>(), 1, 3, 4);
+            npcLoot.AddIf(() => CalamityWorld.downedPolterghast, ModContent.ItemType<DeepSeaDumbbell>(), 3);
+            npcLoot.AddIf(() => CalamityWorld.downedPolterghast, ModContent.ItemType<Valediction>(), 3); 
+            npcLoot.AddIf(() => CalamityWorld.downedPolterghast, ModContent.ItemType<TheReaper>(), 100);
         }
 
         public override void HitEffect(NPC.HitInfo hit)

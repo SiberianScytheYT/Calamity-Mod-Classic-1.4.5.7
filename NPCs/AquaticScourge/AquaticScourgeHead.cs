@@ -23,6 +23,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using CalRD.Items.Armor.Vanity;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalRD.NPCs.AquaticScourge
 {
@@ -166,47 +167,51 @@ namespace CalRD.NPCs.AquaticScourge
             return false;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropBags(ModContent.ItemType<AquaticScourgeBag>(), NPC);
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<AquaticScourgeBag>()));
 
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.GreaterHealingPotion, 8, 14);
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AquaticScourgeTrophy>(), 10);
-			DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgeAquaticScourge>(), true, !CalamityWorld.downedAquaticScourge);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgeSulphurSea>(), true, !CalamityWorld.downedAquaticScourge);
-            DropHelper.DropResidentEvilAmmo(NPC.GetSource_FromThis(), NPC, CalamityWorld.downedAquaticScourge, 4, 2, 1);
-
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, CalamityWorld.downedAquaticScourge);
+            npcLoot.Add(ItemID.GreaterHealingPotion, 1, 8, 14);
+			npcLoot.Add(ModContent.ItemType<AquaticScourgeTrophy>(), 10);
+			npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedAquaticScourge, ModContent.ItemType<KnowledgeAquaticScourge>(), true, desc: null);
+            npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedAquaticScourge, ModContent.ItemType<KnowledgeSulphurSea>(), true, desc: null); 
+            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedAquaticScourge, 4, 2, 1);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
-			if (!Main.expertMode)
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
                 // Materials
-                DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<VictoryShard>(), 11, 20);
-                DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.Coral, 5, 9);
-                DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.Seashell, 5, 9);
-                DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.Starfish, 5, 9);
+                normalOnly.Add(ModContent.ItemType<VictoryShard>(), 1, 11, 20);
+                normalOnly.Add(ItemID.Coral, 1, 5, 9);
+                normalOnly.Add(ItemID.Seashell, 1, 5, 9);
+                normalOnly.Add(ItemID.Starfish, 1, 5, 9);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC.GetSource_FromThis(), NPC,
-                    DropHelper.WeightStack<SubmarineShocker>(w),
-                    DropHelper.WeightStack<Barinautical>(w),
-                    DropHelper.WeightStack<Downpour>(w),
-                    DropHelper.WeightStack<DeepseaStaff>(w),
-                    DropHelper.WeightStack<ScourgeoftheSeas>(w)
-                );
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<SubmarineShocker>(),
+                    ModContent.ItemType<Barinautical>(),
+                    ModContent.ItemType<Downpour>(),
+                    ModContent.ItemType<DeepseaStaff>(),
+                    ModContent.ItemType<ScourgeoftheSeas>()
+                };
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.DirectWeaponDropRateFraction, weapons));
 
                 // Equipment
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AeroStone>(), 9);
+                normalOnly.Add(ModContent.ItemType<AeroStone>(), 9);
 
                 // Vanity
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AquaticScourgeMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<AquaticScourgeMask>(), 7);
 
                 // Fishing
-                DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<BleachedAnglingKit>());
+                normalOnly.Add(ModContent.ItemType<BleachedAnglingKit>());
             }
+        }
 
+        public override void OnKill()
+        {
+            CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, CalamityWorld.downedAquaticScourge);
+            
             // If Aquatic Scourge has not yet been killed, notify players of buffed Acid Rain
             if (!CalamityWorld.downedAquaticScourge)
             {

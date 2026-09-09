@@ -20,6 +20,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -226,78 +227,87 @@ namespace CalRD.NPCs.AstrumDeus
             return false;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-			// Unsplit Deus does not drop anything when killed/despawned.
-            if (NPC.Calamity().newAI[0] == 0f)
-				return;
+	        var lastWorm = npcLoot.DefineConditionalDropSet(info => info.npc.Calamity().newAI[0] != 0f);
+	        lastWorm.Add(ItemDropRule.BossBag(ModContent.ItemType<AstrumDeusBag>()));
 
-            // Killing ANY split Deus makes all other Deus heads die immediately.
-            for (int i = 0; i < Main.maxNPCs; ++i)
-			{
-                NPC otherWormHead = Main.npc[i];
-                if (otherWormHead.active && otherWormHead.type == NPC.type)
-                {
-                    // Kill the other worm head after setting it to not drop loot.
-                    otherWormHead.Calamity().newAI[0] = 0f;
-                    otherWormHead.life = 0;
-                    otherWormHead.checkDead();
-                }
-			} 
-
-			DropHelper.DropBags(ModContent.ItemType<AstrumDeusBag>(), NPC);
-
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.GreaterHealingPotion, 8, 14);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AstrumDeusTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgeAstrumDeus>(), !CalamityWorld.downedStarGod);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgeAstralInfection>(), !CalamityWorld.downedStarGod);
-            DropHelper.DropResidentEvilAmmo(NPC.GetSource_FromThis(), NPC, CalamityWorld.downedStarGod, 4, 2, 1);
+	        lastWorm.Add(ItemID.GreaterHealingPotion, 1, 8, 14);
+	        lastWorm.Add(ModContent.ItemType<AstrumDeusTrophy>(), 10);
+            npcLoot.AddConditionalPerPlayer(info => !CalamityWorld.downedStarGod && info.npc.Calamity().newAI[0] != 0f, ModContent.ItemType<KnowledgeAstrumDeus>(), 1);
+            npcLoot.AddConditionalPerPlayer(info => !CalamityWorld.downedStarGod && info.npc.Calamity().newAI[0] != 0f, ModContent.ItemType<KnowledgeAstralInfection>(), 1);
+            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedStarGod, 4, 2, 1);
 
             // Drop a large spray of all 4 lunar fragments
-            int minFragments = Main.expertMode ? 20 : 12;
-            int maxFragments = Main.expertMode ? 32 : 20;
-            DropHelper.DropItemSpray(NPC.GetSource_FromThis(), NPC, ItemID.FragmentSolar, minFragments, maxFragments);
-            DropHelper.DropItemSpray(NPC.GetSource_FromThis(), NPC, ItemID.FragmentVortex, minFragments, maxFragments);
-            DropHelper.DropItemSpray(NPC.GetSource_FromThis(), NPC, ItemID.FragmentNebula, minFragments, maxFragments);
-            DropHelper.DropItemSpray(NPC.GetSource_FromThis(), NPC, ItemID.FragmentStardust, minFragments, maxFragments);
+            lastWorm.AddIf(() => Main.expertMode, ItemID.FragmentSolar, 1, 20, 32);
+            lastWorm.AddIf(() => Main.expertMode, ItemID.FragmentVortex, 1, 20, 32);
+            lastWorm.AddIf(() => Main.expertMode, ItemID.FragmentNebula, 1, 20, 32);
+            lastWorm.AddIf(() => Main.expertMode, ItemID.FragmentStardust, 1, 20, 32);
+            lastWorm.AddIf(() => !Main.expertMode, ItemID.FragmentSolar, 1, 12, 20);
+            lastWorm.AddIf(() => !Main.expertMode, ItemID.FragmentVortex, 1, 12, 20);
+            lastWorm.AddIf(() => !Main.expertMode, ItemID.FragmentNebula, 1, 12, 20);
+            lastWorm.AddIf(() => !Main.expertMode, ItemID.FragmentStardust, 1, 12, 20);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            lastWorm.Add(normalOnly);
             {
-                DropHelper.DropItemSpray(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Stardust>(), 50, 80, 5);
-                DropHelper.DropItemSpray(NPC.GetSource_FromThis(), NPC, ItemID.FallenStar, 80, 150);
+	            normalOnly.Add(ModContent.ItemType<Stardust>(), 1, 50, 80);
+	            normalOnly.Add(ItemID.FallenStar, 1, 80, 150);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC.GetSource_FromThis(), NPC,
-                    DropHelper.WeightStack<TheMicrowave>(w),
-                    DropHelper.WeightStack<StarSputter>(w),
-                    DropHelper.WeightStack<Starfall>(w),
-                    DropHelper.WeightStack<GodspawnHelixStaff>(w),
-                    DropHelper.WeightStack<RegulusRiot>(w)
-                );
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<TheMicrowave>(),
+                    ModContent.ItemType<StarSputter>(),
+                    ModContent.ItemType<Starfall>(),
+                    ModContent.ItemType<GodspawnHelixStaff>(),
+                    ModContent.ItemType<RegulusRiot>()
+                };
+                
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.DirectWeaponDropRateFraction, weapons));
 
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Quasar>(), DropHelper.RareVariantDropRateInt);
+                normalOnly.Add(ModContent.ItemType<Quasar>(), DropHelper.RareVariantDropRateInt);
 
                 // Equipment
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<HideofAstrumDeus>(), DropHelper.RareVariantDropRateInt);
-				DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<ChromaticOrb>(), 5);
+                normalOnly.Add(ModContent.ItemType<HideofAstrumDeus>(), DropHelper.RareVariantDropRateInt);
+                normalOnly.Add(ModContent.ItemType<ChromaticOrb>(), 5);
 
                 // Vanity
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AstrumDeusMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<AstrumDeusMask>(), 7);
             }
+        }
 
-            // Notify players that Astral Ore can be mined if Deus has never been killed yet
-            if (!CalamityWorld.downedStarGod)
-            {
-                string key = "The seal of the stars has been broken! You can now mine Astral Ore.";
-                Color messageColor = Color.Gold;
-                CalamityUtils.DisplayLocalizedText(key, messageColor);
-            }
+        public override void OnKill()
+        {
+	        // Unsplit Deus does not drop anything when killed/despawned.
+	        if (NPC.Calamity().newAI[0] == 0f)
+		        return;
 
-            // Mark Astrum Deus as dead
-            CalamityWorld.downedStarGod = true;
-            CalamityNetcode.SyncWorld();
+	        // Killing ANY split Deus makes all other Deus heads die immediately.
+	        for (int i = 0; i < Main.maxNPCs; ++i)
+	        {
+		        NPC otherWormHead = Main.npc[i];
+		        if (otherWormHead.active && otherWormHead.type == NPC.type)
+		        {
+			        // Kill the other worm head after setting it to not drop loot.
+			        otherWormHead.Calamity().newAI[0] = 0f;
+			        otherWormHead.life = 0;
+			        otherWormHead.checkDead();
+		        }
+	        } 
+	        
+	        // Notify players that Astral Ore can be mined if Deus has never been killed yet
+	        if (!CalamityWorld.downedStarGod)
+	        {
+		        string key = "The seal of the stars has been broken! You can now mine Astral Ore.";
+		        Color messageColor = Color.Gold;
+		        CalamityUtils.DisplayLocalizedText(key, messageColor);
+	        }
+
+	        // Mark Astrum Deus as dead
+	        CalamityWorld.downedStarGod = true;
+	        CalamityNetcode.SyncWorld();
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)

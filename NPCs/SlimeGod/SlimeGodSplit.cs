@@ -537,15 +537,11 @@ namespace CalRD.NPCs.SlimeGod
 
 		public override void OnKill()
         {
-            bool otherSlimeGodsAlive =
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) ||
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGod>()) ||
-                NPC.CountNPCS(ModContent.NPCType<SlimeGodSplit>()) > 1 || // the other ebonian split is alive
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()) ||
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>());
-            if (!otherSlimeGodsAlive)
-                SlimeGodCore.DropSlimeGodLoot(NPC);
+	        if (SlimeGodCore.LastSlimeGodStanding())
+		        SlimeGodCore.RealOnKill(NPC);
         }
+		
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => SlimeGodCore.DropSlimeGodLoot(npcLoot);
 
         public override bool CheckActive()
         {

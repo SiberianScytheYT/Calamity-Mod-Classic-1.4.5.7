@@ -290,10 +290,7 @@ namespace CalRD.NPCs.SunkenSea
             return 0f;
         }
 
-        public override void OnKill()
-        {
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Serpentine>(), 0.25f);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<Serpentine>(), 4);
 
         public override void HitEffect(NPC.HitInfo hit)
         {

@@ -76,9 +76,6 @@ namespace CalRD.NPCs.NormalNPCs
             target.AddBuff(BuffID.Weak, 120, true);
         }
 
-        public override void OnKill()
-        {
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<BlightedLens>(), 0.5f);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<BlightedLens>(), 2);
     }
 }

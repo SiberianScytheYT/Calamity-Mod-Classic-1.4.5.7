@@ -22,6 +22,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -370,60 +371,64 @@ namespace CalRD.NPCs.Perforator
             potionType = ItemID.HealingPotion;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropBags(ModContent.ItemType<PerforatorBag>(), NPC);
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<PerforatorBag>()));
 
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<PerforatorTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgePerforators>(), true, !CalamityWorld.downedPerforator);
-            DropHelper.DropResidentEvilAmmo(NPC.GetSource_FromThis(), NPC, CalamityWorld.downedPerforator, 2, 0, 0);
-
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Dryad }, CalamityWorld.downedPerforator);
+            npcLoot.Add(ModContent.ItemType<PerforatorTrophy>(), 10);
+            npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedPerforator, ModContent.ItemType<KnowledgePerforators>(), 1);
+            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedPerforator, 2, 0, 0);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
-			if (!Main.expertMode)
+			var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
                 // Materials
-                DropHelper.DropItemSpray(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<BloodSample>(), 7, 14);
-                DropHelper.DropItemSpray(NPC.GetSource_FromThis(), NPC, ItemID.CrimtaneBar, 2, 5);
-                DropHelper.DropItemSpray(NPC.GetSource_FromThis(), NPC, ItemID.Vertebrae, 3, 9);
-                if (Main.hardMode)
-                    DropHelper.DropItemSpray(NPC.GetSource_FromThis(), NPC, ItemID.Ichor, 10, 20);
+                normalOnly.Add(ModContent.ItemType<BloodSample>(), 1, 7, 14);
+                normalOnly.Add(ItemID.CrimtaneBar, 1, 2, 5);
+                normalOnly.Add(ItemID.Vertebrae, 1, 3, 9);
+                normalOnly.AddIf(() => Main.hardMode, ItemID.Ichor, 1, 10, 20);
 
 				// Weapons
-				float w = DropHelper.DirectWeaponDropRateFloat;
-				DropHelper.DropEntireWeightedSet(NPC.GetSource_FromThis(), NPC,
-					DropHelper.WeightStack<VeinBurster>(w),
-					DropHelper.WeightStack<BloodyRupture>(w),
-					DropHelper.WeightStack<SausageMaker>(w),
-					DropHelper.WeightStack<Aorta>(w),
-					DropHelper.WeightStack<Eviscerator>(w),
-					DropHelper.WeightStack<BloodBath>(w),
-					DropHelper.WeightStack<BloodClotStaff>(w),
-					DropHelper.WeightStack<ToothBall>(w, 30, 50)
-				);
+				normalOnly.Add(DropHelper.CalamityStyle(DropHelper.DirectWeaponDropRateFraction, new DropHelper.WeightedItemStack[]
+				{
+					ModContent.ItemType<VeinBurster>(),
+					ModContent.ItemType<BloodyRupture>(),
+					ModContent.ItemType<SausageMaker>(),
+					ModContent.ItemType<Aorta>(),
+					ModContent.ItemType<Eviscerator>(),
+					ModContent.ItemType<BloodBath>(),
+					ModContent.ItemType<BloodClotStaff>(),
+					new DropHelper.WeightedItemStack(ModContent.ItemType<ToothBall>(), 1f, 30, 50)
+				}));
 
 				//Equipment
-				DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<BloodstainedGlove>(), 4);
+				normalOnly.Add(ModContent.ItemType<BloodstainedGlove>(), 4);
 
                 // Vanity
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<PerforatorMask>(), 7);
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<BloodyVein>(), 10);
+                normalOnly.Add(ModContent.ItemType<PerforatorMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<BloodyVein>(), 10);
             }
 
-            // If neither The Hive Mind nor The Perforator Hive have been killed yet, notify players of Aerialite Ore
-            if (!CalamityWorld.downedHiveMind && !CalamityWorld.downedPerforator)
-            {
-                string key = "The ground is glittering with cyan light.";
-                Color messageColor = Color.Cyan;
-                WorldGenerationMethods.SpawnOre(ModContent.TileType<AerialiteOre>(), 12E-05, .4f, .6f);
+            
+        }
 
-				CalamityUtils.DisplayLocalizedText(key, messageColor);
-			}
+        public override void OnKill()
+        {
+	        CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Dryad }, CalamityWorld.downedPerforator);
+	        
+	        // If neither The Hive Mind nor The Perforator Hive have been killed yet, notify players of Aerialite Ore
+	        if (!CalamityWorld.downedHiveMind && !CalamityWorld.downedPerforator)
+	        {
+		        string key = "The ground is glittering with cyan light.";
+		        Color messageColor = Color.Cyan;
+		        WorldGenerationMethods.SpawnOre(ModContent.TileType<AerialiteOre>(), 12E-05, .4f, .6f);
 
-            // Mark The Perforator Hive as dead
-            CalamityWorld.downedPerforator = true;
-            CalamityNetcode.SyncWorld();
+		        CalamityUtils.DisplayLocalizedText(key, messageColor);
+	        }
+
+	        // Mark The Perforator Hive as dead
+	        CalamityWorld.downedPerforator = true;
+	        CalamityNetcode.SyncWorld();
         }
 
         public override void HitEffect(NPC.HitInfo hit)

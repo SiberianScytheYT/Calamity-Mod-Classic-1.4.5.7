@@ -82,9 +82,6 @@ namespace CalRD.NPCs.NormalNPCs
             return new Color(200, 200, 200, 0);
         }
 
-        public override void OnKill()
-        {
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Phantoplasm>());
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<Phantoplasm>());
     }
 }

@@ -113,11 +113,11 @@ namespace CalRD.NPCs.NormalNPCs
             }
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.CrystalShard, 2, 4);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<CrystalBlade>(), 5);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<ScuttlersJewel>(), 10);
+            npcLoot.Add(ItemID.CrystalShard, 1, 2, 4);
+            npcLoot.Add(ModContent.ItemType<CrystalBlade>(), 5);
+            npcLoot.Add(ModContent.ItemType<ScuttlersJewel>(), 10);
         }
     }
 }

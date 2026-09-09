@@ -440,12 +440,12 @@ namespace CalRD.NPCs.NormalNPCs
             return false;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<DraedonsRemote>(), 3);
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<DemonicBoneAsh>(), 2, 4);
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<MysteriousCircuitry>(), 4, 8);
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<DubiousPlating>(), 4, 8);
+            npcLoot.Add(ModContent.ItemType<DraedonsRemote>(), 3);
+            npcLoot.Add(ModContent.ItemType<DemonicBoneAsh>(), 1, 2, 4);
+            npcLoot.Add(ModContent.ItemType<MysteriousCircuitry>(), 1, 4, 8);
+            npcLoot.Add(ModContent.ItemType<DubiousPlating>(), 1, 4, 8);
         }
     }
 }

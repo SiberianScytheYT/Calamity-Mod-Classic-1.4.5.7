@@ -97,9 +97,6 @@ namespace CalRD.NPCs.NormalNPCs
             }
         }
 
-        public override void OnKill()
-        {
-			DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<UnholyEssence>(), 2, 4);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<UnholyEssence>(), 1, 2, 4);
     }
 }

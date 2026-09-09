@@ -116,12 +116,15 @@ namespace CalRD.NPCs.NormalNPCs
             }
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ItemID.BoneSword, 10);
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ItemID.Starfury, CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : 50);
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ItemID.EnchantedSword, CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : 100);
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ItemID.Arkhalis, CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : 1000);
+			npcLoot.Add(ItemID.BoneSword, 10);
+			npcLoot.AddIf(() => CalamityWorld.defiled, ItemID.Starfury, DropHelper.DefiledDropRateInt);
+			npcLoot.AddIf(() => CalamityWorld.defiled, ItemID.EnchantedSword, DropHelper.DefiledDropRateInt);
+			npcLoot.AddIf(() => CalamityWorld.defiled, ItemID.Arkhalis, DropHelper.DefiledDropRateInt);
+			npcLoot.AddIf(() => !CalamityWorld.defiled, ItemID.Starfury, 50);
+			npcLoot.AddIf(() => !CalamityWorld.defiled, ItemID.EnchantedSword, 100);
+			npcLoot.AddIf(() => !CalamityWorld.defiled, ItemID.Arkhalis, 1000);
         }
     }
 }

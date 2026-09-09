@@ -148,10 +148,7 @@ namespace CalRD.NPCs.Leviathan
             return SpawnCondition.OceanMonster.Chance * 0.4f;
         }
 
-        public override void OnKill()
-        {
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<SirensHeart>(), CalamityWorld.revenge, 0.25f);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<SirensHeart>(), 4);
 
         public override void HitEffect(NPC.HitInfo hit)
         {

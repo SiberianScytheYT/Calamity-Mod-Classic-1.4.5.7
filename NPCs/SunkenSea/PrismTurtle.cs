@@ -152,10 +152,7 @@ namespace CalRD.NPCs.SunkenSea
             return 0f;
         }
 
-        public override void OnKill()
-        {
-			DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<PrismShard>(), CalamityWorld.downedDesertScourge, 1, 1, 3);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddIf(() => CalamityWorld.downedDesertScourge, ModContent.ItemType<PrismShard>(), 1, 1, 3);
 
         public override void HitEffect(NPC.HitInfo hit)
         {

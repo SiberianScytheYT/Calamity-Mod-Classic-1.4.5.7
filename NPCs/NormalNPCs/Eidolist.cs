@@ -318,17 +318,14 @@ namespace CalRD.NPCs.NormalNPCs
             }
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-			if (Main.rand.NextBool(10))
-			{
-				DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.BlueLunaticHood);
-				DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.BlueLunaticRobe);
-			}
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EidolonTablet>(), !NPC.LunarApocalypseIsUp, 0.25f);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1f, 8, 10);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas && Main.expertMode, 0.5f, 2, 4);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ItemID.Ectoplasm, NPC.downedPlantBoss, 1f, 3, 5);
+			npcLoot.Add(ItemID.BlueLunaticHood, 10);
+            npcLoot.Add(ItemID.BlueLunaticRobe, 10);
+            npcLoot.AddIf(() => !NPC.LunarApocalypseIsUp, ModContent.ItemType<EidolonTablet>(), 4);
+            npcLoot.AddIf(() => CalamityWorld.downedCalamitas && !Main.expertMode, ModContent.ItemType<Lumenite>(), 1, 8, 10);
+            npcLoot.AddIf(() => CalamityWorld.downedCalamitas && Main.expertMode, ModContent.ItemType<Lumenite>(), 2, 2, 4);
+            npcLoot.AddIf(() => NPC.downedPlantBoss, ItemID.Ectoplasm, 1, 3, 5);
         }
     }
 }

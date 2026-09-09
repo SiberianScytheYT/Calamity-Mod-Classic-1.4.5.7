@@ -320,11 +320,12 @@ namespace CalRD.NPCs.NormalNPCs
             }
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-			DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EssenceofCinder>(), 2, 3);
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EyeoftheStorm>(), Main.expertMode ? 3 : 4);
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<StormSaber>(), 5);
+            npcLoot.Add(ModContent.ItemType<EssenceofCinder>(), 1, 2, 3);
+            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<EyeoftheStorm>(), 3);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<EyeoftheStorm>(), 4);
+			npcLoot.Add(ModContent.ItemType<StormSaber>(), 5);
         }
     }
 }

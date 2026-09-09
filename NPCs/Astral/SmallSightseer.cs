@@ -154,10 +154,10 @@ namespace CalRD.NPCs.Astral
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 60, true);
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Stardust>(), 0.5f, 1, 2);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Stardust>(), Main.expertMode);
+            npcLoot.Add(ModContent.ItemType<Stardust>(), 2, 1, 2);
+            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<Stardust>());
         }
     }
 }

@@ -64,10 +64,10 @@ namespace CalRD.NPCs.Crags
             return spawnInfo.Player.Calamity().ZoneCalamity ? 0.25f : 0f;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 3, 1, 1);
+            npcLoot.AddIf(() => CalamityWorld.downedProvidence, ModContent.ItemType<Bloodstone>(), 2, 1, 1);
+            npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofChaos>(), 3, 1, 1);
         }
 
         public override void HitEffect(NPC.HitInfo hit)

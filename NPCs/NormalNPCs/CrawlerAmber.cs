@@ -112,10 +112,10 @@ namespace CalRD.NPCs.NormalNPCs
             }
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.Amber, 2, 4);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<ScuttlersJewel>(), 10);
+            npcLoot.Add(ItemID.Amber, 1, 2, 4);
+            npcLoot.Add(ModContent.ItemType<ScuttlersJewel>(), 10);
         }
     }
 }

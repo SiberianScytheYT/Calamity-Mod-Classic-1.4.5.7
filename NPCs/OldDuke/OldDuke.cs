@@ -22,6 +22,7 @@ using Terraria.ModLoader;
 using CalRD.Dusts;
 using CalRD.World;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalRD.NPCs.OldDuke
 {
@@ -391,43 +392,47 @@ namespace CalRD.NPCs.OldDuke
             potionType = ItemID.SuperHealingPotion;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropBags(ModContent.ItemType<OldDukeBag>(), NPC);
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<OldDukeBag>()));
 
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<OldDukeTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgeOldDuke>(), true, !CalamityWorld.downedBoomerDuke);
-            DropHelper.DropResidentEvilAmmo(NPC.GetSource_FromThis(), NPC, CalamityWorld.downedBoomerDuke, 6, 3, 2);
-
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, CalamityWorld.downedBoomerDuke);
+            npcLoot.Add(ModContent.ItemType<OldDukeTrophy>(), 10);
+            npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedBoomerDuke, ModContent.ItemType<KnowledgeOldDuke>(), 1);
+            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedBoomerDuke, 6, 3, 2);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
-			if (!Main.expertMode)
+			var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
 				// Weapons
-				float w = DropHelper.DirectWeaponDropRateFloat;
-				DropHelper.DropEntireWeightedSet(NPC.GetSource_FromThis(), NPC,
-					DropHelper.WeightStack<InsidiousImpaler>(w),
-					DropHelper.WeightStack<FetidEmesis>(w),
-					DropHelper.WeightStack<SepticSkewer>(w),
-					DropHelper.WeightStack<VitriolicViper>(w),
-					DropHelper.WeightStack<CadaverousCarrion>(w),
-					DropHelper.WeightStack<ToxicantTwister>(w)
-				);
+				int[] weapons = new int[]
+				{
+					ModContent.ItemType<InsidiousImpaler>(),
+					ModContent.ItemType<FetidEmesis>(),
+					ModContent.ItemType<SepticSkewer>(),
+					ModContent.ItemType<VitriolicViper>(),
+					ModContent.ItemType<CadaverousCarrion>(),
+					ModContent.ItemType<ToxicantTwister>()
+				};
+				normalOnly.Add(DropHelper.CalamityStyle(DropHelper.DirectWeaponDropRateFraction, weapons));
 
 				//Equipment
-				DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<DukeScales>(), 10);
+				normalOnly.Add(ModContent.ItemType<DukeScales>(), 10);
 
                 // Vanity
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<OldDukeMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<OldDukeMask>(), 7);
             }
-
-            // Mark Old Duke as dead
-            CalamityWorld.downedBoomerDuke = true;
-            CalamityNetcode.SyncWorld();
         }
 
-		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+        public override void OnKill()
+        {
+	        CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, CalamityWorld.downedBoomerDuke);
+	        
+	        // Mark Old Duke as dead
+	        CalamityWorld.downedBoomerDuke = true;
+	        CalamityNetcode.SyncWorld();
+        }
+
+        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
 			cooldownSlot = 1;
 			return true;

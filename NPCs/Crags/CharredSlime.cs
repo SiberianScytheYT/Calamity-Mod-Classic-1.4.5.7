@@ -81,11 +81,11 @@ namespace CalRD.NPCs.Crags
             }
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<CharredOre>(), 10, 26);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EssenceofChaos>(), 3, 1, 1);
+            npcLoot.Add(ModContent.ItemType<CharredOre>(), 1, 10, 26);
+            npcLoot.AddIf(() => CalamityWorld.downedProvidence, ModContent.ItemType<Bloodstone>(), 2);
+            npcLoot.Add(ModContent.ItemType<EssenceofChaos>(), 3);
         }
     }
 }

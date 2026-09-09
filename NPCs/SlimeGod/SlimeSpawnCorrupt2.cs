@@ -57,9 +57,10 @@ namespace CalRD.NPCs.SlimeGod
             }
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ItemID.Vitamins, Main.expertMode ? 50 : 100);
+            npcLoot.AddIf(() => Main.expertMode, ItemID.Vitamins, 50);
+            npcLoot.AddIf(() => !Main.expertMode, ItemID.Vitamins, 100);
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)

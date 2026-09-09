@@ -23,6 +23,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -1072,63 +1073,67 @@ namespace CalRD.NPCs.Cryogen
             potionType = ItemID.GreaterHealingPotion;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropBags(ModContent.ItemType<CryogenBag>(), NPC);
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<CryogenBag>()));
 
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<CryogenTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgeCryogen>(), true, !CalamityWorld.downedCryogen);
-            DropHelper.DropResidentEvilAmmo(NPC.GetSource_FromThis(), NPC, CalamityWorld.downedCryogen, 4, 2, 1);
+            npcLoot.Add(ModContent.ItemType<CryogenTrophy>(), 10);
+            npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedCryogen, ModContent.ItemType<KnowledgeCryogen>(), 1);
+            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedCryogen, 4, 2, 1);
 
-            if (!Main.expertMode)
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
                 // Materials
-                DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<CryoBar>(), 15, 25);
-                DropHelper.DropItemSpray(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EssenceofEleum>(), 4, 8);
-                DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.FrostCore);
+                normalOnly.Add(ModContent.ItemType<CryoBar>(), 1, 15, 25);
+                normalOnly.Add(ModContent.ItemType<EssenceofEleum>(), 1, 4, 8);
+                normalOnly.Add(ItemID.FrostCore);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC.GetSource_FromThis(), NPC,
-                    DropHelper.WeightStack<Avalanche>(w),
-                    DropHelper.WeightStack<GlacialCrusher>(w),
-                    DropHelper.WeightStack<EffluviumBow>(w),
-                    DropHelper.WeightStack<BittercoldStaff>(w),
-                    DropHelper.WeightStack<SnowstormStaff>(w),
-                    DropHelper.WeightStack<Icebreaker>(w)
-                );
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<Avalanche>(),
+                    ModContent.ItemType<GlacialCrusher>(),
+                    ModContent.ItemType<EffluviumBow>(),
+                    ModContent.ItemType<BittercoldStaff>(),
+                    ModContent.ItemType<SnowstormStaff>(),
+                    ModContent.ItemType<Icebreaker>()
+                };
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.DirectWeaponDropRateFraction, weapons));
 
                 // Equipment
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<CryoStone>(), 10);
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Regenator>(), DropHelper.RareVariantDropRateInt);
+                normalOnly.Add(ModContent.ItemType<CryoStone>(), 10);
+                normalOnly.Add(ModContent.ItemType<Regenator>(), DropHelper.RareVariantDropRateInt);
 
                 // Vanity
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<CryogenMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<CryogenMask>(), 7);
 
                 // Other
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ItemID.FrozenKey, 5);
+                normalOnly.Add(ItemID.FrozenKey, 5);
             }
+        }
 
-            // Spawn Permafrost if he isn't in the world
-            int permafrostNPC = NPC.FindFirstNPC(ModContent.NPCType<DILF>());
-            if (permafrostNPC == -1 && Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                NPC.NewNPC(NPC.GetSource_FromThis(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<DILF>(), 0, 0f, 0f, 0f, 0f, 255);
-            }
+        public override void OnKill()
+        {
+	        // Spawn Permafrost if he isn't in the world
+	        int permafrostNPC = NPC.FindFirstNPC(ModContent.NPCType<DILF>());
+	        if (permafrostNPC == -1 && Main.netMode != NetmodeID.MultiplayerClient)
+	        {
+		        NPC.NewNPC(NPC.GetSource_FromThis(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<DILF>());
+	        }
 
-            // If Cryogen has not been killed, notify players about Cryonic Ore
-            if (!CalamityWorld.downedCryogen)
-            {
-                string key = "The ice caves are crackling with frigid energy.";
-                Color messageColor = Color.LightSkyBlue;
-                WorldGenerationMethods.SpawnOre(ModContent.TileType<CryonicOre>(), 15E-05, .45f, .65f);
+	        // If Cryogen has not been killed, notify players about Cryonic Ore
+	        if (!CalamityWorld.downedCryogen)
+	        {
+		        string key = "The ice caves are crackling with frigid energy.";
+		        Color messageColor = Color.LightSkyBlue;
+		        WorldGenerationMethods.SpawnOre(ModContent.TileType<CryonicOre>(), 15E-05, .45f, .65f);
 
-                CalamityUtils.DisplayLocalizedText(key, messageColor);
-            }
+		        CalamityUtils.DisplayLocalizedText(key, messageColor);
+	        }
 
-            // Mark Cryogen as dead
-            CalamityWorld.downedCryogen = true;
-            CalamityNetcode.SyncWorld();
+	        // Mark Cryogen as dead
+	        CalamityWorld.downedCryogen = true;
+	        CalamityNetcode.SyncWorld();
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)

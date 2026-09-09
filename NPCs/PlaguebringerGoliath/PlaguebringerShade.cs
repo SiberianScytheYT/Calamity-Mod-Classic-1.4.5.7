@@ -697,12 +697,13 @@ namespace CalRD.NPCs.PlaguebringerGoliath
 
 		public override bool PreKill() => !NPC.AnyNPCs(ModContent.NPCType<PlaguebringerGoliath>()); //don't drop items in the PBG fight
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ItemID.Stinger, Main.expertMode ? 0.5f : 0.25f, 2, 3);
-			DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<PlagueCellCluster>(), 8, 12);
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<PlaguedFuelPack>(), 10);
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<PlagueCaller>(), 50); //no, this isn't getting boosted by Defiled.  Rover, I don't care.  PBG also drops it
+			npcLoot.AddIf(() => Main.expertMode, ItemID.Stinger, 2, 2, 3);
+            npcLoot.AddIf(() => !Main.expertMode, ItemID.Stinger, 4, 2, 3);
+            npcLoot.Add(ModContent.ItemType<PlagueCellCluster>(), 1, 8, 12);
+			npcLoot.Add(ModContent.ItemType<PlaguedFuelPack>(), 10);
+			npcLoot.Add(ModContent.ItemType<PlagueCaller>(), 50); //no, this isn't getting boosted by Defiled.  Rover, I don't care.  PBG also drops it
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)

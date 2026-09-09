@@ -210,10 +210,7 @@ namespace CalRD.NPCs.SulphurousSea
             return 0.135f;
         }
 
-        public override void OnKill()
-        {
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<CorrodedFossil>(), 15); // Rarer to encourage fighting Acid Rain
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<CorrodedFossil>(), 15); // Rarer to encourage fighting Acid Rain
 
         public override void HitEffect(NPC.HitInfo hit)
         {

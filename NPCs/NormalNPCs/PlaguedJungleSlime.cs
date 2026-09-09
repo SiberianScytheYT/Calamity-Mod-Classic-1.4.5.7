@@ -139,10 +139,11 @@ namespace CalRD.NPCs.NormalNPCs
             }
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ItemID.Stinger, Main.expertMode ? 0.5f : 0.25f);
-			DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<PlagueCellCluster>(), 1, 2);
+            npcLoot.AddIf(() => Main.expertMode, ItemID.Stinger, 2);
+            npcLoot.AddIf(() => !Main.expertMode, ItemID.Stinger, 4);
+            npcLoot.Add(ModContent.ItemType<PlagueCellCluster>(), 1, 1, 2);
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)

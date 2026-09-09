@@ -18,6 +18,7 @@ using System.Reflection;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -546,57 +547,57 @@ namespace CalRD.NPCs.DesertScourge
             return false;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropBags(ModContent.ItemType<DesertScourgeBag>(), NPC);
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<DesertScourgeBag>()));
 
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.LesserHealingPotion, 8, 14);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<DesertScourgeTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgeDesertScourge>(), true, !CalamityWorld.downedDesertScourge);
-            DropHelper.DropResidentEvilAmmo(NPC.GetSource_FromThis(), NPC, CalamityWorld.downedDesertScourge, 2, 0, 0);
-
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, CalamityWorld.downedDesertScourge);
+            npcLoot.Add(ItemID.LesserHealingPotion, 1, 8, 14);
+            npcLoot.Add(ModContent.ItemType<DesertScourgeTrophy>(), 10);
+            npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedDesertScourge, ModContent.ItemType<KnowledgeDesertScourge>(), 1);
+            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedDesertScourge, 2, 0, 0);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
-			if (!Main.expertMode)
+			var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
                 // Materials
-                DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<VictoryShard>(), 7, 14);
-                DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.Coral, 5, 9);
-                DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.Seashell, 5, 9);
-                DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.Starfish, 5, 9);
+                normalOnly.Add(ModContent.ItemType<VictoryShard>(), 1, 7, 14);
+                normalOnly.Add(ItemID.Coral, 1, 5, 9);
+                normalOnly.Add(ItemID.Seashell, 1, 5, 9);
+                normalOnly.Add(ItemID.Starfish, 1, 5, 9);
 
                 // Weapons
                 // Set up the base drop set, which includes Scourge of the Desert at its normal drop chance.
-                float w = DropHelper.DirectWeaponDropRateFloat;
-                DropHelper.WeightedItemStack[] weapons =
+                int[] weapons = new int[]
                 {
-                    DropHelper.WeightStack<AquaticDischarge>(w),
-                    DropHelper.WeightStack<Barinade>(w),
-                    DropHelper.WeightStack<StormSpray>(w),
-                    DropHelper.WeightStack<SeaboundStaff>(w),
-                    DropHelper.WeightStack<ScourgeoftheDesert>(w),
+                    ModContent.ItemType<AquaticDischarge>(),
+                    ModContent.ItemType<Barinade>(),
+                    ModContent.ItemType<StormSpray>(),
+                    ModContent.ItemType<SeaboundStaff>(),
+                    ModContent.ItemType<ScourgeoftheDesert>(),
                 };
+                
+                normalOnly.Add(ModContent.ItemType<DuneHopper>(), DropHelper.RareVariantDropRateInt);
 
-                // If the RIV roll for Dune Hopper succeeds, REPLACE Scourge of the Desert with a guaranteed Dune Hopper.
-                float duneHopperChance = DropHelper.RareVariantDropRateFloat;
-                if (Main.rand.NextFloat() < duneHopperChance)
-                    weapons[4] = DropHelper.WeightStack<DuneHopper>();
-
-                DropHelper.DropEntireWeightedSet(NPC.GetSource_FromThis(), NPC, weapons);
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.DirectWeaponDropRateFraction, weapons));
 
                 // Equipment
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AeroStone>(), 10);
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<SandCloak>(), 10);
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<DeepDiver>(), DropHelper.RareVariantDropRateInt);
+                npcLoot.Add(ModContent.ItemType<AeroStone>(), 10);
+                npcLoot.Add(ModContent.ItemType<SandCloak>(), 10);
+                npcLoot.Add(ModContent.ItemType<DeepDiver>(), DropHelper.RareVariantDropRateInt);
 
                 // Vanity
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<DesertScourgeMask>(), 7);
+                npcLoot.Add(ModContent.ItemType<DesertScourgeMask>(), 7);
 
                 // Fishing
-                DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<SandyAnglingKit>());
+                npcLoot.Add(ModContent.ItemType<SandyAnglingKit>());
             }
+        }
+        #endregion
 
+        public override void OnKill()
+        {
+            CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, CalamityWorld.downedDesertScourge);
+            
             // If Desert Scourge has not been killed yet, notify players that the Sunken Sea is open and Sandstorms can happen
             if (!CalamityWorld.downedDesertScourge)
             {
@@ -616,7 +617,6 @@ namespace CalRD.NPCs.DesertScourge
             CalamityWorld.downedDesertScourge = true;
             CalamityNetcode.SyncWorld();
         }
-        #endregion
 
         public override void HitEffect(NPC.HitInfo hit)
         {

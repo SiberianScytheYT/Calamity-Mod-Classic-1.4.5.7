@@ -18,6 +18,7 @@ using System.IO;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -426,42 +427,48 @@ namespace CalRD.NPCs.Bumblebirb
             potionType = ItemID.SuperHealingPotion;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropBags(ModContent.ItemType<BumblebirbBag>(), NPC);
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<BumblebirbBag>()));
 
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<BumblebirbTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgeBumblebirb>(), true, !CalamityWorld.downedBumble);
-            DropHelper.DropResidentEvilAmmo(NPC.GetSource_FromThis(), NPC, CalamityWorld.downedBumble, 5, 2, 1);
-
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.WitchDoctor }, CalamityWorld.downedBumble);
+            npcLoot.Add(ModContent.ItemType<BumblebirbTrophy>(), 10);
+            npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedBumble, ModContent.ItemType<KnowledgeBumblebirb>(), 1);
+            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedBumble, 5, 2, 1);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
-			if (!Main.expertMode)
+			var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
                 // Materials
-                DropHelper.DropItemSpray(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EffulgentFeather>(), 11, 17);
+                npcLoot.Add(ModContent.ItemType<EffulgentFeather>(), 1, 11, 17);
 
 				// Weapons
-				float w = DropHelper.DirectWeaponDropRateFloat;
-				DropHelper.DropEntireWeightedSet(NPC.GetSource_FromThis(), NPC,
-					DropHelper.WeightStack<GildedProboscis>(w),
-					DropHelper.WeightStack<GoldenEagle>(w),
-					DropHelper.WeightStack<RougeSlash>(w)
-				);
+				int[] weapons = new int[]
+				{
+					ModContent.ItemType<GildedProboscis>(),
+					ModContent.ItemType<GoldenEagle>(),
+					ModContent.ItemType<RougeSlash>()
+				};
+				normalOnly.Add(DropHelper.CalamityStyle(DropHelper.DirectWeaponDropRateFraction, weapons));
 
-				DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Swordsplosion>(), DropHelper.RareVariantDropRateInt);
+				npcLoot.Add(ModContent.ItemType<Swordsplosion>(), DropHelper.RareVariantDropRateInt);
 
                 // Equipment
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<BirdSeed>(), 4);
+                npcLoot.Add(ModContent.ItemType<BirdSeed>(), 4);
 
                 // Vanity
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<BumblefuckMask>(), 7);
+                npcLoot.Add(ModContent.ItemType<BumblefuckMask>(), 7);
             }
 
-            // Mark The Dragonfolly as dead
-            CalamityWorld.downedBumble = true;
-            CalamityNetcode.SyncWorld();
+            
+        }
+
+        public override void OnKill()
+        {
+	        CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.WitchDoctor }, CalamityWorld.downedBumble);
+	        
+	        // Mark The Dragonfolly as dead
+	        CalamityWorld.downedBumble = true;
+	        CalamityNetcode.SyncWorld();
         }
 
         public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: balance -> balance (bossAdjustment is different, see the docs for details) */

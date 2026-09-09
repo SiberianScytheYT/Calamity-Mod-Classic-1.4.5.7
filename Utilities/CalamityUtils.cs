@@ -511,6 +511,8 @@ namespace CalRD
 				ChatHelper.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasAwoken", new object[]{Main.npc[npcIndex].GetTypeNetName()}), new Color(175, 75, 255));
 			}
 		}
+		
+		public static T ModNPC<T>(this NPC npc) where T : ModNPC => npc.ModNPC as T;
 
 		public static void DisplayLocalizedText(string key, Color? textColor = null)
 		{

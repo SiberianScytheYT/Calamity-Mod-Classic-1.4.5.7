@@ -277,10 +277,10 @@ namespace CalRD.NPCs.NormalNPCs
             return SpawnCondition.OverworldHallow.Chance / 4f;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-			DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<UnholyEssence>(), 2, 4);
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<EnergyStaff>(), 15);
+            npcLoot.Add(ModContent.ItemType<UnholyEssence>(), 1, 2, 4);
+			npcLoot.Add(ModContent.ItemType<EnergyStaff>(), 15);
         }
 
         public override void HitEffect(NPC.HitInfo hit)

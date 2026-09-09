@@ -375,12 +375,13 @@ namespace CalRD.NPCs.Abyss
             return 0f;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, CalamityGlobalNPCLoot.halibutCannonBaseDropChance, 1, 1);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AnechoicCoating>(), 2);
-            int inkBombDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 50 : 100;
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<InkBomb>(), inkBombDropRate, 1, 1);
+            npcLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<HalibutCannon>(), CalamityGlobalNPCLoot.halibutCannonBaseDropChance, 1, 1);
+            npcLoot.Add(ModContent.ItemType<AnechoicCoating>(), 2);
+            npcLoot.AddIf(() => CalamityWorld.defiled, ModContent.ItemType<InkBomb>(), DropHelper.DefiledDropRateInt, 1, 1);
+            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<InkBomb>(), 50);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<InkBomb>(), 100);
         }
 
         public override void HitEffect(NPC.HitInfo hit)

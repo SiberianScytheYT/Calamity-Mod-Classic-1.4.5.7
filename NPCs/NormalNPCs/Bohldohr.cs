@@ -71,16 +71,13 @@ namespace CalRD.NPCs.NormalNPCs
             }
         }
 
-        public override void OnKill()
-        {
-            if (CalamityWorld.downedSCal)
-            {
-                // RIP LORDE
-                // DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<NO>());
-            }
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ItemID.LihzahrdBrick, 10, 30);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ItemID.LunarTabletFragment, 7, 1, 3); //solar tablet fragment
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ItemID.LihzahrdPowerCell, 50);
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        { 
+            // RIP LORDE
+            // npcLoot.AddIf(() => CalamityWorld.downedSCal, ModContent.ItemType<NO>());
+            npcLoot.Add(ItemID.LihzahrdBrick, 1, 10, 30);
+            npcLoot.Add(ItemID.LunarTabletFragment, 7, 1, 3); //solar tablet fragment
+            npcLoot.Add(ItemID.LihzahrdPowerCell, 50);
         }
     }
 }

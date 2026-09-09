@@ -213,10 +213,7 @@ namespace CalRD.NPCs.AcidRain
             CalamityGlobalNPC.DrawGlowmask(NPC, spriteBatch, ModContent.Request<Texture2D>(Texture + "Glow").Value);
         }
 
-        public override void OnKill()
-        {
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<LeadCore>(), 30);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<LeadCore>(), 30);
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {

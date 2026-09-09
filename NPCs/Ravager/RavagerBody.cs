@@ -20,6 +20,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -845,44 +846,48 @@ namespace CalRD.NPCs.Ravager
             potionType = ItemID.GreaterHealingPotion;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropBags(ModContent.ItemType<RavagerBag>(), NPC);
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<RavagerBag>()));
 
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<RavagerTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgeRavager>(), true, !CalamityWorld.downedScavenger);
-            DropHelper.DropResidentEvilAmmo(NPC.GetSource_FromThis(), NPC, CalamityWorld.downedScavenger, 4, 2, 1);
-
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.WitchDoctor }, CalamityWorld.downedScavenger);
+            npcLoot.Add(ModContent.ItemType<RavagerTrophy>(), 10);
+            npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedScavenger, ModContent.ItemType<KnowledgeRavager>(), 1);
+            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedScavenger, 4, 2, 1);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
-			if (!Main.expertMode)
+			var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
                 // Materials
-				DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<FleshyGeodeT1>(), !CalamityWorld.downedProvidence);
-				DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<FleshyGeodeT2>(), CalamityWorld.downedProvidence);
+                normalOnly.AddIf(() => !CalamityWorld.downedProvidence, ModContent.ItemType<FleshyGeodeT1>());
+                normalOnly.AddIf(() => CalamityWorld.downedProvidence, ModContent.ItemType<FleshyGeodeT2>());
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC.GetSource_FromThis(), NPC,
-                    DropHelper.WeightStack<UltimusCleaver>(w),
-                    DropHelper.WeightStack<RealmRavager>(w),
-                    DropHelper.WeightStack<Hematemesis>(w),
-                    DropHelper.WeightStack<SpikecragStaff>(w),
-                    DropHelper.WeightStack<CraniumSmasher>(w)
-                );
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<UltimusCleaver>(),
+                    ModContent.ItemType<RealmRavager>(),
+                    ModContent.ItemType<Hematemesis>(),
+                    ModContent.ItemType<SpikecragStaff>(),
+                    ModContent.ItemType<CraniumSmasher>()
+                };
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.DirectWeaponDropRateFraction, weapons));
 
                 // Equipment
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<BloodPact>(), 3);
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<FleshTotem>(), 3);
+                normalOnly.Add(ModContent.ItemType<BloodPact>(), 3);
+                normalOnly.Add(ModContent.ItemType<FleshTotem>(), 3);
 
                 // Vanity
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<RavagerMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<RavagerMask>(), 7);
             }
+        }
+        
+        public override void OnKill()
+        {
+	        CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.WitchDoctor }, CalamityWorld.downedScavenger);
 
-            // Mark Ravager as dead
-            CalamityWorld.downedScavenger = true;
-            CalamityNetcode.SyncWorld();
+	        // Mark Ravager as dead
+	        CalamityWorld.downedScavenger = true;
+	        CalamityNetcode.SyncWorld();
         }
     }
 }

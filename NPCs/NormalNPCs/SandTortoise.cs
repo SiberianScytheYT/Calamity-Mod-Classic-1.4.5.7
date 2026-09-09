@@ -69,9 +69,6 @@ namespace CalRD.NPCs.NormalNPCs
             return SpawnCondition.DesertCave.Chance * 0.05f;
         }
 
-        public override void OnKill()
-        {
-			DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ItemID.TurtleShell, 0.1f);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ItemID.TurtleShell, 10);
     }
 }

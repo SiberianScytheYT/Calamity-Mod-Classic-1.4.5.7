@@ -88,14 +88,14 @@ namespace CalRD.NPCs.Astral
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Stardust>(), Main.expertMode ? 1 : 2, 1, 3);
-            int oreMin = Main.expertMode ? 11 : 8;
-            int oreMax = Main.expertMode ? 16 : 12;
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AstralOre>(), CalamityWorld.downedStarGod, oreMin, oreMax);
-			float slimeStaffDrop = (CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : 0.03f);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AbandonedSlimeStaff>(), CalamityWorld.downedAstrageldon, slimeStaffDrop, 1, 1);
+            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<Stardust>(), 1, 1, 3);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Stardust>(), 2, 1, 3);
+            npcLoot.AddIf(() => CalamityWorld.downedStarGod && Main.expertMode, ModContent.ItemType<AstralOre>(), 11, 16);
+            npcLoot.AddIf(() => CalamityWorld.downedStarGod && !Main.expertMode, ModContent.ItemType<AstralOre>(), 8, 12);
+            npcLoot.AddIf(() => CalamityWorld.downedAstrageldon && CalamityWorld.defiled, ModContent.ItemType<AbandonedSlimeStaff>(), DropHelper.DefiledDropRateInt);
+            npcLoot.AddIf(() => CalamityWorld.downedAstrageldon && !CalamityWorld.defiled, ModContent.ItemType<AbandonedSlimeStaff>(), 33);
         }
     }
 }

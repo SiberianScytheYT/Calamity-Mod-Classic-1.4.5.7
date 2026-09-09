@@ -78,10 +78,11 @@ namespace CalRD.NPCs.NormalNPCs
             }
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            int bandageDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 50 : 100;
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ItemID.AdhesiveBandage, bandageDropRate, 1, 1);
+            npcLoot.AddIf(() => CalamityWorld.defiled, ItemID.AdhesiveBandage, DropHelper.DefiledDropRateInt);
+            npcLoot.AddIf(() => Main.expertMode, ItemID.AdhesiveBandage, 50);
+            npcLoot.AddIf(() => !Main.expertMode, ItemID.AdhesiveBandage, 100);
         }
     }
 }

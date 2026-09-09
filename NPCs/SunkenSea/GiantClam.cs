@@ -18,6 +18,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -434,30 +435,35 @@ namespace CalRD.NPCs.SunkenSea
 			//This doesn't check for Desert Scourge because Giant Clam only spawns post-Desert Scourge
             int amidiasNPC = NPC.FindFirstNPC(ModContent.NPCType<SEAHOE>());
             if (amidiasNPC == -1 && Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                NPC.NewNPC(NPC.GetSource_FromThis(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<SEAHOE>(), 0, 0f, 0f, 0f, 0f, 255);
-            }
-
-            // Materials
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Navystone>(), 25, 35);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<MolluskHusk>(), Main.hardMode, 6, 11);
-
-            // Weapons
-            DropHelper.DropItemFromSetCondition(NPC.GetSource_FromThis(), NPC, Main.hardMode,
-                ModContent.ItemType<ClamCrusher>(),
-                ModContent.ItemType<ClamorRifle>(),
-                ModContent.ItemType<Poseidon>(),
-                ModContent.ItemType<ShellfishStaff>()
-            );
-
-            // Equipment
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<GiantPearl>(), CalamityWorld.downedDesertScourge, 3, 1, 1);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AmidiasPendant>(), CalamityWorld.downedDesertScourge, 3, 1, 1);
-
+                NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<SEAHOE>());
+            
             // Mark Giant Clam as dead
             CalamityWorld.downedCLAM = true;
             CalamityWorld.downedCLAMHardMode = Main.hardMode || CalamityWorld.downedCLAMHardMode;
             CalamityNetcode.SyncWorld();
+        }
+        
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            var hardmode = npcLoot.DefineConditionalDropSet(new Conditions.IsHardmode());
+            
+            // Materials
+            npcLoot.Add(ModContent.ItemType<Navystone>(), 1, 25, 35);
+            hardmode.Add(ModContent.ItemType<MolluskHusk>(), 1, 6, 11);
+
+            // Weapons
+            int[] weapons = new int[]
+            {
+                ModContent.ItemType<ClamCrusher>(),
+                ModContent.ItemType<ClamorRifle>(),
+                ModContent.ItemType<Poseidon>(),
+                ModContent.ItemType<ShellfishStaff>()
+            };
+            hardmode.Add(DropHelper.CalamityStyle(new Fraction(1, 1), weapons));
+
+            // Equipment
+            npcLoot.AddIf(() => CalamityWorld.downedDesertScourge, ModContent.ItemType<GiantPearl>(), 3, 1, 1);
+            npcLoot.AddIf(() => CalamityWorld.downedDesertScourge, ModContent.ItemType<AmidiasPendant>(), 3, 1, 1);
         }
     }
 }

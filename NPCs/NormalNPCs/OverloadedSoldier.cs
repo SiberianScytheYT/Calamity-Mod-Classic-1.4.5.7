@@ -401,10 +401,10 @@ namespace CalRD.NPCs.NormalNPCs
             }
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-			DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AncientBoneDust>());
-			DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Phantoplasm>(), NPC.downedMoonlord);
+	        npcLoot.Add(ModContent.ItemType<AncientBoneDust>());
+			npcLoot.AddIf(() => NPC.downedMoonlord, ModContent.ItemType<Phantoplasm>());
         }
     }
 }

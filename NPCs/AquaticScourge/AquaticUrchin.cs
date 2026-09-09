@@ -70,10 +70,7 @@ namespace CalRD.NPCs.AquaticScourge
             return 0f;
         }
 
-        public override void OnKill()
-        {
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<UrchinStinger>(), 15, 25);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<UrchinStinger>(), 1, 15, 25);
 
         public override void HitEffect(NPC.HitInfo hit)
         {

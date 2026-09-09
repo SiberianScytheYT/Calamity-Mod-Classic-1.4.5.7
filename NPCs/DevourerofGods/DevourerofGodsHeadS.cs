@@ -25,6 +25,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -1125,58 +1126,63 @@ namespace CalRD.NPCs.DevourerofGods
             return false;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            // Stop the countdown -- if you kill DoG in less than 60 frames, this will stop another one from spawning.
-            CalamityWorld.DoGSecondStageCountdown = 0;
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<DevourerofGodsBag>()));
 
-            DropHelper.DropBags(ModContent.ItemType<DevourerofGodsBag>(), NPC);
-
-            DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<SupremeHealingPotion>(), 5, 15);
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<DevourerofGodsTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgeDevourerofGods>(), true, !CalamityWorld.downedDoG);
-            DropHelper.DropResidentEvilAmmo(NPC.GetSource_FromThis(), NPC, CalamityWorld.downedDoG, 6, 3, 2);
-
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedDoG);
+            npcLoot.Add(ModContent.ItemType<SupremeHealingPotion>(), 1, 5, 15);
+            npcLoot.Add(ModContent.ItemType<DevourerofGodsTrophy>(), 10);
+            npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedDoG, ModContent.ItemType<KnowledgeDevourerofGods>(), 1);
+            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedDoG, 6, 3, 2);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
-			if (!Main.expertMode)
+			var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
                 // Materials
-                DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<CosmiliteBar>(), 25, 35);
-                DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<CosmiliteBrick>(), 150, 250);
+                normalOnly.Add(ModContent.ItemType<CosmiliteBar>(), 1, 25, 35);
+                normalOnly.Add(ModContent.ItemType<CosmiliteBrick>(), 1, 150, 250);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC.GetSource_FromThis(), NPC,
-                    DropHelper.WeightStack<Excelsus>(w),
-                    DropHelper.WeightStack<TheObliterator>(w),
-                    DropHelper.WeightStack<Deathwind>(w),
-                    DropHelper.WeightStack<DeathhailStaff>(w),
-                    DropHelper.WeightStack<StaffoftheMechworm>(w),
-                    Main.rand.NextBool() ? DropHelper.WeightStack<EradicatorMelee>(w) : DropHelper.WeightStack<Eradicator>(w)
-                );
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<Excelsus>(),
+                    ModContent.ItemType<TheObliterator>(),
+                    ModContent.ItemType<Deathwind>(),
+                    ModContent.ItemType<DeathhailStaff>(),
+                    ModContent.ItemType<StaffoftheMechworm>(),
+                    ModContent.ItemType<EradicatorMelee>(),
+                    ModContent.ItemType<Eradicator>()
+                };
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.DirectWeaponDropRateFraction, weapons));
 
                 // Vanity
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<DevourerofGodsMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<DevourerofGodsMask>(), 7);
             }
-
-            // If DoG has not been killed yet, notify players that the holiday moons are buffed
-            if (!CalamityWorld.downedDoG)
-            {
-                string key = "The frigid moon shimmers brightly.";
-                Color messageColor = Color.Cyan;
-                string key2 = "The harvest moon glows eerily.";
-                Color messageColor2 = Color.Orange;
-
-                CalamityUtils.DisplayLocalizedText(key, messageColor);
-                CalamityUtils.DisplayLocalizedText(key2, messageColor2);
-            }
-
-            // Mark DoG as dead
-            CalamityWorld.downedDoG = true;
-			CalamityNetcode.SyncWorld();
 		}
+
+        public override void OnKill()
+        {
+	        // Stop the countdown -- if you kill DoG in less than 60 frames, this will stop another one from spawning.
+	        CalamityWorld.DoGSecondStageCountdown = 0;
+	        
+	        CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedDoG);
+	        
+	        // If DoG has not been killed yet, notify players that the holiday moons are buffed
+	        if (!CalamityWorld.downedDoG)
+	        {
+		        string key = "The frigid moon shimmers brightly.";
+		        Color messageColor = Color.Cyan;
+		        string key2 = "The harvest moon glows eerily.";
+		        Color messageColor2 = Color.Orange;
+
+		        CalamityUtils.DisplayLocalizedText(key, messageColor);
+		        CalamityUtils.DisplayLocalizedText(key2, messageColor2);
+	        }
+
+	        // Mark DoG as dead
+	        CalamityWorld.downedDoG = true;
+	        CalamityNetcode.SyncWorld();
+        }
 
 		// Can only hit the target if within certain distance
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)

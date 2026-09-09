@@ -128,10 +128,7 @@ namespace CalRD.NPCs.SulphurousSea
             return 0f;
         }
 
-        public override void OnKill()
-        {
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<AnechoicCoating>(), 2, 1, 1);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<AnechoicCoating>(), 2, 1, 1);
 
         public override void HitEffect(NPC.HitInfo hit)
         {

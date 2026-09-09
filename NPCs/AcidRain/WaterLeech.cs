@@ -207,10 +207,10 @@ namespace CalRD.NPCs.AcidRain
             }
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-			float dropChance = CalamityWorld.downedAquaticScourge ? 0.01f : 0.05f;
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<ParasiticSceptor>(), dropChance);
+            npcLoot.AddIf(() => CalamityWorld.downedAquaticScourge, ModContent.ItemType<ParasiticSceptor>(), 100);
+            npcLoot.AddIf(() => !CalamityWorld.downedAquaticScourge, ModContent.ItemType<ParasiticSceptor>(), 20);
         }
     }
 }

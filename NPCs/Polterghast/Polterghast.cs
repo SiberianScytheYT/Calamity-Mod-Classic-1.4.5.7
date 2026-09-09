@@ -23,6 +23,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -926,65 +927,69 @@ namespace CalRD.NPCs.Polterghast
             potionType = ItemID.SuperHealingPotion;
         }
 
-        public override void OnKill()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropBags(ModContent.ItemType<PolterghastBag>(), NPC);
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<PolterghastBag>()));
 
-            DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<PolterghastTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<KnowledgePolterghast>(), true, !CalamityWorld.downedPolterghast);
-            DropHelper.DropResidentEvilAmmo(NPC.GetSource_FromThis(), NPC, CalamityWorld.downedPolterghast, 6, 3, 2);
-
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Cyborg }, CalamityWorld.downedPolterghast);
+            npcLoot.Add(ModContent.ItemType<PolterghastTrophy>(), 10);
+            npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedPolterghast, ModContent.ItemType<KnowledgePolterghast>(), 1);
+            npcLoot.AddResidentEvilAmmo(CalamityWorld.downedPolterghast, 6, 3, 2);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
                 // Materials
-                DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<RuinousSoul>(), 7, 15);
-                DropHelper.DropItem(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<Phantoplasm>(), 10, 20);
+                normalOnly.Add(ModContent.ItemType<RuinousSoul>(), 1, 7, 15);
+                normalOnly.Add(ModContent.ItemType<Phantoplasm>(), 1, 10, 20);
 
                 // Vanity
-                DropHelper.DropItemChance(NPC.GetSource_FromThis(), NPC, ModContent.ItemType<PolterghastMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<PolterghastMask>(), 7);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC.GetSource_FromThis(), NPC,
-                    DropHelper.WeightStack<TerrorBlade>(w),
-                    DropHelper.WeightStack<BansheeHook>(w),
-                    DropHelper.WeightStack<DaemonsFlame>(w),
-                    DropHelper.WeightStack<FatesReveal>(w),
-                    DropHelper.WeightStack<GhastlyVisage>(w),
-                    DropHelper.WeightStack<EtherealSubjugator>(w),
-                    DropHelper.WeightStack<GhoulishGouger>(w)
-                );
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<TerrorBlade>(),
+                    ModContent.ItemType<BansheeHook>(),
+                    ModContent.ItemType<DaemonsFlame>(),
+                    ModContent.ItemType<FatesReveal>(),
+                    ModContent.ItemType<GhastlyVisage>(),
+                    ModContent.ItemType<EtherealSubjugator>(),
+                    ModContent.ItemType<GhoulishGouger>()
+                };
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.DirectWeaponDropRateFraction, weapons));
             }
-
-            // If Polterghast has not been killed, notify players about the Abyss minibosses now dropping items
-            if (!CalamityWorld.downedPolterghast)
-            {
-                if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-                    SoundEngine.PlaySound(new SoundStyle("CalRD/Sounds/Custom/ReaperSearchRoar"), Main.player[Main.myPlayer].position);
-
-                string key = "The abyssal spirits have been disturbed.";
-                Color messageColor = Color.RoyalBlue;
-                string sulfSeaBoostMessage = "The souls released stir the acidic storms...";
-                Color sulfSeaBoostColor = AcidRainEvent.TextColor;
-
-				if (Main.rand.NextBool(20) && DateTime.Now.Month == 4 && DateTime.Now.Day == 1)
-				{
-					sulfSeaBoostMessage = "A boomer awaits..."; // Goddamn boomer duke moments
-				}
-
-				CalamityUtils.DisplayLocalizedText(key, messageColor);
-				CalamityUtils.DisplayLocalizedText(sulfSeaBoostMessage, sulfSeaBoostColor);
-			}
-
-            // Mark Polterghast as dead
-            CalamityWorld.downedPolterghast = true;
-			CalamityNetcode.SyncWorld();
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        public override void OnKill()
+        {
+	        CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Cyborg }, CalamityWorld.downedPolterghast);
+	        
+	        // If Polterghast has not been killed, notify players about the Abyss minibosses now dropping items
+	        if (!CalamityWorld.downedPolterghast)
+	        {
+		        if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
+			        SoundEngine.PlaySound(new SoundStyle("CalRD/Sounds/Custom/ReaperSearchRoar"), Main.player[Main.myPlayer].position);
+
+		        string key = "The abyssal spirits have been disturbed.";
+		        Color messageColor = Color.RoyalBlue;
+		        string sulfSeaBoostMessage = "The souls released stir the acidic storms...";
+		        Color sulfSeaBoostColor = AcidRainEvent.TextColor;
+
+		        if (Main.rand.NextBool(20) && DateTime.Now.Month == 4 && DateTime.Now.Day == 1)
+		        {
+			        sulfSeaBoostMessage = "A boomer awaits..."; // Goddamn boomer duke moments
+		        }
+
+		        CalamityUtils.DisplayLocalizedText(key, messageColor);
+		        CalamityUtils.DisplayLocalizedText(sulfSeaBoostMessage, sulfSeaBoostColor);
+	        }
+
+	        // Mark Polterghast as dead
+	        CalamityWorld.downedPolterghast = true;
+	        CalamityNetcode.SyncWorld();
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (NPC.spriteDirection == 1)
