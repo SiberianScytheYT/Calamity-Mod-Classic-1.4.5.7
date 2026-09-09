@@ -1674,7 +1674,7 @@ namespace CalRD.NPCs
 		#region Boss Loot
 		private void EventEnemyLoot(NPC npc, NPCLoot npcLoot)
         {
-            var downedDoG = new LeadingConditionRule(DropHelper.If(() => !CalamityWorld.downedDoG));
+            var downedDoG = new LeadingConditionRule(DropHelper.If(() => CalamityWorld.downedDoG));
 			switch (npc.type)
             {
                 case NPCID.Nutcracker:

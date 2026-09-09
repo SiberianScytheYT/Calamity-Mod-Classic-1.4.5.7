@@ -236,7 +236,7 @@ namespace CalRD.NPCs.AstrumDeus
 	        lastWorm.Add(ModContent.ItemType<AstrumDeusTrophy>(), 10);
             npcLoot.AddConditionalPerPlayer(info => !CalamityWorld.downedStarGod && info.npc.Calamity().newAI[0] != 0f, ModContent.ItemType<KnowledgeAstrumDeus>(), 1);
             npcLoot.AddConditionalPerPlayer(info => !CalamityWorld.downedStarGod && info.npc.Calamity().newAI[0] != 0f, ModContent.ItemType<KnowledgeAstralInfection>(), 1);
-            npcLoot.AddResidentEvilAmmo(info => !CalamityWorld.downedStarGod, 4, 2, 1);
+            lastWorm.AddResidentEvilAmmo(info => !CalamityWorld.downedStarGod, 4, 2, 1);
 
             // Drop a large spray of all 4 lunar fragments
             lastWorm.AddIf(() => Main.expertMode, ItemID.FragmentSolar, 1, 20, 32);

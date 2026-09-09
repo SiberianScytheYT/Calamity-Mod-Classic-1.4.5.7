@@ -784,21 +784,21 @@ namespace CalRD.NPCs.Signus
             var alone = new LeadingConditionRule(DropHelper.If(() => CalamityWorld.DoGSecondStageCountdown <= 0));
             {
                 // Materials
-                npcLoot.AddPerPlayer(ModContent.ItemType<TwistingNether>(), 1, 2, 3);
+                alone.AddPerPlayer(ModContent.ItemType<TwistingNether>(), 1, 2, 3);
 
                 // Weapons
-                npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<CosmicKunai>(), 3);
-                npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<CosmicKunai>(), 4);
-                npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<Cosmilamp>(), 3);
-                npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Cosmilamp>(), 4);
-                npcLoot.Add(ModContent.ItemType<LanternoftheSoul>(), DropHelper.RareVariantDropRateInt);
+                alone.AddIf(() => Main.expertMode, ModContent.ItemType<CosmicKunai>(), 3);
+                alone.AddIf(() => !Main.expertMode, ModContent.ItemType<CosmicKunai>(), 4);
+                alone.AddIf(() => Main.expertMode, ModContent.ItemType<Cosmilamp>(), 3);
+                alone.AddIf(() => !Main.expertMode, ModContent.ItemType<Cosmilamp>(), 4);
+                alone.Add(ModContent.ItemType<LanternoftheSoul>(), DropHelper.RareVariantDropRateInt);
 
 				//Equipment
-                npcLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<SpectralVeil>(), 4);
+                alone.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<SpectralVeil>(), 4);
 
                 // Vanity
-                npcLoot.Add(ModContent.ItemType<SignusTrophy>(), 10);
-                npcLoot.Add(ModContent.ItemType<SignusMask>(), 7);
+                alone.Add(ModContent.ItemType<SignusTrophy>(), 10);
+                alone.Add(ModContent.ItemType<SignusMask>(), 7);
                 var godSlayerVanity = ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20);
                 godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>()));
                 godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>()));
@@ -806,8 +806,8 @@ namespace CalRD.NPCs.Signus
 
                 // Other
                 bool lastSentinelKilled = CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && !CalamityWorld.downedSentinel3;
-                npcLoot.AddConditionalPerPlayer(() => lastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>(), 1);
-                npcLoot.AddResidentEvilAmmo(info => !CalamityWorld.downedSentinel3, 5, 2, 1);
+                alone.AddConditionalPerPlayer(() => lastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>(), 1);
+                alone.AddResidentEvilAmmo(info => !CalamityWorld.downedSentinel3, 5, 2, 1);
             }
         }
         
