@@ -1,6 +1,5 @@
 author = The Calamity Dev Team
 version = 1.0.0.0
 displayName = Calamity Mod Classic 1.4.5.7
-homepage = https://forums.terraria.org/index.php?threads/calamity-mod.44065/
 buildIgnore = .vs\*, Properties\*, *.csproj, *.user, obj\*, bin\*, *.config, .git\*, LICENSE, README.md, .editorconfig, .gitignore, .gitattributes
 includeSource = true
