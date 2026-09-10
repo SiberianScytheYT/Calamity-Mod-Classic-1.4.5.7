@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CalRD")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+87112fcc432c622da130ece02e8368db91de4091")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8f705962835f6d17a7ecb465c8ae060b93b9d746")]
 [assembly: System.Reflection.AssemblyProductAttribute("CalRD")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CalRD")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
