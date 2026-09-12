@@ -809,6 +809,7 @@ namespace CalRD.NPCs.Signus
                 alone.AddConditionalPerPlayer(() => lastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>(), 1);
                 alone.AddResidentEvilAmmo(info => !CalamityWorld.downedSentinel3, 5, 2, 1);
             }
+            npcLoot.Add(alone);
         }
         
         public override void OnKill()
