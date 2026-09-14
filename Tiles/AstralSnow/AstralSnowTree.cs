@@ -1,3 +1,4 @@
+using CalRD.Tiles.AstralSnow;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -35,20 +36,14 @@ namespace CalRD.Tiles
         }
         
         public override Asset<Texture2D> GetTexture() => ModContent.Request<Texture2D>("CalRD/Tiles/AstralSnow/AstralSnowTree");
+        public override int DropWood() => ModContent.ItemType<Items.Placeables.AstralMonolith>();
+        public override int CreateDust() => ModContent.DustType<Dusts.AstralBasic>();
+        public override int TreeLeaf() => -1;
 
-        public override int DropWood()
+        public override int SaplingGrowthType(ref int style)
         {
-            return ModContent.ItemType<Items.Placeables.AstralMonolith>();
-        }
-
-        public override int CreateDust()
-        {
-            return ModContent.DustType<Dusts.AstralBasic>();
-        }
-
-        public override int TreeLeaf()
-        {
-            return -1;
+            style = 0;
+            return ModContent.TileType<AstralSnowTreeSapling>();
         }
     }
 }

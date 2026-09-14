@@ -35,5 +35,11 @@ namespace CalRD.Tiles.Astral
         public override int DropWood() => ModContent.ItemType<Items.Placeables.AstralMonolith>();
         public override int CreateDust() => ModContent.DustType<AstralBasic>();
         public override int TreeLeaf() => -1;
+
+        public override int SaplingGrowthType(ref int style)
+        {
+            style = 0;
+            return ModContent.TileType<AstralTreeSapling>();
+        }
     }
 }

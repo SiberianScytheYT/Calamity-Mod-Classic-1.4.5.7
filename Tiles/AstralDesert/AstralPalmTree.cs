@@ -23,25 +23,16 @@ namespace CalRD.Tiles.AstralDesert
         };
         
         public override Asset<Texture2D> GetTexture() => ModContent.Request<Texture2D>("CalRD/Tiles/AstralDesert/AstralPalmTree");
-
         public override Asset<Texture2D> GetTopTextures() => ModContent.Request<Texture2D>("CalRD/Tiles/AstralDesert/AstralPalmTree_Tops");
-
         public override Asset<Texture2D> GetOasisTopTextures() => ModContent.Request<Texture2D>("CalRD/Tiles/AstralDesert/AstralPalmTree_OasisTops");
+        public override int DropWood() => ModContent.ItemType<Items.Placeables.AstralMonolith>();
+        public override int CreateDust() => ModContent.DustType<AstralBasic>();
+        public override int TreeLeaf() => -1;
 
-        
-        public override int DropWood()
+        public override int SaplingGrowthType(ref int style)
         {
-            return ModContent.ItemType<Items.Placeables.AstralMonolith>();
-        }
-
-        public override int CreateDust()
-        {
-            return ModContent.DustType<AstralBasic>();
-        }
-
-        public override int TreeLeaf()
-        {
-            return -1;
+            style = 0;
+            return ModContent.TileType<AstralPalmSapling>();
         }
     }
 }
