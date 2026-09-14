@@ -717,7 +717,7 @@ namespace CalRD.NPCs.Leviathan
 	        lastStanding.AddResidentEvilAmmo(info => !CalamityWorld.downedLeviathan, 4, 2, 1);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
-            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            LeadingConditionRule normalOnly = new LeadingConditionRule(new Conditions.NotExpert());
             lastStanding.Add(normalOnly);
             {
                 // Weapons

@@ -671,7 +671,7 @@ namespace CalRD.NPCs.SlimeGod
             lastStanding.Add(ItemID.Gel, 1, 180, 250);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
-            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            LeadingConditionRule normalOnly = new LeadingConditionRule(new Conditions.NotExpert());
             lastStanding.Add(normalOnly);
             {
                 // Materials
