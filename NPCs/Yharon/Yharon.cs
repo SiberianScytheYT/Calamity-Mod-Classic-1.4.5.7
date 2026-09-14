@@ -2828,16 +2828,16 @@ namespace CalRD.NPCs.Yharon
             var phaseTwo = npcLoot.DefineConditionalDropSet(info => info.npc.ModNPC<Yharon>().startSecondAI && !info.npc.ModNPC<Yharon>().phaseOneLoot);
             {
                 // Materials
-                phaseTwo.AddConditionalPerPlayer(() => Main.expertMode, ModContent.ItemType<HellcasterFragment>(), 1, 22, 28);
-                phaseTwo.AddConditionalPerPlayer(() => Main.expertMode, ModContent.ItemType<HellcasterFragment>(), 1, 15, 22);
+                phaseTwo.AddConditionalPerPlayer(info => Main.expertMode, ModContent.ItemType<HellcasterFragment>(), 1, 22, 28);
+                phaseTwo.AddConditionalPerPlayer(info => Main.expertMode, ModContent.ItemType<HellcasterFragment>(), 1, 15, 22);
 
                 // Equipment
                 phaseTwo.AddIf(() => Main.expertMode, ModContent.ItemType<DrewsWings>());
 
                 // Weapons
-                phaseTwo.AddConditionalPerPlayer(() => Main.expertMode, ModContent.ItemType<VoidVortex>(), DropHelper.RareVariantDropRateInt);
+                phaseTwo.AddConditionalPerPlayer(info => Main.expertMode, ModContent.ItemType<VoidVortex>(), DropHelper.RareVariantDropRateInt);
                 phaseTwo.AddIf(() => !Main.expertMode, ModContent.ItemType<VoidVortex>(), DropHelper.RareVariantDropRateInt);
-                phaseTwo.AddConditionalPerPlayer(() => Main.expertMode, ModContent.ItemType<YharimsCrystal>(), 100); //not affected by defiled and not a leggie
+                phaseTwo.AddConditionalPerPlayer(info => Main.expertMode, ModContent.ItemType<YharimsCrystal>(), 100); //not affected by defiled and not a leggie
                 phaseTwo.AddIf(() => !Main.expertMode, ModContent.ItemType<YharimsCrystal>(), 100);
 
                 // Vanity
@@ -2845,7 +2845,7 @@ namespace CalRD.NPCs.Yharon
 
                 // Other
                 //phaseTwo.Add(ModContent.ItemType<BossRush>());
-                phaseTwo.AddConditionalPerPlayer(() => !CalamityWorld.downedYharon, ModContent.ItemType<KnowledgeYharon>(), 1);
+                phaseTwo.AddConditionalPerPlayer(info => !CalamityWorld.downedYharon, ModContent.ItemType<KnowledgeYharon>(), 1);
                 phaseTwo.AddResidentEvilAmmo(info => !CalamityWorld.downedYharon, 6, 3, 2);
             }
         }

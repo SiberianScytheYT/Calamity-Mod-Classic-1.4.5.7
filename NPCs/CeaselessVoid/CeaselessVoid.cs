@@ -165,7 +165,7 @@ namespace CalRD.NPCs.CeaselessVoid
 
                 // Other
                 bool lastSentinelKilled = !CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
-                alone.AddConditionalPerPlayer(() => lastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>(), 1);
+                alone.AddConditionalPerPlayer(info => lastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>(), 1);
                 alone.AddResidentEvilAmmo(info => !CalamityWorld.downedSentinel1, 5, 2, 1);
             }
             npcLoot.Add(alone);

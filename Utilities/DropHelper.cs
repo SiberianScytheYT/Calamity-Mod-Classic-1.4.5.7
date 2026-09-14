@@ -1106,7 +1106,7 @@ namespace CalRD
         /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
         /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
         /// <returns>A LeadingConditionRule which you can attach more PerPlayer or other rules to as you want.</returns>
-        public static LeadingConditionRule AddConditionalPerPlayer(this LeadingConditionRule mainRule, Func<bool> lambda, int itemID, int denominator = 1, int minQuantity = 1, int maxQuantity = 1, int numerator = 1, bool ui = true, string desc = null)
+        public static LeadingConditionRule AddConditionalPerPlayer(this LeadingConditionRule mainRule, Func<DropAttemptInfo, bool> lambda, int itemID, int denominator = 1, int minQuantity = 1, int maxQuantity = 1, int numerator = 1, bool ui = true, string desc = null)
         {
             LeadingConditionRule lcr = new(If(lambda, ui, desc));
             lcr.Add(PerPlayer(itemID, denominator, minQuantity, maxQuantity, numerator));
@@ -1124,7 +1124,7 @@ namespace CalRD
         /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
         /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
         /// <returns>A LeadingConditionRule which you can attach more PerPlayer or other rules to as you want.</returns>
-        public static LeadingConditionRule AddConditionalPerPlayer(this LeadingConditionRule mainRule, Func<bool> lambda, int itemID, bool ui = true, string desc = null)
+        public static LeadingConditionRule AddConditionalPerPlayer(this LeadingConditionRule mainRule, Func<DropAttemptInfo, bool> lambda, int itemID, bool ui = true, string desc = null)
         {
             LeadingConditionRule lcr = new(If(lambda, ui, desc));
             lcr.Add(PerPlayer(itemID));

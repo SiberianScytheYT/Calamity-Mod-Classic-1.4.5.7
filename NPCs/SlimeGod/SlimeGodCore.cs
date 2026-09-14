@@ -647,14 +647,16 @@ namespace CalRD.NPCs.SlimeGod
         // This loot code is shared with every other Slime God component.
         public static void DropSlimeGodLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<SlimeGodBag>()));
+	        var lastStanding = npcLoot.DefineConditionalDropSet(LastSlimeGodStanding);
+			
+	        lastStanding.Add(ItemDropRule.BossBag(ModContent.ItemType<SlimeGodBag>()));
 
-            npcLoot.Add(ModContent.ItemType<SlimeGodTrophy>(), 10);
-            npcLoot.AddConditionalPerPlayer(() => !CalamityWorld.downedSlimeGod, ModContent.ItemType<KnowledgeSlimeGod>(), 1);
-            npcLoot.AddResidentEvilAmmo(info => !CalamityWorld.downedSlimeGod, 3, 1, 0);
+	        lastStanding.Add(ModContent.ItemType<SlimeGodTrophy>(), 10);
+	        lastStanding.AddConditionalPerPlayer(info => !CalamityWorld.downedSlimeGod, ModContent.ItemType<KnowledgeSlimeGod>(), 1);
+	        lastStanding.AddResidentEvilAmmo(info => !CalamityWorld.downedSlimeGod, 3, 1, 0);
 
 			// Purified Jam is once per player, but drops for all players.
-			npcLoot.AddConditionalPerPlayer(info =>
+			lastStanding.AddConditionalPerPlayer(info =>
 			{
 				CalamityPlayer mp = Main.player[Player.FindClosest(info.npc.position, info.npc.width, info.npc.height)].Calamity();
 				if (!mp.revJamDrop)
@@ -666,10 +668,11 @@ namespace CalRD.NPCs.SlimeGod
 			}, ModContent.ItemType<PurifiedJam>(), 1, 6, 8, desc: null);
 
             // Gel always drops directly, even on Expert
-            npcLoot.Add(ItemID.Gel, 1, 180, 250);
+            lastStanding.Add(ItemID.Gel, 1, 180, 250);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            lastStanding.Add(normalOnly);
             {
                 // Materials
                 normalOnly.Add(ModContent.ItemType<PurifiedGel>(), 1, 30, 45);
