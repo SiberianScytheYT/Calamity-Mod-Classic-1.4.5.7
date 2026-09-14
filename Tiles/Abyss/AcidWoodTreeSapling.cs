@@ -22,6 +22,8 @@ namespace CalRD.Tiles.Abyss
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = true;
+            TileID.Sets.CommonSapling[Type] = true;
+            TileID.Sets.TreeSapling[Type] = true;
             TileObjectData.newTile.Width = 1;
             TileObjectData.newTile.Height = 2;
             TileObjectData.newTile.Origin = new Point16(0, 1);

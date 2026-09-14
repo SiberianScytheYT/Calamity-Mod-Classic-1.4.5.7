@@ -28,5 +28,11 @@ namespace CalRD.Tiles.Abyss
         public override Asset<Texture2D> GetOasisTopTextures() => ModContent.Request<Texture2D>("CalRD/Tiles/Abyss/AcidWoodTreeOasisTops");
         public override int DropWood() => ModContent.ItemType<Acidwood>();
         public override int CreateDust() => (int)CalamityDusts.SulfurousSeaAcid;
+        
+        public override int SaplingGrowthType(ref int style)
+        {
+            style = 0;
+            return ModContent.TileType<AcidWoodTreeSapling>();
+        }
     }
 }
