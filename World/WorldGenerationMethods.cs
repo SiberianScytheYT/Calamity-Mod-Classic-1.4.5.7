@@ -2227,7 +2227,7 @@ namespace CalRD.World
         public static void UnderworldIslandHouse(int i, int j, int item)
         {
             ushort type = (ushort)ModContent.TileType<BrimstoneSlag>(); //tile
-            byte wall = (byte)ModContent.WallType<BrimstoneSlagWallUnsafe>(); //wall
+            int wall = ModContent.WallType<BrimstoneSlagWallUnsafe>(); //wall
             Vector2 vector = new Vector2((float)i, (float)j);
             int num = 1;
             if (WorldGen.genRand.Next(2) == 0)
@@ -2308,7 +2308,7 @@ namespace CalRD.World
                     if ((num8 != num6 || (n != num4 && n != num5)) && Main.tile[n, num8].WallType == 0)
                     {
                         Main.tile[n, num8].Get<TileWallWireStateData>().HasTile = false;
-                        Main.tile[n, num8].WallType = wall;
+                        Main.tile[n, num8].WallType = (ushort)wall;
                     }
                 }
             }
