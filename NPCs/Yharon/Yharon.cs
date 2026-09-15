@@ -2829,7 +2829,7 @@ namespace CalRD.NPCs.Yharon
             {
                 // Materials
                 phaseTwo.AddConditionalPerPlayer(info => Main.expertMode, ModContent.ItemType<HellcasterFragment>(), 1, 22, 28);
-                phaseTwo.AddConditionalPerPlayer(info => Main.expertMode, ModContent.ItemType<HellcasterFragment>(), 1, 15, 22);
+                phaseTwo.AddConditionalPerPlayer(info => !Main.expertMode, ModContent.ItemType<HellcasterFragment>(), 1, 15, 22);
 
                 // Equipment
                 phaseTwo.AddIf(() => Main.expertMode, ModContent.ItemType<DrewsWings>());

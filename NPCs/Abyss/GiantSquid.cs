@@ -256,9 +256,9 @@ namespace CalRD.NPCs.Abyss
             npcLoot.AddIf(() => CalamityWorld.downedCalamitas, ModContent.ItemType<Lumenite>(), 2);
             npcLoot.AddIf(() => CalamityWorld.downedCalamitas && !Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 2, 4);
             npcLoot.AddIf(() => CalamityWorld.downedCalamitas && Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 1, 2);
-            npcLoot.AddIf(() => CalamityWorld.defiled, ModContent.ItemType<Lumenite>(), DropHelper.DefiledDropRateInt);
+            npcLoot.AddIf(() => CalamityWorld.defiled, ModContent.ItemType<InkBomb>(), DropHelper.DefiledDropRateInt);
             npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<InkBomb>(), 25);
-            npcLoot.Add(ModContent.ItemType<InkBomb>(), 40);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<InkBomb>(), 40);
         }
 
         public override void HitEffect(NPC.HitInfo hit)
