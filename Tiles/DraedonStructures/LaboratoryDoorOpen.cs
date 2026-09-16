@@ -44,6 +44,7 @@ namespace CalRD.Tiles.DraedonStructures
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.OpenDoor };
             DustType = 8;
+            RegisterItemDrop(ModContent.ItemType<LaboratoryDoorItem>());
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<LaboratoryDoorClosed>();
         }
 
