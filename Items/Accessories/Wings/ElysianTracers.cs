@@ -29,7 +29,7 @@ namespace CalRD.Items.Accessories.Wings
                 "Water and lava walking\n" +
                 "Temporary immunity to lava");
 */
-            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(160, 2.75f, 10.5f);
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(160, 10.5f, 2.75f);
         }
 
         public override void SetDefaults()
@@ -96,12 +96,6 @@ namespace CalRD.Items.Accessories.Wings
             maxCanAscendMultiplier = 1.1f; //1
             maxAscentMultiplier = 3.15f; //3
             constantAscend = 0.135f;
-        }
-
-        public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
-        {
-            speed = 10.5f;
-            acceleration *= 2.75f;
         }
 
         public override void AddRecipes()

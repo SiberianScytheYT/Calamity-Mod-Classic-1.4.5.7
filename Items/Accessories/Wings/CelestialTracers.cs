@@ -100,12 +100,6 @@ namespace CalRD.Items.Accessories.Wings
             constantAscend = 0.15f; //0.135
         }
 
-        public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
-        {
-            speed = 12f;
-            acceleration *= 3f;
-        }
-
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();

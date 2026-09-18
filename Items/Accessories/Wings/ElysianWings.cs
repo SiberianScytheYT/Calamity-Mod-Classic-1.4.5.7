@@ -22,7 +22,7 @@ namespace CalRD.Items.Accessories.Wings
                 "Flight time: 200\n" +
 				"Temporary immunity to lava and 40% increased movement speed");
 */
-            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(200, 2.7f, 9.75f);
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(200, 9.75f, 2.7f);
         }
 
         public override void SetDefaults()
@@ -71,12 +71,6 @@ namespace CalRD.Items.Accessories.Wings
             maxCanAscendMultiplier = 1f;
             maxAscentMultiplier = 3f;
             constantAscend = 0.135f;
-        }
-
-        public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
-        {
-            speed = 9.75f;
-            acceleration *= 2.7f;
         }
     }
 }
