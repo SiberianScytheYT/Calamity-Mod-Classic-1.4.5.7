@@ -3978,12 +3978,13 @@ namespace CalRD
 
 		public static void StartSandstorm()
 		{
-			typeof(Terraria.GameContent.Events.Sandstorm).GetMethod("StartSandstorm", BindingFlags.Static | BindingFlags.NonPublic).Invoke(null, null);
+			Terraria.GameContent.Events.Sandstorm.StartSandstorm();
 		}
 
 		public static void StopSandstorm()
 		{
-			Terraria.GameContent.Events.Sandstorm.Happening = false;
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+				Terraria.GameContent.Events.Sandstorm.Happening = false;
 		}
 
 		public static void AddWithCondition<T>(this List<T> list, T type, bool condition)
