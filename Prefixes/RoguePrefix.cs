@@ -172,7 +172,7 @@ namespace CalRD.Prefixes
             yield return new TooltipLine(Mod, "PrefixSSDmg", (ssDmgBoost >= 1f ? "+" : String.Empty) + (Math.Round(ssDmgBoost * 100f) -100) + "% stealth strike damage")
             {
                 IsModifier = true,
-                IsModifierBad = ssDmgBoost < 0
+                IsModifierBad = ssDmgBoost < 1f
             };
         }
     }
