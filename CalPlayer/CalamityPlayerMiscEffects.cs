@@ -1006,7 +1006,7 @@ namespace CalRD.CalPlayer
 				modPlayer.hurtSoundTimer--;
 			if (modPlayer.icicleCooldown > 0)
 				modPlayer.icicleCooldown--;
-			if (modPlayer.statisTimer > 0 && player.dashDelay >= 0)
+			if (modPlayer.statisTimer > 0 && !modPlayer.dashInactive)
 				modPlayer.statisTimer = 0;
 			if (modPlayer.hallowedRuneCooldown > 0)
 				modPlayer.hallowedRuneCooldown--;
@@ -4072,10 +4072,10 @@ namespace CalRD.CalPlayer
 		{
 			float allDamageStat = player.GetDamage(DamageClass.Generic).Additive - 1f;
 			modPlayer.actualMeleeDamageStat = player.GetDamage(DamageClass.Melee).Additive + allDamageStat;
-			modPlayer.damageStats[0] = (int)((player.GetDamage(DamageClass.Melee).Additive + allDamageStat - 1f) * 100f);
-			modPlayer.damageStats[1] = (int)((player.GetDamage(DamageClass.Ranged).Additive + allDamageStat - 1f) * 100f);
-			modPlayer.damageStats[2] = (int)((player.GetDamage(DamageClass.Magic).Additive + allDamageStat - 1f) * 100f);
-			modPlayer.damageStats[3] = (int)((player.GetDamage(DamageClass.Summon).Additive + allDamageStat - 1f) * 100f);
+			modPlayer.damageStats[0] = (int)((player.GetDamage(DamageClass.Melee).Additive + allDamageStat) * 100f);
+			modPlayer.damageStats[1] = (int)((player.GetDamage(DamageClass.Ranged).Additive + allDamageStat) * 100f);
+			modPlayer.damageStats[2] = (int)((player.GetDamage(DamageClass.Magic).Additive + allDamageStat) * 100f);
+			modPlayer.damageStats[3] = (int)((player.GetDamage(DamageClass.Summon).Additive + allDamageStat) * 100f);
 			modPlayer.damageStats[4] = (int)((modPlayer.throwingDamage + allDamageStat - 1f) * 100f);
 			modPlayer.damageStats[5] = (int)(modPlayer.trueMeleeDamage * 100D);
 			modPlayer.critStats[0] = (int)player.GetCritChance(DamageClass.Melee);

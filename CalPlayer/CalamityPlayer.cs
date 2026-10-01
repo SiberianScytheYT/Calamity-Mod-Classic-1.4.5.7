@@ -7259,7 +7259,7 @@ namespace CalRD.CalPlayer
 
 			// Put the player in a permanent state of dash cooldown. This is removed 1/5 of a second after disabling the effect.
 			// This is necessary so that arbitrary dashes from other mods are also blocked by Calamity.
-            if (Player.dashDelay >= 0 && Player.dashDelay < DashDisableCooldown)
+            if (!dashInactive && Player.dashDelay < DashDisableCooldown)
 			    Player.dashDelay = DashDisableCooldown;
 
 			// Prevent the possibility of Shield of Cthulhu invulnerability exploits.
@@ -9150,7 +9150,7 @@ namespace CalRD.CalPlayer
         public void ModHorizontalMovement()
         {
             float num = (Player.accRunSpeed + Player.maxRunSpeed) / 2f;
-            if (Player.controlLeft && Player.velocity.X > -Player.accRunSpeed && Player.dashDelay >= 0)
+            if (Player.controlLeft && Player.velocity.X > -Player.accRunSpeed && !dashInactive)
             {
                 if (Player.velocity.X < -num && Player.velocity.Y == 0f && !Player.mount.Active)
                 {
@@ -9217,7 +9217,7 @@ namespace CalRD.CalPlayer
                     }
                 }
             }
-            else if (Player.controlRight && Player.velocity.X < Player.accRunSpeed && Player.dashDelay >= 0)
+            else if (Player.controlRight && Player.velocity.X < Player.accRunSpeed && !dashInactive)
             {
                 if (Player.velocity.X > num && Player.velocity.Y == 0f && !Player.mount.Active)
                 {
