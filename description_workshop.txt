@@ -4,3 +4,7 @@ Suggestions and bug reports will probably not be taken as to keep the version as
 
 However, if you do identify an issue that makes this Classic release different from the original from 2020, send it to the following Discord:
 https://discord.gg/rtq3jRDsrA
+
+Port done by SiberianScytheYT, special thanks to GinYuH for assisting with the upload!
+[quote=tModLoader CalRD]
+Developed By The Calamity Dev Team[/quote]
