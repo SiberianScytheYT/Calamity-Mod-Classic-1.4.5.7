@@ -110,16 +110,17 @@ namespace CalRD.Items.Accessories
                         
                 }
                 
-                tooltips.Insert(index+1, new TooltipLine(CalRD.Instance, "Tooltip1", "[c/f05a5a:The soul within this crystal has been defiled by the powerful magic of a supreme witch]\nMerchants will reject a defiled soul such as this."));
+                tooltips.Insert(index+1, new TooltipLine(CalRD.Instance, "Tooltip1", this.GetLocalizedValue("Reject")));
             }
             else if (Main.player[Main.myPlayer].Calamity().profanedCrystalBuffs)
             {
-                int manaCost = (int)(100 * Main.player[Main.myPlayer].manaCost);
+                string manaCost = (100 * Main.player[Main.myPlayer].manaCost).ToString("N0");
+                string manaLine = this.GetLocalization("ManaCost").Format(manaCost);
                 foreach (TooltipLine line in tooltips)
                 {
                     if (line.Mod == "Terraria" && line.Name == "Tooltip5")
                     {
-                        line.Text = "[c/3a83e4:Transforms Magic attacks into a powerful splitting fireball for " + manaCost + " mana per cast]";
+                        line.Text = manaLine;
                     }
                 }
 			}

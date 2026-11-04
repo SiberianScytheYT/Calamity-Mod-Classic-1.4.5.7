@@ -586,30 +586,30 @@ namespace CalRD.NPCs
 					{
 						if (Main.rand.NextBool(20))
 						{
-							chat = "Could you be so kind as to, ah...check hell for me...? I left someone I kind of care about down there.";
+							chat = CalamityUtils.GetTextValue("Vanilla.GuideChat.Hardmode1");
 						}
 
 						if (Main.rand.NextBool(20))
 						{
-							chat = "I have this sudden shiver up my spine, like a meteor just fell and thousands of innocent creatures turned into monsters from the stars.";
+							chat = CalamityUtils.GetTextValue("Vanilla.GuideChat.Hardmode2");
 						}
 					}
 
 					if (Main.rand.NextBool(20) && NPC.downedMoonlord)
 					{
-						chat = "The dungeon seems even more restless than usual, watch out for the powerful abominations stirring up in there.";
+						chat = CalamityUtils.GetTextValue("Vanilla.GuideChat.MoonLordDefeated");
 					}
 
 					if (CalamityWorld.downedProvidence)
 					{
 						if (Main.rand.NextBool(20))
 						{
-							chat = "Seems like extinguishing that butterfly caused its life to seep into the hallowed areas, try taking a peek there and see what you can find!";
+							chat = CalamityUtils.GetTextValue("Vanilla.GuideChat.ProvidenceDefeated1");
 						}
 
 						if (Main.rand.NextBool(20))
 						{
-							chat = "I've heard there is a portal of antimatter absorbing everything it can see in the dungeon, try using the Rune of Kos there!";
+							chat = CalamityUtils.GetTextValue("Vanilla.GuideChat.ProvidenceDefeated2");
 						}
 					}
 
@@ -617,12 +617,12 @@ namespace CalRD.NPCs
 				case NPCID.Truffle:
 					if (Main.rand.NextBool(8))
 					{
-						chat = "I don't feel very safe; I think there's pigs following me around and it frightens me.";
+						chat = CalamityUtils.GetTextValue("Vanilla.TruffleChat.Normal");
 					}
 
 					if (NPC.AnyNPCs(NPCType<FAP>()))
 					{
-						chat = "Sometimes, " + Main.npc[fapsol].GivenName + " just looks at me funny and I'm not sure how I feel about that.";
+						chat = CalamityUtils.GetText("Vanilla.TruffleChat.DrunkPrincess").Format(Main.npc[fapsol].GivenName);
 					}
 
 					break;
@@ -630,7 +630,7 @@ namespace CalRD.NPCs
 				case NPCID.Angler:
 					if (Main.rand.NextBool(5) && NPC.AnyNPCs(NPCType<SEAHOE>()))
 					{
-						chat = "Someone tell " + Main.npc[seahorse].GivenName + " to quit trying to throw me out of town, it's not going to work.";
+						chat = CalamityUtils.GetText("Vanilla.AnglerChat.SeaKing").Format(Main.npc[seahorse].GivenName);
 					}
 
 					break;
@@ -638,7 +638,7 @@ namespace CalRD.NPCs
 				case NPCID.TravellingMerchant:
 					if (Main.rand.NextBool(5) && NPC.AnyNPCs(NPCType<FAP>()) && NPC.AnyNPCs(NPCID.Merchant))
 					{
-						chat = "Tell " + Main.npc[fapsol].GivenName + " I'll take up her offer and meet with her at the back of " + Main.npc[angelstatue].GivenName + "'s house.";
+						chat = CalamityUtils.GetText("Vanilla.TravellingMerchantChat.DrunkPrincessMerchant").Format(Main.npc[fapsol].GivenName, Main.npc[angelstatue].GivenName);
 					}
 
 					break;
@@ -646,7 +646,7 @@ namespace CalRD.NPCs
 				case NPCID.SkeletonMerchant:
 					if (Main.rand.NextBool(5))
 					{
-						chat = "What'dya buyin'?";
+						chat = CalamityUtils.GetTextValue("Vanilla.SkeletonMerchantChat.Normal");
 					}
 
 					break;
@@ -654,18 +654,18 @@ namespace CalRD.NPCs
 				case NPCID.WitchDoctor:
 					if (Main.rand.NextBool(8) && Main.LocalPlayer.ZoneJungle)
 					{
-						chat = "My home here has an extensive history and a mysterious past. You'll find out quickly just how extensive it is...";
+						chat = CalamityUtils.GetTextValue("Vanilla.WitchDoctorChat.Jungle");
 					}
 
 					if (Main.rand.NextBool(8) && Main.LocalPlayer.ZoneJungle &&
 						Main.hardMode && !NPC.downedPlantBoss)
 					{
-						chat = "I have unique items if you show me that you have bested the guardian of this jungle.";
+						chat = CalamityUtils.GetTextValue("Vanilla.WitchDoctorChat.PrePlantera");
 					}
 
 					if (Main.rand.NextBool(8) && Main.bloodMoon)
 					{
-						chat = "This is as good a time as any to pick up the best ingredients for potions.";
+						chat = CalamityUtils.GetTextValue("Vanilla.WitchDoctorChat.BloodMoon");
 					}
 
 					break;
@@ -673,19 +673,19 @@ namespace CalRD.NPCs
 				case NPCID.PartyGirl:
 					if (Main.rand.NextBool(10) && fapsol != -1)
 					{
-						chat = "I have a feeling we're going to have absolutely fantastic parties with " + Main.npc[fapsol].GivenName + " around!";
+						chat = CalamityUtils.GetText("Vanilla.PartyGirlChat.DrunkPrincess").Format(Main.npc[fapsol].GivenName);
 					}
 
 					if (Main.eclipse)
 					{
 						if (Main.rand.NextBool(5))
 						{
-							chat = "I think my light display is turning into an accidental bug zapper. At least the monsters are enjoying it.";
+							chat = CalamityUtils.GetTextValue("Vanilla.PartyGirlChat.Eclipse1");
 						}
 
 						if (Main.rand.NextBool(5))
 						{
-							chat = "Ooh! I love parties where everyone wears a scary costume!";
+							chat = CalamityUtils.GetTextValue("Vanilla.PartyGirlChat.Eclipse2");
 						}
 					}
 
@@ -694,75 +694,75 @@ namespace CalRD.NPCs
 				case NPCID.Painter:
 					if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneCorrupt)
 					{
-						chat = "A little sickness isn't going to stop me from doing my work as an artist!";
+						chat = CalamityUtils.GetTextValue("Vanilla.PainterChat.Corruption");
 					}
 					if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneCrimson)
 					{
-						chat = "There's a surprising art to this area. A sort of horrifying, eldritch feeling. It inspires me!";
+						chat = CalamityUtils.GetTextValue("Vanilla.PainterChat.Crimson");
 					}
 					if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneSnow)
 					{
 						if (NPC.AnyNPCs(NPCType<DILF>()) && Main.rand.NextBool(2))
 						{
-							chat = "Think " + Main.npc[permadong].GivenName + " would let me paint him like one of his French girls?!";
+							chat = CalamityUtils.GetText("Vanilla.PainterChat.Permafrost").Format(Main.npc[permadong].GivenName);
 						}
 						else
 						{
-							chat = "I'm not exactly suited for this cold weather. Still looks pretty, though.";
+							chat = CalamityUtils.GetTextValue("Vanilla.PainterChat.Tundra");
 						}
 					}
 					if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneDesert)
 					{
-						chat = "I hate sand. It's coarse, and rough and gets in my paint.";
+						chat = CalamityUtils.GetTextValue("Vanilla.PainterChat.Desert");
 					}
 					if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneHallow)
 					{
-						chat = "Do you think unicorn blood could be used as a good pigment or resin? No I'm not going to find out myself.";
+						chat = CalamityUtils.GetTextValue("Vanilla.PainterChat.Hallow");
 					}
 					if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneSkyHeight)
 					{
 						//chat = "I can't breathe."
-						chat = "I can't work in this environment. All of my paint just floats off.";
+						chat = CalamityUtils.GetTextValue("Vanilla.PainterChat.Space");
 					}
 					if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneJungle)
 					{
-						chat = "Painting the tortoises in a still life isn't going so well.";
+						chat = CalamityUtils.GetTextValue("Vanilla.PainterChat.Jungle");
 					}
 					if (Main.rand.NextBool(4) && Main.LocalPlayer.Calamity().ZoneAstral)
 					{
-						chat = "I can't paint a still life if the fruit grows legs and walks away.";
+						chat = CalamityUtils.GetTextValue("Vanilla.PainterChat.Astral");
 					}
 					if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneUnderworldHeight)
 					{
-						chat = "On the canvas, things get heated around here all the time. Like the environment!";
+						chat = CalamityUtils.GetTextValue("Vanilla.PainterChat.Underworld1");
 					}
 					if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneUnderworldHeight)
 					{
-						chat = "Sorry, I'm all out of watercolors. They keep evaporating.";
+						chat = CalamityUtils.GetTextValue("Vanilla.PainterChat.Underworld2");
 					}
 					if (Main.rand.NextBool(4) && Main.LocalPlayer.Calamity().ZoneCalamity)
 					{
-						chat = "Roses, really? That's such an overrated thing to paint.";
+						chat = CalamityUtils.GetTextValue("Vanilla.PainterChat.Crags");
 					}
 					if (Main.rand.NextBool(4) && Main.LocalPlayer.Calamity().ZoneSulphur)
 					{
-						chat = "Fun fact! Sulphur was used as pigment once upon a time! Or was it Cinnabar?";
+						chat = CalamityUtils.GetTextValue("Vanilla.PainterChat.SulphurSea");
 					}
 					if (Main.rand.NextBool(4) && Main.LocalPlayer.Calamity().ZoneAbyss)
 					{
-						chat = "Easiest landscape I've ever painted in my life.";
+						chat = CalamityUtils.GetTextValue("Vanilla.PainterChat.Abyss");
 					}
 					break;
 
 				case NPCID.Wizard:
 					if (Main.rand.NextBool(10) && permadong != -1)
 					{
-						chat = "I'd let " + Main.npc[permadong].GivenName + " coldheart MY icicle.";
+						chat = CalamityUtils.GetText("Vanilla.WizardChat.Permafrost").Format(Main.npc[permadong].GivenName);
 					}
 
 					if (Main.rand.NextBool(10) && Main.hardMode)
 					{
-						chat = "Space just got way too close for comfort.";
+						chat = CalamityUtils.GetTextValue("Vanilla.WizardChat.Hardmode");
 					}
 
 					break;
@@ -770,60 +770,60 @@ namespace CalRD.NPCs
 				case NPCID.Dryad:
 					if (Main.rand.NextBool(5) && CalamityWorld.buffedEclipse && Main.eclipse)
 					{
-						chat = "There's a dark solar energy emanating from the moths that appear during this time. Ah, the moths as you progress further get more powerful...hmm...what power was Yharon holding back?";
+						chat = CalamityUtils.GetTextValue("Vanilla.DryadChat.DarksunEclipse");
 					}
 
 					if (Main.rand.NextBool(5) && Main.hardMode)
 					{
-						chat = "That starborne illness sits upon this land like a blister. Do even more vile forces of corruption exist in worlds beyond?";
+						chat = CalamityUtils.GetTextValue("Vanilla.DryadChat.Hardmode");
 					}
 
 					if (Main.rand.NextBool(5) && NPC.AnyNPCs(NPCType<FAP>()) && Main.LocalPlayer.ZoneGlowshroom)
 					{
-						chat = Main.npc[fapsol].GivenName + " put me up to this.";
+						chat = CalamityUtils.GetText("Vanilla.DryadChat.DrunkPrincessShroom").Format(Main.npc[fapsol].GivenName);
 					}
 
 					if (Main.rand.NextBool(5) && Main.LocalPlayer.Calamity().ZoneSulphur)
 					{
-						chat = "My ancestor was lost here long ago. I must pay my respects to her.";
+						chat = CalamityUtils.GetTextValue("Vanilla.DryadChat.SulphurSea");
 					}
 
 					if (Main.rand.NextBool(5) && Main.LocalPlayer.ZoneGlowshroom)
 					{
 						//high iq drugs iirc
-						chat = "I'm not here for any reason! Just picking up mushrooms for uh, later use.";
+						chat = CalamityUtils.GetTextValue("Vanilla.DryadChat.Mushroom");
 					}
 
 					break;
 
 				case NPCID.Stylist:
-					string worldEvil = WorldGen.crimson ? "Crimson" : "Corruption";
+					string worldEvil = Language.GetTextValue("LegacyMisc." + (WorldGen.crimson ? 102 : 101));
 					if (Main.rand.NextBool(15) && Main.hardMode)
 					{
-						chat = "Please don't catch space lice. Or " + worldEvil + " lice. Or just lice in general.";
+						chat = CalamityUtils.GetText("Vanilla.StylistChat.Hardmode").Format(worldEvil);
 					}
 
 					if (fapsol != -1)
 					{
 						if (Main.rand.NextBool(15))
 						{
-							chat = "Sometimes I catch " + Main.npc[fapsol].GivenName + " sneaking up from behind me.";
+							chat = CalamityUtils.GetText("Vanilla.StylistChat.DrunkPrincess1").Format(Main.npc[fapsol].GivenName);
 						}
 
 						if (Main.rand.NextBool(15))
 						{
-							chat = Main.npc[fapsol].GivenName + " is always trying to brighten my mood...even if, deep down, I know she's sad.";
+							chat = CalamityUtils.GetText("Vanilla.StylistChat.DrunkPrincess2").Format(Main.npc[fapsol].GivenName);
 						}
 					}
 					if ((npc.GivenName == "Amber" ? Main.rand.NextBool(10) : Main.rand.NextBool(15)) && Main.LocalPlayer.Calamity().pArtifact)
 					{
 						if (Main.LocalPlayer.Calamity().profanedCrystalBuffs)
 						{
-							chat = Main.rand.NextBool(2) ? "They look so cute and yet, I can feel their immense power just by being near them. What are you?" : "I hate to break it to you, but you don't have hair to cut or style, hun.";
+							chat = Main.rand.NextBool(2) ? CalamityUtils.GetTextValue("Vanilla.StylistChat.ProfanedSoulCrystal1") : CalamityUtils.GetTextValue("Vanilla.StylistChat.ProfanedSoulCrystal2");
 						}
 						else if (Main.LocalPlayer.Calamity().gDefense && Main.LocalPlayer.Calamity().gOffense)
 						{
-							chat = "Aww, they're so cute, do they have names?"; 
+							chat = CalamityUtils.GetTextValue("Vanilla.StylistChat.ProfanedDonuts"); 
 						}
 					}
 					break;
@@ -831,11 +831,11 @@ namespace CalRD.NPCs
 				case NPCID.GoblinTinkerer:
 					if (Main.rand.NextBool(3) && thief != -1 && CalamityWorld.Reforges >= 1)
 					{
-						chat = $"Hey, is it just me or have my pockets gotten lighter ever since " + Main.npc[thief].GivenName + " arrived?";
+						chat = CalamityUtils.GetText("Vanilla.GoblinTinkererChat.Bandit").Format(Main.npc[thief].GivenName);
 					}
 					if (Main.rand.NextBool(10) && NPC.downedMoonlord)
 					{
-						chat = "You know...we haven't had an invasion in a while...";
+						chat = CalamityUtils.GetTextValue("Vanilla.GoblinTinkererChat.MoonLordDefeated");
 					}
 
 					break;
@@ -843,12 +843,12 @@ namespace CalRD.NPCs
 				case NPCID.ArmsDealer:
 					if (Main.rand.NextBool(5) && Main.eclipse)
 					{
-						chat = "That's the biggest moth I've ever seen for sure. You'd need one big gun to take one of those down.";
+						chat = CalamityUtils.GetTextValue("Vanilla.ArmsDealerChat.Eclipse");
 					}
 
 					if (Main.rand.NextBool(10) && CalamityWorld.downedDoG)
 					{
-						chat = "Is it me or are your weapons getting bigger and bigger?";
+						chat = CalamityUtils.GetTextValue("Vanilla.ArmsDealerChat.DoGDefeated");
 					}
 
 					break;
@@ -856,27 +856,27 @@ namespace CalRD.NPCs
 				case NPCID.Merchant:
 					if (Main.rand.NextBool(5) && NPC.downedMoonlord)
 					{
-						chat = "Each night seems only more foreboding than the last. I feel unthinkable terrors are watching your every move.";
+						chat = CalamityUtils.GetTextValue("Vanilla.MerchantChat.MoonLordDefeated");
 					}
 
 					if (Main.rand.NextBool(5) && Main.eclipse)
 					{
-						chat = "Are you daft?! Turn off those lamps!";
+						chat = CalamityUtils.GetTextValue("Vanilla.MerchantChat.Eclipse");
 					}
 
 					if (Main.rand.NextBool(5) && Main.raining && Main.LocalPlayer.Calamity().ZoneSulphur)
 					{
-						chat = "If this acid rain keeps up, there'll be a shortage of Dirt Blocks soon enough!";
+						chat = CalamityUtils.GetTextValue("Vanilla.MerchantChat.AcidRain");
 					}
 
 					if (Main.rand.NextBool(7) && thief != -1)
 					{
-						chat = "I happen to have several Angel Statues at the moment, a truely rare commodity. Want one?";
+						chat = CalamityUtils.GetTextValue("Vanilla.MerchantChat.Bandit");
 					}
 
 					if (Main.rand.NextBool(7) && CalamityWorld.death)
 					{
-						chat = "The caverns have become increasingly dark as of late, so I stocked up on some special torches if you have the funds.";
+						chat = CalamityUtils.GetTextValue("Vanilla.MerchantChat.DeathMode");
 					}
 
 					break;
@@ -884,22 +884,22 @@ namespace CalRD.NPCs
 				case NPCID.Mechanic:
 					if (Main.rand.NextBool(5) && NPC.downedMoonlord)
 					{
-						chat = "What do you mean your traps aren't making the cut? Don't look at me!";
+						chat = CalamityUtils.GetTextValue("Vanilla.MechanicChat.MoonLordDefeated");
 					}
 
 					if (Main.rand.NextBool(5) && Main.eclipse)
 					{
-						chat = "Um...should my nightlight be on?";
+						chat = CalamityUtils.GetTextValue("Vanilla.MechanicChat.Eclipse");
 					}
 
 					if (Main.rand.NextBool(5) && fapsol != -1)
 					{
-						chat = "Well, I like " + Main.npc[fapsol].GivenName + ", but I, ah...I have my eyes on someone else.";
+						chat = CalamityUtils.GetText("Vanilla.MechanicChat.DrunkPrincess").Format(Main.npc[fapsol].GivenName);
 					}
 
 					if (Main.rand.NextBool(5) && CalamityWorld.rainingAcid)
 					{
-						chat = "Maybe I should've waterproofed my gadgets... They're starting to corrode.";
+						chat = CalamityUtils.GetTextValue("Vanilla.MechanicChat.AcidRain");
 					}
 
 					break;
@@ -907,12 +907,12 @@ namespace CalRD.NPCs
 				case NPCID.DD2Bartender:
 					if (Main.rand.NextBool(5) && !Main.dayTime && Main.moonPhase == 0)
 					{
-						chat = "Care for a little Moonshine?";
+						chat = CalamityUtils.GetTextValue("Vanilla.TavernkeepChat.FullMoon");
 					}
 
 					if (Main.rand.NextBool(10) && fapsol != -1)
 					{
-						chat = "Sheesh, " + Main.npc[fapsol].GivenName + " is a little cruel, isn't she? I never claimed to be an expert on anything but ale!";
+						chat = CalamityUtils.GetText("Vanilla.TavernkeepChat.DrunkPrincess").Format(Main.npc[fapsol].GivenName);
 					}
 
 					break;
@@ -920,62 +920,62 @@ namespace CalRD.NPCs
 				case NPCID.Pirate:
 					if (Main.rand.NextBool(5) && !CalamityWorld.downedLeviathan)
 					{
-						chat = "Aye, I've heard of a mythical creature in the oceans, singing with an alluring voice. Careful when yer fishin out there.";
+						chat = CalamityUtils.GetTextValue("Vanilla.PirateChat.PreLeviathan");
 					}
 
 					if (Main.rand.NextBool(5) && CalamityWorld.downedAquaticScourge)
 					{
-						chat = "I have to thank ye again for takin' care of that sea serpent. Or was that another one...";
+						chat = CalamityUtils.GetTextValue("Vanilla.PirateChat.AquaticScourgeDefeated");
 					}
 
 					if (Main.rand.NextBool(5) && NPC.AnyNPCs(NPCType<SEAHOE>()))
 					{
-						chat = "I remember legends about that " + Main.npc[seahorse].GivenName + ". He ain't quite how the stories make him out to be though.";
+						chat = CalamityUtils.GetText("Vanilla.PirateChat.SeaKing").Format(Main.npc[seahorse].GivenName);
 					}
 
 					if (Main.rand.NextBool(5) && NPC.AnyNPCs(NPCType<FAP>()))
 					{
-						chat = "Twenty-nine bottles of beer on the wall...";
+						chat = CalamityUtils.GetTextValue("Vanilla.PirateChat.DrunkPrincess");
 					}
 
 					if (Main.rand.NextBool(5) && Main.LocalPlayer.Center.ToTileCoordinates().X < 380 && !Main.LocalPlayer.Calamity().ZoneSulphur)
 					{
-						chat = "Now this is a scene that I can admire any time! I feel like something is watching me though.";
+						chat = CalamityUtils.GetTextValue("Vanilla.PirateChat.Abyss");
 					}
 
 					if (Main.rand.NextBool(5) && Main.LocalPlayer.Calamity().ZoneSulphur)
 					{
-						chat = "It ain't much of a sight, but there's still life living in these waters.";
+						chat = CalamityUtils.GetTextValue("Vanilla.PirateChat.SulphurSea1");
 					}
 
 					if (Main.rand.NextBool(5) && Main.LocalPlayer.Calamity().ZoneSulphur)
 					{
-						chat = "Me ship might just sink from the acid alone.";
+						chat = CalamityUtils.GetTextValue("Vanilla.PirateChat.SulphurSea2");
 					}
 					break;
 
 				case NPCID.Cyborg:
 					if (Main.rand.NextBool(10) && Main.raining)
 					{
-						chat = "All these moments will be lost in time. Like tears...in the rain.";
+						chat = CalamityUtils.GetTextValue("Vanilla.CyborgChat.Rain");
 					}
 
 					if (NPC.downedMoonlord)
 					{
 						if (Main.rand.NextBool(10))
 						{
-							chat = "Always shoot for the moon! It has clearly worked before.";
+							chat = CalamityUtils.GetTextValue("Vanilla.CyborgChat.MoonLordDefeated1");
 						}
 
 						if (Main.rand.NextBool(10))
 						{
-							chat = "Draedon? He's...a little 'high octane' if you know what I mean.";
+							chat = CalamityUtils.GetTextValue("Vanilla.CyborgChat.MoonLordDefeated2");
 						}
 					}
 
 					if (Main.rand.NextBool(10) && !CalamityWorld.downedPlaguebringer && NPC.downedGolemBoss)
 					{
-						chat = "Those oversized bugs terrorizing the jungle... Surely you of all people could shut them down!";
+						chat = CalamityUtils.GetTextValue("Vanilla.CyborgChat.MentionPlague");
 					}
 
 					break;
@@ -985,28 +985,28 @@ namespace CalRD.NPCs
 					{
 						if (Main.rand.NextBool(10))
 						{
-							chat = "Who you gonna call?";
+							chat = CalamityUtils.GetTextValue("Vanilla.ClothierChat.MoonLordDefeated1");
 						}
 
 						if (Main.rand.NextBool(10))
 						{
-							chat = "Those screams...I'm not sure why, but I feel like a nameless fear has awoken in my heart.";
+							chat = CalamityUtils.GetTextValue("Vanilla.ClothierChat.MoonLordDefeated2");
 						}
 
 						if (Main.rand.NextBool(10))
 						{
-							chat = "I can faintly hear ghostly shrieks from the dungeon...and not ones I'm familiar with at all. Just what is going on in there?";
+							chat = CalamityUtils.GetTextValue("Vanilla.ClothierChat.MoonLordDefeated3");
 						}
 					}
 
 					if (Main.rand.NextBool(10) && CalamityWorld.downedPolterghast)
 					{
-						chat = "Whatever that thing was, I'm glad it's gone now.";
+						chat = CalamityUtils.GetTextValue("Vanilla.ClothierChat.PolterghastDefeated");
 					}
 
 					if (Main.rand.NextBool(5) && NPC.AnyNPCs(NPCID.MoonLordCore))
 					{
-						chat = "Houston, we've had a problem.";
+						chat = CalamityUtils.GetTextValue("Vanilla.ClothierChat.MoonLordPresent");
 					}
 
 					break;
@@ -1024,22 +1024,22 @@ namespace CalRD.NPCs
 
 					if (Main.rand.NextBool(5) && hasPortalGun)
 					{
-						chat = "Just what is that contraption? It makes my Teleporters look like child's play!";
+						chat = CalamityUtils.GetTextValue("Vanilla.SteampunkerChat.PortalGun");
 					}
 
 					if (Main.rand.NextBool(5) && NPC.downedMoonlord)
 					{
-						chat = "Yep! I'm also considering being a space pirate now.";
+						chat = CalamityUtils.GetTextValue("Vanilla.SteampunkerChat.MoonLordDefeated");
 					}
 
 					if (Main.rand.NextBool(5) && Main.LocalPlayer.Calamity().ZoneAstral)
 					{
-						chat = "Some of my machines are starting to go haywire thanks to this Astral Infection. I probably shouldn't have built them here";
+						chat = CalamityUtils.GetTextValue("Vanilla.SteampunkerChat.Astral");
 					}
 
 					if (Main.rand.NextBool(5) && Main.LocalPlayer.ZoneHallow)
 					{
-						chat = "I'm sorry I really don't have any Unicorn proof tech here, you're on your own.";
+						chat = CalamityUtils.GetTextValue("Vanilla.SteampunkerChat.Hallow");
 					}
 
 					break;
@@ -1047,12 +1047,12 @@ namespace CalRD.NPCs
 				case NPCID.DyeTrader:
 					if (Main.rand.NextBool(5))
 					{
-						chat = "Have you seen those gemstone creatures in the caverns? Their colors are simply breathtaking!";
+						chat = CalamityUtils.GetTextValue("Vanilla.DyeTraderChat.Normal");
 					}
 
 					if (Main.rand.NextBool(5) && permadong != -1)
 					{
-						chat = "Do you think " + Main.npc[permadong].GivenName + " knows how to 'let it go?'";
+						chat = CalamityUtils.GetText("Vanilla.DyeTraderChat.Permafrost").Format(Main.npc[permadong].GivenName);
 					}
 
 					break;
@@ -1076,27 +1076,27 @@ namespace CalRD.NPCs
 
 					if (Main.rand.NextBool(5) && platinumCoins >= 100)
 					{
-						chat = "BAH! Doesn't seem like I'll ever be able to quarrel with the debts of the town again!";
+						chat = CalamityUtils.GetTextValue("Vanilla.TaxCollectorChat.Has100Plat");
 					}
 
 					if (Main.rand.NextBool(5) && platinumCoins >= 500)
 					{
-						chat = "Where and how are you getting all of this money?";
+						chat = CalamityUtils.GetTextValue("Vanilla.TaxCollectorChat.Has500Plat");
 					}
 
 					if (Main.rand.NextBool(5) && !CalamityWorld.downedBrimstoneElemental)
 					{
-						chat = "Perhaps with all that time you've got you could check those old ruins? Certainly something of value in it for you!";
+						chat = CalamityUtils.GetTextValue("Vanilla.TaxCollectorChat.PreBrimmy");
 					}
 
 					if (Main.rand.NextBool(10) && CalamityWorld.downedDoG)
 					{
-						chat = "Devourer of what, you said? Devourer of Funds, if its payroll is anything to go by!";
+						chat = CalamityUtils.GetTextValue("Vanilla.TaxCollectorChat.DoGDefeated");
 					}
 
 					if (Main.rand.NextBool(10) && CalamityUtils.InventoryHas(Main.LocalPlayer, ItemType<SlickCane>()))
 					{
-						chat = "Goodness! That cane has swagger!";
+						chat = CalamityUtils.GetTextValue("Vanilla.TaxCollectorChat.SlickCane");
 					}
 
 					break;
@@ -1104,7 +1104,7 @@ namespace CalRD.NPCs
 				case NPCID.Demolitionist:
 					if (Main.rand.NextBool(5) && CalamityWorld.downedDoG)
 					{
-						chat = "God Slayer Dynamite? Boy do I like the sound of that!";
+						chat = CalamityUtils.GetTextValue("Vanilla.DemolitionistChat.DoGDefeated");
 					}
 
 					break;

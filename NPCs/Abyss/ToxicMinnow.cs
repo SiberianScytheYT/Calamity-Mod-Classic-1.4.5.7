@@ -31,7 +31,7 @@ namespace CalRD.NPCs.Abyss
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("Perhaps in a strange bid from evolution, these fish will process toxic chemicals from the plants they eat and store them as a self defense mechanism... however, it's only released on death, rendering it moot.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.ToxicMinnow")
             });
         }
 

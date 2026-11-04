@@ -49,7 +49,7 @@ namespace CalRD.NPCs.Leviathan
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-		        new FlavorTextBestiaryInfoElement("Theorized to be the very last of her kind, this reptile only awakens if her slumber is disturbed.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Leviathan")
 	        });
         }
 

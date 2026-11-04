@@ -37,13 +37,7 @@ namespace CalRD.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Attacking and being attacked by enemies inflicts poison\n" +
-                "Grants an additional jump that summons a sulphurous bubble\n" +
-                "Provides increased underwater mobility and reduces the severity of the sulphuric waters\n" +
-                "Rogue stealth builds while not attacking and slower while moving, up to a max of 100\n" +
-                "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
-                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.SulfurHelmet");
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.sulfurSet = true;
             modPlayer.sulfurJump = true;

@@ -36,11 +36,7 @@ namespace CalRD.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "18% increased minion damage\n" +
-                "Summons a mini slime god to fight for you, the type depends on what world evil you have\n" +
-                "When you take over 100 damage in one hit you become immune to damage for an extended period of time\n" +
-                "Grants an extra jump and increased jump height\n" +
-				"30% increased jump speed";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.StatigelHood");
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.statigelSet = true;
             modPlayer.slimeGod = true;

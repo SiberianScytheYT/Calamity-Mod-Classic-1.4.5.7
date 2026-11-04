@@ -22,7 +22,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
-                new FlavorTextBestiaryInfoElement("A tortoise overtaken by plague nanomachines, its shell now shines bright silver.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.PlaguedTortoise")
             });
         }
 

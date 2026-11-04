@@ -114,12 +114,12 @@ namespace CalRD.Projectiles.Pets
             if (player.name == "Terry")
             {
                 doggoType += "S";
-                Main.NewText("It's not over yet, kid!", Color.Cyan);
+                Main.NewText("Mods.CalRD.ClassicKeys.EdgyBossText10", Color.Cyan);
             }
             else
             {
                 doggoType += "2";
-                Main.NewText("Don't get cocky, kid!", Color.Cyan);
+                Main.NewText("Mods.CalRD.ClassicKeys.EdgyBossText", Color.Cyan);
             }
 
             int type = Mod.Find<ModNPC>(doggoType).Type;
@@ -239,7 +239,7 @@ namespace CalRD.Projectiles.Pets
                     }
                     else
                     {
-                        player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " couldn't stand the sharp objects."), 500, 0);
+                        player.Hurt(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.ChibiiDoggo").Format(player.name)), 500, 0);
                     }
                     player.immune = false;
                     player.immuneTime = 0;

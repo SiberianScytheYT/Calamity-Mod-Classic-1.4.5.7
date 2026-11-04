@@ -36,8 +36,7 @@ namespace CalRD.Items.Accessories
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
 					{
-						line2.Text = "You are immune to the chilled debuff\n" +
-						"Provides heat and cold protection in Death Mode";
+						line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.HeatColdProtection");
 					}
 				}
 			}

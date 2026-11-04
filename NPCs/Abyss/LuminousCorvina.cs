@@ -35,7 +35,7 @@ namespace CalRD.NPCs.Abyss
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("This creature's survival methods are unusual, yet clever: Once a potential threat is near it, it will release a shrill pulse, alerting all other creatures of a potential meal's location... While it remains unscathed.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.LuminousCorvina")
             });
         }
 

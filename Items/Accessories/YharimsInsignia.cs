@@ -41,8 +41,7 @@ namespace CalRD.Items.Accessories
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip6")
 					{
-						line2.Text = "Increased melee knockback\n" +
-						"Provides heat protection in Death Mode";
+						line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.HeatProtection");
 					}
 				}
 			}

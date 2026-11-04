@@ -110,14 +110,7 @@ namespace CalRD.Items.Accessories
             {
                 if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                 {
-                    line2.Text = "Tells you how high your melee proficiency is\n" +
-                "While equipped you will gain melee proficiency faster\n" +
-                "The higher your melee level the higher your melee damage, speed, and critical strike chance\n" +
-                "Melee proficiency (max of 12500): " + (level - (level > 12500 ? 1 : 0)) + "\n" +
-                "Melee level (max of 15): " + exactLevel + "\n" +
-                "Melee damage increase: " + damageGain + "%\n" +
-                "Melee speed increase: " + meleeSpeed + "%\n" +
-                "Melee crit increase: " + critGain + "%";
+                    line2.Text = this.GetLocalization("Extra").Format(level - (level > 12500 ? 1 : 0), exactLevel, damageGain, meleeSpeed, critGain);
                 }
             }
         }

@@ -42,8 +42,7 @@ namespace CalRD.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.reaverDoubleTap = true;
-            player.setBonus = "5% increased ranged damage\n" +
-                "While using a ranged weapon you have a 10% chance to fire a powerful rocket";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.ReaverVisage");
             player.GetDamage(DamageClass.Ranged) += 0.05f;
         }
 

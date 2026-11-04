@@ -33,7 +33,7 @@ namespace CalRD.NPCs.AcidRain
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("These creatures are capable of remaining on the surface of the water, barely noticeable, they're also capable of flight if they need to.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.SulfurousSkater")
             });
         }
 

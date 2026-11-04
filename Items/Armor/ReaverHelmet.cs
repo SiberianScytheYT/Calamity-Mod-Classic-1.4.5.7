@@ -42,8 +42,7 @@ namespace CalRD.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "16% increased minion damage\n" +
-                "Summons a reaver orb that emits spore gas when enemies are near";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.ReaverHelmet");
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.reaverOrb = true;
             if (player.whoAmI == Main.myPlayer)

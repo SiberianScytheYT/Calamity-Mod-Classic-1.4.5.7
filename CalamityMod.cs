@@ -6,7 +6,6 @@ using CalRD.Items.Accessories;
 using CalRD.Items.Accessories.Vanity;
 using CalRD.Items.Armor;
 using CalRD.Items.Dyes.HairDye;
-using CalRD.Localization;
 using CalRD.NPCs;
 using CalRD.NPCs.AquaticScourge;
 using CalRD.NPCs.AstrumAureus;
@@ -150,8 +149,7 @@ namespace CalRD
             SetupVanillaDR();
             SetupBossKillTimes();
             SetupBossVelocityScalingValues();
-
-            //CalamityLocalization.AddLocalizations();
+            
             SchematicManager.Load();
         }
 

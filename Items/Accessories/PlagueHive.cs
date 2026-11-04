@@ -48,7 +48,7 @@ namespace CalRD.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            player.starCloakItem_beeCloakOverrideItem.active = true;
+            player.starCloakItem_beeCloakOverrideItem = Item;
             modPlayer.uberBees = true;
             player.strongBees = true;
             modPlayer.alchFlask = true;

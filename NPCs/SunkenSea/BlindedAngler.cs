@@ -24,7 +24,7 @@ namespace CalRD.NPCs.SunkenSea
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("An angler which uses primitive electroception to hunt prey.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.BlindedAngler")
             });
         }
 

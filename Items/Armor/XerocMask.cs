@@ -60,8 +60,7 @@ namespace CalRD.Items.Armor
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip2")
 					{
-						line2.Text = "Temporary immunity to lava\n" +
-						"Provides heat protection in Death Mode";
+						line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.HeatProtection");
 					}
 				}
 			}
@@ -85,13 +84,7 @@ namespace CalRD.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.xerocSet = true;
             modPlayer.rogueStealthMax += 1.15f;
-            player.setBonus = "9% increased rogue damage and velocity\n" +
-                "Rogue projectiles have special effects on enemy hits\n" +
-                "Imbued with cosmic wrath and rage when you are damaged\n" +
-                "Rogue stealth builds while not attacking and slower while moving, up to a max of 115\n" +
-                "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
-                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.XerocMask");
             if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
             {
                 player.AddBuff(BuffID.Wrath, 2);

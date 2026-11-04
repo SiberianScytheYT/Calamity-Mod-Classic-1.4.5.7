@@ -74,14 +74,12 @@ namespace CalRD.Items.Accessories
 			int defenseLoss = modPlayer.abyssDefenseLossStat;
 
 			// The notice about held item mattering is always displayed first.
-			StringBuilder sb = new StringBuilder("Displays almost all player stats\nOffensive stats displayed vary with held item\n\n", 1024);
+			StringBuilder sb = new StringBuilder(this.GetLocalizedValue("RealTooltip") + "\n\n", 1024);
 
 			// Only append rippers stats in Rev+, if rippers are enabled.
 			if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
 			{
-				sb.Append("Adrenaline Damage Boost: ").Append(modPlayer.adrenalineDamageStat)
-					.Append("% | Adrenaline DR Boost: ").Append(modPlayer.adrenalineDRStat)
-					.Append("% | Rage Damage Boost: ").Append(modPlayer.rageDamageStat)
+				sb.Append(this.GetLocalization("Rippers").Format(modPlayer.adrenalineDamageStat, modPlayer.adrenalineDRStat, modPlayer.rageDamageStat))
 					.Append("%\n\n");
 			}
 
@@ -90,63 +88,43 @@ namespace CalRD.Items.Accessories
 			{
 				if (heldItem.CountsAsClass(DamageClass.Melee))
 				{
-					sb.Append("Melee Damage: ").Append(modPlayer.damageStats[0])
-						.Append("% | True Melee Damage: ").Append(modPlayer.damageStats[5])
-						.Append("% | Melee Crit Chance: ").Append(modPlayer.critStats[0])
-						.Append("%\nMelee Speed Boost: ").Append(meleeSpeed).Append("%\n\n");
+					sb.Append(this.GetLocalization("Melee").Format(modPlayer.damageStats[0], modPlayer.damageStats[5], modPlayer.critStats[0], meleeSpeed))
+						.Append("%\n\n");
 				}
 				else if (heldItem.CountsAsClass(DamageClass.Ranged))
 				{
-					sb.Append("Ranged Damage: ").Append(modPlayer.damageStats[1])
-						.Append("% | Ranged Crit Chance: ").Append(modPlayer.critStats[1])
-						.Append("%\nAmmo Consumption Chance: ").Append(ammoConsumption).Append("%\n\n");
+					sb.Append(this.GetLocalization("Ranged").Format(modPlayer.damageStats[1], modPlayer.critStats[1], ammoConsumption))
+						.Append("%\n\n");
 				}
 				else if (heldItem.CountsAsClass(DamageClass.Magic))
 				{
-					sb.Append("Magic Damage: ").Append(modPlayer.damageStats[2])
-						.Append("% | Magic Crit Chance: ").Append(modPlayer.critStats[2])
-						.Append("%\nMana Usage: ").Append(manaCost)
-						.Append("% | Mana Regen: ").Append(manaRegen).Append("\n\n");
+					sb.Append(this.GetLocalization("Magic").Format(modPlayer.damageStats[2], modPlayer.critStats[2], manaCost, manaRegen))
+						.Append("\n\n");
 				}
 				else if (heldItem.CountsAsClass(DamageClass.Summon))
 				{
-					sb.Append("Minion Damage: ").Append(modPlayer.damageStats[3])
-						.Append("% | Minion Slots: ").Append(minionSlots).Append("\n\n");
+					sb.Append(this.GetLocalization("Summon").Format(modPlayer.damageStats[3], minionSlots))
+						.Append("\n\n");
 				}
 				else if (heldItem.Calamity()?.rogue ?? false)
 				{
-					sb.Append("Rogue Damage: ").Append(modPlayer.damageStats[4])
-						.Append("% | Rogue Crit Chance: ").Append(modPlayer.critStats[3])
-						.Append("%\nRogue Velocity Boost: ").Append(rogueVelocity)
-						.Append("% | Rogue Weapon Consumption Chance: ").Append(rogueConsumption)
-						.Append("%\nMax Stealth: ").Append(rogueStealth)
-						.Append(" | Standing Regen: ").Append(standingRegen).Append(" / sec")
-						.Append(" | Moving Regen: ").Append(movingRegen).Append(" / sec")
+					sb.Append(this.GetLocalization("Rogue").Format(modPlayer.damageStats[4], modPlayer.critStats[3], rogueVelocity, rogueConsumption, rogueStealth, standingRegen, movingRegen))
 						.Append("\n\n");
 				}
 			}
 
 			// Generic stats always render.
-			sb.Append("Defense: ").Append(defense);
-			sb.Append(" | DR: ").Append(DR).Append("%");
-			sb.Append(" | Life Regen: ").Append(lifeRegen).Append("\n");
-			sb.Append("Armor Penetration: ").Append(armorPenetration);
-			sb.Append(" | Wing Flight Time: ").Append(wingFlightTime).Append(" seconds\n");
-			sb.Append("Jump Speed Boost: ").Append(jumpSpeed).Append("%");
-			sb.Append(" | Movement Speed Boost: ").Append(moveSpeed).Append("%\n\n");
-			sb.Append(CalamityWorld.death ? "Abyss/Cave Light Strength: " : "Abyss Light Strength: ").Append(lightLevel).Append("\n\n");
+			sb.Append(this.GetLocalization("Generic").Format(defense, DR, lifeRegen, armorPenetration, wingFlightTime, jumpSpeed, moveSpeed))
+				.Append("%\n\n");
+			sb.Append(CalamityWorld.death ? this.GetLocalizedValue("Death") : this.GetLocalizedValue("NonDeath")).Append(lightLevel).Append("\n\n");
 
 			// Abyss stats only render if the player is in the Abyss.
 			if (modPlayer.ZoneAbyss)
 			{
-				sb.Append("Other Abyss Stats:").Append("\n");
-				sb.Append("Breath Lost Per Tick: ").Append(breathLoss);
-				sb.Append(" | Breath Loss Rate: ").Append(breathLossRate).Append("\n");
-				sb.Append("Life Lost Per Tick at Zero Breath: ").Append(lifeLostAtZeroBreath).Append("\n");
-				sb.Append("Defense Lost: ").Append(defenseLoss);
+				sb.Append(this.GetLocalization("Abyss").Format(breathLoss, breathLossRate, lifeLostAtZeroBreath, defenseLoss));
 			}
 			else
-				sb.Append("Other Abyss stats are only displayed while in the Abyss");
+				sb.Append(this.GetLocalizedValue("NotInAbyss"));
 
 			return sb.ToString();
 		}

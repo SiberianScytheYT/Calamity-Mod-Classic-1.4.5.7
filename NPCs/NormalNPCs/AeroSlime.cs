@@ -25,7 +25,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
-                new FlavorTextBestiaryInfoElement("The essence of Aerialite Ore has allowed this slime to take to the skies!")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.AeroSlime")
             });
         }
 

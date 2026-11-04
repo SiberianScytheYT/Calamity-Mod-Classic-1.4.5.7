@@ -26,7 +26,7 @@ namespace CalRD.NPCs.NormalNPCs
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
-                new FlavorTextBestiaryInfoElement("Rabid, dangerous and uncontrolled dogs that roam unseen in the night.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Pitbull")
             });
         }
 

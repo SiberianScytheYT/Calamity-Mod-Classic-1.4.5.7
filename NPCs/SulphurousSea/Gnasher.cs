@@ -25,7 +25,7 @@ namespace CalRD.NPCs.SulphurousSea
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("A turtle covered by debris and waste from the sulphurous waters it inhabits. Be careful not to approach it, its jaw strength is quite potent for a creature its size.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Gnasher")
             });
         }
 

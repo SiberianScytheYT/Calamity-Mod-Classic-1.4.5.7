@@ -31,7 +31,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundDesert,
-                new FlavorTextBestiaryInfoElement("Enigmatic creatures from the desert that store massive amounts of water within their bodies... is there's something more to them?")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Cnidrion")
             });
         }
 

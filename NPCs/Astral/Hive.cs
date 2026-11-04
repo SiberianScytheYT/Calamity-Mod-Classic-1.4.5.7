@@ -30,7 +30,7 @@ namespace CalRD.NPCs.Astral
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("An amalgamation of creatures, these hives will split off small chunks of themselves to attack enemies.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Hive")
             });
         }
 

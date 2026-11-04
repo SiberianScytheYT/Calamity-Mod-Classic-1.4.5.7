@@ -33,7 +33,7 @@ namespace CalRD.NPCs.Abyss
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("squee")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.GiantSquid")
             });
         }
 

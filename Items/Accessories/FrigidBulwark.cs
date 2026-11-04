@@ -40,8 +40,7 @@ namespace CalRD.Items.Accessories
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip4")
 					{
-						line2.Text = "The shell becomes more powerful when below 15% life and reduces damage even further\n" +
-						"Provides heat and cold protection in Death Mode";
+						line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.HeatColdProtection");
 					}
 				}
 			}

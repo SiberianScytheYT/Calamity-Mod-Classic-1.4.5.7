@@ -39,9 +39,9 @@ namespace CalRD.Items.Accessories
             string hotkey = CalRD.AegisHotKey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
-                if (line2.Mod == "Terraria" && line2.Name == "Tooltip5")
+                if (line2.Mod == "Terraria" && line2.Text.Contains("[KEY]"))
                 {
-                    line2.Text = "Press " + hotkey + " to activate buffs to all damage, crit chance, and defense";
+                    line2.Text = line2.Text.Replace("[KEY]", hotkey);
                 }
             }
         }

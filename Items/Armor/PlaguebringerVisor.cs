@@ -47,8 +47,7 @@ namespace CalRD.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Grants a plague dash to ram enemies and afflict them with the plague\n" +
-			"Summons a lil' plaguebringer to protect you and empower nearby minions";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.PlaguebringerVisor");
 
             player.Calamity().plaguebringerPatronSet = true;
 			player.Calamity().dashMod = 8;

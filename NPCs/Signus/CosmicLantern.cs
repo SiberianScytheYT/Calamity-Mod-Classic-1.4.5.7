@@ -29,7 +29,7 @@ namespace CalRD.NPCs.Signus
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-		        new FlavorTextBestiaryInfoElement("These lanterns rarely see use in combat, and instead allow their user to see through any form of darkness.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.CosmicLantern")
 	        });
         }
 

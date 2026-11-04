@@ -42,15 +42,7 @@ namespace CalRD.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.silvaSet = true;
             modPlayer.silvaMelee = true;
-            player.setBonus = "All projectiles spawn healing leaf orbs on enemy hits\n" +
-                "Max run speed and acceleration boosted by 5%\n" +
-                "If you are reduced to 1 HP you will not die from any further damage for 10 seconds\n" +
-                "If you get reduced to 1 HP again while this effect is active you will lose 100 max life\n" +
-                "This effect only triggers once per life and if you are reduced to 400 max life the invincibility effect will stop\n" +
-                "Your max life will return to normal if you die\n" +
-                "True melee strikes have a 25% chance to do five times damage\n" +
-                "After the silva invincibility is over you will take 20% less contact damage\n" +
-                "Melee projectiles have a 25% chance to stun enemies for a very brief moment";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.SilvaHelm");
         }
 
         public override void UpdateEquip(Player player)

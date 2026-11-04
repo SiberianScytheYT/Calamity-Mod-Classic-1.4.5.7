@@ -53,7 +53,7 @@ namespace CalRD.NPCs.DesertScourge
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
-                new FlavorTextBestiaryInfoElement("Once a great sea worm, it's been reduced to a husk, desperately searching meals to devour on a regular basis.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.DesertScourge")
             });
         }
 
@@ -601,9 +601,9 @@ namespace CalRD.NPCs.DesertScourge
             // If Desert Scourge has not been killed yet, notify players that the Sunken Sea is open and Sandstorms can happen
             if (!CalamityWorld.downedDesertScourge)
             {
-                string key = "The depths of the underground desert are rumbling...";
+                string key = "Mods.CalRD.ClassicKeys.OpenSunkenSea";
                 Color messageColor = Color.Aquamarine;
-                string key2 = "The desert wind is blowing furiously!";
+                string key2 = "Mods.CalRD.ClassicKeys.SandstormTrigger";
                 Color messageColor2 = Color.PaleGoldenrod;
 
                 CalamityUtils.DisplayLocalizedText(key, messageColor);

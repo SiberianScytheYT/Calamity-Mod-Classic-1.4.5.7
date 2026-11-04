@@ -1,0 +1,729 @@
+BuffDescription: {
+	WeaponImbueRogue: "Rogue and "
+	WeaponImbueConfetti: All attacks cause confetti to appear
+	ChaosState: Rod of Discord teleports are disabled
+	CursedInfernoExtra: All damage taken increased by 20%
+	WarmthExtra: Immunity to the Chilled, Frozen, and Glacial State debuffs
+	InvisibilityExtra: Grants rogue bonuses while holding certain rogue weapons
+	Daybreak: Incinerated by solar rays
+}
+
+ItemTooltips: {
+	WarmthExtra: Makes you immune to the Chilled, Frozen, and Glacial State debuffs
+	BottledHoneyExtra: Grants the Honey buff for 2 minutes
+	RodofDiscordExtra: Teleportation is disabled while Chaos State is active
+	FlaskofVenom: Melee and rogue attacks inflict Venom on enemies
+	FlaskofCursedFlames: Melee and rogue attacks inflict enemies with cursed flames
+	FlaskofFire: Melee and rogue attacks set enemies on fire
+	FlaskofGold: Melee and rogue attacks make enemies drop more gold
+	FlaskofIchor: Melee and rogue attacks decrease enemy defense
+	FlaskofNanites: Melee and rogue attacks confuse enemies
+	FlaskofPoison: Melee and rogue attacks poison enemies
+	SpectreHood: 20% decreased magic damage
+	ObsidianSkin:
+		'''
+		Provides immunity to direct damage from touching lava
+		Provides temporary immunity to lava burn damage
+		Greatly increases lava immunity time regeneration
+		Reduces lava burn damage
+		'''
+	ObsidianRose:
+		'''
+		Reduced direct damage from touching lava
+		Greatly reduces lava burn damage
+		'''
+	InvisibilityPotionExtra: Boosts certain stats when holding certain types of rogue weapons
+	GoldenFishingRod:
+		'''
+		Requires bait to catch fish
+		The line will never break
+		'''
+	Picksaw: Capable of mining Lihzahrd Bricks and Scoria Ore
+	MineUelibloom:
+		'''
+		Material
+		Can mine Uelibloom Ore
+		'''
+
+	SetBonus: {
+		Meteor: Set Bonus: Reduces the mana cost of the Space Gun by 50%
+		Copper: Set Bonus: +2 defense and 15% increased mining speed
+		Tin: Set Bonus: +2 defense and 10% increased mining speed
+		AncientIron: Set Bonus: +2 defense and 25% increased mining speed
+		Lead: Set Bonus: +3 defense and 20% increased mining speed
+		Silver: Set Bonus: +3 defense and 35% increased mining speed
+		Tungsten: Set Bonus: +3 defense and 30% increased mining speed
+		AncientGold: Set Bonus: +3 defense and 45% increased mining speed
+		Platinum: Set Bonus: +4 defense and 40% increased mining speed
+		Forbidden: The minion damage nerf is reduced while wielding magic weapons
+		Molten:
+			'''
+			17% extra melee damage
+			20% extra true melee damage
+			Grants immunity to fire blocks, and temporary immunity to lava
+			'''
+		Gladiator:
+			'''
+			+3 defense
+			5% increased rogue damage and 10% increased velocity
+			Rogue stealth builds while not attacking and not moving, up to a max of 70
+			Once you have built max stealth, you will be able to perform a Stealth Strike
+			Rogue stealth only reduces when you attack, it does not reduce while moving
+			The higher your rogue stealth the higher your rogue damage, crit, and movement speed
+			'''
+		Obsidian:
+			'''
+			+2 defense
+			5% increased rogue damage and critical strike chance
+			Grants immunity to fire blocks and temporary immunity to lava
+			Rogue stealth builds while not attacking and not moving, up to a max of 80
+			Once you have built max stealth, you will be able to perform a Stealth Strike
+			Rogue stealth only reduces when you attack, it does not reduce while moving
+			The higher your rogue stealth the higher your rogue damage, crit, and movement speed
+			'''
+		Eskimo:
+			'''
+			All ice-themed weapons receive a 10% damage bonus
+			Cold enemies will deal reduced contact damage to the player
+			Provides immunity to the Frostburn and Glacial State debuffs
+			'''
+	}
+
+	GladiatorHelmet:
+		'''
+		3 defense
+		3% increased rogue damage
+		'''
+	GladiatorBreastplate:
+		'''
+		5 defense
+		3% increased rogue critical strike chance
+		'''
+	GladiatorLeggings:
+		'''
+		4 defense
+		3% increased rogue velocity
+		'''
+	ObsidianHelm:
+		'''
+		4 defense
+		3% increased rogue damage
+		'''
+	ObsidianShirt:
+		'''
+		5 defense
+		3% increased rogue critical strike chance
+		'''
+	ObsidianPants:
+		'''
+		4 defense
+		3% increased rogue velocity
+		'''
+	MagicQuiver: Increases arrow damage by 10% and greatly increases arrow speed
+	MiningHelmet:
+		'''
+		Provides light when worn
+		Provides a small amount of light in the Abyss
+		'''
+	HandWarmer:
+		'''
+		Provides immunity to chilling and freezing effects
+		Provides a regeneration boost while wearing the Eskimo armor
+		'''
+
+	Wings: {
+		Angel:
+			'''
+			Allows flight and slow fall
+			Horizontal speed: 6.25
+			Acceleration multiplier: 1
+			Average vertical speed
+			Flight time: 100
+			+20 max life, +15 defense and +3 life regen
+			'''
+		Demon:
+			'''
+			Allows flight and slow fall
+			Horizontal speed: 6.25
+			Acceleration multiplier: 1
+			Average vertical speed
+			Flight time: 100
+			10% increased damage and critical strike chance
+			'''
+		Jetpack:
+			'''
+			Allows flight and slow fall
+			Horizontal speed: 6.5
+			Acceleration multiplier: 1
+			Average vertical speed
+			Flight time: 115
+			'''
+		Butterfly:
+			'''
+			Allows flight and slow fall
+			Horizontal speed: 6.75
+			Acceleration multiplier: 1
+			Average vertical speed
+			Flight time: 130
+			+50 max mana, 5% decreased mana usage,
+			10% increased magic damage and 5% increased magic critical strike chance
+			'''
+		Fairy:
+			'''
+			Allows flight and slow fall
+			Horizontal speed: 6.75
+			Acceleration multiplier: 1
+			Average vertical speed
+			Flight time: 130
+			+80 max life
+			'''
+		Bee:
+			'''
+			Allows flight and slow fall
+			Horizontal speed: 6.75
+			Acceleration multiplier: 1
+			Average vertical speed
+			Flight time: 130
+			Honey buff at all times
+			'''
+		Harpy:
+			'''
+			Allows flight and slow fall
+			Horizontal speed: 7
+			Acceleration multiplier: 1
+			Average vertical speed
+			Flight time: 140
+			30% increased movement speed
+			Most attacks have a chance to fire a feather on swing if Harpy Ring or Angel Treads are equipped
+			'''
+		Bone:
+			'''
+			Allows flight and slow fall
+			Horizontal speed: 7
+			Acceleration multiplier: 1
+			Average vertical speed
+			Flight time: 140
+			15% increased movement speed, 12% increased ranged damage,
+			16% increased ranged critical strike chance
+			and +30 defense while wearing the Necro Armor
+			'''
+		Flame:
+			'''
+			Allows flight and slow fall
+			Horizontal speed: 7.5
+			Acceleration multiplier: 1
+			Average vertical speed
+			Flight time: 160
+			10% increased melee damage
+			and 5% increased melee critical strike chance
+			'''
+		Frozen:
+			'''
+			Allows flight and slow fall
+			Horizontal speed: 7.5
+			Acceleration multiplier: 1
+			Average vertical speed
+			Flight time: 160
+			2% increased melee and ranged damage
+			and 1% increased melee and ranged critical strike chance
+			while wearing the Frost Armor
+			'''
+		Ghost:
+			'''
+			Allows flight and slow fall
+			Horizontal speed: 7.5
+			Acceleration multiplier: 1
+			Average vertical speed
+			Flight time: 160
+			+10 defense and 5% increased damage reduction while wearing the Spectre Armor and Hood
+			+20 max mana, 5% increased magic damage and critical strike chance,
+			and 5% decreased mana usage while wearing the Spectre Armor and Mask
+			'''
+		Beetle:
+			'''
+			Allows flight and slow fall
+			Horizontal speed: 7.5
+			Acceleration multiplier: 1
+			Average vertical speed
+			Flight time: 160
+			+15 defense and 10% increased damage reduction while wearing the Beetle Armor and Shell
+			10% increased melee damage and critical strike chance while wearing the Beetle Armor and Scale Mail
+			'''
+		Fin:
+			'''
+			Allows flight and slow fall
+			Horizontal speed: 0
+			Acceleration multiplier: 0
+			Average vertical speed
+			Flight time: 100
+			Gills effect and you can move freely through liquids
+			You fall faster while submerged in liquid
+			20% increased movement speed and 36% increased jump speed
+			'''
+		Fishron:
+			'''
+			Allows flight and slow fall
+			Horizontal speed: 8
+			Acceleration multiplier: 2
+			Good vertical speed
+			Flight time: 180
+			'''
+		Steampunk:
+			'''
+			Allows flight and slow fall
+			Horizontal speed: 7.75
+			Acceleration multiplier: 1
+			Average vertical speed
+			Flight time: 180
+			+8 defense, 10% increased movement speed,
+			4% increased damage, and 2% increased critical strike chance
+			'''
+		Leaf:
+			'''
+			Allows flight and slow fall
+			Horizontal speed: 6.75
+			Acceleration multiplier: 1
+			Average vertical speed
+			Flight time: 160
+			+10 defense, 10% increased damage reduction,
+			and the Dryad's permanent blessing while wearing the Tiki Armor
+			'''
+		Bat:
+			'''
+			Allows flight and slow fall
+			Horizontal speed: 0
+			Acceleration multiplier: 0
+			Average vertical speed
+			Flight time: 140
+			At night or during an eclipse, you will gain the following boosts:
+			10% increased movement speed, 20% increased jump speed,
+			+15 defense, 10% increased damage, and 5% increased critical strike chance
+			'''
+		Dev:
+			'''
+			'Great for impersonating devs!'
+			Horizontal speed: 7
+			Acceleration multiplier: 1
+			Average vertical speed
+			Flight time: 150
+			'''
+		TatteredFairy:
+			'''
+			Allows flight and slow fall
+			Horizontal speed: 7.5
+			Acceleration multiplier: 1
+			Average vertical speed
+			Flight time: 180
+			5% increased damage and critical strike chance
+			'''
+		Spooky:
+			'''
+			Allows flight and slow fall
+			Horizontal speed: 7.5
+			Acceleration multiplier: 1
+			Average vertical speed
+			Flight time: 180
+			Increased minion knockback and 5% increased minion damage while wearing the Spooky Armor
+			'''
+		Hoverboard:
+			'''
+			Hold DOWN and JUMP to hover
+			Horizontal speed: 6.25
+			Acceleration multiplier: 1
+			Average vertical speed
+			Flight time: 170
+			10% increased damage to bows, guns, rocket launchers, and flamethrowers while wearing the Shroomite Armor
+			Boosted weapon type depends on the Shroomite Helmet worn
+			'''
+		Festive:
+			'''
+			Allows flight and slow fall
+			Horizontal speed: 7.5
+			Acceleration multiplier: 1
+			Average vertical speed
+			Flight time: 170
+			+50 max life
+			Ornaments rain down as you fly
+			'''
+		Mothron:
+			'''
+			Allows flight and slow fall
+			Horizontal speed: 0
+			Acceleration multiplier: 0
+			Average vertical speed
+			Flight time: 160
+			+5 defense, 5% increased damage,
+			10% increased movement speed and 24% increased jump speed
+			'''
+		Solar:
+			'''
+			Allows flight and slow fall
+			Horizontal speed: 9
+			Acceleration multiplier: 2.5
+			Great vertical speed
+			Flight time: 180
+			7% increased melee damage and 3% increased melee critical strike chance
+			while wearing the Solar Flare Armor
+			'''
+		Stardust:
+			'''
+			Allows flight and slow fall
+			Horizontal speed: 9
+			Acceleration multiplier: 2.5
+			Great vertical speed
+			Flight time: 180
+			+1 max minion and 5% increased minion damage while wearing the Stardust Armor
+			'''
+		Vortex:
+			'''
+			Allows flight and slow fall
+			Hold DOWN and JUMP to hover
+			Horizontal speed: 6.5
+			Acceleration multiplier: 1.5
+			Good vertical speed
+			Flight time: 160
+			3% increased ranged damage and 7% increased ranged critical strike chance
+			while wearing the Vortex Armor
+			'''
+		Nebula:
+			'''
+			Allows flight and slow fall
+			Hold DOWN and JUMP to hover
+			Horizontal speed: 6.5
+			Acceleration multiplier: 1.5
+			Good vertical speed
+			Flight time: 160
+			+20 max mana, 5% increased magic damage and critical strike chance,
+			and 5% decreased mana usage while wearing the Nebula Armor
+			'''
+		Betsy:
+			'''
+			Equipable
+			Allows flight and slow fall
+			Hold DOWN and JUMP to hover
+			Horizontal speed: 6
+			Acceleration multiplier: 2.5
+			Good vertical speed
+			Flight time: 150
+			'''
+	}
+
+	GrapplingHooks: {
+		Basic:
+			'''
+			Equipable
+			Reach: 18.75
+			Launch Velocity: 11.5
+			Pull Velocity: 11
+			'''
+		Amethyst:
+			'''
+			Equipable
+			Reach: 18.75
+			Launch Velocity: 10
+			Pull Velocity: 11
+			'''
+		Topaz:
+			'''
+			Equipable
+			Reach: 20.625
+			Launch Velocity: 10.5
+			Pull Velocity: 11.75
+			'''
+		Sapphire:
+			'''
+			Equipable
+			Reach: 22.5
+			Launch Velocity: 11
+			Pull Velocity: 12.5
+			'''
+		Emerald:
+			'''
+			Equipable
+			Reach: 24.375
+			Launch Velocity: 11.5
+			Pull Velocity: 13.25
+			'''
+		Ruby:
+			'''
+			Equipable
+			Reach: 26.25
+			Launch Velocity: 12
+			Pull Velocity: 14
+			'''
+		Diamond:
+			'''
+			Equipable
+			Reach: 28.125
+			Launch Velocity: 12.5
+			Pull Velocity: 14.75
+			'''
+		WebSlinger:
+			'''
+			Equipable
+			Reach: 15.625
+			Launch Velocity: 10
+			Pull Velocity: 11
+			'''
+		SkeletronHand:
+			'''
+			Equipable
+			Reach: 21.875
+			Launch Velocity: 15
+			Pull Velocity: 11
+			'''
+		Slime:
+			'''
+			Equipable
+			Reach: 18.75
+			Launch Velocity: 13
+			Pull Velocity: 11
+			'''
+		Fish:
+			'''
+			Equipable
+			Reach: 25
+			Launch Velocity: 13
+			Pull Velocity: 11
+			'''
+		IvyWhip:
+			'''
+			Equipable
+			Reach: 25
+			Launch Velocity: 13
+			Pull Velocity: 15
+			'''
+		Bat:
+			'''
+			Equipable
+			Reach: 31.25
+			Launch Velocity: 15.5
+			Pull Velocity: 20
+			'''
+		CandyCane:
+			'''
+			Equipable
+			Reach: 25
+			Launch Velocity: 11.5
+			Pull Velocity: 11
+			'''
+		Dual:
+			'''
+			Equipable
+			Reach: 27.5
+			Launch Velocity: 14
+			Pull Velocity: 17
+			'''
+		Thorn:
+			'''
+			Equipable
+			Reach: 30
+			Launch Velocity: 15
+			Pull Velocity: 18
+			'''
+		Worm:
+			'''
+			Equipable
+			Reach: 30
+			Launch Velocity: 15
+			Pull Velocity: 18
+			'''
+		Tendon:
+			'''
+			Equipable
+			Reach: 30
+			Launch Velocity: 15
+			Pull Velocity: 18
+			'''
+		Illuminant:
+			'''
+			Equipable
+			Reach: 30
+			Launch Velocity: 15
+			Pull Velocity: 18
+			'''
+		AntiGravity:
+			'''
+			Equipable
+			Reach: 31.25
+			Launch Velocity: 14
+			Pull Velocity: 20
+			'''
+		Spooky:
+			'''
+			Equipable
+			Reach: 34.375
+			Launch Velocity: 15.5
+			Pull Velocity: 22
+			'''
+		Christmas:
+			'''
+			Equipable
+			Reach: 34.375
+			Launch Velocity: 15.5
+			Pull Velocity: 17
+			'''
+		Lunar:
+			'''
+			Equipable
+			Reach: 34.375
+			Launch Velocity: 16
+			Pull Velocity: 24
+			'''
+		Static:
+			'''
+			Equipable
+			Reach: 37.5
+			Launch Velocity: 16
+			Pull Velocity: 24
+			'''
+	}
+
+	DR: +{0:N2}% damage reduction
+}
+
+GuideChat: {
+	Hardmode1: Could you be so kind as to, ah...check hell for me...? I left someone I kind of care about down there.
+	Hardmode2: I have this sudden shiver up my spine, like a meteor just fell and thousands of innocent creatures turned into monsters from the stars.
+	MoonLordDefeated: The dungeon seems even more restless than usual, watch out for the powerful abominations stirring up in there.
+	ProvidenceDefeated1: Seems like extinguishing that butterfly caused its life to seep into the hallowed areas, try taking a peek there and see what you can find!
+	ProvidenceDefeated2: I've heard there is a portal of antimatter absorbing everything it can see in the dungeon, try using the Rune of Kos there!
+}
+
+TruffleChat: {
+	Normal: I don't feel very safe; I think there's pigs following me around and it frightens me.
+	DrunkPrincess: Sometimes, {0} just looks at me funny and I'm not sure how I feel about that.
+}
+
+AnglerChat.SeaKing: Someone tell {0} to quit trying to throw me out of town, it's not going to work.
+TravellingMerchantChat.DrunkPrincessMerchant: Tell {0} I'll take up her offer and meet with her at the back of {1}'s house.
+SkeletonMerchantChat.Normal: What'dya buyin'?
+NurseChat.HealNotAllowed: Now is not the time!
+
+WitchDoctorChat: {
+	Jungle: My home here has an extensive history and a mysterious past. You'll find out quickly just how extensive it is...
+	PrePlantera: I have unique items if you show me that you have bested the guardian of this jungle.
+	BloodMoon: This is as good a time as any to pick up the best ingredients for potions.
+}
+
+PartyGirlChat: {
+	DrunkPrincess: I have a feeling we're going to have absolutely fantastic parties with {0} around!
+	Eclipse1: I think my light display is turning into an accidental bug zapper. At least the monsters are enjoying it.
+	Eclipse2: Ooh! I love parties where everyone wears a scary costume!
+}
+
+PainterChat: {
+	Corruption: A little sickness isn't going to stop me from doing my work as an artist!
+	Crimson: There's a surprising art to this area. A sort of horrifying, eldritch feeling. It inspires me!
+	Tundra: I'm not exactly suited for this cold weather. Still looks pretty, though.
+	Permafrost: Think {0} would let me paint him like one of his French girls?!
+	Desert: I hate sand. It's coarse, and rough and gets in my paint.
+	Hallow: Do you think unicorn blood could be used as a good pigment or resin? No I'm not going to find out myself.
+	Space: I can't work in this environment. All of my paint just floats off.
+	Jungle: Painting the tortoises in a still life isn't going so well.
+	Astral: I can't paint a still life if the fruit grows legs and walks away.
+	Underworld1: On the canvas, things get heated around here all the time. Like the environment!
+	Underworld2: Sorry, I'm all out of watercolors. They keep evaporating.
+	Crags: Roses, really? That's such an overrated thing to paint.
+	SulphurSea: Fun fact! Sulphur was used as pigment once upon a time! Or was it Cinnabar?
+	Abyss: Easiest landscape I've ever painted in my life.
+}
+
+WizardChat: {
+	Permafrost: I'd let {0} coldheart MY icicle.
+	Hardmode: Space just got way too close for comfort.
+}
+
+DryadChat: {
+	DarksunEclipse: There's a dark solar energy emanating from the moths that appear during this time. Ah, the moths as you progress further get more powerful...hmm...what power was Yharon holding back?
+	Hardmode: That starborne illness sits upon this land like a blister. Do even more vile forces of corruption exist in worlds beyond?
+	DrunkPrincessShroom: "{0} put me up to this."
+	SulphurSea: My ancestor was lost here long ago. I must pay my respects to her.
+	Mushroom: I'm not here for any reason! Just picking up mushrooms for uh, later use.
+}
+
+StylistChat: {
+	Hardmode: Please don't catch space lice. Or {0} lice. Or just lice in general.
+	DrunkPrincess1: Sometimes I catch {0} sneaking up from behind me.
+	DrunkPrincess2: "{0} is always trying to brighten my mood...even if, deep down, I know she's sad."
+	ProfanedSoulCrystal1: They look so cute and yet, I can feel their immense power just by being near them. What are you?
+	ProfanedSoulCrystal2: I hate to break it to you, but you don't have hair to cut or style, hun.
+	ProfanedDonuts: Aww, they're so cute, do they have names?
+}
+
+GoblinTinkererChat: {
+	Bandit: Hey, is it just me or have my pockets gotten lighter ever since {0} arrived?
+	MoonLordDefeated: You know...we haven't had an invasion in a while...
+}
+
+ArmsDealerChat: {
+	Eclipse: That's the biggest moth I've ever seen for sure. You'd need one big gun to take one of those down.
+	DoGDefeated: Is it me or are your weapons getting bigger and bigger?
+}
+
+MerchantChat: {
+	MoonLordDefeated: Each night seems only more foreboding than the last. I feel unthinkable terrors are watching your every move.
+	Eclipse: Are you daft?! Turn off those lamps!
+	AcidRain: If this acid rain keeps up, there'll be a shortage of Dirt Blocks soon enough!
+	Bandit: I happen to have several Angel Statues at the moment, a truely rare commodity. Want one?
+	DeathMode: The caverns have become increasingly dark as of late, so I stocked up on some special torches if you have the funds.
+}
+
+MechanicChat: {
+	MoonLordDefeated: What do you mean your traps aren't making the cut? Don't look at me!
+	Eclipse: Um...should my nightlight be on?
+	DrunkPrincess: Well, I like {0}, but I, ah...I have my eyes on someone else.
+	AcidRain: Maybe I should've waterproofed my gadgets... They're starting to corrode.
+}
+
+TavernkeepChat: {
+	FullMoon: Care for a little Moonshine?
+	DrunkPrincess: Sheesh, {0} is a little cruel, isn't she? I never claimed to be an expert on anything but ale!
+}
+
+PirateChat: {
+	PreLeviathan: Aye, I've heard of a mythical creature in the oceans, singing with an alluring voice. Careful when yer fishin out there.
+	AquaticScourgeDefeated: I have to thank ye again for takin' care of that sea serpent. Or was that another one...
+	SeaKing: I remember legends about that {0}. He ain't quite how the stories make him out to be though.
+	DrunkPrincess: Twenty-nine bottles of beer on the wall...
+	Abyss: Now this is a scene that I can admire any time! I feel like something is watching me though.
+	SulphurSea1: It ain't much of a sight, but there's still life living in these waters.
+	SulphurSea2: Me ship might just sink from the acid alone.
+}
+
+CyborgChat: {
+	Rain: All these moments will be lost in time. Like tears...in the rain.
+	MoonLordDefeated1: Always shoot for the moon! It has clearly worked before.
+	MoonLordDefeated2: Draedon? He's...a little 'high octane' if you know what I mean.
+	MentionPlague: Those oversized bugs terrorizing the jungle... Surely you of all people could shut them down!
+}
+
+ClothierChat: {
+	MoonLordDefeated1: Who you gonna call?
+	MoonLordDefeated2: Those screams...I'm not sure why, but I feel like a nameless fear has awoken in my heart.
+	MoonLordDefeated3: I can faintly hear ghostly shrieks from the dungeon...and not ones I'm familiar with at all. Just what is going on in there?
+	PolterghastDefeated: Whatever that thing was, I'm glad it's gone now.
+	MoonLordPresent: Houston, we've had a problem.
+}
+
+SteampunkerChat: {
+	PortalGun: Just what is that contraption? It makes my Teleporters look like child's play!
+	MoonLordDefeated: Yep! I'm also considering being a space pirate now.
+	Astral: Some of my machines are starting to go haywire thanks to this Astral Infection. I probably shouldn't have built them here
+	Hallow: I'm sorry I really don't have any Unicorn proof tech here, you're on your own.
+}
+
+DyeTraderChat: {
+	Normal: Have you seen those gemstone creatures in the caverns? Their colors are simply breathtaking!
+	Permafrost: Do you think {0} knows how to 'let it go?'
+}
+
+TaxCollectorChat: {
+	Has100Plat: BAH! Doesn't seem like I'll ever be able to quarrel with the debts of the town again!
+	Has500Plat: Where and how are you getting all of this money?
+	PreBrimmy: Perhaps with all that time you've got you could check those old ruins? Certainly something of value in it for you!
+	DoGDefeated: Devourer of what, you said? Devourer of Funds, if its payroll is anything to go by!
+	SlickCane: Goodness! That cane has swagger!
+}
+
+DemolitionistChat.DoGDefeated: God Slayer Dynamite? Boy do I like the sound of that!

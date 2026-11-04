@@ -21,7 +21,7 @@ namespace CalRD.NPCs.HiveMind
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("The result of many corrupted beings fused together, destroying it would be a terrible mistake.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.HiveCyst")
             });
         }
 

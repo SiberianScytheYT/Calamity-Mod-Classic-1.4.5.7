@@ -31,7 +31,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-                new FlavorTextBestiaryInfoElement("Once a human that lost their mind to the crags, now it seeks to eliminate any signs of foreign life within its new home.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.HeatSpirit")
             });
         }
 

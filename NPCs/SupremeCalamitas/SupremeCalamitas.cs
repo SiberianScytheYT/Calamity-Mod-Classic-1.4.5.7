@@ -100,7 +100,7 @@ namespace CalRD.NPCs.SupremeCalamitas
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        new MoonLordPortraitBackgroundProviderBestiaryInfoElement(),
-		        new FlavorTextBestiaryInfoElement("The Witch herself in the flesh. Her brimstone magic is not something to be taken lightly.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.SupremeCalamitas")
 	        });
         }
 
@@ -275,13 +275,13 @@ namespace CalRD.NPCs.SupremeCalamitas
             {
                 if (Main.LocalPlayer.Calamity().sCalKillCount == 4)
                 {
-                    string key = "Don't get me wrong, I like pain too, but you're just ridiculous."; //kill SCal 4 times
+                    string key = "Mods.CalRD.ClassicKeys.SupremeBossText12"; //kill SCal 4 times
                     Color messageColor = Color.Orange;
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
                 else if (Main.LocalPlayer.Calamity().sCalKillCount == 1)
                 {
-                    string key = "Do you enjoy going through hell?"; //kill SCal once
+                    string key = "Mods.CalRD.ClassicKeys.SupremeBossText11"; //kill SCal once
                     Color messageColor = Color.Orange;
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
@@ -290,19 +290,19 @@ namespace CalRD.NPCs.SupremeCalamitas
                 {
                     if (Main.LocalPlayer.Calamity().sCalDeathCount == 50)
                     {
-                        string key = "Alright, I'm done counting. You probably died this much just to see what I'd say."; //die 50 or more times
+                        string key = "Mods.CalRD.ClassicKeys.SupremeBossText15"; //die 50 or more times
                         Color messageColor = Color.Orange;
                         CalamityUtils.DisplayLocalizedText(key, messageColor);
                     }
                     else if (Main.LocalPlayer.Calamity().sCalDeathCount > 19)
                     {
-                        string key = "Do you have a fetish for getting killed or something?"; //die 20 or more times
+                        string key = "Mods.CalRD.ClassicKeys.SupremeBossText14"; //die 20 or more times
                         Color messageColor = Color.Orange;
                         CalamityUtils.DisplayLocalizedText(key, messageColor);
                     }
                     else if (Main.LocalPlayer.Calamity().sCalDeathCount > 4)
                     {
-                        string key = "You must enjoy dying more than most people, huh?"; //die 5 or more times
+                        string key = "Mods.CalRD.ClassicKeys.SupremeBossText13"; //die 5 or more times
                         Color messageColor = Color.Orange;
                         CalamityUtils.DisplayLocalizedText(key, messageColor);
                     }
@@ -470,7 +470,7 @@ namespace CalRD.NPCs.SupremeCalamitas
             }
             else if (!startBattle)
             {
-                string key = "Alright, let's get started. Not sure why you're bothering.";
+                string key = "Mods.CalRD.ClassicKeys.SupremeBossText3";
                 Color messageColor = Color.Orange;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
 
@@ -553,7 +553,7 @@ namespace CalRD.NPCs.SupremeCalamitas
             }
             if (!startSecondAttack && (NPC.life <= NPC.lifeMax * 0.75))
             {
-                string key = "You seem so confident, even though you are painfully ignorant of what has yet to transpire.";
+                string key = "Mods.CalRD.ClassicKeys.SupremeBossText4";
                 Color messageColor = Color.Orange;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
                 startSecondAttack = true;
@@ -608,7 +608,7 @@ namespace CalRD.NPCs.SupremeCalamitas
             if (!startThirdAttack && (NPC.life <= NPC.lifeMax * 0.5))
             {
                 Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/SCL");
-                string key = "Everything was going well until you came along.";
+                string key = "Mods.CalRD.ClassicKeys.SupremeBossText5";
                 Color messageColor = Color.Orange;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
                 startThirdAttack = true;
@@ -670,7 +670,7 @@ namespace CalRD.NPCs.SupremeCalamitas
             if (!startFourthAttack && (NPC.life <= NPC.lifeMax * 0.3))
             {
                 Music = MusicLoader.GetMusicSlot("CalRD/Sounds/Music/SCE");
-                string key = "Hmm...perhaps I should let the little ones out to play for a while.";
+                string key = "Mods.CalRD.ClassicKeys.SupremeBossText7";
                 Color messageColor = Color.Orange;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
                 startFourthAttack = true;
@@ -733,7 +733,7 @@ namespace CalRD.NPCs.SupremeCalamitas
             }
             if (!startFifthAttack && (NPC.life <= NPC.lifeMax * 0.1))
             {
-                string key = "I'm just getting started!";
+                string key = "Mods.CalRD.ClassicKeys.SupremeBossText9";
                 Color messageColor = Color.Orange;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
                 startFifthAttack = true;
@@ -761,7 +761,7 @@ namespace CalRD.NPCs.SupremeCalamitas
                     {
                         if (giveUpCounter == 900)
                         {
-                            string key = "Perhaps one of these times I'll change my mind...";
+                            string key = "Mods.CalRD.ClassicKeys.SupremeBossText27";
                             Color messageColor = Color.Orange;
                             CalamityUtils.DisplayLocalizedText(key, messageColor);
                         }
@@ -773,13 +773,13 @@ namespace CalRD.NPCs.SupremeCalamitas
                     }
                     if (giveUpCounter == 600)
                     {
-                        string key = "He has grown far stronger since we last fought...you stand no chance.";
+                        string key = "Mods.CalRD.ClassicKeys.SupremeBossText25";
                         Color messageColor = Color.Orange;
                         CalamityUtils.DisplayLocalizedText(key, messageColor);
                     }
                     if (giveUpCounter == 300)
                     {
-                        string key = "Well...I suppose this is the end...";
+                        string key = "Mods.CalRD.ClassicKeys.SupremeBossText26";
                         Color messageColor = Color.Orange;
                         CalamityUtils.DisplayLocalizedText(key, messageColor);
                     }
@@ -806,7 +806,7 @@ namespace CalRD.NPCs.SupremeCalamitas
 						}
 					}
 
-					string key = "Not even I could defeat him! What hope do you have!?";
+					string key = "Mods.CalRD.ClassicKeys.SupremeBossText24";
                     Color messageColor = Color.Orange;
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                     gettingTired5 = true;
@@ -814,7 +814,7 @@ namespace CalRD.NPCs.SupremeCalamitas
                 }
                 else if (!gettingTired4 && (NPC.life <= NPC.lifeMax * 0.02))
                 {
-                    string key = "He has never lost a battle!";
+                    string key = "Mods.CalRD.ClassicKeys.SupremeBossText23";
                     Color messageColor = Color.Orange;
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                     gettingTired4 = true;
@@ -822,7 +822,7 @@ namespace CalRD.NPCs.SupremeCalamitas
                 }
                 else if (!gettingTired3 && (NPC.life <= NPC.lifeMax * 0.04))
                 {
-                    string key = "Even if you defeat me you would still have the lord to contend with!";
+                    string key = "Mods.CalRD.ClassicKeys.SupremeBossText22";
                     Color messageColor = Color.Orange;
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                     gettingTired3 = true;
@@ -830,7 +830,7 @@ namespace CalRD.NPCs.SupremeCalamitas
                 }
                 else if (!gettingTired2 && (NPC.life <= NPC.lifeMax * 0.06))
                 {
-                    string key = "Just stop!";
+                    string key = "Mods.CalRD.ClassicKeys.SupremeBossText21";
                     Color messageColor = Color.Orange;
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                     gettingTired2 = true;
@@ -838,7 +838,7 @@ namespace CalRD.NPCs.SupremeCalamitas
                 }
                 else if (!gettingTired && (NPC.life <= NPC.lifeMax * 0.08))
                 {
-                    string key = "How are you still alive!?";
+                    string key = "Mods.CalRD.ClassicKeys.SupremeBossText20";
                     Color messageColor = Color.Orange;
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -896,7 +896,7 @@ namespace CalRD.NPCs.SupremeCalamitas
             #region TransformSeekerandBrotherTriggers
             if (!halfLife && (NPC.life <= NPC.lifeMax * 0.4))
             {
-                string key = "Don't worry, I still have plenty of tricks left.";
+                string key = "Mods.CalRD.ClassicKeys.SupremeBossText";
                 Color messageColor = Color.Orange;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
                 halfLife = true;
@@ -906,7 +906,7 @@ namespace CalRD.NPCs.SupremeCalamitas
             {
                 if (secondStage == false)
                 {
-                    string key = "Impressive...but still not good enough!";
+                    string key = "Mods.CalRD.ClassicKeys.SupremeBossText8";
                     Color messageColor = Color.Orange;
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -938,7 +938,7 @@ namespace CalRD.NPCs.SupremeCalamitas
                         bossLife = NPC.life;
                         NPC.SpawnOnPlayer(NPC.FindClosestPlayer(), ModContent.NPCType<SupremeCataclysm>());
                         NPC.SpawnOnPlayer(NPC.FindClosestPlayer(), ModContent.NPCType<SupremeCatastrophe>());
-                        string key = "Brothers, could you assist me for a moment? This ordeal is growing tiresome.";
+                        string key = "Mods.CalRD.ClassicKeys.SupremeBossText6";
                         Color messageColor = Color.Orange;
                         CalamityUtils.DisplayLocalizedText(key, messageColor);
                     }
@@ -2037,7 +2037,7 @@ namespace CalRD.NPCs.SupremeCalamitas
 			//Does not occur in Boss Rush due to weakened SCal + stronger weapons (rarely occurs with just Cal gear)
             if ((lootTimer < 6000) && !BossRushEvent.BossRushActive)
             {
-                string key = "Go to hell.";
+                string key = "Mods.CalRD.ClassicKeys.SupremeBossText2";
                 Color messageColor = Color.Orange;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
                 return true;
@@ -2126,26 +2126,26 @@ namespace CalRD.NPCs.SupremeCalamitas
                 switch (Main.LocalPlayer.Calamity().sCalDeathCount)
                 {
                     case 0:
-                        key = "You didn't die at all huh? Welp, you probably cheated. Do it again, for real this time...but here's your reward I guess.";
+                        key = "Mods.CalRD.ClassicKeys.SupremeBossText16";
                         break;
                     case 1:
-                        key = "One death? That's it? ...I guess you earned this then.";
+                        key = "Mods.CalRD.ClassicKeys.SupremeBossText17";
                         break;
                     case 2:
-                        key = "Two deaths, nice job. Here's your reward.";
+                        key = "Mods.CalRD.ClassicKeys.SupremeBossText18";
                         break;
                     case 3: // Three deaths exactly rewards Lul
-                        key = "Third time's the charm. Here's a special reward.";
+                        key = "Mods.CalRD.ClassicKeys.SupremeBossText19";
                         break;
                     default: // Four or more deaths: Lul is permanently missed
-                        key = "At long last I am free...for a time. I'll keep coming back, just like you. Until we meet again, farewell.";
+                        key = "Mods.CalRD.ClassicKeys.SupremeBossText10";
                         break;
                 }
             }
             else
             {
                 // If SCal has been killed before, instead comment on her respawning
-                key = "At long last I am free...for a time. I'll keep coming back, just like you. Until we meet again, farewell.";
+                key = "Mods.CalRD.ClassicKeys.SupremeBossText10";
             }
 
             CalamityUtils.DisplayLocalizedText(key, messageColor);

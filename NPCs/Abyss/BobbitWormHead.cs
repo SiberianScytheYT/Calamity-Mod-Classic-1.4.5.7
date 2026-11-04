@@ -34,7 +34,7 @@ namespace CalRD.NPCs.Abyss
 		{
 			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 			{
-				new FlavorTextBestiaryInfoElement("An ambush predator that lurks within the deepest parts of the abyss, it extends out rapidly to snatch unsuspecting prey.")
+				new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.BobbitWorm")
 			});
 		}
 		

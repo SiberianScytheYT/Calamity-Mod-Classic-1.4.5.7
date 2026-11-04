@@ -67,7 +67,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.DayTime,
-                new FlavorTextBestiaryInfoElement("These pyramid shaped machines help their allies by empowering them if they're in their protective force-field.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.WulfrumPylon")
             });
         }
 

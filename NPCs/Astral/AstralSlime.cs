@@ -25,7 +25,7 @@ namespace CalRD.NPCs.Astral
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("A slime covered in the infection's essence, it reflects the cosmos above...")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.AstralSlime")
             });
         }
 

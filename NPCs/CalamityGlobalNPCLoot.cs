@@ -148,7 +148,7 @@ namespace CalRD.NPCs
 				// First kill text (this is not a loot function)
 				if (!Main.hardMode)
 				{
-					string key2 = "The Sunken Sea trembles...";
+					string key2 = "Mods.CalRD.ClassicKeys.UglyBossText";
 					Color messageColor2 = Color.Aquamarine;
 
                     CalamityUtils.DisplayLocalizedText(key2, messageColor2);
@@ -179,9 +179,9 @@ namespace CalRD.NPCs
 				// Spawn Perennial Ore if Plantera has never been killed
 				if (!NPC.downedPlantBoss)
                 {
-                    string key2 = "Energized plant matter has formed in the underground.";
+                    string key2 = "Mods.CalRD.ClassicKeys.PlantOreText";
                     Color messageColor2 = Color.GreenYellow;
-                    string key3 = "The desert sand shifts intensely!";
+                    string key3 = "Mods.CalRD.ClassicKeys.SandSharkText3";
                     Color messageColor3 = Color.Goldenrod;
 
                     WorldGenerationMethods.SpawnOre(ModContent.TileType<PerennialOre>(), 12E-05, .5f, .7f);
@@ -214,7 +214,7 @@ namespace CalRD.NPCs
 				// If Golem has never been killed, send messages about PBG
 				if (!NPC.downedGolemBoss)
                 {
-                    string key = "A plague has befallen the Jungle.";
+                    string key = "Mods.CalRD.ClassicKeys.BabyBossText";
                     Color messageColor = Color.Lime;
 
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
@@ -235,7 +235,7 @@ namespace CalRD.NPCs
                 // Deus text (this is not a loot function)
                 if (!NPC.downedAncientCultist)
                 {
-                    string key = "A star-spawned horror tunnels through the astral infection.";
+                    string key = "Mods.CalRD.ClassicKeys.DeusText";
                     Color messageColor = Color.Gold;
 
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
@@ -246,15 +246,15 @@ namespace CalRD.NPCs
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, NPC.downedMoonlord);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard }, NPC.downedMoonlord || !CalamityConfig.Instance.SellVanillaSummons);
 
-				string key = "The profaned flame blazes fiercely!";
+				string key = "Mods.CalRD.ClassicKeys.MoonBossText";
                 Color messageColor = Color.Orange;
-                string key2 = "Cosmic terrors are watching...";
+                string key2 = "Mods.CalRD.ClassicKeys.MoonBossText2";
                 Color messageColor2 = Color.Violet;
-                string key3 = "The bloody moon beckons...";
+                string key3 = "Mods.CalRD.ClassicKeys.MoonBossText3";
                 Color messageColor3 = Color.Crimson;
-                string key4 = "Shrieks are echoing from the dungeon.";
+                string key4 = "Mods.CalRD.ClassicKeys.ProfanedBossText2";
                 Color messageColor4 = Color.Cyan;
-                string key5 = "A cold and dark energy has materialized in space.";
+                string key5 = "Mods.CalRD.ClassicKeys.FutureOreText";
                 Color messageColor5 = Color.LightGray;
 
                 // Spawn Exodium and send messages about Providence, Bloodstone, Phantoplasm, etc. if ML has not been killed yet
@@ -1010,14 +1010,14 @@ namespace CalRD.NPCs
                 CalRD.ghostKillCount++;
                 if (CalRD.ghostKillCount == 10)
                 {
-                    string key = "Wails echo through the dilapidated dungeon halls...";
+                    string key = "Mods.CalRD.ClassicKeys.GhostBossText2";
                     Color messageColor = Color.Cyan;
 
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
                 else if (CalRD.ghostKillCount == 20)
                 {
-                    string key = "Long-dead prisoners seek their zealous revenge...";
+                    string key = "Mods.CalRD.ClassicKeys.GhostBossText3";
                     Color messageColor = Color.Cyan;
 
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
@@ -1045,14 +1045,14 @@ namespace CalRD.NPCs
                 CalRD.sharkKillCount++;
                 if (CalRD.sharkKillCount == 4)
                 {
-                    string key = "Something stirs in the warm desert sands...";
+                    string key = "Mods.CalRD.ClassicKeys.SandSharkText";
                     Color messageColor = Color.Goldenrod;
 
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
                 else if (CalRD.sharkKillCount == 8)
                 {
-                    string key = "An enormous apex predator approaches...";
+                    string key = "Mods.CalRD.ClassicKeys.SandSharkText2";
                     Color messageColor = Color.Goldenrod;
 
                     CalamityUtils.DisplayLocalizedText(key, messageColor);

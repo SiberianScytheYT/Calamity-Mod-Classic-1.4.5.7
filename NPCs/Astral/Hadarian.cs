@@ -36,7 +36,7 @@ namespace CalRD.NPCs.Astral
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("These creatures possess extremely tough membranes in their wings, allowing them to apply pressure on their enemies even if there's counterattack.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Hadarian")
             });
         }
 

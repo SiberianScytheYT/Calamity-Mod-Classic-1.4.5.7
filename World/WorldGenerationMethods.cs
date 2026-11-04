@@ -43,7 +43,7 @@ namespace CalRD.World
         #region Dungeon Biome Chests
         public static void GenerateBiomeChests(GenerationProgress progress, GameConfiguration config)
         {
-            progress.Message = "Calamity Mod: Biome Chests";
+            progress.Message = Language.GetOrRegister("Mods.CalRD.UI.AstralChest").Value;
             
             int MinX = GenVars.dMinX + 25;
             int MaxX = GenVars.dMaxX - 25;
@@ -429,7 +429,7 @@ namespace CalRD.World
                         // If the meteor actually dropped, post the message stating as such.
                         if (meteorDropped)
                         {
-                            string key = "A star has fallen from the heavens!";
+                            string key = "Mods.CalRD.ClassicKeys.AstralText";
                             Color messageColor = Color.Gold;
 
                             CalamityUtils.DisplayLocalizedText(key, messageColor);
@@ -3239,7 +3239,7 @@ namespace CalRD.World
         #region Planetoids
         public static void Planetoids(GenerationProgress progress, GameConfiguration config)
         {
-            progress.Message = "Generating Planetoids...";
+            progress.Message = Language.GetOrRegister("Mods.CalRD.UI.Planetoids").Value;
             var config2 = WorldGenConfiguration.FromEmbeddedPath("Terraria.GameContent.WorldBuilding.Configuration.json");
 
             int GrassPlanetoidCount = Main.maxTilesX / 1100;

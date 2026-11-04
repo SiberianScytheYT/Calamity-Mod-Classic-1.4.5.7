@@ -54,8 +54,7 @@ namespace CalRD.Items.Armor
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip4")
 					{
-						line2.Text = "You will freeze enemies near you when you are struck\n" +
-						"Provides heat and cold protection in Death Mode";
+						line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.HeatColdProtection");
 					}
 				}
 			}

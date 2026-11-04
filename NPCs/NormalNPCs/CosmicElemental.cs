@@ -28,7 +28,7 @@ namespace CalRD.NPCs.NormalNPCs
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
-		        new FlavorTextBestiaryInfoElement("A strange creature that wanders the caves of the world, even stranger are the trinkets it sometimes holds!")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.CosmicElemental")
 	        });
         }
 

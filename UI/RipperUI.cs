@@ -185,7 +185,7 @@ namespace CalRD.UI
             {
                 // Add hover text if the mouse is over Rage bar
                 Main.LocalPlayer.mouseInterface = true;
-                Main.instance.MouseText($"Rage: {(int)modPlayer.rage} / {(int)modPlayer.rageMax}");
+                Main.instance.MouseText($"{CalamityUtils.GetTextValue("UI.Rage")}: {(int)modPlayer.rage} / {(int)modPlayer.rageMax}");
 
                 // The bar is draggable if enabled in config.
                 if (!CalamityConfig.Instance.MeterPosLock && mouseInput.LeftButton == ButtonState.Pressed)
@@ -199,7 +199,7 @@ namespace CalRD.UI
             {
                 // Add hover text if the mouse is over the bar
                 Main.LocalPlayer.mouseInterface = true;
-                Main.instance.MouseText($"Adrenaline: {(int)modPlayer.adrenaline} / {(int)modPlayer.adrenalineMax}");
+                Main.instance.MouseText($"{CalamityUtils.GetTextValue("UI.Adrenaline")}: {(int)modPlayer.adrenaline} / {(int)modPlayer.adrenalineMax}");
 
                 // The bar is draggable if enabled in config.
                 if (!CalamityConfig.Instance.MeterPosLock && mouseInput.LeftButton == ButtonState.Pressed)

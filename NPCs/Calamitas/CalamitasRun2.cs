@@ -41,7 +41,7 @@ namespace CalRD.NPCs.Calamitas
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
-		        new FlavorTextBestiaryInfoElement("One of the clone's creations, and a recreation of the Witch's brother Catastrophe. It possesses no will of its own.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Catastrophe")
 	        });
         }
 

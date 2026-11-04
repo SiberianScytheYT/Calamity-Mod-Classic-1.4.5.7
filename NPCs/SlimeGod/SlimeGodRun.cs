@@ -39,7 +39,7 @@ namespace CalRD.NPCs.SlimeGod
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
-		        new FlavorTextBestiaryInfoElement("The core's crimson right hand man, or in this case, slime.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.CrimulanSlimeGod")
 	        });
         }
 

@@ -27,7 +27,7 @@ namespace CalRD.NPCs.SunkenSea
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("Like their adult counterparts, they drift gently. Be careful not to hurt them!")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.GhostBellSmall")
             });
         }
 

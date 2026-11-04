@@ -35,7 +35,7 @@ namespace CalRD.NPCs.AcidRain
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("Their dorsal fin allows great movement underwater, which allows them to rush towards prey.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.AcidEel")
             });
         }
 

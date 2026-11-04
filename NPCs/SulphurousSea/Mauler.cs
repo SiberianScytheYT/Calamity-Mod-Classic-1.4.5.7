@@ -38,7 +38,7 @@ namespace CalRD.NPCs.SulphurousSea
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("This shark has adapted well to the sulphurous sea, and is uncontested as an apex predator of its habitat.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Mauler")
             });
         }
 

@@ -50,7 +50,7 @@ namespace CalRD.Items.Potions
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
 					{
-						line2.Text = "Only gives 37 seconds of Potion Sickness";
+						line2.Text =  line2.Text.Replace("50", "37");
 					}
 				}
 			}

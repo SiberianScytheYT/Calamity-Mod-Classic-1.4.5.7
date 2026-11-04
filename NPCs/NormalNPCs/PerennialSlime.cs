@@ -20,7 +20,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
-                new FlavorTextBestiaryInfoElement("A slime infused with Perennial Ore so heavily that a flower has grown on it, how pretty!")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.PerennialSlime")
             });
         }
 

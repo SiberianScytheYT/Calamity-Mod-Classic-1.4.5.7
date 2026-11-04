@@ -27,7 +27,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundDesert,
-                new FlavorTextBestiaryInfoElement("This variant of antlion is very unusual with its feeding; As it takes to the surface and reaches upwards with its mandibles to act as lightning rods, feeding off the storms' lightning.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.StormlionCharger")
             });
         }
 

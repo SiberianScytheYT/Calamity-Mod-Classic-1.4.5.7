@@ -44,9 +44,9 @@ namespace CalRD.Items.Accessories
             string hotkey = CalRD.PlaguePackHotKey.TooltipHotkeyString();
             foreach (TooltipLine line in list)
             {
-                if (line.Mod == "Terraria" && line.Name == "Tooltip2")
+                if (line.Mod == "Terraria" && line.Text.Contains("[KEY]"))
                 {
-                    line.Text = "Press " + hotkey + " to consume 25% of your maximum stealth to perform a swift upwards/diagonal dash which leaves a trail of lightning bolts";
+                    line.Text = line.Text.Replace("[KEY]", hotkey);
                 }
             }
         }

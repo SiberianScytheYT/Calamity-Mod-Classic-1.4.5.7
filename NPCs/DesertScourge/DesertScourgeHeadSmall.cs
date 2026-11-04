@@ -43,7 +43,7 @@ namespace CalRD.NPCs.DesertScourge
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
-                new FlavorTextBestiaryInfoElement("The Desert Scourge's children. They swarm and tear prey in seconds, and hunt alongside their parent.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.DesertScourgeSmall")
             });
         }
 

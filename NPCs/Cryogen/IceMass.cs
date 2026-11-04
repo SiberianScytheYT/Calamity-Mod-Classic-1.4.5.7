@@ -30,7 +30,7 @@ namespace CalRD.NPCs.Cryogen
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Snow,
-		        new FlavorTextBestiaryInfoElement("The souls of those who passed away in the deadly tundra, they now seek to freeze others and doom them to a similar fate.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.IceMass")
 	        });
         }
 

@@ -40,8 +40,7 @@ namespace CalRD.Items.Armor
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip4")
 					{
-						line2.Text = "10% increased melee damage and critical strike chance\n" +
-						"Provides heat protection in Death Mode";
+						line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.HeatProtection");
 					}
 				}
 			}
@@ -64,11 +63,7 @@ namespace CalRD.Items.Armor
             modPlayer.tarraSet = true;
             modPlayer.tarraMelee = true;
             string hotkey = CalRD.TarraHotKey.TooltipHotkeyString();
-            player.setBonus = "Increased heart pickup range\n" +
-                "Enemies have a chance to drop extra hearts on death\n" +
-                "You have a 25% chance to gain a life regen buff when you take damage\n" +
-                "Press " + hotkey + " to cloak yourself in life energy that heavily reduces enemy contact damage for 10 seconds\n" +
-                "This has a 30 second cooldown";
+            player.setBonus = CalamityUtils.GetText("Misc.CalamitySetBonus.TarragonHelm").Format(hotkey);
         }
 
         public override void UpdateEquip(Player player)

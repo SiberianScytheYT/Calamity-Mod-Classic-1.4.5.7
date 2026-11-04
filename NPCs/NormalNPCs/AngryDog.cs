@@ -32,7 +32,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Snow,
-                new FlavorTextBestiaryInfoElement("very angy boi")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.AngryDog")
             });
         }
 

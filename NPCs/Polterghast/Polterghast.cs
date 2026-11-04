@@ -48,7 +48,7 @@ namespace CalRD.NPCs.Polterghast
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheDungeon,
-		        new FlavorTextBestiaryInfoElement("The culmination of anger and hatred, as the vengeful spirits have coalesced into a singular monster with one objective: to kill the man responsible for their endless suffering.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Polterghast")
 	        });
         }
 
@@ -970,14 +970,14 @@ namespace CalRD.NPCs.Polterghast
 		        if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
 			        SoundEngine.PlaySound(new SoundStyle("CalRD/Sounds/Custom/ReaperSearchRoar"), Main.player[Main.myPlayer].position);
 
-		        string key = "The abyssal spirits have been disturbed.";
+		        string key = "Mods.CalRD.ClassicKeys.GhostBossText";
 		        Color messageColor = Color.RoyalBlue;
-		        string sulfSeaBoostMessage = "The souls released stir the acidic storms...";
+		        string sulfSeaBoostMessage = "Mods.CalRD.ClassicKeys.GhostBossText4";
 		        Color sulfSeaBoostColor = AcidRainEvent.TextColor;
 
 		        if (Main.rand.NextBool(20) && DateTime.Now.Month == 4 && DateTime.Now.Day == 1)
 		        {
-			        sulfSeaBoostMessage = "A boomer awaits..."; // Goddamn boomer duke moments
+			        sulfSeaBoostMessage = "Mods.CalRD.ClassicKeys.AprilFools2"; // Goddamn boomer duke moments
 		        }
 
 		        CalamityUtils.DisplayLocalizedText(key, messageColor);

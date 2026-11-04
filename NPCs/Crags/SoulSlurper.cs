@@ -29,7 +29,7 @@ namespace CalRD.NPCs.Crags
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-                new FlavorTextBestiaryInfoElement("Guardians of the crags, they relentlessly chase potential threats to their home.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.SoulSlurper")
             });
         }
 

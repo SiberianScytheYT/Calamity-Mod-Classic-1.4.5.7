@@ -23,7 +23,7 @@ namespace CalRD.NPCs.SulphurousSea
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("These fish use their whiskers to find their way and catch prey.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Catfish")
             });
         }
 

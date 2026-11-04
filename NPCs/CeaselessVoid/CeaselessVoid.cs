@@ -39,7 +39,7 @@ namespace CalRD.NPCs.CeaselessVoid
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheDungeon,
-		        new FlavorTextBestiaryInfoElement("Created after a failed experiment with the Devourer of Gods' dimension hopping ability, this being desires nothing more than to consume all the life force it can.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.CeaselessVoid")
 	        });
         }
 

@@ -42,7 +42,7 @@ namespace CalRD.NPCs.PlaguebringerGoliath
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
-                new FlavorTextBestiaryInfoElement("What would have been a queen bee, taken away by the plague, now only serving as one of its many servants.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.PlaguebringerShade")
             });
         }
 

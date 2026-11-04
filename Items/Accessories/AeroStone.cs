@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
@@ -34,9 +35,9 @@ namespace CalRD.Items.Accessories
 			string jumpAmt = autoJump ? "5" : "20";
             foreach (TooltipLine line2 in list)
             {
-                if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
+                if (line2.Mod == "Terraria" && line2.Text.Contains("20%"))
                 {
-                    line2.Text = "Increases movement speed by 10%, jump speed by " + jumpAmt + "%, and all damage by 3%";
+                    line2.Text = line2.Text.Replace("20", jumpAmt);
                 }
             }
         }

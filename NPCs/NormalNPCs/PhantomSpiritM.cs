@@ -23,7 +23,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheDungeon,
-                new FlavorTextBestiaryInfoElement("One of many spirits imprisoned within the dungeon, an everlasting burning hatred for its jailor fuels it.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.PhantomSpiritM")
             });
         }
 

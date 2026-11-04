@@ -25,7 +25,7 @@ namespace CalRD.NPCs.Leviathan
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-                new FlavorTextBestiaryInfoElement("These strange serpents are some of the Leviathan's spawn.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Parasea")
             });
         }
 

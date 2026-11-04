@@ -40,7 +40,7 @@ namespace CalRD.NPCs.Abyss
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("These jellyfish create illusions of themselves to confuse both predator and prey.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.MirageJelly")
             });
         }
 

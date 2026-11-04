@@ -30,7 +30,7 @@ namespace CalRD.NPCs.SulphurousSea
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("doot!")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.BelchingCoral")
             });
         }
 

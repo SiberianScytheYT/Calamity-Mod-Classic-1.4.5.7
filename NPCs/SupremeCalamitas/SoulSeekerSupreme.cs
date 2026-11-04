@@ -30,7 +30,7 @@ namespace CalRD.NPCs.SupremeCalamitas
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        new MoonLordPortraitBackgroundProviderBestiaryInfoElement(),
-		        new FlavorTextBestiaryInfoElement("A construct of the witch, it and its brethren serve as a shield when a battle proves difficult.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.SoulSeekerSupreme")
 	        });
         }
 

@@ -27,7 +27,7 @@ namespace CalRD.NPCs.AcidRain
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("A creature thought extinct, yet somehow thriving in the sulphurous sea. You have to wonder what other secrets these waters hold.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Orthocera")
             });
         }
 

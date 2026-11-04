@@ -30,7 +30,7 @@ namespace CalRD.NPCs.SunkenSea
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("Slow swimmers that occasionally wander to the surface of their habitat to lay eggs.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.PrismTurtle")
             });
         }
 

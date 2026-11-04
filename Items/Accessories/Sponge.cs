@@ -58,8 +58,7 @@ namespace CalRD.Items.Accessories
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip12")
 					{
-						line2.Text = "Enemy attacks will have part of their damage absorbed and used to heal you\n" +
-						"Provides cold protection in Death Mode";
+						line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.ColdProtection");
 					}
 				}
 			}

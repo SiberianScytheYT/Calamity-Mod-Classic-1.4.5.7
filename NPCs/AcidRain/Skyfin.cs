@@ -37,7 +37,7 @@ namespace CalRD.NPCs.AcidRain
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("Likely flying fish that adapted to their harsh conditions.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Skyfin")
             });
         }
 

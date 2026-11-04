@@ -25,7 +25,7 @@ namespace CalRD.NPCs.Calamitas
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
-		        new FlavorTextBestiaryInfoElement("Sentries for the clone, their lasers prove deadly.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.LifeSeeker")
 	        });
         }
 

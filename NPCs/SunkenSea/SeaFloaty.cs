@@ -21,7 +21,7 @@ namespace CalRD.NPCs.SunkenSea
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("Strange creatures that hide upon sight of a predator.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.SeaFloaty")
             });
         }
 

@@ -43,8 +43,7 @@ namespace CalRD.Items.Accessories
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip5")
 					{
-						line2.Text = "Provides a moderate amount of light in the Abyss\n" +
-						"Provides heat and cold protection in Death Mode";
+						line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.HeatColdProtection");
 					}
 				}
 			}

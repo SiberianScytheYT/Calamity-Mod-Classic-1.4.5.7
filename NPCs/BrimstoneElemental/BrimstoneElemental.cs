@@ -46,7 +46,7 @@ namespace CalRD.NPCs.BrimstoneElemental
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-                new FlavorTextBestiaryInfoElement("Once a great goddess, all she has within her heart now is hate. Hate for all that might pity her.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.BrimstoneElemental")
             });
         }
 
@@ -230,7 +230,7 @@ namespace CalRD.NPCs.BrimstoneElemental
             CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard }, CalamityWorld.downedBrimstoneElemental);
             
             //if brimmy hasn't been killed, you can mine charred ore
-            string key2 = "A protective spell has been lifted from the crags! You can now mine Charred Ore.";
+            string key2 = "Mods.CalRD.ClassicKeys.BrimmyBossText";
             Color messageColor2 = Color.Crimson;
             if (!CalamityWorld.downedBrimstoneElemental)
                 CalamityUtils.DisplayLocalizedText(key2, messageColor2);

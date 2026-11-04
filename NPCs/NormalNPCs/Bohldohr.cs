@@ -19,7 +19,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheTemple,
-                new FlavorTextBestiaryInfoElement("He is here.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Bohldohr")
             });
         }
 

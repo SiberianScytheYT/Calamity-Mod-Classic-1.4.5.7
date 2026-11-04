@@ -97,7 +97,7 @@ namespace CalRD.NPCs.Providence
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-		        new FlavorTextBestiaryInfoElement("Born from dark and light, Providence seeks to cleanse all from desire with the might of her Holy Flame.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Providence")
 	        });
         }
 
@@ -966,7 +966,7 @@ namespace CalRD.NPCs.Providence
 					if (NPC.ai[3] >= (phaseTime * 1.5f) && !text)
 					{
 						text = true;
-						string key = "The air is burning...";
+						string key = "Mods.CalRD.ClassicKeys.ProfanedBossText";
 						Color messageColor = Color.Orange;
 
 						CalamityUtils.DisplayLocalizedText(key, messageColor);
@@ -1377,9 +1377,9 @@ namespace CalRD.NPCs.Providence
             // If Providence has not been killed, notify players of Uelibloom Ore
             if (!CalamityWorld.downedProvidence)
             {
-                string key2 = "The calamitous beings have been inundated with bloodstone.";
+                string key2 = "Mods.CalRD.ClassicKeys.ProfanedBossText3";
                 Color messageColor2 = Color.Orange;
-                string key3 = "Fossilized tree bark is bursting through the jungle's mud.";
+                string key3 = "Mods.CalRD.ClassicKeys.TreeOreText";
                 Color messageColor3 = Color.LightGreen;
 
                 WorldGenerationMethods.SpawnOre(ModContent.TileType<UelibloomOre>(), 15E-05, .4f, .8f);
@@ -1392,7 +1392,7 @@ namespace CalRD.NPCs.Providence
 			{
 				if (Main.netMode == NetmodeID.SinglePlayer)
 				{
-					Main.NewText(Language.GetTextValue("The Profaned Goddess has recognised your devotion to purity!"), Color.DarkOrange);
+					Main.NewText(Language.GetTextValue("Mods.CalRD.ClassicKeys.ProfanedBossText4"), Color.DarkOrange);
 				} 
 			}
 

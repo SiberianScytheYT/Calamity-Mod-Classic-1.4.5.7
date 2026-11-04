@@ -44,18 +44,7 @@ namespace CalRD.Items.Armor
             modPlayer.silvaThrowing = true;
             modPlayer.rogueStealthMax += 1.25f;
             modPlayer.wearingRogueArmor = true;
-            player.setBonus = "All projectiles spawn healing leaf orbs on enemy hits\n" +
-                "Max run speed and acceleration boosted by 5%\n" +
-                "If you are reduced to 1 HP you will not die from any further damage for 10 seconds\n" +
-                "If you get reduced to 1 HP again while this effect is active you will lose 100 max life\n" +
-                "This effect only triggers once per life and if you are reduced to 400 max life the invincibility effect will stop\n" +
-                "Your max life will return to normal if you die\n" +
-                "Rogue weapons have a faster throwing rate while you are above 50% life\n" +
-                "After the silva invulnerability time your rogue weapons will do 10% more damage\n" +
-                "Rogue stealth builds while not attacking and slower while moving, up to a max of 125\n" +
-                "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
-                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.SilvaMask");
         }
 
         public override void UpdateEquip(Player player)

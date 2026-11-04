@@ -40,8 +40,7 @@ namespace CalRD.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "5% increased ranged damage\n" +
-                "Getting hit causes you to emit a blast of crystal shards";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.DaedalusHelmet");
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.daedalusShard = true;
             player.GetDamage(DamageClass.Ranged) += 0.05f;

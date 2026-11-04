@@ -35,7 +35,7 @@ namespace CalRD.NPCs.Abyss
 		{
 			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 			{
-				new FlavorTextBestiaryInfoElement("While it behaves like a regular pufferfish for the most part, once destroyed its water reserves will be expelled at extreme temperatures, severely burning anything in its proximity.")
+				new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.ChaoticPuffer")
 			});
 		}
 

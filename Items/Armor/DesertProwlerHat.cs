@@ -33,8 +33,7 @@ namespace CalRD.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Ranged attacks deal an extra 1 flat damage\n" +
-			"Ranged crits can rarely whip up a sandstorm";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.DesertProwlerHat");
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.desertProwler = true;
         }

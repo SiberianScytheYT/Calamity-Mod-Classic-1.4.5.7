@@ -48,7 +48,7 @@ namespace CalRD.NPCs.Abyss
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("Little is known about these enigmatic creatures.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.EidolonWyrm")
             });
         }
 

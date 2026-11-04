@@ -44,7 +44,7 @@ namespace CalRD.NPCs.DevourerofGods
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
 	        {
 		        new MoonLordPortraitBackgroundProviderBestiaryInfoElement(),
-		        new FlavorTextBestiaryInfoElement("His right hand man, it will spring into action once the Devourer feels threatened.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.CosmicGuardian")
 	        });
         }
 

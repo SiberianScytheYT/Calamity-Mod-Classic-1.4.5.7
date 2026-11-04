@@ -164,15 +164,15 @@ namespace CalRD.Prefixes
             valueMult *= extraValue;
         }
         
+        public LocalizedText StealthDamageTooltip => CalamityUtils.GetText($"{LocalizationCategory}.StealthDamageTooltip");
         public override IEnumerable<TooltipLine> GetTooltipLines(Item item)
         {
-            float ssDmgBoost = stealthDmgMult;// - 1f;
-            if (ssDmgBoost == 1f)
+            if (stealthDmgMult == 1f)
                 yield break;
-            yield return new TooltipLine(Mod, "PrefixSSDmg", (ssDmgBoost >= 1f ? "+" : String.Empty) + (Math.Round(ssDmgBoost * 100f) -100) + "% stealth strike damage")
+            yield return new TooltipLine(Mod, "PrefixSSDmg", StealthDamageTooltip.Format((stealthDmgMult >= 1f ? "+" : string.Empty) + ((stealthDmgMult * 100) - 100).ToString("N0")))
             {
                 IsModifier = true,
-                IsModifierBad = ssDmgBoost < 1f
+                IsModifierBad = stealthDmgMult < 1f
             };
         }
     }

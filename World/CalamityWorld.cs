@@ -1081,7 +1081,7 @@ namespace CalRD.World
             {
                 tasks.Insert(ShiniesIndex + 2, new PassLegacy("EvilIsland", delegate (GenerationProgress progress, GameConfiguration config)
                 {
-                    progress.Message = "Evil Island";
+                    progress.Message = Language.GetOrRegister("Mods.CalRD.UI.EvilIsland").Value;
                     SmallBiomes.PlaceEvilIsland();
                 }));
             }
@@ -1097,7 +1097,7 @@ namespace CalRD.World
             {
                 tasks.Insert(WaterFromSandIndex + 1, new PassLegacy("SunkenSea", delegate (GenerationProgress progress, GameConfiguration config)
                 {
-                    progress.Message = "Making the world more wet";
+                    progress.Message = Language.GetOrRegister("Mods.CalRD.UI.SunkenSea").Value;
                     SunkenSea.Place(new Point(GenVars.UndergroundDesertLocation.Left, GenVars.UndergroundDesertLocation.Center.Y));
                     //SunkenSea.Place(new Point(GenVars.UndergroundDesertLocation.Left, GenVars.UndergroundDesertLocation.Bottom));
                 }));
@@ -1106,14 +1106,14 @@ namespace CalRD.World
             int JungleTempleIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Jungle Temple"));
             tasks[JungleTempleIndex] = new PassLegacy("Jungle Temple", delegate (GenerationProgress progress, GameConfiguration config)
             {
-                progress.Message = "Building the jungle temple (Calamity)";
+                progress.Message = Language.GetOrRegister("Mods.CalRD.UI.BetterJungleTemple").Value;
                 CustomTemple.NewJungleTemple();
             });
 
             int JungleTempleIndex2 = tasks.FindIndex(genpass => genpass.Name.Equals("Temple"));
             tasks[JungleTempleIndex2] = new PassLegacy("Temple", delegate (GenerationProgress progress, GameConfiguration config)
             {
-                progress.Message = "Building the jungle temple (Calamity)";
+                progress.Message = Language.GetOrRegister("Mods.CalRD.UI.BetterJungleTemple").Value;
                 Main.tileSolid[162] = false;
                 Main.tileSolid[226] = true;
                 CustomTemple.NewJungleTemplePart2();
@@ -1123,7 +1123,7 @@ namespace CalRD.World
             int LihzahrdAltarIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Lihzahrd Altars"));
             tasks[LihzahrdAltarIndex] = new PassLegacy("Lihzahrd Altars", delegate (GenerationProgress progress, GameConfiguration config)
             {
-                progress.Message = "Placing a Lihzahrd altar (Calamity)";
+                progress.Message = Language.GetOrRegister("Mods.CalRD.UI.JungleTempleAltar").Value;
                 CustomTemple.NewJungleTempleLihzahrdAltar();
             });
 
@@ -1134,7 +1134,7 @@ namespace CalRD.World
                 #region BrimstoneCrag
                 tasks.Insert(FinalIndex + 1, new PassLegacy("BrimstoneCrag", delegate (GenerationProgress progress, GameConfiguration config)
                 {
-                    progress.Message = "Brimstone Crag";
+                    progress.Message = Language.GetOrRegister("Mods.CalRD.UI.BrimstoneCrags").Value;
 
                     int x = Main.maxTilesX;
 
@@ -1173,14 +1173,14 @@ namespace CalRD.World
                 {
                     tasks.Insert(SulphurIndex + 1, new PassLegacy("Sulphur", delegate (GenerationProgress progress, GameConfiguration config)
                     {
-                        progress.Message = "Sulphur Sea";
+                        progress.Message = Language.GetOrRegister("Mods.CalRD.UI.SulphurSea").Value;
                         SulphurousSea.PlaceSulphurSea();
                     }));
                 }
 
                 tasks.Insert(FinalIndex + 2, new PassLegacy("SpecialShrines", delegate (GenerationProgress progress, GameConfiguration config)
                 {
-                    progress.Message = "Special Shrines";
+                    progress.Message = Language.GetOrRegister("Mods.CalRD.UI.SpecialShrines").Value;
                     SmallBiomes.PlaceShrines();
                 }));
 
@@ -1217,19 +1217,19 @@ namespace CalRD.World
 
                 tasks.Insert(FinalIndex + 4, new PassLegacy("Abyss", delegate (GenerationProgress progress, GameConfiguration config)
                 {
-                    progress.Message = "The Abyss";
+                    progress.Message = Language.GetOrRegister("Mods.CalRD.UI.Abyss").Value;
                     Abyss.PlaceAbyss();
                 }));
 
                 tasks.Insert(FinalIndex + 5, new PassLegacy("Sulphur2", delegate (GenerationProgress progress, GameConfiguration config)
                 {
-                    progress.Message = "Finishing Sulphur Sea";
+                    progress.Message = Language.GetOrRegister("Mods.CalRD.UI.SulphurSea2").Value;
                     SulphurousSea.FinishGeneratingSulphurSea();
                 }));
 
                 tasks.Insert(FinalIndex + 6, new PassLegacy("IWannaRock", delegate (GenerationProgress progress, GameConfiguration config)
                 {
-                    progress.Message = "I Wanna Rock";
+                    progress.Message = Language.GetOrRegister("Mods.CalRD.UI.Roxcalibur").Value;
                     WorldGenerationMethods.PlaceRoxShrine();
                 }));
             }
@@ -1640,7 +1640,7 @@ namespace CalRD.World
                         else if (!NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHeadS>()))
                         {
                             NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<DevourerofGodsHeadS>());
-                            string key = "It's not over yet, kid!";
+                            string key = "Mods.CalRD.ClassicKeys.EdgyBossText10";
                             Color messageColor = Color.Cyan;
                             CalamityUtils.DisplayLocalizedText(key, messageColor);
                         }
@@ -1751,7 +1751,7 @@ namespace CalRD.World
             // DO NOT REMOVE -- this code is being kept for April Fools 2020
             if (Main.rand.NextBool(100000000) && DateTime.Now.Month == 4 && DateTime.Now.Day == 1)
             {
-                string key = "The LORDE is approaching...";
+                string key = "Mods.CalRD.ClassicKeys.AprilFools";
                 Color messageColor = Color.Crimson;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
@@ -2163,7 +2163,7 @@ namespace CalRD.World
         #region BossText
         public void BossText()
         {
-            string key = "Something is approaching...";
+            string key = "Mods.CalRD.ClassicKeys.BossSpawnText";
             Color messageColor = Color.Crimson;
             CalamityUtils.DisplayLocalizedText(key, messageColor);
         }

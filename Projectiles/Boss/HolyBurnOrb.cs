@@ -64,7 +64,7 @@ namespace CalRD.Projectiles.Boss
                 }
                 if (player.statLife < 0 || CalamityWorld.armageddon)
                 {
-                    player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " burst into sinless ash."), 1000.0, 0, false);
+                    player.KillMe(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.HolyBurnOrb").Format(player.name)), 1000.0, 0, false);
                 }
                 NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, index, dmgAmt);
                 Projectile.Kill();

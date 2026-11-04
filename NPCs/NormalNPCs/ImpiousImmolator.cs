@@ -32,7 +32,7 @@ namespace CalRD.NPCs.NormalNPCs
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-                new FlavorTextBestiaryInfoElement("Initially passive burning spirits, they roam the lands peacefully, until something impedes them.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.ImpiousImmolator")
             });
         }
 

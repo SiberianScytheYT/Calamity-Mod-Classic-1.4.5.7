@@ -48,7 +48,7 @@ namespace CalRD.NPCs.OldDuke
 		{
 			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 			{
-				new FlavorTextBestiaryInfoElement("The apex predator of the sulphurous sea. It doesn't seem native to the polluted sea, and it's shockingly strong for its apparent age.")
+				new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.OldDuke")
 			});
 		}
 

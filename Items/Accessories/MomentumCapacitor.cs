@@ -32,9 +32,9 @@ namespace CalRD.Items.Accessories
             string hotkey = CalRD.MomentumCapacitatorHotkey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
-                if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
+                if (line2.Mod == "Terraria" && line2.Text.Contains("[KEY]"))
                 {
-                    line2.Text = "Press " + hotkey + " to consume 30% of your maximum stealth to create an energy field at the cursor position";
+                    line2.Text = line2.Text.Replace("[KEY]", hotkey);
                 }
             }
         }

@@ -28,7 +28,7 @@ namespace CalRD.NPCs.Crags
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-		        new FlavorTextBestiaryInfoElement("what a calamity")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.CalamityEye")
 	        });
         }
 

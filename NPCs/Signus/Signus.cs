@@ -53,7 +53,7 @@ namespace CalRD.NPCs.Signus
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-		        new FlavorTextBestiaryInfoElement("A strange figure draped in dark robes and even darker history...")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Signus")
 	        });
         }
 

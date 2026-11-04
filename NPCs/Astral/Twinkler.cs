@@ -23,7 +23,7 @@ namespace CalRD.NPCs.Astral
         {
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
-		        new FlavorTextBestiaryInfoElement("A rare case of the infection creating a docile creature, it makes excellent bait as it flickers vividly.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Twinkler")
 	        });
         }
 

@@ -26,7 +26,7 @@ namespace CalRD.NPCs.NormalNPCs
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
-		        new FlavorTextBestiaryInfoElement("A large bee overtaken by plague nanomachines, it now serves the plague completely.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.PlagueBeeLarge")
 	        });
         }
 

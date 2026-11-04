@@ -37,9 +37,9 @@ namespace CalRD.Items.Accessories
             string hotkey = CalRD.AstralArcanumUIHotkey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
-                if (line2.Mod == "Terraria" && line2.Name == "Tooltip6")
+                if (line2.Mod == "Terraria" && line2.Text.Contains("[KEY]"))
                 {
-                    line2.Text = "Press " + hotkey + " to toggle teleportation UI";
+                    line2.Text = line2.Text.Replace("[KEY]", hotkey);
                 }
             }
         }

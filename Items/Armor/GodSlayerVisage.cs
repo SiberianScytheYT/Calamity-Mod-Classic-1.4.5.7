@@ -42,11 +42,7 @@ namespace CalRD.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.godSlayer = true;
             modPlayer.godSlayerMage = true;
-            player.setBonus = "You will survive fatal damage and will be healed 150 HP if an attack would have killed you\n" +
-                "This effect can only occur once every 45 seconds\n" +
-                "While the cooldown for this effect is active all life regen is halved\n" +
-                "Enemies will release god slayer flames and healing flames when hit with magic attacks\n" +
-                "Taking damage will cause you to release a magical god slayer explosion";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.GodSlayerVisage");
         }
 
         public override void UpdateEquip(Player player)

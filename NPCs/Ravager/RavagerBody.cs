@@ -51,7 +51,7 @@ namespace CalRD.NPCs.Ravager
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
-		        new FlavorTextBestiaryInfoElement("The innumerable corpses of the undead, forced to rise once more in a bid for victory... A great mistake that cost its creators their lives.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Ravager")
 	        });
         }
 

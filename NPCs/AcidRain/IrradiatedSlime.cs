@@ -26,7 +26,7 @@ namespace CalRD.NPCs.AcidRain
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("This slime has been irradiated! Best not to approach it.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.IrradiatedSlime")
             });
         }
 

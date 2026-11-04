@@ -44,11 +44,7 @@ namespace CalRD.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             string hotkey = CalRD.TarraHotKey.TooltipHotkeyString();
-            player.setBonus = "25% reduced ammo usage and 5% increased flight time\n" +
-                "Enemies receive 10% more damage from ranged projectiles when afflicted by the Plague\n" +
-				"Getting hit causes the plague cinders to rain from above\n" +
-                "Press " + hotkey + " to blind yourself for 5 seconds but massively boost your ranged damage\n" +
-				"This has a 25 second cooldown.";
+            player.setBonus = CalamityUtils.GetText("Misc.CalamitySetBonus.PlagueReaperMask").Format(hotkey);
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.plagueReaper = true;
             player.ammoCost75 = true;

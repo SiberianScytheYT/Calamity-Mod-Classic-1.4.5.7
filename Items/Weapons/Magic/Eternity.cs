@@ -50,11 +50,8 @@ namespace CalRD.Items.Weapons.Magic
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             var tt2 = tooltips.FirstOrDefault(x => x.Name == "Tooltip1" && x.Mod == "Terraria");
-            tt2.Text = $"[" + DisoHex + "There's pictures of ponies in the book]";
+            tt2.OverrideColor = new Color((int)MathHelper.Lerp(156f, 255f, Main.DiscoR / 256f), 108, 251);
         }
-        public static string DisoHex => "c/" +
-            ((int)(156 + Main.DiscoR * 99f / 255f)).ToString("X2") 
-            + 108.ToString("X2") + 251.ToString("X2") + ":";
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();

@@ -26,7 +26,7 @@ namespace CalRD.NPCs.NormalNPCs
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
-		        new FlavorTextBestiaryInfoElement("The corpse of a soldier supercharged with Phantoplasm, then reanimated by vengeful spirits.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.OverloadedSoldier")
 	        });
         }
 

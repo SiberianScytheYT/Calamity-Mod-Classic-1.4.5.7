@@ -767,37 +767,37 @@ namespace CalRD.UI
                         default:
                             break;
                         case SpecialType.EaterOfWorlds:
-                            string count = "(Segments left: " + _specialData[0] + ")";
+                            string count = CalamityUtils.GetText("UI.ExtensionDisplay").Format(CalamityUtils.GetTextValue("UI.ExtensionName.Segments"), _specialData[0]);
                             Vector2 countSize = FontAssets.ItemStack.Value.MeasureString(count) * textScale;
                             float countX = Math.Max(x, x + mainBarWidth - countSize.X);
                             DrawBorderStringEightWay(sb, FontAssets.ItemStack.Value, count, new Vector2(countX, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
                             return;
                         case SpecialType.Creep:
-                            string count2 = "(Creepers left: " + _specialData[1] + ")";
+                            string count2 = CalamityUtils.GetText("UI.ExtensionDisplay").Format(CalamityUtils.GetTextValue("UI.ExtensionName.Creepers"), _specialData[1]);
                             Vector2 countSize2 = FontAssets.ItemStack.Value.MeasureString(count2) * textScale;
                             float countX2 = Math.Max(x, x + mainBarWidth - countSize2.X);
                             DrawBorderStringEightWay(sb, FontAssets.ItemStack.Value, count2, new Vector2(countX2, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
                             return;
                         case SpecialType.Skelet:
-                            string count3 = "(Hands left: " + _specialData[2] + ")";
+                            string count3 = CalamityUtils.GetText("UI.ExtensionDisplay").Format(CalamityUtils.GetTextValue("UI.ExtensionName.Hands"), _specialData[2]);
                             Vector2 countSize3 = FontAssets.ItemStack.Value.MeasureString(count3) * textScale;
                             float countX3 = Math.Max(x, x + mainBarWidth - countSize3.X);
                             DrawBorderStringEightWay(sb, FontAssets.ItemStack.Value, count3, new Vector2(countX3, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
                             return;
                         case SpecialType.SkeletPrime:
-                            string count4 = "(Arms left: " + _specialData[3] + ")";
+                            string count4 = CalamityUtils.GetText("UI.ExtensionDisplay").Format(CalamityUtils.GetTextValue("UI.ExtensionName.Arms"), _specialData[3]);
                             Vector2 countSize4 = FontAssets.ItemStack.Value.MeasureString(count4) * textScale;
                             float countX4 = Math.Max(x, x + mainBarWidth - countSize4.X);
                             DrawBorderStringEightWay(sb, FontAssets.ItemStack.Value, count4, new Vector2(countX4, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
                             return;
                         case SpecialType.MartSaucer:
-                            string count5 = "(Guns left: " + _specialData[4] + ")";
+                            string count5 = CalamityUtils.GetText("UI.ExtensionDisplay").Format(CalamityUtils.GetTextValue("UI.ExtensionName.Guns"), _specialData[4]);
                             Vector2 countSize5 = FontAssets.ItemStack.Value.MeasureString(count5) * textScale;
                             float countX5 = Math.Max(x, x + mainBarWidth - countSize5.X);
                             DrawBorderStringEightWay(sb, FontAssets.ItemStack.Value, count5, new Vector2(countX5, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
                             return;
                         case SpecialType.PirShip:
-                            string count6 = "(Cannons left: " + _specialData[5] + ")";
+                            string count6 = CalamityUtils.GetText("UI.ExtensionDisplay").Format(CalamityUtils.GetTextValue("UI.ExtensionName.Cannons"), _specialData[5]);
                             Vector2 countSize6 = FontAssets.ItemStack.Value.MeasureString(count6) * textScale;
                             float countX6 = Math.Max(x, x + mainBarWidth - countSize6.X);
                             DrawBorderStringEightWay(sb, FontAssets.ItemStack.Value, count6, new Vector2(countX6, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
@@ -809,19 +809,19 @@ namespace CalRD.UI
                         default:
                             break;
                         case SpecialType2.Ceaseless:
-                            string count2 = "(Dark Energy left: " + _specialData2[0] + ")";
+                            string count2 = CalamityUtils.GetText("UI.ExtensionDisplay").Format(CalamityUtils.GetTextValue("UI.ExtensionName.DarkEnergy"), _specialData2[0]);
                             Vector2 countSize2 = FontAssets.ItemStack.Value.MeasureString(count2) * textScale;
                             float countX2 = Math.Max(x, x + mainBarWidth - countSize2.X);
                             DrawBorderStringEightWay(sb, FontAssets.ItemStack.Value, count2, new Vector2(countX2, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
                             return;
                         case SpecialType2.Ravage:
-                            string count4 = "(Body Parts left: " + _specialData2[1] + ")";
+                            string count4 = CalamityUtils.GetText("UI.ExtensionDisplay").Format(CalamityUtils.GetTextValue("UI.ExtensionName.BodyParts"), _specialData2[1]);
                             Vector2 countSize4 = FontAssets.ItemStack.Value.MeasureString(count4) * textScale;
                             float countX4 = Math.Max(x, x + mainBarWidth - countSize4.X);
                             DrawBorderStringEightWay(sb, FontAssets.ItemStack.Value, count4, new Vector2(countX4, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
                             return;
                         case SpecialType2.SlimeCore:
-                            string count5 = "(Large Slimes left: " + _specialData2[2] + ")";
+                            string count5 = CalamityUtils.GetText("UI.ExtensionDisplay").Format(CalamityUtils.GetTextValue("UI.ExtensionName.LargeSlimes"), _specialData2[2]);
                             Vector2 countSize5 = FontAssets.ItemStack.Value.MeasureString(count5) * textScale;
                             float countX5 = Math.Max(x, x + mainBarWidth - countSize5.X);
                             DrawBorderStringEightWay(sb, FontAssets.ItemStack.Value, count5, new Vector2(countX5, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
@@ -874,42 +874,42 @@ namespace CalRD.UI
                         default:
                             break;
                         case SpecialType.EaterOfWorlds:
-                            string count = "(Segments left: " + _specialData[0] + ")";
+                            string count = CalamityUtils.GetText("UI.ExtensionDisplay").Format(CalamityUtils.GetTextValue("UI.ExtensionName.Segments"), _specialData[0]);
                             Vector2 countSize = FontAssets.ItemStack.Value.MeasureString(count) * textScale;
                             float countX = Math.Max(x, x + mainBarWidth - countSize.X);
                             DrawBorderStringEightWay(sb, FontAssets.ItemStack.Value, count, new Vector2(countX, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
                             _openAnimCounter--;
                             return;
                         case SpecialType.Creep:
-                            string count2 = "(Creepers left: " + _specialData[1] + ")";
+                            string count2 = CalamityUtils.GetText("UI.ExtensionDisplay").Format(CalamityUtils.GetTextValue("UI.ExtensionName.Creepers"), _specialData[1]);
                             Vector2 countSize2 = FontAssets.ItemStack.Value.MeasureString(count2) * textScale;
                             float countX2 = Math.Max(x, x + mainBarWidth - countSize2.X);
                             DrawBorderStringEightWay(sb, FontAssets.ItemStack.Value, count2, new Vector2(countX2, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
                             _openAnimCounter--;
                             return;
                         case SpecialType.Skelet:
-                            string count3 = "(Hands left: " + _specialData[2] + ")";
+                            string count3 = CalamityUtils.GetText("UI.ExtensionDisplay").Format(CalamityUtils.GetTextValue("UI.ExtensionName.Hands"), _specialData[2]);
                             Vector2 countSize3 = FontAssets.ItemStack.Value.MeasureString(count3) * textScale;
                             float countX3 = Math.Max(x, x + mainBarWidth - countSize3.X);
                             DrawBorderStringEightWay(sb, FontAssets.ItemStack.Value, count3, new Vector2(countX3, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
                             _openAnimCounter--;
                             return;
                         case SpecialType.SkeletPrime:
-                            string count4 = "(Arms left: " + _specialData[3] + ")";
+                            string count4 = CalamityUtils.GetText("UI.ExtensionDisplay").Format(CalamityUtils.GetTextValue("UI.ExtensionName.Arms"), _specialData[3]);
                             Vector2 countSize4 = FontAssets.ItemStack.Value.MeasureString(count4) * textScale;
                             float countX4 = Math.Max(x, x + mainBarWidth - countSize4.X);
                             DrawBorderStringEightWay(sb, FontAssets.ItemStack.Value, count4, new Vector2(countX4, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
                             _openAnimCounter--;
                             return;
                         case SpecialType.MartSaucer:
-                            string count5 = "(Guns left: " + _specialData[4] + ")";
+                            string count5 = CalamityUtils.GetText("UI.ExtensionDisplay").Format(CalamityUtils.GetTextValue("UI.ExtensionName.Guns"), _specialData[4]);
                             Vector2 countSize5 = FontAssets.ItemStack.Value.MeasureString(count5) * textScale;
                             float countX5 = Math.Max(x, x + mainBarWidth - countSize5.X);
                             DrawBorderStringEightWay(sb, FontAssets.ItemStack.Value, count5, new Vector2(countX5, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
                             _openAnimCounter--;
                             return;
                         case SpecialType.PirShip:
-                            string count6 = "(Cannons left: " + _specialData[5] + ")";
+                            string count6 = CalamityUtils.GetText("UI.ExtensionDisplay").Format(CalamityUtils.GetTextValue("UI.ExtensionName.Cannons"), _specialData[5]);
                             Vector2 countSize6 = FontAssets.ItemStack.Value.MeasureString(count6) * textScale;
                             float countX6 = Math.Max(x, x + mainBarWidth - countSize6.X);
                             DrawBorderStringEightWay(sb, FontAssets.ItemStack.Value, count6, new Vector2(countX6, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
@@ -922,21 +922,21 @@ namespace CalRD.UI
                         default:
                             break;
                         case SpecialType2.Ceaseless:
-                            string count2 = "(Dark Energy left: " + _specialData2[0] + ")";
+                            string count2 = CalamityUtils.GetText("UI.ExtensionDisplay").Format(CalamityUtils.GetTextValue("UI.ExtensionName.DarkEnergy"), _specialData2[0]);
                             Vector2 countSize2 = FontAssets.ItemStack.Value.MeasureString(count2) * textScale;
                             float countX2 = Math.Max(x, x + mainBarWidth - countSize2.X);
                             DrawBorderStringEightWay(sb, FontAssets.ItemStack.Value, count2, new Vector2(countX2, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
                             _openAnimCounter--;
                             return;
                         case SpecialType2.Ravage:
-                            string count4 = "(Body Parts left: " + _specialData2[1] + ")";
+                            string count4 = CalamityUtils.GetText("UI.ExtensionDisplay").Format(CalamityUtils.GetTextValue("UI.ExtensionName.BodyParts"), _specialData2[1]);
                             Vector2 countSize4 = FontAssets.ItemStack.Value.MeasureString(count4) * textScale;
                             float countX4 = Math.Max(x, x + mainBarWidth - countSize4.X);
                             DrawBorderStringEightWay(sb, FontAssets.ItemStack.Value, count4, new Vector2(countX4, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
                             _openAnimCounter--;
                             return;
                         case SpecialType2.SlimeCore:
-                            string count5 = "(Large Slimes left: " + _specialData2[2] + ")";
+                            string count5 = CalamityUtils.GetText("UI.ExtensionDisplay").Format(CalamityUtils.GetTextValue("UI.ExtensionName.LargeSlimes"), _specialData2[2]);
                             Vector2 countSize5 = FontAssets.ItemStack.Value.MeasureString(count5) * textScale;
                             float countX5 = Math.Max(x, x + mainBarWidth - countSize5.X);
                             DrawBorderStringEightWay(sb, FontAssets.ItemStack.Value, count5, new Vector2(countX5, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);

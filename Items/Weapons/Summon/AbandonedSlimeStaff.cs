@@ -48,12 +48,12 @@ namespace CalRD.Items.Weapons.Summon
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             bool autoJump = Main.player[Main.myPlayer].autoJump;
-			string jumpAmt = autoJump ? "5" : "20";
             foreach (TooltipLine line2 in list)
             {
                 if (line2.Mod == "Terraria" && line2.Name == "Tooltip4")
                 {
-                    line2.Text = "Holding this weapon grants " + jumpAmt + "% increased jump speed";
+	                if (autoJump)
+	                    line2.Text = line2.Text.Replace("20", "5");
                 }
             }
         }

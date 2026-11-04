@@ -38,7 +38,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
-                new FlavorTextBestiaryInfoElement("Once a revered deity, she remains angry at the world and the people which abandoned her.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.CloudElemental")
             });
         }
 

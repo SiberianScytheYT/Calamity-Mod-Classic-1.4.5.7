@@ -46,7 +46,7 @@ namespace CalRD.NPCs.Abyss
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("pushups, situps, and plenty of juice")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.ReaperShark")
             });
         }
 

@@ -38,10 +38,7 @@ namespace CalRD.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "25% increased movement speed\n" +
-                "28% increased damage and 21% increased critical strike chance\n" +
-                "Whenever you crit an enemy fallen, hallowed, and astral stars will rain down\n" +
-                "This effect has a 1 second cooldown before it can trigger again";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.AstralHelm");
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.astralStarRain = true;
             player.moveSpeed += 0.25f;

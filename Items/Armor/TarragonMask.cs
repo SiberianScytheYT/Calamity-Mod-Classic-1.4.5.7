@@ -39,8 +39,7 @@ namespace CalRD.Items.Armor
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip3")
 					{
-						line2.Text = "5% increased damage reduction, +100 max mana, and 15% reduced mana usage\n" +
-						"Provides heat protection in Death Mode";
+						line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.HeatProtection");
 					}
 				}
 			}
@@ -62,12 +61,7 @@ namespace CalRD.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.tarraSet = true;
             modPlayer.tarraMage = true;
-            player.setBonus = "Reduces enemy spawn rates\n" +
-                "Increased heart pickup range\n" +
-                "Enemies have a chance to drop extra hearts on death\n" +
-                "On every 5th critical strike you will fire a leaf storm\n" +
-                "Magic projectiles heal you on enemy hits\n" +
-                "Amount healed is based on projectile damage";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.TarragonMask");
         }
 
         public override void UpdateEquip(Player player)

@@ -38,7 +38,7 @@ namespace CalRD.NPCs.Astral
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("Once regular cave spiders, they have been reduced down to mere sentries for the infection.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Astralachnea")
             });
         }
 

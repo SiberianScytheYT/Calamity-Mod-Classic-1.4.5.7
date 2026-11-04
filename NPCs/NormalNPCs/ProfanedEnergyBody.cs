@@ -28,7 +28,7 @@ namespace CalRD.NPCs.NormalNPCs
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-                new FlavorTextBestiaryInfoElement("A living altar. Its flame burns fiercely to aid its master.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.ProfanedEnergy")
             });
         }
 

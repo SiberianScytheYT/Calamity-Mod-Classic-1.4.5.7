@@ -55,7 +55,7 @@ namespace CalRD.NPCs.AstrumAureus
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
-                new FlavorTextBestiaryInfoElement("One of Draedon's machines, even it succumbed to the infection's spread.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.AstrumAureus")
             });
         }
 
@@ -406,8 +406,8 @@ namespace CalRD.NPCs.AstrumAureus
             // If Astrum Aureus has not yet been killed, notify players of new Astral enemy drops
             if (!CalamityWorld.downedAstrageldon)
             {
-                string key = "The astral enemies have been empowered!";
-                string key2 = "A faint ethereal click can be heard from the dungeon.";
+                string key = "Mods.CalRD.ClassicKeys.AureusBossText";
+                string key2 = "Mods.CalRD.ClassicKeys.AureusBossText2";
                 Color messageColor = Color.Gold;
 
                 CalamityUtils.DisplayLocalizedText(key, messageColor);

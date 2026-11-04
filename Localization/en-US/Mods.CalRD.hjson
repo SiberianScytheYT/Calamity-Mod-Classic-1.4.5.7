@@ -1928,6 +1928,7 @@ Prefixes: {
 		Feathered.DisplayName: Feathered
 		Blunt.DisplayName: Blunt
 		Atrocious.DisplayName: Atrocious
+		StealthDamageTooltip: "{0}% stealth strike damage"
 	}
 
 	Accessory: {
@@ -1935,6 +1936,7 @@ Prefixes: {
 		Quiet.DisplayName: Quiet
 		Cloaked.DisplayName: Cloaked
 		Camouflaged.DisplayName: Camouflaged
+		StealthGenTooltip: +{0}% stealth generation
 	}
 }
 
@@ -1952,6 +1954,70 @@ NPCs: {
 		}
 
 		DisplayName: Bandit
+		Census.SpawnCondition: Have a [i:PlatinumCoin] in your inventory after defeating Skeletron
+
+		Name: {
+			Laura: Laura
+			Mie: Mie
+			Bonnie: Bonnie
+			Sarah: Sarah
+			Diane: Diane
+			Kate: Kate
+			Penelope: Penelope
+			Marisa: Marisa
+			Maribel: Maribel
+			Valerie: Valerie
+			Jessica: Jessica
+			Rowan: Rowan
+			Jessie: Jessie
+			Jade: Jade
+			Hearn: Hearn
+			Amber: Amber
+			Anne: Anne
+			Indiana: Indiana
+		}
+
+		Chat: {
+			BloodMoon1: Oy, watch where you're going or I might just use you for dart practice.
+			BloodMoon2: Bet you'd look good as a pincushion, amiright?
+			BloodMoon3: Zombies don't dodge very well. Maybe you'll do a bit better.
+			BloodMoon4: Hey, careful over there. I've rigged the place. One wrong step and you're going to get a knife in your forehead.
+			Night1: You know what's really cool? Watching the glint of throwing stars as they reflect the moon.
+			Night2: You think those stars that fall occasionally would make good throwing weapons?
+			Night3: Statis' clan's got nothing on me. Mostly cause they're all dead.
+			Party: Where is my party hat? Well, I stole it of course.
+			NamedLaura: The nice thing about maps is I can track anything that has fallen.
+			NamedPenelope: Imagine how fast you could throw if you just had more hands.
+			NamedValerie: I also take food for currency.
+			NamedRowan: Usually I only think of animals as food or target practice, but dragons are an exception.
+			Normal1: Anything is a weapon if you throw it hard enough.
+			Normal2: That's your chucking arm? You need to work out more.
+			Normal3: Listen here. It's all in the wrist, the wrist! Oh, forget it.
+			Normal4: I don't think Mom and Dad are proud of the job I have right now.
+			Normal5: Eh you know how it goes; steal from the rich, give to the poor. Of course, for a price.
+			Normal6: Want to hear about this one time I was stuck in a room with a rabid dog and a dead guy?
+			Normal7: Argh snakes. For some reason it's always snakes.
+			Normal8: Maybe I'm bitter. It's been a long time, so whatever. Just do a good job out there.
+			Normal9: It's not stealing! I'm just borrowing it until I die!
+			HasBoneGlove: Wouldn't be the first time I used my friends' remains as weapons.
+			Hardmode1: With all of this new stuff cropping up, looks like we got some easy loot and new items to craft up, eh? Well, YOU craft them, I'll steal em.
+			Hardmode2: Draedon thinks he can build awesome machines, but he doesn't know how much crap I've stolen from him and sold by dismantling his drones.
+			Hardmode3: Gramma always said never to invade ancient temples or you'll be cursed and die. Let's say both of us attest that is untrue. We're still alive. Somewhat.
+			MoonLordDefeated1: I heard that there's some really neat and awesome rogue items you can get. Show em to me if you ever get the time.
+			MoonLordDefeated2: Providence HATES it when you take her stuff. I learned that the hard way.
+			MoonLordDefeated3: You think I can get away with looting from ghosts? It ain't like they can pick things up.
+			HasValedictionorReaper: Oh man, did you rip that off a shark!? Now that's a weapon!
+			DoGDefeated: I tried looting Storm Weaver's armor once. Before I could get a chunk of the stuff... well let's just say the bigger, fatter cosmic worm arrived and it didn't end well.
+			Jungle: I'd rather not be here. This place has bad vibes, y'know? It brings back some unpleasant memories.
+			Merchant: Don't tell {0}, but I took some of his stuff and replaced it with Angel Statues.
+			DrunkPrincess: I learned never to steal {0}'s drinks. She doesn't appreciate me right now so I'll go back to hiding.
+			NurseArmsDealer: Don't tell {0} that I was responsible for {1}'s injuries.
+		}
+
+		RefundButton: Refund
+		Refund1: Want in on a little secret? Since {0} always gets so much cash from you, I've been stealing some of it as we go. I need you to keep quiet about it, so here.
+		Refund2: Hey, if government officials can get tax, why can't I? The heck do you mean that these two things are nothing alike?
+		NoRefund: Sorry, I got nothing. Perhaps you could reforge something and come back later...
 	}
 
 	SEAHOE: {
@@ -1967,6 +2033,77 @@ NPCs: {
 		}
 
 		DisplayName: Sea King
+		Census.SpawnCondition: Defeat a Giant Clam after defeating the Desert Scourge
+		Name.Amidias: Amidias
+
+		Chat: {
+			Homeless1: Is this...what the world is like now? It seems so much more lifeless than when I saw it before I disappeared.
+			Homeless2: Thank you for your service, my child, but I am afraid I am without a home now.
+			Day1: My homeland may have dried up but the memories of my people still remain. I will not let them be in vain.
+			Day2: There is a lot that you do not know about this world, specifically regarding the past. Much of it has been lost to history due to the many wars that plagued it.
+			Day3: How can I survive on land? Ah, that is a secret. No, actually...I can breathe air like you!
+			Day4: Why do you ask if it's the males that carry the young? Don't your males carry their young?
+			Night1: There be monsters lurking in the darkness. Most...unnatural monsters.
+			Night2: Most creatures look up at the moon and admire it. I look up and fear it.
+			Night3: Oh, me? I don't sleep, it's part of my nature.
+			PartyGirl: "{0} asked if my nose could be used as a vuvuzela. What is a vuvuzela?"
+			Angler1: Meet me at {0}'s house at night. We're going to throw him to the Trashers.
+			Angler2: Not sure how {0} has not been roasted and digested by now, hanging around the sulphuric seas for so long. Perhaps it got to his head.
+			DrunkPrincess: Rumor has it {0} drinks to forget her troubled past.
+			BloodMoon: I'm never keen on these nights. They're so violent.
+			SirenPet: Ah, nice duds, my child!
+			Siren: Shouldn't you be wearing a clam bra?
+			Hardmode1: The balance between light and dark is tipping. Stay strong, my child.
+			Hardmode2: Ah, you are starting to realize just how complicated this world is now. You are learning the story of what became of him.
+			MoonLordDefeated1: Do you ever get the feeling that something out there is watching you very carefully? Whatever it is, it's very small and sly, I think.
+			MoonLordDefeated2: I must admit, I am quite shaken up now. Never would I have imagined that I would see one of the dark gods again. Not in this lifetime anyhow.
+			MoonLordDefeated3: Times like this I wish my home was still in one piece instead of evaporated away. I don't blame the witch for anything, it's just...oh, never mind.
+			DoGDefeated: I suppose that witch was mistaken. Defeating the Ceaseless Void and the Devourer has not caused our world to collapse... but I would not lower my guard if I were you.
+		}
+
+		Help: {
+			YharonDefeated1: Pockets of ore have appeared once more in the land. This will allow you to create the most powerful weaponry and armor imagined!
+			YharonDefeated2: Lord Yharim possesses god-like strength. He may not even fight you at full power which is fortunate for you. His attacks may just kill you in one hit, so be careful.
+			YharonDefeated3: Draedon's style of confrontation is very...alien and hands-off. You may be more likely to fight any one of his mechs before taking him down.
+			DoGDefeated1: The Devourer of God's cosmic armor is unique in that it is capable of not only protecting his body from tearing itself apart when ripping through the fabric of space and time, but also allows him to control his powers.
+			DoGDefeated2: With the cosmic steel you can fashion many of your weapons into much more powerful forms.
+			DoGDefeated3: The Devourer of Gods is extremely powerful. However, he is young, foolhardy, and very lazy. Perhaps if he had been given time to develop he would have turned into quite the threat.
+			DoGDefeated4: Ah, the dragon Yharon is fickle. You may find that he will refuse to use his full power unless you are strong enough to unleash the power of the Dark Sun.
+			PolterghastDefeated1: The Abyss holds many secrets revealed with time. Checking it out again may not be a bad idea.
+			PolterghastDefeated2: Ah...I can sense a powerful change in the weather. You may want to venture to the Sulphurous Seas once more during the rain to experience it.
+			ProvidenceDefeated1: The Rune of Kos holds a significant portion of Providence's brand of magic, easily distinguishable from all others. Activating it in certain places would have some...risky consequences.
+			ProvidenceDefeated2: Ironic, is it not, that Statis was defeated by the very Sentinel his people fashioned their art of stealth from. Fate so often weaves cruel tales.
+			ProvidenceDefeated3: The Dungeon seems to be more active now. You may hear the faint whisperings of angry spirits who have not left to the Void...I would recommend searching there before taking on the Sentinels.
+			MoonLordDefeated1: Your adventure focuses to the jungle it seems. The Dragonfolly and its swarming offspring should be eliminated before their numbers spiral out of control.
+			MoonLordDefeated2: Profaned creatures now lurk in the Hallow and in Hell. If you destroy enough and gather their essence together you shall be able to capture the attention of the Profaned Guardians.
+			MoonLordDefeated3: The Profaned Guardians will do anything to protect their goddess. Makes sense they would die for her since they can be revived just as quickly.
+			MoonLordDefeated4: Touching Providence's offerings is usually a death wish. Shame that Yharim didn't think to just mess with her things to get her out of hiding.
+			MoonLordDefeated5: Providence is as much the sun goddess as much as the Moon Lord is the moon god. They are two sides of the same coin, choosing to remain neutral amongst our petty squabbles.
+			MoonLordDefeated6: The stories have it that when Providence faced and defeated Yharim and his forces she lost a lot of energy and reverted to a more skeletal form. She's merely a fraction of the power she was before.
+			GolemDefeated1: The men at the front of the dungeon are performing a ritual to keep the Moon Lord contained in his prison. In order to gain Yharim's attention, however, you may need to defeat them.
+			GolemDefeated2: The Abyss has become far more active than before. You might be able to mine some of the volcanic rubble contained within.
+			GolemDefeated3: The plague was just one of the many experiments authorized by Yharim to raze towns to the ground. This is probably one of the few he shelved for being too terrible.
+			Hardmode1: You will find more ores have been unlocked due to the magic sealing them away being dispelled. Some of them may require more than just the ore itself to create.
+			Hardmode2: I would recommend saving some of your old items. You never know if you can engineer them into stronger weapons in the future.
+			Hardmode3: Once those mechanical creations have been defeated you would do well to seek out the crippled clone of the witch, Calamitas. It might provide some useful weaponry.
+			Hardmode4: If you take an idol down to the Brimstone Crags you might be able to see just what is lurking in the shadows.
+			Hardmode5: The Brimstone Crags...Yharim despised that place, and did everything he could to raze it to the ground. It might explain a few things about him.
+			Hardmode6: If you've gathered the souls used to power those automatons head once more to the jungle. You will find a powerful enemy to fight, which will unleash the full fervor of the jungle once defeated. Do not underestimate it!
+			Hardmode7: Be careful when defeating Plantera and the Golem. You might accidentally unleash a new threat in the jungle that needs to be quelled.
+			Hardmode8: When exploring the jungle temple be careful. You may not wish to disturb the Lihzard's idol, the Golem. It's quite the destructive force.
+			Hardmode9: Have you heard of the story of Archmage Permafrost? Rumor has it he's been locked away in an icy prison by Lord Yharim. Perhaps you would be able to free him if Cryogen was destroyed.
+			PreHardmode1: There are rumors of ores that lay in latency. When you defeat certain bosses you will undo the ancient magic which conceals those materials.
+			PreHardmode2: Have you heard of the Brimstone Crags? It was once a grand kingdom, not too different from my own. However, it also met a similar fate. I would not advise going down there, unless you seek a painful death.
+			PreHardmode3: Ah yes, the Abyss. That trench is full of powerful creatures that could devour you in a heartbeat. I would explore the dungeon first.
+			PreHardmode4: The Sulphurous Seas are dangerous. The toxic waters will burn your skin, but if you can brave them you will be able to reach the Abyss, where there are powerful weapons and dangers aplenty.
+			PreHardmode5: The Sulphurous Seas were created long ago, when Yharim's dungeon could no longer hold as many corpses as it needed to. Many of the bodies were dumped into the ocean. This, along with severe pollution from the heydays of Draedon's experiments have turned a paradise into a wasteland.
+			PreHardmode6: Be careful what you attack in the {0}. You might just unveil a greater threat than what was there before.
+			PreHardmode7: Scattered across the lands are shrines dedicated to the gods. You can take whatever is in them, but a few items you may not be able to use until much later.
+			PreHardmode8: I'm assuming you've heard the legends that speak of the ninja, Statis? There are some who say that if you were able to defeat the gods which his clan once worshipped you would be able to harness some of his powers.
+			PreHardmode9: The dungeon is a dark place. None of us know of its true purpose, however, the ancient Eidolist cultists used it for worship before Lord Yharim took it over.
+			PreHardmode10: The {0} used to be easily manageable and controlled by nature. However, the recent wars and pollution have tipped the balance out of favor.
+			PreHardmode11: Throughout the world lie various structures left behind by Draedon. Archaic defenses may remain, but the goods inside may be worth your while.
+		}
 	}
 
 	FAP: {
@@ -1982,6 +2119,59 @@ NPCs: {
 		}
 
 		DisplayName: Drunk Princess
+		Census.SpawnCondition: Have [i:CalRD:FabsolsVodka] in your inventory in Hardmode
+		Name.Cirrus: Cirrus
+
+		Chat: {
+			BossRush: Why are you talking to me right now? Either way, I expect you to turn in a perfect performance!
+			Homeless1: I could smell my vodka from MILES away!
+			Homeless2: Have any spare rooms available? Preferably candle-lit with a hefty supply of booze.
+			BloodMoon1: Hey, nice night! I'm gonna make some Bloody Marys, celery included. Want one?
+			BloodMoon2: More blood for the blood gods!
+			BloodMoon3: Everyone else is so rude tonight. If they don't get over it soon, I'll break down their doors and make them!
+			BloodMoonSlap: Being drunk, I have no moral compass atm.
+			BossAlive: Nothard/10, if I fight bosses I wanna feel like screaming 'OH YES DADDY!' while I die repeatedly.
+			Day1: Like I always say, when you're drunk you can tolerate annoying people a lot more easily...
+			Day2: I'm literally balls drunk off my sass right now.
+			Day3: I'm either laughing because I'm drunk or because I've lost my mind. Probably both.
+			Day4: When I'm drunk I'm way happier...at least until the talking worms start to appear.
+			Day5: I should reprogram the whole game while drunk and send it back to the testers.
+			Day6: What a great day, might just drink so much that I get poisoned again.
+			Night1: A perfect night...for alcohol! First drinks are on me!
+			Night2: Here's a challenge...take a drink whenever you get hit. Oh wait, you'd die.
+			Night3: Well I was planning to light some candles in order to relax...ah well, time to code while drunk.
+			Night4: Yes, everyone knows the mechworm is buggy. Well, not so much anymore, but still.
+			Night5: That's west, {0}. You're fired again.
+			Night6: Are you sure you're 21? ...alright, fine, but don't tell anyone I sold you this.
+			Normal1: Drink something that turns you into a magical flying unicorn so you can be super gay.
+			Normal2: Did anyone ever tell you that large assets cause back pain? Well, they were right.
+			Party: You'll always find me at parties where booze is involved...well, you'll always find booze where I'm involved.
+			Martians: Shoot down the space invaders! Sexy time will be postponed if we are invaded by UFOs!
+			CryogenDefeated: God I can't wait to beat on some ice again!
+			LeviathanDefeated: The only things I'm attracted to are fish women, women, men who look like women and that's it.
+			MoonLordDefeated1: I'll always be watching.
+			MoonLordDefeated2: Why did that weird monster need that many tentacles? ...actually, don't answer that.
+			AcidRain: There's chemicals in the water...and they're turning the frogs gay!
+			PolterghastDefeated: I saw a ghost down by the old train tracks once, flailing wildly at the lily pads, those were the days.
+			DoGDefeated: I hear it's amazing when the famous purple-stuffed worm out in flap-jaw space, with the tuning fork, does a raw blink on Hara-kiri rock. I need scissors! 61!
+			Tavernkeep1: Tell {0} to stop calling me. He's not wanted.
+			Tavernkeep2: My booze will always be better than {0}'s, and nobody can convince me otherwise.
+			Archmage: I never realized how well-endowed {0} was. It had to be the largest icicle I had ever seen.
+			Stylist1: You still can't stop me from trying to move in with {0}.
+			Stylist2: I love it when {0}'s hands get sticky from all that...wax.
+			Stylist3: "{0} works wonders for my hair...among other things."
+			Stylist4: Ever since {0} moved in I haven't been drinking as much...it's a weird feeling.
+			Chibii: Is that a toy? Looks like something I'd carry around if I was 5 years old.
+			Siren: Nice scales...did it get hot in here?
+			Vodka: Oh yeah, now you're drinking the good stuff! Do you like it? I created the recipe by mixing fairy dust, crystals and other magical crap.
+			Alicorn1: So...you're riding me, huh? That's not weird at all.
+			Alicorn2: Are you coming on to me?
+			Alicorn3: If I was a magical horse, I'd be out in space, swirling cocktails, as I watch space worms battle for my enjoyment.
+			DonorShoutout: Hey {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}! You're all pretty good! ...wait, who are you again?
+		}
+
+		DeathCount: You have failed {0} {^0:time;times}.
+		DeathCountButton: Death Count
 	}
 
 	DILF: {
@@ -1997,6 +2187,35 @@ NPCs: {
 		}
 
 		DisplayName: Archmage
+		Census.SpawnCondition: Defeat Cryogen
+		Name.Permafrost: Permafrost
+
+		Chat: {
+			Homeless1: I deeply appreciate you rescuing me from being trapped within my frozen castle... It's been many, many years...
+			Homeless2: Thank you for saving me...though now I admit I am without a home since mine got destroyed.
+			Day1: I must admit...I am not quite used to this weather. It's too warm for my taste...
+			Day2: My dear! What is it you would like to talk about today?
+			Day3: Why...I don't have to worry about any time of the day! If it is hot...then I can use my ice magic to cool down!
+			Day4: I do usually prefer a spot of humidity for my ice magic. It likes to come out as steam when it's too hot and dry...
+			Day5: Magic is a skill that must be learned and practiced! You seem to have an inherent talent for it at your age. I have spent all of my life honing it...
+			Day6: Why ice magic, you ask? Well, my parents were both pyromaniacs...
+			Night1: There be monsters lurking in the darkness. Most...unnatural monsters.
+			Night2: You could break the icy stillness in the air tonight.
+			Night3: Hmm...some would say that an unforeseen outside force is the root of the blood moon...
+			Night4: I was once the greatest Archmage of ice that ever hailed the lands. Whether or not that is still applicable, I am not sure...
+			Night5: There used to be other Archmages of other elements. I wonder where they are now...if they are also alive...
+			Night6: Oh...I wish I could tell you all about my life and the lessons I have learned, but it appears you have a great many things to do...
+			Normal: I assure you, I will do my best to act as the cool grandfather figure you always wanted.
+			Party: Sometimes...I feel like all I'm good for during these events is making ice cubes and slushies.
+			MoonLordDefeated1: Tread carefully, my friend... Now that the Moon Lord has been defeated, many powerful creatures will crawl out to challenge you...
+			MoonLordDefeated2: I feel the balance of nature tilting farther than ever before. Is it due to you, or because of the events leading to now...?
+			PolterghastDefeated: I felt a sudden chill down my spine. I sense something dangerous stirring in the Abyss...
+			YharonDefeated: ...Where is Lord Yharim? He must be up to something...
+			DryadAlive: Yes, I am older than {0}. You can stop asking now...
+			Chibii: What an adorable tiny companion you have! Where in the world did you find such a...creature...? Actually, I'd rather not know.
+			CryogenSoul: "{0}...just between us, I think I forgot my soul in the ice castle. If you see it, please do let me know."
+			Hardmode: It wouldn't be the first time something unknown and powerful dropped from the heavens...I would tread carefully if I were you...
+		}
 	}
 
 	Yharon.DisplayName: Jungle Dragon, Yharon
@@ -6571,6 +6790,7 @@ Items: {
 			On right click, summons a duplicate ring around the targeted enemy, which slowly converges before exploding
 			Revengeance Drop
 			'''
+		Extra: Provides heat and cold protection in Death Mode when in use
 		DisplayName: Cold Divinity
 	}
 
@@ -11193,7 +11413,7 @@ Items: {
 		Tooltip:
 			'''
 			Hexes a possible nearby enemy, trapping them in a brilliant display of destruction
-			This line is modified in ModifyTooltips
+			There's pictures of ponies in the book
 			'''
 		DisplayName: Eternity
 	}
@@ -12133,6 +12353,7 @@ Items: {
 			SENTINEL WARNING TOOLTIP LINE HERE
 			Not consumable
 			'''
+		Warning: WARNING! Some sentinels have not been truly defeated yet and will spawn at full power during this fight!
 		DisplayName: Cosmic Worm
 	}
 
@@ -13094,7 +13315,7 @@ Items: {
 		Tooltip:
 			'''
 			I'll be there in the blink of an eye
-			This line is modified below
+			Press [KEY] to teleport to the position of the mouse
 			Teleportation is disabled while Chaos State is active
 			Boosts movement and fall speed by 10%
 			Works while in the inventory
@@ -14118,6 +14339,8 @@ Items: {
 			Before you have killed your first boss you take 20% less damage from everything.
 			Changes ALL boss AIs and some enemy AIs in vanilla and the Calamity Mod.
 			'''
+		RageLine: Activates rage. When rage is maxed press {0} to activate rage mode.
+		AdrenalineLine: Activates adrenaline. When adrenaline is maxed press {0} to activate adrenaline mode.
 		DisplayName: Revengeance
 	}
 
@@ -15857,6 +16080,17 @@ Items: {
 
 	SummonLevelMeter: {
 		Tooltip: Tells you how high your summon proficiency is
+		Extra:
+			'''
+			Tells you how high your summon proficiency is
+			While equipped you will gain summon proficiency faster
+			The higher your summon level the higher your minion damage, knockback, and slots
+			Summon proficiency (max of 12500): {0}
+			Summon level (max of 15): {1}
+			Minion damage increase: {2}%
+			Minion knockback increase: {3}%
+			Minion slot increase: {4}
+			'''
 		DisplayName: Summon Level Meter
 	}
 
@@ -15872,6 +16106,55 @@ Items: {
 
 	StatMeter: {
 		Tooltip: Displays almost all player stats
+		RealTooltip:
+		    '''
+		    Displays almost all player stats
+		    Offensive stats displayed vary with held item
+		    '''
+		Generic:
+		    ''' 
+		    Defense: {0} | DR: {1}% | Life Regen: {2}
+		    Armor Penetration: {3} | Wing Flight Time: {4} seconds
+            Jump Speed Boost: {5}% | Movement Speed Boost: {6}%
+            
+            Abyss Light Strength: {7}
+		    '''
+		Rippers:
+		    '''
+		    Adrenaline Damage Boost: {0}% | Adrenaline DR Boost: {1}% | Rage Damage Boost: {2}  
+		    '''
+		Melee:
+		    '''
+		    Melee Damage: {0}% | True Melee Damage: {1}% | Melee Crit Chance: {2}%
+		    Melee Speed Boost: {3}%
+		    '''
+		Ranged: 
+		    '''
+		    Ranged Damage: {0}% | Ranged Crit Chance: {1}%
+		    Ammo Consumption Chance: {2}%
+		    '''
+		Magic: 
+		    '''
+		    Magic Damage: {0}% | Magic Crit Chance: {1}%
+		    Mana Usage: {2}% | Mana Regen: {3}
+		    '''
+		Summon: Minion Damage: {0}% | Minion Slots: {1}
+		Rogue: 
+		    '''
+		    Rogue Damage: {0}% | Rogue Crit Chance: {1}%
+		    Rogue Velocity Boost: {2}% | Rogue Weapon Consumption Chance: {3}%
+		    Max Stealth: {4} | Standing Regen: {5} / sec | Moving Regen: {6} / sec")
+		    '''
+		Death: "Abyss/Cave Light Strength: "
+		NonDeath: "Abyss Light Strength: "
+		Abyss: 
+		    '''
+		    Other Abyss Stats:
+            Breath Lost Per Tick: {0} | Breath Loss Rate: {1}
+            Life Lost Per Tick at Zero Breath: {2}
+            Defense Lost: {3}
+		    '''
+		NotInAbyss: Other Abyss stats are only displayed while in the Abyss
 		DisplayName: Stat Meter
 	}
 
@@ -15968,7 +16251,7 @@ Items: {
 		Tooltip:
 			'''
 			The inside of the cloak is full of teeth...
-			TOOLTIP LINE HERE
+			Press [KEY] to consume 25% of your maximum stealth to perform a short range teleport and render you momentarily invulnerable
 			Teleportation is disabled while Chaos State is active
 			If you dodge something while invulnerable, you instantly gain full stealth
 			Revengeance drop
@@ -16038,7 +16321,7 @@ Items: {
 		Tooltip:
 			'''
 			+1 defense and 5% increased movement speed
-			TOOLTIP LINE HERE
+			Press [KEY] to consume 25% of your maximum stealth to create a protective dust veil which provides +6 defense and +2 life regen
 			This effect has a 30 second cooldown before it can be used again
 			'''
 		DisplayName: Sand Cloak
@@ -16098,6 +16381,17 @@ Items: {
 
 	RogueLevelMeter: {
 		Tooltip: Tells you how high your rogue proficiency is
+		Extra:
+			'''
+			Tells you how high your rogue proficiency is
+			While equipped you will gain rogue proficiency faster
+			The higher your rogue level the higher your rogue damage, critical strike chance, and velocity
+			Rogue proficiency (max of 12500): {0}
+			Rogue level (max of 15): {1}
+			Rogue damage increase: {2}%
+			Rogue velocity increase: {3}%
+			Rogue crit increase: {4}%
+			'''
 		DisplayName: Rogue Level Meter
 	}
 
@@ -16124,6 +16418,17 @@ Items: {
 
 	RangedLevelMeter: {
 		Tooltip: Tells you how high your ranged proficiency is
+		Extra:
+			'''
+			Tells you how high your ranged proficiency is
+			While equipped you will gain ranged proficiency faster
+			The higher your ranged level the higher your ranged damage, critical strike chance, and movement speed
+			Ranged proficiency (max of 12500): {0}
+			Ranged level (max of 15): {1}
+			Ranged damage increase: {2}%
+			Movement speed increase: {3}%
+			Ranged crit increase: {4}%
+			'''
 		DisplayName: Ranged Level Meter
 	}
 
@@ -16150,7 +16455,7 @@ Items: {
 			Whenever you crit an enemy with a rogue weapon your rogue damage increases
 			This effect can stack up to 150 times
 			Max rogue damage boost is 15%
-			This line is modified below
+			Rogue Crit Level: [KEY]
 			'''
 		DisplayName: Raider's Talisman
 	}
@@ -16187,6 +16492,12 @@ Items: {
 			Thinking back, it was a boring life
 			[c/FFBF49:And so we burn it all in the name of purity]
 			'''
+		Reject:
+			'''
+			[c/f05a5a:The soul within this crystal has been defiled by the powerful magic of a supreme witch]
+			Merchants will reject a defiled soul such as this.
+			'''
+		ManaCost: "[c/3a83e4:Transforms Magic attacks into a powerful splitting fireball for {0} mana per cast]"
 		DisplayName: Profaned Soul Crystal
 	}
 
@@ -16221,7 +16532,7 @@ Items: {
 			'''
 			5% increased rogue damage
 			15% increased rogue projectile velocity
-			TOOLTIP LINE HEREThis effect has a 3 second cooldown before it can be used again
+			Press [KEY] to consume 25% of your maximum stealth to perform a swift upwards/diagonal dash which leaves a trail of plagued clouds
 			'''
 		DisplayName: Plagued Fuel Pack
 	}
@@ -16308,7 +16619,7 @@ Items: {
 			Whenever you crit an enemy with a rogue weapon your rogue damage increases
 			This effect can stack up to 150 times
 			Max rogue damage boost is 10%
-			This line is modified below
+			Rogue Crit Level: [KEY]
 			'''
 		DisplayName: Nanotech
 	}
@@ -16335,7 +16646,7 @@ Items: {
 	MomentumCapacitor: {
 		Tooltip:
 			'''
-			TOOLTIP LINE HERE
+			Press [KEY] to consume 30% of your maximum stealth to create an energy field at the cursor position
 			Rogue projectiles that enter the field get a constant acceleration and 15% damage boost
 			These boosts can only happen to a projectile once
 			There can only be one field
@@ -16355,6 +16666,17 @@ Items: {
 
 	MeleeLevelMeter: {
 		Tooltip: Tells you how high your melee proficiency is
+		Extra:
+			'''
+			Tells you how high your melee proficiency is
+			While equipped you will gain melee proficiency faster
+			The higher your melee level the higher your melee damage, speed, and critical strike chance
+			Melee proficiency (max of 12500): {0}
+			Melee level (max of 15): {1}
+			Melee damage increase: {2}%
+			Melee speed increase: {3}%
+			Melee crit increase: {4}%
+			'''
 		DisplayName: Melee Level Meter
 	}
 
@@ -16381,6 +16703,17 @@ Items: {
 
 	MagicLevelMeter: {
 		Tooltip: Tells you how high your magic proficiency is
+		Extra:
+			'''
+			Tells you how high your magic proficiency is
+			While equipped you will gain magic proficiency faster
+			The higher your magic level the higher your magic damage, critical strike chance, and the lower your mana cost
+			Magic proficiency (max of 12500): {0}
+			Magic level (max of 15): {1}
+			Magic damage increase: {2}%
+			Mana usage decrease: {3}%
+			Magic crit increase: {4}%
+			'''
 		DisplayName: Magic Level Meter
 	}
 
@@ -16795,7 +17128,7 @@ Items: {
 			+40 max life and increased life regen
 			Grants a supreme holy flame dash
 			Can be used to ram enemies
-			TOOLTIP LINE HERE
+			Press [KEY] to activate buffs to all damage, crit chance, and defense
 			Activating this buff will reduce your movement speed and increase enemy aggro
 			'''
 		DisplayName: Elysian Aegis
@@ -16822,6 +17155,7 @@ Items: {
 			Temporary immunity to lava
 			Increased melee knockback
 			'''
+		Extra: Melee attacks have a chance to instantly kill normal enemies
 		DisplayName: Elemental Gauntlet
 	}
 
@@ -17085,7 +17419,7 @@ Items: {
 			'''
 			Boosts life regen even while under the effects of a damaging debuff
 			While under the effects of a damaging debuff you will gain 20 defense
-			TOOLTIP LINE HERE
+			Press [KEY] to teleport to a random location
 			'''
 		DisplayName: Celestial Jewel
 	}
@@ -17116,7 +17450,7 @@ Items: {
 			'''
 			12% increased rogue damage and 15% increased rogue projectile velocity
 			Summons a red lightning aura to surround the player and electrify nearby enemies
-			TOOLTIP LINE HEREThis effect has a 3 second cooldown before it can be used again
+			Press [KEY] to consume 25% of your maximum stealth to perform a swift upwards/diagonal dash which leaves a trail of lightning bolts
 			'''
 		DisplayName: Blunder Booster
 	}
@@ -17211,7 +17545,7 @@ Items: {
 			If this effect triggers you get healed for the projectile's damage
 			Boosts life regen even while under the effects of a damaging debuff
 			While under the effects of a damaging debuff you will gain 20 defense
-			TOOLTIP LINE HERE
+			Press [KEY] to toggle teleportation UI
 			'''
 		DisplayName: Astral Arcanum
 	}
@@ -17236,7 +17570,7 @@ Items: {
 			+40 max life
 			Grants a supreme holy flame dash
 			Can be used to ram enemies
-			TOOLTIP LINE HERE
+			Press [KEY] to activate buffs to all damage, crit chance, and defense
 			Activating this buff will reduce your movement speed and increase enemy aggro
 			10% damage reduction while submerged in liquid
 			'''

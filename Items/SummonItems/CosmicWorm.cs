@@ -41,7 +41,7 @@ namespace CalRD.Items.SummonItems
 				if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
 				{
 					bool sentinelsNotDefeated = !CalamityWorld.downedSentinel1 || !CalamityWorld.downedSentinel2 || !CalamityWorld.downedSentinel3;
-					line2.Text = sentinelsNotDefeated ? "WARNING! Some sentinels have not been truly defeated yet and will spawn at full power during this fight!" : "";
+					line2.Text = sentinelsNotDefeated ? this.GetLocalizedValue("Warning") : "";
 				}
 			}
 		}
@@ -53,7 +53,7 @@ namespace CalRD.Items.SummonItems
 
         public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
         {
-            string key = "You are no god...but I shall feast upon your essence regardless!";
+            string key = "Mods.CalRD.ClassicKeys.EdgyBossText12";
             Color messageColor = Color.Cyan;
             CalamityUtils.DisplayLocalizedText(key, messageColor);
 

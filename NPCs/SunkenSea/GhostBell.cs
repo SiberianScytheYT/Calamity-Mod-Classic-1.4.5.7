@@ -27,7 +27,7 @@ namespace CalRD.NPCs.SunkenSea
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("Electric jellyfish that drift gently in the sunken sea, their bodies are charged with electricity.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.GhostBell")
             });
         }
 

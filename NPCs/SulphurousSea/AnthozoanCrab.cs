@@ -34,7 +34,7 @@ namespace CalRD.NPCs.SulphurousSea
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
             {
-                new FlavorTextBestiaryInfoElement("A strong, territorial crab that hurls boulders to anything that approaches its territory.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.AnthozoanCrab")
             });
         }
 

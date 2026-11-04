@@ -67,7 +67,7 @@ namespace CalRD.NPCs.PlaguebringerGoliath
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
-		        new FlavorTextBestiaryInfoElement("A queen bee that has fallen victim to the plague, now it carries out its directives as its strongest soldier.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.PlaguebringerGoliath")
 	        });
         }
 
@@ -162,7 +162,7 @@ namespace CalRD.NPCs.PlaguebringerGoliath
             // Show message
             if (!halfLife && lifeRatio < 0.5f && expertMode)
             {
-                string key = "PLAGUE NUKE BARRAGE ARMED, PREPARING FOR LAUNCH!!!";
+                string key = "Mods.CalRD.ClassicKeys.PlagueBossText";
                 Color messageColor = Color.Lime;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
 

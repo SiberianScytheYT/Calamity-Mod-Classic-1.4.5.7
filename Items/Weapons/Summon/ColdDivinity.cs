@@ -55,8 +55,8 @@ namespace CalRD.Items.Weapons.Summon
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip7")
 					{
-						line2.Text = "Provides heat and cold protection in Death Mode when in use\n" +
-						"Revengeance Drop";
+						line2.Text = this.GetLocalizedValue("Extra") + "\n" +
+						CalamityUtils.GetTextValue("Misc.RevDrop");
 					}
 				}
 			}

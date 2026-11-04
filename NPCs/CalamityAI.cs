@@ -1138,7 +1138,7 @@ namespace CalRD.NPCs
 			if (lifeRatio <= 0.75f && Main.netMode != NetmodeID.MultiplayerClient && !phase2)
 			{
 				NPC.NewNPC(npc.GetSource_FromThis(), (int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<CalamitasRun3>(), npc.whoAmI);
-				string key = "You underestimate my power...";
+				string key = "Mods.CalRD.ClassicKeys.CalamitasBossText";
 				Color messageColor = Color.Orange;
 				CalamityUtils.DisplayLocalizedText(key, messageColor);
 				npc.active = false;
@@ -1176,7 +1176,7 @@ namespace CalRD.NPCs
 						}
 					}
 
-					string key = "Impressive child, most impressive...";
+					string key = "Mods.CalRD.ClassicKeys.CalamitasBossText3";
 					Color messageColor = Color.Orange;
 					CalamityUtils.DisplayLocalizedText(key, messageColor);
 
@@ -1200,7 +1200,7 @@ namespace CalRD.NPCs
 								NPC.NewNPC(npc.GetSource_FromThis(), (int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<CalamitasRun>(), npc.whoAmI);
 								NPC.NewNPC(npc.GetSource_FromThis(), (int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<CalamitasRun2>(), npc.whoAmI);
 
-								string key = "The brothers have been reborn!";
+								string key = "Mods.CalRD.ClassicKeys.CalamitasBossText2";
 								Color messageColor = Color.Orange;
 								CalamityUtils.DisplayLocalizedText(key, messageColor);
 							}

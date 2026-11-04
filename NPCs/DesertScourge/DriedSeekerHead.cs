@@ -32,7 +32,7 @@ namespace CalRD.NPCs.DesertScourge
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
-                new FlavorTextBestiaryInfoElement("A small sea serpent that suffered much the same fate as the Desert Scourge, it serves as a companion in its endless search for food.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.DriedSeeker")
             });
         }
 

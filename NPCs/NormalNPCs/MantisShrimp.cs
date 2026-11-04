@@ -27,7 +27,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-                new FlavorTextBestiaryInfoElement("These shrimp possess one of the deadliest punches in nature, rivalling the strength of a bullet, and easily breaking sturdy shells.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.MantisShrimp")
             });
         }
 

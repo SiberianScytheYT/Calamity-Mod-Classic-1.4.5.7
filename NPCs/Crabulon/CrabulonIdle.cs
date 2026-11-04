@@ -49,7 +49,7 @@ namespace CalRD.NPCs.Crabulon
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundMushroom,
-		        new FlavorTextBestiaryInfoElement("Once an ocean crab that migrated towards the underground caves that resembled its home the most... It met an unfortunate fate, now a walking puppet of the shrooms.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Crabulon")
 	        });
         }
 

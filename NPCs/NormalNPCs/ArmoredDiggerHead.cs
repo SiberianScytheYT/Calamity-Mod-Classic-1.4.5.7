@@ -34,7 +34,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
-                new FlavorTextBestiaryInfoElement("A mechanical worm constructed by Draedon for the purposes of extracting resources... but it's been abandoned.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.ArmoredDigger")
             });
         }
 

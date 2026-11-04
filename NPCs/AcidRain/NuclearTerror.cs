@@ -53,7 +53,7 @@ namespace CalRD.NPCs.AcidRain
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("A terrifyingly powerful creature that only makes itself known once the worst has come.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.NuclearTerror")
             });
         }
 

@@ -51,7 +51,7 @@ namespace CalRD.NPCs.SunkenSea
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("An oversized clam large enough to trap a person within it. It might make a good shield, who knows?")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.GiantClam")
             });
         }
 

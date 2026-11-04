@@ -58,7 +58,7 @@ namespace CalRD.UI
 					int stealthInt = (int)Math.Round(modPlayer.rogueStealth * 100f);
 					int maxStealthInt = (int)Math.Round(modPlayer.rogueStealthMax * 100f);
 					//only way I got this to show up consistently, otherwise it fucked up and showed up anywhere onscreen lol.
-					Main.instance.MouseText("Stealth: " + stealthInt + "/" + maxStealthInt + "", 0, 0, -1, -1, -1, -1);
+					Main.instance.MouseText($"{CalamityUtils.GetTextValue("UI.Stealth")}: " + stealthInt + "/" + maxStealthInt + "", 0, 0, -1, -1, -1, -1);
 					modPlayer.stealthUIAlpha = MathHelper.Lerp(modPlayer.stealthUIAlpha, 0.25f, 0.035f);
 				}
 			}

@@ -40,7 +40,7 @@ namespace CalRD.NPCs.GreatSandShark
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
-                new FlavorTextBestiaryInfoElement("Even in a foreign environment, these persistent sharks have managed to thrive and made themselves a comfortable home.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.GreatSandShark")
             });
         }
 

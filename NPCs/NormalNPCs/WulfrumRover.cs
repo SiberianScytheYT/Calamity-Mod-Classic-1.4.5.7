@@ -58,7 +58,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.DayTime,
-                new FlavorTextBestiaryInfoElement("A small machine of unknown origin, they roam the lands with great duty and curiosity.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.WulfrumRover")
             });
         }
 

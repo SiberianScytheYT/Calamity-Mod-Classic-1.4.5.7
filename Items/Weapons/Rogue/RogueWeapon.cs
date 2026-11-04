@@ -118,7 +118,7 @@ namespace CalRD.Items.Weapons.Rogue
 				string[] splitText = tt.Text.Split(' ');
 				string damageValue = splitText.First();
 				string damageWord = splitText.Last();
-				tt.Text = damageValue + " rogue " + damageWord;
+				tt.Text = CalamityUtils.GetText("Misc.RogueDamageLine").Format(damageValue, damageWord);
 			}
 		}
 		/*

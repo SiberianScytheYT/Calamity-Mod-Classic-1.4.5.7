@@ -25,7 +25,7 @@ namespace CalRD.NPCs.AcidRain
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("It ingests the potent toxins found in its home and displays them on its back, touching them would be a bad idea.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Radiator")
             });
         }
 

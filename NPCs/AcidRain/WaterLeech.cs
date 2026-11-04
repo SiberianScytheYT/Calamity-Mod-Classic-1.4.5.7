@@ -29,7 +29,7 @@ namespace CalRD.NPCs.AcidRain
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("They eagerly swim to any prey they can find thanks to their great sense of smell, sucking the blood out of their host and at once also injecting venom onto them.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.WaterLeech")
             });
         }
 

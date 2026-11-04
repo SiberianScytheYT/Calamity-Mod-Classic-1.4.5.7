@@ -51,7 +51,7 @@ namespace CalRD.NPCs.Abyss
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 new MoonLordPortraitBackgroundProviderBestiaryInfoElement(),
-                new FlavorTextBestiaryInfoElement("Colossal creatures lurking within the void of the deepest layer of the Abyss.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.AdultEidolonWyrm")
             });
         }
 

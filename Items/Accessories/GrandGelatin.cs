@@ -34,9 +34,9 @@ namespace CalRD.Items.Accessories
 			string jumpAmt = autoJump ? "10" : "40";
             foreach (TooltipLine line2 in list)
             {
-                if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
+                if (line2.Mod == "Terraria" && line2.Text.Contains("40%"))
                 {
-                    line2.Text = jumpAmt + "% increased jump speed";
+                    line2.Text = line2.Text.Replace("40", jumpAmt);
                 }
             }
         }

@@ -23,7 +23,7 @@ namespace CalRD.NPCs.NormalNPCs
 			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 			{
 				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
-				new FlavorTextBestiaryInfoElement("A small scouter saucer from a distant civilization, yet still very aggressive. Hopefully the rest of them aren't like that!")
+				new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.ShockstormShuttle")
 			});
 		}
 

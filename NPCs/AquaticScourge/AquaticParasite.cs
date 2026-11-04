@@ -20,7 +20,7 @@ namespace CalRD.NPCs.AquaticScourge
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("Small yet agile creatures, these creatures can leap out of the water to reach their prey.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.AquaticParasite")
             });
         }
 

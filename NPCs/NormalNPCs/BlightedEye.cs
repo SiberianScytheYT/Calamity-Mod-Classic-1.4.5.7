@@ -24,7 +24,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
-                new FlavorTextBestiaryInfoElement("An eye with similar behaviour to the Demon Eye.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.BlightedEye")
             });
         }
 

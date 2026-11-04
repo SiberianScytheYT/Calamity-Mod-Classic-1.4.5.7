@@ -40,9 +40,7 @@ namespace CalRD.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "5% increased magic damage\n" +
-                "You have a 10% chance to absorb physical attacks and projectiles when hit\n" +
-                "If you absorb an attack you are healed for 1/2 of that attack's damage";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.DaedalusHat");
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.daedalusAbsorb = true;
             player.GetDamage(DamageClass.Magic) += 0.05f;

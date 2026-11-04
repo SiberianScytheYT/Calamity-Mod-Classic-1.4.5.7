@@ -43,7 +43,7 @@ namespace CalRD.NPCs.Leviathan
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
 		        
-		        new FlavorTextBestiaryInfoElement("This elemental was known for her immense power and mastery of water in her home. But that was long ago.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Anahita")
 	        }); 
         }
 

@@ -5,6 +5,7 @@ using CalRD.Projectiles.Typeless;
 using CalRD.World;
 using System.Collections.Generic;
 using CalRD.Utilities;
+using Humanizer;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.Bestiary;
@@ -57,7 +58,7 @@ namespace CalRD.NPCs.TownNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-                new FlavorTextBestiaryInfoElement("The Creator")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.DrunkPrincess")
             });
         }
 
@@ -83,22 +84,16 @@ namespace CalRD.NPCs.TownNPCs
             return CalamityWorld.spawnedCirrus;
         }
 
-        public override List<string> SetNPCNameList()/* tModPorter Suggestion: Return a list of names */
-        {
-            return new List<string>() {"Cirrus"};
-        }
+        public override List<string> SetNPCNameList() => new List<string>() {this.GetLocalizedValue("Name.Cirrus")};
 
         public override string GetChat()
         {
             if (BossRushEvent.BossRushActive)
-                return "Why are you talking to me right now? Either way, I expect you to turn in a perfect performance!";
+                return this.GetLocalizedValue("Chat.BossRush");
 
             if (NPC.homeless)
             {
-                if (Main.rand.NextBool(2))
-                    return "I could smell my vodka from MILES away!";
-                else
-                    return "Have any spare rooms available? Preferably candle-lit with a hefty supply of booze.";
+                this.GetLocalizedValue("Chat.Homeless" + Main.rand.Next(1, 2 + 1));
             }
 
             if (Main.bloodMoon)
@@ -106,111 +101,111 @@ namespace CalRD.NPCs.TownNPCs
                 int random = Main.rand.Next(4);
                 if (random == 0)
                 {
-                    return "Hey, nice night! I'm gonna make some Bloody Marys, celery included. Want one?";
+                    return this.GetLocalizedValue("Chat.BloodMoon1");
                 }
                 else if (random == 1)
                 {
-                    return "More blood for the blood gods!";
+                    return this.GetLocalizedValue("Chat.BloodMoon2");
                 }
                 else if (random == 2)
                 {
-                    return "Everyone else is so rude tonight. If they don't get over it soon, I'll break down their doors and make them!";
+                    return this.GetLocalizedValue("Chat.BloodMoon3");
                 }
                 else
                 {
-                    Main.player[Main.myPlayer].Hurt(PlayerDeathReason.ByCustomReason(Main.player[Main.myPlayer].name + " was slapped too hard."), Main.player[Main.myPlayer].statLife / 2, -Main.player[Main.myPlayer].direction, false, false, 0, false);
-                    return "Being drunk, I have no moral compass atm.";
+                    Main.player[Main.myPlayer].Hurt(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Slap").Format(Main.player[Main.myPlayer].name)), Main.player[Main.myPlayer].statLife / 2, -Main.player[Main.myPlayer].direction, false, false, 0, false);
+                    return this.GetLocalizedValue("Chat.BloodMoonSlap");
                 }
             }
 
             if (CalamityGlobalNPC.AnyBossNPCS())
-                return "Nothard/10, if I fight bosses I wanna feel like screaming 'OH YES DADDY!' while I die repeatedly.";
+                return this.GetLocalizedValue("Chat.BossAlive");
 
             IList<string> dialogue = new List<string>();
 
             if (Main.dayTime)
             {
-                dialogue.Add("Like I always say, when you're drunk you can tolerate annoying people a lot more easily...");
-                dialogue.Add("I'm literally balls drunk off my sass right now.");
-                dialogue.Add("I'm either laughing because I'm drunk or because I've lost my mind. Probably both.");
-                dialogue.Add("When I'm drunk I'm way happier...at least until the talking worms start to appear.");
-                dialogue.Add("I should reprogram the whole game while drunk and send it back to the testers.");
-                dialogue.Add("What a great day, might just drink so much that I get poisoned again.");
+                dialogue.Add(this.GetLocalizedValue("Chat.Day1"));
+                dialogue.Add(this.GetLocalizedValue("Chat.Day2"));
+                dialogue.Add(this.GetLocalizedValue("Chat.Day3"));
+                dialogue.Add(this.GetLocalizedValue("Chat.Day4"));
+                dialogue.Add(this.GetLocalizedValue("Chat.Day5"));
+                dialogue.Add(this.GetLocalizedValue("Chat.Day6"));
             }
             else
             {
-                dialogue.Add("A perfect night...for alcohol! First drinks are on me!");
-                dialogue.Add("Here's a challenge...take a drink whenever you get hit. Oh wait, you'd die.");
-                dialogue.Add("Well I was planning to light some candles in order to relax...ah well, time to code while drunk.");
-                dialogue.Add("Yes, everyone knows the mechworm is buggy. Well, not so much anymore, but still.");
-                dialogue.Add("That's west, " + Main.player[Main.myPlayer].name + ". You're fired again.");
-                dialogue.Add("Are you sure you're 21? ...alright, fine, but don't tell anyone I sold you this.");
+                dialogue.Add(this.GetLocalizedValue("Chat.Night1"));
+                dialogue.Add(this.GetLocalizedValue("Chat.Night2"));
+                dialogue.Add(this.GetLocalizedValue("Chat.Night3"));
+                dialogue.Add(this.GetLocalizedValue("Chat.Night4"));
+                dialogue.Add(this.GetLocalization("Chat.Night5").Format(Main.player[Main.myPlayer].name));
+                dialogue.Add(this.GetLocalizedValue("Chat.Night6"));
             }
 
-            dialogue.Add("Drink something that turns you into a magical flying unicorn so you can be super gay.");
-            dialogue.Add("Did anyone ever tell you that large assets cause back pain? Well, they were right.");
+            dialogue.Add(this.GetLocalizedValue("Chat.Normal1"));
+            dialogue.Add(this.GetLocalizedValue("Chat.Normal2"));
 
             if (BirthdayParty.PartyIsUp)
-                dialogue.Add("You'll always find me at parties where booze is involved...well, you'll always find booze where I'm involved.");
+                dialogue.Add(this.GetLocalizedValue("Chat.Party"));
 
             if (Main.invasionType == InvasionID.MartianMadness)
-                dialogue.Add("Shoot down the space invaders! Sexy time will be postponed if we are invaded by UFOs!");
+                dialogue.Add(this.GetLocalizedValue("Chat.Martians"));
 
             if (CalamityWorld.downedCryogen)
-                dialogue.Add("God I can't wait to beat on some ice again!");
+                dialogue.Add(this.GetLocalizedValue("Chat.CryogenDefeated"));
 
             if (CalamityWorld.downedLeviathan)
-                dialogue.Add("The only things I'm attracted to are fish women, women, men who look like women and that's it.");
+                dialogue.Add(this.GetLocalizedValue("Chat.LeviathanDefeated"));
 
             if (NPC.downedMoonlord)
             {
-                dialogue.Add("I'll always be watching.");
-                dialogue.Add("Why did that weird monster need that many tentacles? ...actually, don't answer that.");
+                dialogue.Add(this.GetLocalizedValue("Chat.MoonLordDefeated1"));
+                dialogue.Add(this.GetLocalizedValue("Chat.MoonLordDefeated2"));
             }
 
 			if (CalamityWorld.rainingAcid)
-                dialogue.Add("There's chemicals in the water...and they're turning the frogs gay!");
+                dialogue.Add(this.GetLocalizedValue("Chat.AcidRain"));
 
             if (CalamityWorld.downedPolterghast)
-                dialogue.Add("I saw a ghost down by the old train tracks once, flailing wildly at the lily pads, those were the days.");
+                dialogue.Add(this.GetLocalizedValue("Chat.PolterghastDefeated"));
 
             if (CalamityWorld.downedDoG)
-                dialogue.Add("I hear it's amazing when the famous purple-stuffed worm out in flap-jaw space, with the tuning fork, does a raw blink on Hara-kiri rock. I need scissors! 61!");
+                dialogue.Add(this.GetLocalizedValue("Chat.DoGDefeated"));
 
             int tavernKeep = NPC.FindFirstNPC(NPCID.DD2Bartender);
             if (tavernKeep != -1)
             {
-                dialogue.Add("Tell " + Main.npc[tavernKeep].GivenName + " to stop calling me. He's not wanted.");
-                dialogue.Add("My booze will always be better than " + Main.npc[tavernKeep].GivenName + "'s, and nobody can convince me otherwise.");
+                dialogue.Add(this.GetLocalization("Chat.Tavernkeep1").Format(Main.npc[tavernKeep].GivenName));
+                dialogue.Add(this.GetLocalization("Chat.Tavernkeep2").Format(Main.npc[tavernKeep].GivenName));
             }
 
             int permadong = NPC.FindFirstNPC(ModContent.NPCType<DILF>());
             if (permadong != -1)
-                dialogue.Add("I never realized how well-endowed " + Main.npc[permadong].GivenName + " was. It had to be the largest icicle I had ever seen.");
+                dialogue.Add(this.GetLocalization("Chat.Archmage").Format(Main.npc[permadong].GivenName));
 
             int waifu = NPC.FindFirstNPC(NPCID.Stylist);
             if (waifu != -1)
             {
-                dialogue.Add("You still can't stop me from trying to move in with " + Main.npc[waifu].GivenName + ".");
-                dialogue.Add("I love it when " + Main.npc[waifu].GivenName + "'s hands get sticky from all that...wax.");
-                dialogue.Add(Main.npc[waifu].GivenName + " works wonders for my hair...among other things.");
-				dialogue.Add("Ever since " + Main.npc[waifu].GivenName + " moved in I haven't been drinking as much...it's a weird feeling.");
+                dialogue.Add(this.GetLocalization("Chat.Stylist1").Format(Main.npc[waifu].GivenName));
+                dialogue.Add(this.GetLocalization("Chat.Stylist2").Format(Main.npc[waifu].GivenName));
+                dialogue.Add(this.GetLocalization("Chat.Stylist3").Format(Main.npc[waifu].GivenName));
+				dialogue.Add(this.GetLocalization("Chat.Stylist4").Format(Main.npc[waifu].GivenName));
 			}
 
             if (Main.player[Main.myPlayer].Calamity().chibii)
-                dialogue.Add("Is that a toy? Looks like something I'd carry around if I was 5 years old.");
+                dialogue.Add(this.GetLocalizedValue("Chat.Chibii"));
 
             if (Main.player[Main.myPlayer].Calamity().sirenBoobs && !Main.player[Main.myPlayer].Calamity().sirenBoobsHide)
-                dialogue.Add("Nice scales...did it get hot in here?");
+                dialogue.Add(this.GetLocalizedValue("Chat.Siren"));
 
             if (Main.player[Main.myPlayer].Calamity().fabsolVodka)
-                dialogue.Add("Oh yeah, now you're drinking the good stuff! Do you like it? I created the recipe by mixing fairy dust, crystals and other magical crap.");
+                dialogue.Add(this.GetLocalizedValue("Chat.Vodka"));
 
             if (Main.player[Main.myPlayer].Calamity().fab)
             {
-                dialogue.Add("So...you're riding me, huh? That's not weird at all.");
-                dialogue.Add("Are you coming on to me?");
-                dialogue.Add("If I was a magical horse, I'd be out in space, swirling cocktails, as I watch space worms battle for my enjoyment.");
+                dialogue.Add(this.GetLocalizedValue("Chat.Alicorn1"));
+                dialogue.Add(this.GetLocalizedValue("Chat.Alicorn2"));
+                dialogue.Add(this.GetLocalizedValue("Chat.Alicorn3"));
             }
 
 			IList<string> donorList = new List<string>(CalamityLists.donatorList);
@@ -221,22 +216,20 @@ namespace CalRD.NPCs.TownNPCs
 				donorList.Remove(donors[i]);
 			}
 
-			dialogue.Add("Hey " + donors[0] + ", " + donors[1] + ", " + donors[2] + ", " + donors[3] + ", " + donors[4] + ", " + donors[5] + ", " + donors[6] +
-				", " + donors[7] + ", " + donors[8] + ", " + donors[9] + ", " + donors[10] + " and " + donors[11] + "! You're all pretty good! ...wait, who are you again?");
+			dialogue.Add(this.GetLocalization("DonorShoutout").Format(donors));
 
             return dialogue[Main.rand.Next(dialogue.Count)];
         }
 
         public string Death()
         {
-            return "You have failed " + Main.player[Main.myPlayer].Calamity().deathCount +
-                (Main.player[Main.myPlayer].Calamity().deathCount == 1 ? " time." : " times.");
+            return this.GetLocalization("DeathCount").Format(Main.player[Main.myPlayer].Calamity().deathCount);
         }
 
         public override void SetChatButtons(ref string button, ref string button2)
         {
             button = Language.GetTextValue("LegacyInterface.28");
-            button2 = "Death Count";
+            button2 = this.GetLocalizedValue("DeathCountButton");
         }
 
         public override void OnChatButtonClicked(bool firstButton, ref string shopName)
@@ -254,7 +247,6 @@ namespace CalRD.NPCs.TownNPCs
 
         public override void AddShops() //charges 50% extra than the original item value
         {
-            Condition downedAstrageldon = ShopHelper.Create("downedAstrageldon", () => CalamityWorld.downedAstrageldon);
 	        NPCShop shop = new(Type);
             shop.AddWithCustomValue(ModContent.ItemType<GrapeBeer>(), Item.buyPrice(0, 1, 0, 0))
             .AddWithCustomValue(ModContent.ItemType<RedWine>(), Item.buyPrice(0, 3, 0, 0))
@@ -272,10 +264,10 @@ namespace CalRD.NPCs.TownNPCs
             .AddWithCustomValue(ModContent.ItemType<CaribbeanRum>(), Item.buyPrice(0, 30, 0, 0), Condition.DownedPlantera)
             .AddWithCustomValue(ModContent.ItemType<Margarita>(), Item.buyPrice(0, 35, 0, 0), Condition.DownedPlantera)
             
-            .AddWithCustomValue(ModContent.ItemType<Everclear>(), Item.buyPrice(0, 10, 0, 0), downedAstrageldon)
+            .AddWithCustomValue(ModContent.ItemType<Everclear>(), Item.buyPrice(0, 10, 0, 0), CalamityGlobalTownNPC.downedAstrageldon)
 
-            .AddWithCustomValue(ModContent.ItemType<BloodyMary>(), Item.buyPrice(0, 15, 0, 0), Condition.BloodMoon, downedAstrageldon)
-            .AddWithCustomValue(ModContent.ItemType<StarBeamRye>(), Item.buyPrice(0, 20, 0, 0), Condition.TimeNight, downedAstrageldon)
+            .AddWithCustomValue(ModContent.ItemType<BloodyMary>(), Item.buyPrice(0, 15, 0, 0), Condition.BloodMoon, CalamityGlobalTownNPC.downedAstrageldon)
+            .AddWithCustomValue(ModContent.ItemType<StarBeamRye>(), Item.buyPrice(0, 20, 0, 0), Condition.TimeNight, CalamityGlobalTownNPC.downedAstrageldon)
 
 			.AddWithCustomValue(ModContent.ItemType<Moonshine>(), Item.buyPrice(0, 5, 0, 0), Condition.DownedGolem)
             .AddWithCustomValue(ModContent.ItemType<MoscowMule>(), Item.buyPrice(0, 25, 0, 0), Condition.DownedGolem)

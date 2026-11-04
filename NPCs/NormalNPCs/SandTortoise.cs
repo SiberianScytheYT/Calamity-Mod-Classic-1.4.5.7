@@ -19,7 +19,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundDesert,
-                new FlavorTextBestiaryInfoElement("Like their jungle and tundra cousins, they prove quite the serious threat with their high speed lunges.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.SandTortoise")
             });
         }
 

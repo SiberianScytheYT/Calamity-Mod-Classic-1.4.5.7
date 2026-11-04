@@ -22,7 +22,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
-                new FlavorTextBestiaryInfoElement("A slime infused with Uelibloom Ore, it's almost indistinguishable!")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.BloomSlime")
             });
         }
 

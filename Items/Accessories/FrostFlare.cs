@@ -43,8 +43,8 @@ namespace CalRD.Items.Accessories
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip5")
 					{
-						line2.Text = "Provides heat and cold protection in Death Mode\n" +
-						"Revengeance drop";
+						line2.Text = CalamityUtils.GetTextValue("Misc.HeatColdProtection") + "\n" +
+						             CalamityUtils.GetTextValue("Misc.RevDrop");
 					}
 				}
 			}

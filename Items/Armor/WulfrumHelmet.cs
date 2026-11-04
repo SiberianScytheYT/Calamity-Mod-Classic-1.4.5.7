@@ -32,8 +32,7 @@ namespace CalRD.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "+3 defense\n" +
-                "+5 defense when below 50% life";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.WulfrumHelmet");
             player.statDefense += 3; //8
             if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
             {

@@ -48,7 +48,7 @@ namespace CalRD.NPCs.Abyss
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("A massive eel that resides within the deeper levels of the abyss; Its jaws can extend to an unnatural degree which allows it to swallow prey completely unnoticed.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.GulperEelHead")
             });
         }
 

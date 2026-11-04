@@ -22,7 +22,7 @@ namespace CalRD.NPCs.AcidRain
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("An unnaturally large worm... and a great feast for any fish mad or wise enough to go for it.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Bloodworm")
             });
         }
 

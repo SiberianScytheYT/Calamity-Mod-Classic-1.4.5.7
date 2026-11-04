@@ -33,7 +33,7 @@ namespace CalRD.NPCs.Leviathan
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-		        new FlavorTextBestiaryInfoElement("An mysterious being... perhaps it's hiding something?")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.LeviathanStart")
 	        });
         }
 

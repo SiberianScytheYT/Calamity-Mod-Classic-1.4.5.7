@@ -31,7 +31,7 @@ namespace CalRD.NPCs.NormalNPCs
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
-		        new FlavorTextBestiaryInfoElement("We're not doing this again.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.PhantomDebris")
 	        });
         }
 

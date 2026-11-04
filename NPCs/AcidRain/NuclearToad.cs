@@ -30,7 +30,7 @@ namespace CalRD.NPCs.AcidRain
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("When threatened, they burst in an attempt to save the rest of their species.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.NuclearToad")
             });
         }
 

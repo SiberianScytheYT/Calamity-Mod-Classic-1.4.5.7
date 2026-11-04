@@ -49,7 +49,7 @@ namespace CalRD.NPCs.Bumblebirb
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
-		        new FlavorTextBestiaryInfoElement("Failed clones of the Tyrant's loyal dragon, they were released onto the wild on accident, now roaming the jungle unopposed.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Dragonfolly")
 	        });
         }
 

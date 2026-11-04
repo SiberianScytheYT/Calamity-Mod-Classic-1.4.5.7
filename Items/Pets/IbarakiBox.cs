@@ -52,14 +52,14 @@ namespace CalRD.Items.Pets
 					if (!player.Calamity().healToFull)
 					{
 						player.Calamity().healToFull = true;
-						string key = "You have been blessed by the Third Sage!";
+						string key = "Mods.CalRD.ClassicKeys.ThirdSageBlessingText";
 						Color messageColor = Color.Violet;
 						Main.NewText(Language.GetTextValue(key), messageColor);
 					}
 					else
 					{
 						player.Calamity().healToFull = false;
-						string key2 = "The Third Sage has rescinded its blessing...";
+						string key2 = "Mods.CalRD.ClassicKeys.ThirdSageBlessingText2";
 						Color messageColor2 = Color.Violet;
 						Main.NewText(Language.GetTextValue(key2), messageColor2);
 					}

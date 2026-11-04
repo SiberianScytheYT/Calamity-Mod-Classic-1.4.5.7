@@ -36,7 +36,7 @@ namespace CalRD.NPCs.AcidRain
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("The slimes in the region grow more powerful as the sea's condition worsens more and more.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.GammaSlime")
             });
         }
 

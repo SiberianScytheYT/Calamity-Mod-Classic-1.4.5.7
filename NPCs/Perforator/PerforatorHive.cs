@@ -49,7 +49,7 @@ namespace CalRD.NPCs.Perforator
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
-		        new FlavorTextBestiaryInfoElement("Birthed in the crimson, though unknown if it's a servant of it, as its worms tear through the crimson flesh regularly.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.PerforatorHive")
 	        });
         }
 
@@ -419,7 +419,7 @@ namespace CalRD.NPCs.Perforator
 	        // If neither The Hive Mind nor The Perforator Hive have been killed yet, notify players of Aerialite Ore
 	        if (!CalamityWorld.downedHiveMind && !CalamityWorld.downedPerforator)
 	        {
-		        string key = "The ground is glittering with cyan light.";
+		        string key = "Mods.CalRD.ClassicKeys.SkyOreText";
 		        Color messageColor = Color.Cyan;
 		        WorldGenerationMethods.SpawnOre(ModContent.TileType<AerialiteOre>(), 12E-05, .4f, .6f);
 

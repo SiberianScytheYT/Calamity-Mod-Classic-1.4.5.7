@@ -40,7 +40,7 @@ namespace CalRD.NPCs.Astral
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("These sand sharks have been completely overriden with the infection's knowledge, and what was once hunger has become thirst for distant stars.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.FusionFeeder")
             });
         }
 

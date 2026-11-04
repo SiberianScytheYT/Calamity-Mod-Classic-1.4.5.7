@@ -526,6 +526,20 @@ namespace CalRD
 			else if (Main.netMode == NetmodeID.Server)
 				ChatHelper.BroadcastChatMessage(NetworkText.FromKey(key), textColor.Value);
 		}
+		
+		/// <param name="key">The language key. This will have "Mods.CalRD." appended behind it.</param>
+		/// <returns>
+		/// A <see cref="LocalizedText"/> instance found using the provided key with "Mods.CalRD." appended behind it. 
+		/// <para>NOTE: Modded translations are not loaded until after PostSetupContent.</para>Caching the result is suggested.
+		/// </returns>
+		public static LocalizedText GetText(string key) => Language.GetOrRegister("Mods.CalRD." + key);
+
+		/// <param name="key">The language key. This will have "Mods.CalRD." appended behind it.</param>
+		/// <returns>
+		/// A <see cref="string"/> instance found using the provided key with "Mods.CalRD." appended behind it.
+		/// <para>NOTE: Modded translations are not loaded until after PostSetupContent.</para>Caching the result is suggested.
+		/// </returns>
+		public static string GetTextValue(string key) => Language.GetTextValue("Mods.CalRD." + key);
 
 		/// Inflict typical exo weapon debuffs. Duration multiplier optional.
 		/// </summary>

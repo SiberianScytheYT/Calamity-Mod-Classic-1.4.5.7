@@ -22,7 +22,7 @@ namespace CalRD.NPCs.Crags
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-                new FlavorTextBestiaryInfoElement("A construct made from Brimstone Slag, it's said that its volatile movements are the result of the souls it contains fighting to get out.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.DespairStone")
             });
         }
 

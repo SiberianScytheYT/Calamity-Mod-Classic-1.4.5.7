@@ -22,7 +22,7 @@ namespace CalRD.NPCs.Crags
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-                new FlavorTextBestiaryInfoElement("A devotee brought to madness by the power of the brimstone flame.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.CultistAssassin")
             });
         }
 

@@ -45,7 +45,7 @@ namespace CalRD.Items.DifficultyItems
 
             if (CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive)
 			{
-                string key = "You cannot change the rules now.";
+                string key = "Mods.CalRD.ClassicKeys.ChangingTheRules";
                 Color messageColor = Color.DarkSeaGreen;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
 				return true;
@@ -53,14 +53,14 @@ namespace CalRD.Items.DifficultyItems
             if (!CalamityWorld.defiled)
             {
                 CalamityWorld.defiled = true;
-                string key = "Your soul is mine...";
+                string key = "Mods.CalRD.ClassicKeys.DefiledText";
                 Color messageColor = Color.DarkSeaGreen;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
             else
             {
                 CalamityWorld.defiled = false;
-                string key = "Your soul is yours once more...";
+                string key = "Mods.CalRD.ClassicKeys.DefiledText2";
                 Color messageColor = Color.DarkSeaGreen;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }

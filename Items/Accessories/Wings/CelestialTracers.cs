@@ -50,10 +50,9 @@ namespace CalRD.Items.Accessories.Wings
 				foreach (TooltipLine line2 in list)
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip10")
-					{
-						line2.Text = "Being hit for over 200 damage will make you immune for an extended period of time\n" +
-						"Provides heat protection in Death Mode";
-					}
+                    {
+                        line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.HeatProtection");
+                    }
 				}
 			}
         }

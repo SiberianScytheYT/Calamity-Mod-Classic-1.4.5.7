@@ -29,7 +29,7 @@ namespace CalRD.NPCs.Crags
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-                new FlavorTextBestiaryInfoElement("The twisted remains of explorers who attempted to harvest the crags' remains.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Scryllar")
             });
         }
 

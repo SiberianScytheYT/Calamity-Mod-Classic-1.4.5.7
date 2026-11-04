@@ -36,7 +36,7 @@ namespace CalRD.NPCs.Astral
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("These creatures hop and chase any threat to the infection relentlessly.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Aries")
             });
         }
 

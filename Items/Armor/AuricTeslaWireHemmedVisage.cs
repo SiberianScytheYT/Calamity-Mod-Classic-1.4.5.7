@@ -40,9 +40,7 @@ namespace CalRD.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Magic Tarragon, Bloodflare, God Slayer, and Silva armor effects\n" +
-                "All projectiles spawn healing auric orbs on enemy hits\n" +
-                "Max run speed and acceleration boosted by 10%";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.AuricTeslaWireHemmedVisage");
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.tarraSet = true;
             modPlayer.tarraMage = true;

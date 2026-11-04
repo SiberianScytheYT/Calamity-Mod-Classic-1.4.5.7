@@ -66,7 +66,7 @@ namespace CalRD.NPCs.DevourerofGods
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
             {
                 new MoonLordPortraitBackgroundProviderBestiaryInfoElement(),
-                new FlavorTextBestiaryInfoElement("Long live the purple worm!")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.DevourerofGods")
             });
         }
 
@@ -168,7 +168,7 @@ namespace CalRD.NPCs.DevourerofGods
                     if (revenge)
                         spawnDoGCountdown = 10;
 
-                    string key = "Don't get cocky, kid!";
+                    string key = "Mods.CalRD.ClassicKeys.EdgyBossText";
                     Color messageColor = Color.Cyan;
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
 
@@ -910,7 +910,7 @@ namespace CalRD.NPCs.DevourerofGods
         {
             if (hit.Damage >= NPC.lifeMax * 0.5f)
             {
-                string key = "You think...you can butcher...ME!?";
+                string key = "Mods.CalRD.ClassicKeys.EdgyBossText2";
                 Color messageColor = Color.Cyan;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
                 hit.Damage = 0;
@@ -978,18 +978,18 @@ namespace CalRD.NPCs.DevourerofGods
             target.AddBuff(BuffID.Frostburn, 300, true);
             if (CalamityWorld.death && !target.Calamity().lol)
             {
-                target.KillMe(PlayerDeathReason.ByCustomReason(target.name + "'s essence was consumed by the devourer."), 1000.0, 0, false);
+                target.KillMe(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.EssenceDevour").Format(target.name)), 1000.0, 0, false);
             }
 
 			if (target.Calamity().dogTextCooldown <= 0)
 			{
 				string text = Utils.SelectRandom(Main.rand, new string[]
 				{
-					"A fatal mistake!",
-					"Good luck recovering from that!",
-					"Delicious...",
-					"Did that hurt?",
-					"Nothing personal, kid."
+					"Mods.CalRD.ClassicKeys.EdgyBossText3",
+					"Mods.CalRD.ClassicKeys.EdgyBossText4",
+					"Mods.CalRD.ClassicKeys.EdgyBossText5",
+					"Mods.CalRD.ClassicKeys.EdgyBossText6",
+					"Mods.CalRD.ClassicKeys.EdgyBossText7"
 				});
 				Color messageColor = Color.Cyan;
 				Rectangle location = new Rectangle((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height);

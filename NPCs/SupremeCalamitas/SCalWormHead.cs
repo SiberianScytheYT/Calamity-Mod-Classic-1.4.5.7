@@ -41,7 +41,7 @@ namespace CalRD.NPCs.SupremeCalamitas
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        new MoonLordPortraitBackgroundProviderBestiaryInfoElement(),
-		        new FlavorTextBestiaryInfoElement("A mechanical abomination summoned by the Brimstone Witch. Its armor proves unbreakable.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Sepulcher")
 	        });
         }
 

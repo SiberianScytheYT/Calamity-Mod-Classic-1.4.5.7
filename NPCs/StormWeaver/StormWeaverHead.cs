@@ -42,7 +42,7 @@ namespace CalRD.NPCs.StormWeaver
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
-                new FlavorTextBestiaryInfoElement("One of the Devourer's sentinels, still young and inexperienced.. Should the day arrive where its power rivals the Devourer's, he will surely make quick work of it.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.StormWeaver")
             });
         }
 

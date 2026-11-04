@@ -68,7 +68,7 @@ namespace CalRD.Tiles.Astral
 
             if (Main.dayTime)
             {
-                CalamityUtils.DisplayLocalizedText("The god of the stars rejects your offering. The ritual can only be performed at night.", FailColor);
+                CalamityUtils.DisplayLocalizedText("Mods.CalRD.ClassicKeys.DeusAltarRejectNightText", FailColor);
                 return false;
             }
 

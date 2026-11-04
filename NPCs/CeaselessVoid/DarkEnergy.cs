@@ -31,7 +31,7 @@ namespace CalRD.NPCs.CeaselessVoid
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheDungeon,
-		        new FlavorTextBestiaryInfoElement("A rift in time and space created by Ceaseless Void.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.DarkEnergy")
 	        });
         }
 

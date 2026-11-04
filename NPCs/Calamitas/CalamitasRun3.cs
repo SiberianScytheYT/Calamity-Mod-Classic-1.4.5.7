@@ -52,7 +52,7 @@ namespace CalRD.NPCs.Calamitas
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
-		        new FlavorTextBestiaryInfoElement("A failed clone of the Brimstone Witch contained within a metallic vessel, she wanders the night with seemingly little purpose.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Calamitas")
 	        });
         }
 
@@ -235,7 +235,7 @@ namespace CalRD.NPCs.Calamitas
 	        CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedCalamitas);
 
 	        // Abyss awakens after killing Calamitas
-	        string key = "The ocean depths are trembling.";
+	        string key = "Mods.CalRD.ClassicKeys.PlantBossText";
 	        Color messageColor = Color.RoyalBlue;
 
 	        if (!CalamityWorld.downedCalamitas)

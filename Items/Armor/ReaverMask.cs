@@ -42,8 +42,7 @@ namespace CalRD.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.reaverBurst = true;
-            player.setBonus = "5% increased magic damage\n" +
-                "Your magic projectiles emit a burst of spore gas on enemy hits";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.ReaverMask");
             player.GetDamage(DamageClass.Magic) += 0.05f;
         }
 

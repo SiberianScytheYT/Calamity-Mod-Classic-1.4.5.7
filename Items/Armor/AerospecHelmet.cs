@@ -40,10 +40,7 @@ namespace CalRD.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "16% increased minion damage\n" +
-                "Summons a valkyrie to protect you\n" +
-                "Taking over 25 damage in one hit will cause a spread of homing feathers to fall\n" +
-                "Allows you to fall more quickly and disables fall damage";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.AerospecHelmet");
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.valkyrie = true;
             modPlayer.aeroSet = true;

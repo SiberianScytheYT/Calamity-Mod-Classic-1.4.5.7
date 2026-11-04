@@ -25,7 +25,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
-                new FlavorTextBestiaryInfoElement("A derpling overtaken by plague nanomachines, its limbs have come off, now flying instead to infect more of the jungle.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.PlaguedDerpling")
             });
         }
 

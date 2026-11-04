@@ -40,7 +40,7 @@ namespace CalRD.NPCs.Abyss
 		{
 			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 			{
-				new FlavorTextBestiaryInfoElement("Named as such for their mask, they remain docile until their mask breaks.")
+				new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.DevilFish")
 			});
 		}
 

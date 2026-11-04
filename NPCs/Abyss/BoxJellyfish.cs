@@ -28,7 +28,7 @@ namespace CalRD.NPCs.Abyss
 		{
 			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 			{
-				new FlavorTextBestiaryInfoElement("These jellyfish unique for their cube-like shape act like ambush predators, waiting for something edible to approach them to then hastily swim towards prey in an effort to consume it.")
+				new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.BoxJellyfish")
 			});
 		}
 		

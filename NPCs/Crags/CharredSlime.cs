@@ -24,7 +24,7 @@ namespace CalRD.NPCs.Crags
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-                new FlavorTextBestiaryInfoElement("A slime infused with Charred Ore, it's a perfect match!")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.CharredSlime")
             });
         }
 

@@ -1,3 +1,4 @@
+using System;
 using CalRD.CalPlayer;
 using CalRD.Items.Placeables.Plates;
 using CalRD.Items.Placeables.Ores;
@@ -39,9 +40,9 @@ namespace CalRD.Items
             string hotkey = CalRD.NormalityRelocatorHotKey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
-                if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
+                if (line2.Mod == "Terraria" && line2.Text.Contains("[KEY]"))
                 {
-                    line2.Text = "Press " + hotkey + " to teleport to the position of the mouse";
+                    line2.Text = line2.Text.Replace("[KEY]", hotkey);
                 }
             }
         }

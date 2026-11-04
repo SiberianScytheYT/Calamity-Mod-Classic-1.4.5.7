@@ -84,7 +84,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.DayTime,
-                new FlavorTextBestiaryInfoElement("These machines travel via propulsion, hovering over the lands. They seek out trespassers, even if their analysis might be inaccurate in the current day.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.WulfrumHovercraft")
             });
         }
 

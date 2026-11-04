@@ -55,7 +55,7 @@ namespace CalRD.Items.Weapons.Melee
             }
             if (player.statLife <= 0)
             {
-                player.KillMe(PlayerDeathReason.ByCustomReason(player.name + "'s DNA was destroyed."), 1000.0, 0, false);
+                player.KillMe(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Lucrecia").Format(player.name)), 1000.0, 0, false);
             }
             Projectile.NewProjectile(source, position.X, position.Y, Item.shootSpeed * player.direction, 0f, type, damage, Item.knockBack, player.whoAmI, 0f, 0f);
             return false;

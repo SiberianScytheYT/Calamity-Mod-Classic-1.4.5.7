@@ -22,7 +22,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-                new FlavorTextBestiaryInfoElement("It's a frog! It's a fish! It's superfish!... not really.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Frogfish")
             });
         }
 

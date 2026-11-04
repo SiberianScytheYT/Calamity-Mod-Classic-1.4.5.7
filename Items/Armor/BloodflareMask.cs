@@ -37,8 +37,7 @@ namespace CalRD.Items.Armor
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
 					{
-						line2.Text = "10% increased melee damage and critical strike chance\n" +
-						"Provides heat protection in Death Mode";
+						line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.HeatProtection");
 					}
 				}
 			}
@@ -59,15 +58,7 @@ namespace CalRD.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.bloodflareSet = true;
             modPlayer.bloodflareMelee = true;
-            player.setBonus = "Greatly increases life regen\n" +
-                "Enemies are more likely to target you\n" +
-                "Enemies below 50% life have a chance to drop hearts when struck\n" +
-                "Enemies above 50% life have a chance to drop mana stars when struck\n" +
-                "Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
-                "True melee strikes will heal you\n" +
-                "After striking an enemy 15 times with true melee you will enter a blood frenzy for 5 seconds\n" +
-                "During this you will gain 25% increased melee damage, critical strike chance, and contact damage is halved\n" +
-                "This effect has a 30 second cooldown";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.BloodflareMask");
             player.crimsonRegen = true;
             player.aggro += 900;
         }

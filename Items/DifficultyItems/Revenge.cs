@@ -50,13 +50,14 @@ namespace CalRD.Items.DifficultyItems
             string adrenKey = CalRD.AdrenalineHotKey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
+                
                 if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
                 {
-                    line2.Text = "Activates rage. When rage is maxed press " + rageKey + " to activate rage mode.";
+                    line2.Text = this.GetLocalization("RageLine").Format(rageKey);
                 }
                 if (line2.Mod == "Terraria" && line2.Name == "Tooltip3")
                 {
-                    line2.Text = "Activates adrenaline. When adrenaline is maxed press " + adrenKey + " to activate adrenaline mode.";
+                    line2.Text = this.GetLocalization("AdrenalineLine").Format(adrenKey);
                 }
             }
         }
@@ -72,7 +73,7 @@ namespace CalRD.Items.DifficultyItems
 
             if (CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive)
 			{
-                string key = "You cannot change the rules now.";
+                string key = "Mods.CalRD.ClassicKeys.ChangingTheRules";
                 Color messageColor = Color.Crimson;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
 				return true;
@@ -80,7 +81,7 @@ namespace CalRD.Items.DifficultyItems
             if (!CalamityWorld.revenge)
             {
                 CalamityWorld.revenge = true;
-                string key = "Revengeance is active.";
+                string key = "Mods.CalRD.ClassicKeys.RevengeText";
                 Color messageColor = Color.Crimson;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
 
@@ -89,21 +90,21 @@ namespace CalRD.Items.DifficultyItems
             else
             {
                 CalamityWorld.revenge = false;
-                string key = "Revengeance is not active.";
+                string key = "Mods.CalRD.ClassicKeys.RevengeText2";
                 Color messageColor = Color.Crimson;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
 
                 if (CalamityWorld.death)
                 {
                     CalamityWorld.death = false;
-                    key = "Death is not active, not fun enough for you?";
+                    key = "Mods.CalRD.ClassicKeys.DeathText2";
                     messageColor = Color.Crimson;
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
                 if (CalamityWorld.defiled)
                 {
                     CalamityWorld.defiled = false;
-                    key = "Your soul is yours once more...";
+                    key = "Mods.CalRD.ClassicKeys.DefiledText2";
                     messageColor = Color.DarkSeaGreen;
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }

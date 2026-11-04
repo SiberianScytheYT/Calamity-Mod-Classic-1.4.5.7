@@ -29,7 +29,7 @@ namespace CalRD.NPCs.Abyss
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("Initially docile fish, they rest firmly almost at the bottom of the food chain, but will react once they feel threatened.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Viperfish")
             });
         }
 

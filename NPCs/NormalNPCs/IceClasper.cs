@@ -30,7 +30,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Snow,
-                new FlavorTextBestiaryInfoElement("Skilled hunters that know no bound when hunting prey.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.IceClasper")
             });
         }
 

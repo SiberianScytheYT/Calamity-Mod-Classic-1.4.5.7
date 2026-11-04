@@ -36,7 +36,7 @@ namespace CalRD.NPCs.Abyss
 		{
 			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 			{
-				new FlavorTextBestiaryInfoElement("Squid that have grown to monstrous sizes, these are one of the apex predators of the abyssal depths.")
+				new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.ColossalSquid")
 			});
 		}
 

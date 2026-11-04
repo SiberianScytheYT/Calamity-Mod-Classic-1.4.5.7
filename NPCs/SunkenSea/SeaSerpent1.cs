@@ -34,7 +34,7 @@ namespace CalRD.NPCs.SunkenSea
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("Mostly passive eels that drift along the still waters, if angered however, they prove quite the stubborn attackers!")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.SeaSerpent")
             });
         }
 

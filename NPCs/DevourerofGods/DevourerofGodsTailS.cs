@@ -353,8 +353,8 @@ namespace CalRD.NPCs.DevourerofGods
 			{
 				string text = Utils.SelectRandom(Main.rand, new string[]
 				{
-					"Are you honestly that bad at dodging?",
-					"Of all my segments to get hit by..."
+					"Mods.CalRD.ClassicKeys.EdgyBossText8",
+					"Mods.CalRD.ClassicKeys.EdgyBossText9"
 				});
 				Color messageColor = Color.Cyan;
 				Rectangle location = new Microsoft.Xna.Framework.Rectangle((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height);

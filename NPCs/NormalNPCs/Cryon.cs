@@ -21,7 +21,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Snow,
-                new FlavorTextBestiaryInfoElement("Ice constructs with runes inscribed on their heads... Who made them?")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Cryon")
             });
         }
 

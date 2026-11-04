@@ -84,7 +84,7 @@ namespace CalRD.NPCs.HiveMind
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("The master of the corruption, it serves as the corruption's greatest offensive asset.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.HiveMind")
             });
         }
 
@@ -798,7 +798,7 @@ namespace CalRD.NPCs.HiveMind
             // If neither The Hive Mind nor The Perforator Hive have been killed yet, notify players of Aerialite Ore
             if (!CalamityWorld.downedHiveMind && !CalamityWorld.downedPerforator)
             {
-                string key = "The ground is glittering with cyan light.";
+                string key = "Mods.CalRD.ClassicKeys.SkyOreText";
                 Color messageColor = Color.Cyan;
                 WorldGenerationMethods.SpawnOre(ModContent.TileType<AerialiteOre>(), 12E-05, .4f, .6f);
 

@@ -37,8 +37,7 @@ namespace CalRD.Items.Armor
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
 					{
-						line2.Text = "10% increased magic damage and critical strike chance, +100 max mana, and 17% reduced mana usage\n" +
-						"Provides heat protection in Death Mode";
+						line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.HeatProtection");
 					}
 				}
 			}
@@ -59,12 +58,7 @@ namespace CalRD.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.bloodflareSet = true;
             modPlayer.bloodflareMage = true;
-            player.setBonus = "Greatly increases life regen\n" +
-                "Enemies below 50% life have a chance to drop hearts when struck\n" +
-                "Enemies above 50% life have a chance to drop mana stars when struck\n" +
-                "Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
-                "Magic weapons will sometimes fire ghostly bolts\n" +
-                "Magic critical strikes cause flame explosions every 2 seconds";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.BloodflareHornedMask");
             player.crimsonRegen = true;
         }
 

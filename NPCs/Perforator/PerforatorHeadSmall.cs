@@ -42,7 +42,7 @@ namespace CalRD.NPCs.Perforator
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
-                new FlavorTextBestiaryInfoElement("The smallest of the perforators, its purpose is to pierce.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.PerforatorSmall")
             });
         }
 

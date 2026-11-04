@@ -78,7 +78,7 @@ namespace CalRD.NPCs.Yharon
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
-		        new FlavorTextBestiaryInfoElement("The tyrant's loyal lifelong friend has set his sight on you.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Yharon")
 	        });
         }
 
@@ -1527,7 +1527,7 @@ namespace CalRD.NPCs.Yharon
 
                 moveCloser = true;
 
-                string key = "The air is getting warmer around you.";
+                string key = "Mods.CalRD.ClassicKeys.FlameText";
                 Color messageColor = Color.Orange;
 
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
@@ -2858,7 +2858,7 @@ namespace CalRD.NPCs.Yharon
                 CalamityWorld.buffedEclipse = true;
                 CalamityNetcode.SyncWorld();
 
-                string key = "The dark sun awaits.";
+                string key = "Mods.CalRD.ClassicKeys.DargonBossText";
                 Color messageColor = Color.Orange;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
@@ -2872,7 +2872,7 @@ namespace CalRD.NPCs.Yharon
                 {
                     WorldGenerationMethods.SpawnOre(ModContent.TileType<AuricOre>(), 2E-05, .6f, .8f);
 
-                    string key = "A godly aura has blessed the world's caverns.";
+                    string key = "Mods.CalRD.ClassicKeys.AuricOreText";
                     Color messageColor = Color.Gold;
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }

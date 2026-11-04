@@ -38,8 +38,7 @@ namespace CalRD.Items.Armor
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
 					{
-						line2.Text = "10% increased ranged damage and critical strike chance\n" +
-						"Provides heat protection in Death Mode";
+						line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.HeatProtection");
 					}
 				}
 			}
@@ -61,13 +60,7 @@ namespace CalRD.Items.Armor
             modPlayer.bloodflareSet = true;
             modPlayer.bloodflareRanged = true;
             string hotkey = CalRD.TarraHotKey.TooltipHotkeyString();
-            player.setBonus = "Greatly increases life regen\n" +
-                "Enemies below 50% life have a chance to drop hearts when struck\n" +
-                "Enemies above 50% life have a chance to drop mana stars when struck\n" +
-                "Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
-                "Press " + hotkey + " to unleash the lost souls of polterghast to destroy your enemies\n" +
-                "This effect has a 30 second cooldown\n" +
-                "Ranged weapons have a chance to fire bloodsplosion orbs";
+            player.setBonus = CalamityUtils.GetText("Misc.CalamitySetBonus.BloodflareHornedHelm").Format(hotkey);
             player.crimsonRegen = true;
 
 			if (modPlayer.bloodflareSoulTimer == 1) //sound when ready to use again

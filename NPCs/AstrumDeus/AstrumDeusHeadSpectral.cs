@@ -50,7 +50,7 @@ namespace CalRD.NPCs.AstrumDeus
         {
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
-		        new FlavorTextBestiaryInfoElement("After its catastrophic fall to the infection and subsequent demolition by an upstart worm, it seeks to return to the cosmos.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.AstrumDeus")
 	        });
         }
 
@@ -300,7 +300,7 @@ namespace CalRD.NPCs.AstrumDeus
 	        // Notify players that Astral Ore can be mined if Deus has never been killed yet
 	        if (!CalamityWorld.downedStarGod)
 	        {
-		        string key = "The seal of the stars has been broken! You can now mine Astral Ore.";
+		        string key = "Mods.CalRD.ClassicKeys.AstralBossText";
 		        Color messageColor = Color.Gold;
 		        CalamityUtils.DisplayLocalizedText(key, messageColor);
 	        }

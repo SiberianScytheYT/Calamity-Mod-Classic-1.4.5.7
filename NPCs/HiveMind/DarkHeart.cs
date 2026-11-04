@@ -23,7 +23,7 @@ namespace CalRD.NPCs.HiveMind
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("It's filled with stagnant corruption water that leaks as it flies overhead, any organic matter that comes into contact with that water is slowly corroded.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.DarkHeart")
             });
         }
 

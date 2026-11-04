@@ -11,7 +11,7 @@ namespace CalRD.UI
     {
         public override bool IsActive => CalamityWorld.rainingAcid && Main.LocalPlayer.Calamity().ZoneSulphur;
         public override float CompletionRatio => 1f - CalamityWorld.AcidRainCompletionRatio;
-        public override string InvasionName => "Acid Rain";
+        public override string InvasionName => CalamityUtils.GetTextValue("UI.AcidRain");
         public override Color InvasionBarColor => AcidRainEvent.TextColor;
         public override Texture2D IconTexture => ModContent.Request<Texture2D>("CalRD/ExtraTextures/UI/AcidRainIcon").Value;
     }

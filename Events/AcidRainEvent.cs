@@ -173,7 +173,7 @@ namespace CalRD.Events
             }
 
             UpdateInvasion();
-            BroadcastEventText("A toxic downpour falls over the wasteland seas!"); // A toxic downpour falls over the wasteland seas!
+            BroadcastEventText("Mods.CalRD.ClassicKeys.AcidRainStart"); // A toxic downpour falls over the wasteland seas!
         }
         /// <summary>
         /// Updates the invasion, checking to see if it has ended.
@@ -187,7 +187,7 @@ namespace CalRD.Events
                 if (CalamityWorld.acidRainPoints <= 0)
                 {
                     CalamityWorld.rainingAcid = false;
-                    BroadcastEventText("The sulphuric skies begin to clear..."); // The sulphuric skies begin to clear...
+                    BroadcastEventText("Mods.CalRD.ClassicKeys.AcidRainEnd"); // The sulphuric skies begin to clear...
                     CalamityWorld.acidRainExtraDrawTime = 40;
 
                     // Turn off the rain from the event

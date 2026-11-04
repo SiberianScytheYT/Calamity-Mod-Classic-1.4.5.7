@@ -25,7 +25,7 @@ namespace CalRD.NPCs.AcidRain
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("Much like other young creatures, they tend to imprint easily to the first large creature they see.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.FlakBaby")
             });
         }
 

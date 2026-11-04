@@ -34,7 +34,7 @@ namespace CalRD.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             player.shroomiteStealth = true;
-            player.setBonus = "Ranged stealth while standing still";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.ShroomiteVisage");
         }
 
         public override void UpdateEquip(Player player)

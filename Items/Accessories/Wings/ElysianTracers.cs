@@ -49,8 +49,7 @@ namespace CalRD.Items.Accessories.Wings
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip9")
 					{
-						line2.Text = "Temporary immunity to lava\n" +
-						"Provides heat protection in Death Mode";
+						line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.HeatProtection");
 					}
 				}
 			}

@@ -34,7 +34,7 @@ namespace CalRD.NPCs.AcidRain
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("An example of an ancient creature persisting in the sulphurous sea, they have remarkable strength to be able to fling themselves, yet weigh as much as they do.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Trilobite")
             });
         }
 

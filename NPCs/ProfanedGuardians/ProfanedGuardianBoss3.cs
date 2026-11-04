@@ -43,7 +43,7 @@ namespace CalRD.NPCs.ProfanedGuardians
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-		        new FlavorTextBestiaryInfoElement("mr. donut three, we already did this joke")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.ProfanedGuardian3")
 	        });
         }
 

@@ -33,9 +33,9 @@ namespace CalRD.Items.Accessories
             string hotkey = CalRD.AstralTeleportHotKey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
-                if (line2.Mod == "Terraria" && line2.Name == "Tooltip2")
+                if (line2.Mod == "Terraria" && line2.Text.Contains("[KEY]"))
                 {
-                    line2.Text = "Press " + hotkey + " to teleport to a random location";
+                    line2.Text = line2.Text.Replace("[KEY]", hotkey);
                 }
             }
         }

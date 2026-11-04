@@ -29,7 +29,7 @@ namespace CalRD.NPCs.SunkenSea
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("A stingray that spends most of its time as a docile creature, but that will release its energy reserves as short bursts of speed when threatened.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.EutrophicRay")
             });
         }
 

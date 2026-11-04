@@ -52,10 +52,10 @@ namespace CalRD.Prefixes
             valueMult *= extraValue;
         }
         
+        public LocalizedText StealthGenTooltip => CalamityUtils.GetText($"{LocalizationCategory}.StealthGenTooltip");
         public override IEnumerable<TooltipLine> GetTooltipLines(Item item)
         {
-            float stealthGenBoost = stealthGenBonus;// - 1f;
-            yield return new TooltipLine(Mod, "PrefixStealthGenBoost", "+" + Math.Round(stealthGenBoost * 100f) + "% stealth generation")
+            yield return new TooltipLine(Mod, "PrefixStealthGenBoost", StealthGenTooltip.Format((stealthGenBonus * 100).ToString("N0")))
             { 
                 IsModifier = true
             };

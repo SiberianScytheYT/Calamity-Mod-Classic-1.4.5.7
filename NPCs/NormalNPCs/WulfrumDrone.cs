@@ -60,7 +60,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
-                new FlavorTextBestiaryInfoElement("A strange little mechanism of unknown origin, they try to keep away intruders from their territory by swooping down at them.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.WulfrumDrone")
             });
         }
 

@@ -25,7 +25,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Events.Rain,
-                new FlavorTextBestiaryInfoElement("This brave fish sets out for glorious battle and adventure, equipped with the finest gear the land has to offer!")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.FearlessGoldfishWarrior")
             });
         }
 
@@ -405,7 +405,7 @@ namespace CalRD.NPCs.NormalNPCs
 
             if (instakill)
             {
-                target.KillMe(PlayerDeathReason.ByCustomReason(target.name + " was once again impaled by Goldfish."), 1000.0, 0, false);
+                target.KillMe(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.FearlessInstakill").Format(target.name)), 1000.0, 0, false);
                 modifiers.FinalDamage *= Main.rand.Next(1000, 1500) + (target.statLifeMax2 * Main.rand.NextFloat(2.0f, 3.5f));
             }
         }

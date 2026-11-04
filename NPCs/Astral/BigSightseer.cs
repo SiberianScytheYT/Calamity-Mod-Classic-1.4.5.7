@@ -39,7 +39,7 @@ namespace CalRD.NPCs.Astral
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("These flying abominations produce a chemical within their shells that's then spat out onto ins enemies.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.BigSightseer")
             });
         }
 

@@ -43,10 +43,7 @@ namespace CalRD.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             player.thorns += 0.33f;
             modPlayer.reaverBlast = true;
-            player.setBonus = "5% increased melee damage\n" +
-                "Melee projectiles explode on hit\n" +
-                "Reaver thorns\n" +
-                "Rage activates when you are damaged";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.ReaverHelm");
             player.GetDamage(DamageClass.Melee) += 0.05f;
         }
 

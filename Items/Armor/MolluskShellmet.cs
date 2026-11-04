@@ -44,9 +44,7 @@ namespace CalRD.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Two shellfishes aid you in combat\n" +
-                              "10% increased damage\n" +
-                              "Your horizontal movement is slowed";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.MolluskShellmet");
             CalamityPlayer modPlayer = player.Calamity();
             player.GetDamage(DamageClass.Generic) += 0.1f;
             modPlayer.molluskSet = true;

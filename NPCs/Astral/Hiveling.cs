@@ -27,7 +27,7 @@ namespace CalRD.NPCs.Astral
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("One sample of a piece of Hive, these can be very threatening in large numbers.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Hiveling")
             });
         }
 

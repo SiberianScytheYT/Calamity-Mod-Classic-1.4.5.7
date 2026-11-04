@@ -110,14 +110,7 @@ namespace CalRD.Items.Accessories
             {
                 if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                 {
-                    line2.Text = "Tells you how high your magic proficiency is\n" +
-                "While equipped you will gain magic proficiency faster\n" +
-                "The higher your magic level the higher your magic damage, critical strike chance, and the lower your mana cost\n" +
-                "Magic proficiency (max of 12500): " + (level - (level > 12500 ? 1 : 0)) + "\n" +
-                "Magic level (max of 15): " + exactLevel + "\n" +
-                "Magic damage increase: " + damageGain + "%\n" +
-                "Mana usage decrease: " + manaUsage + "%\n" +
-                "Magic crit increase: " + critGain + "%";
+                    line2.Text = this.GetLocalization("Extra").Format(level - (level > 12500 ? 1 : 0), exactLevel, damageGain, manaUsage, critGain);
                 }
             }
         }

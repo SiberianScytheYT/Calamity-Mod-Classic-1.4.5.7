@@ -46,7 +46,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
-                new FlavorTextBestiaryInfoElement("A metal orb made of wulfrum, they fling themselves at their enemies to attack.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.WulfrumGyrator")
             });
         }
 

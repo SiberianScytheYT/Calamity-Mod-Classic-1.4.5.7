@@ -24,7 +24,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
-                new FlavorTextBestiaryInfoElement("A scaredy lizard from the underground covered in Crystals, when threatened it will do its best to run away!")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.CrawlerCrystal")
             });
         }
 

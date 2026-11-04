@@ -20,7 +20,7 @@ namespace CalRD.NPCs.AquaticScourge
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                new FlavorTextBestiaryInfoElement("A spiny animal native to the ocean that flings itself around relentlessly in defense of its territory, though mostly helpless when outside water, given enough time they can make it back home.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.AquaticUrchin")
             });
         }
 

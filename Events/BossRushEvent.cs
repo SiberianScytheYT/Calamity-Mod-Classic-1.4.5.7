@@ -188,7 +188,7 @@ namespace CalRD.Events
                 }),
                 new Boss(NPCID.MoonLordCore, spawnContext: type =>
                 {
-                    CalamityUtils.DisplayLocalizedText("May your skills remain sharp for the last challenges.", XerocTextColor);
+                    CalamityUtils.DisplayLocalizedText("Mods.CalRD.ClassicKeys.BossRushTierThreeEndText2", XerocTextColor);
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }),
                 new Boss(ModContent.NPCType<AstrumDeusHeadSpectral>(), TimeChangeContext.Night, type =>
@@ -221,7 +221,7 @@ namespace CalRD.Events
                 }, usesSpecialSound: true),
                 new Boss(ModContent.NPCType<SupremeCalamitas>(), spawnContext: type =>
                 {
-                    CalamityUtils.DisplayLocalizedText("Go forth and conquer 'til the ritual's end!", XerocTextColor);
+                    CalamityUtils.DisplayLocalizedText("Mods.CalRD.ClassicKeys.BossRushTierFourEndText2", XerocTextColor);
                     for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
                     {
                         if (Main.player[playerIndex].active)
@@ -254,19 +254,19 @@ namespace CalRD.Events
             {
                 [NPCID.TheDestroyer] = npc =>
                 {
-                    CalamityUtils.DisplayLocalizedText("Hmm? Oh, you're still alive. Unexpected, but don't get complacent just yet.", XerocTextColor);
+                    CalamityUtils.DisplayLocalizedText("Mods.CalRD.ClassicKeys.BossRushTierOneEndText", XerocTextColor);
                 },
                 [NPCID.CultistBoss] = npc =>
                 {
-                    CalamityUtils.DisplayLocalizedText("Hmm? Persistent aren't you? Perhaps you have some hope of prosperity, unlike past challengers.", XerocTextColor);
+                    CalamityUtils.DisplayLocalizedText("Mods.CalRD.ClassicKeys.BossRushTierTwoEndText", XerocTextColor);
                 },
                 [NPCID.DukeFishron] = npc =>
                 {
-                    CalamityUtils.DisplayLocalizedText("Hmm? Your perseverance is truly a trait to behold. You've come further than even the demigods in such a short time.", XerocTextColor);
+                    CalamityUtils.DisplayLocalizedText("Mods.CalRD.ClassicKeys.BossRushTierThreeEndText", XerocTextColor);
                 },
                 [ModContent.NPCType<Providence>()] = npc =>
                 {
-                    CalamityUtils.DisplayLocalizedText("Hmm? So you've made it to the final tier, a remarkable feat enviable by even the mightiest of the gods.", XerocTextColor);
+                    CalamityUtils.DisplayLocalizedText("Mods.CalRD.ClassicKeys.BossRushTierFourEndText", XerocTextColor);
                 },
                 [ModContent.NPCType<DevourerofGodsHeadS>()] = npc =>
                 {
@@ -285,7 +285,7 @@ namespace CalRD.Events
                         netMessage.Send();
                     }
 
-                    CalamityUtils.DisplayLocalizedText("Hmm? You expected a reward beyond this mere pebble? Patience, the true reward will become apparent in time...", XerocTextColor);
+                    CalamityUtils.DisplayLocalizedText("Mods.CalRD.ClassicKeys.BossRushTierFiveEndText", XerocTextColor);
                 }
             };
         }

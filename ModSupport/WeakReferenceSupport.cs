@@ -65,7 +65,6 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CalRD.Localization;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -141,9 +140,9 @@ namespace CalRD
 		private static void AddEvent(Mod bossChecklist, Mod hostMod, string name, float difficulty, Func<bool> downed, List<int> npcTypes, Dictionary<string, object> extraInfo)
 			=> bossChecklist.Call("LogEvent", hostMod, name, difficulty, downed, npcTypes, extraInfo);
 		
-		private static LocalizedText GetDisplayName(string entryName) => CalamityLocalization.GetText($"BossChecklistIntegration.{entryName}.EntryName");
-		private static LocalizedText GetSpawnInfo(string entryName) => CalamityLocalization.GetText($"BossChecklistIntegration.{entryName}.SpawnInfo");
-		private static LocalizedText GetDespawnMessage(string entryName) => CalamityLocalization.GetText($"BossChecklistIntegration.{entryName}.DespawnMessage");
+		private static LocalizedText GetDisplayName(string entryName) => CalamityUtils.GetText($"BossChecklistIntegration.{entryName}.EntryName");
+		private static LocalizedText GetSpawnInfo(string entryName) => CalamityUtils.GetText($"BossChecklistIntegration.{entryName}.SpawnInfo");
+		private static LocalizedText GetDespawnMessage(string entryName) => CalamityUtils.GetText($"BossChecklistIntegration.{entryName}.DespawnMessage");
 
 		
 		/// <summary>
@@ -1024,19 +1023,19 @@ namespace CalRD
 		private static void CensusSupport()
 		{
 			
-			Mod censusMod = ModLoader.HasMod("Census") ? ModLoader.GetMod("Census") : null;
+			ModLoader.TryGetMod("Census", out Mod censusMod);
 			if (censusMod != null)
 			{
-				censusMod.Call("TownNPCCondition", NPCType<SEAHOE>(), "Defeat a Giant Clam after defeating the Desert Scourge");
-				censusMod.Call("TownNPCCondition", NPCType<THIEF>(), "Have a [i:" + ItemID.PlatinumCoin + "] in your inventory after defeating Skeletron");
-				censusMod.Call("TownNPCCondition", NPCType<FAP>(), "Have [i:" + ItemType<FabsolsVodka>() + "] in your inventory in Hardmode");
-				censusMod.Call("TownNPCCondition", NPCType<DILF>(), "Defeat Cryogen");
+				censusMod.Call("TownNPCCondition", NPCType<SEAHOE>(), CalamityUtils.GetText("NPCs.SEAHOE.Census.SpawnCondition"));
+				censusMod.Call("TownNPCCondition", NPCType<THIEF>(), CalamityUtils.GetText("NPCs.THIEF.Census.SpawnCondition"));
+				censusMod.Call("TownNPCCondition", NPCType<FAP>(), CalamityUtils.GetText("NPCs.FAP.Census.SpawnCondition"));
+				censusMod.Call("TownNPCCondition", NPCType<DILF>(), CalamityUtils.GetText("NPCs.DILF.Census.SpawnCondition"));
 			}
 		}
 
 		private static void SummonersAssociationSupport()
 		{
-			Mod sAssociation = ModLoader.HasMod("SummonersAssociation") ? ModLoader.GetMod("SummonersAssociation") : null;
+			ModLoader.TryGetMod("SummonersAssociation", out Mod sAssociation);
 			if (sAssociation is null)
 				return;
 

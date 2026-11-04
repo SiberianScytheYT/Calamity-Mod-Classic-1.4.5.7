@@ -3934,99 +3934,87 @@ namespace CalRD.CalPlayer
 
             if (alcoholPoisoning && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
-                if (Main.rand.Next(2) == 0)
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " downed too many shots.");
-                else
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + "'s liver failed.");
+	            damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AlcoholPoisoning" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
             }
             if (vHex && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + " was charred by the brimstone inferno.");
+	            damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.VulnerabilityHex").Format(Player.name));
             }
             if ((ZoneCalamity && Player.lavaWet) && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + "'s soul was released by the lava.");
+	            damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.SearingLava").Format(Player.name));
             }
             if (gsInferno && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + "'s soul was extinguished.");
+	            damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.GodSlayerInferno").Format(Player.name));
             }
             if (sulphurPoison && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
-                if (Main.rand.NextBool(2))
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " was melted by the toxic waste.");
-                else
-                    damageSource = PlayerDeathReason.ByOther(9);
+	            if (Main.rand.NextBool(2))
+		            damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.SulphurPoison").Format(Player.name));
+	            else
+		            damageSource = PlayerDeathReason.ByOther(9);
             }
             if (lethalLavaBurn && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + " disintegrated into ashes.");
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.LethalLavaBurn").Format(Player.name));
             }
             if (hInferno && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + " was turned to ashes by the Profaned Goddess.");
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.HolyInferno").Format(Player.name));
             }
             if (hFlames && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + " fell prey to their sins.");
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.HolyFlames").Format(Player.name));
             }
             if (waterLeechBleeding && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + " lost too much blood.");
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.WaterLeechBleeding").Format(Player.name));
             }
             if (shadowflame && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + "'s spirit was turned to ash.");
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Shadowflame").Format(Player.name));
             }
             if (bBlood && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + " became a blood geyser.");
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.BurningBlood").Format(Player.name));
             }
             if (cDepth && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
-                if (Main.rand.NextBool(2))
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " was crushed by the pressure.");
-                else
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + "'s lungs collapsed.");
+	            damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.CrushDepth" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
             }
             if ((bFlames || aFlames) && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + " was consumed by the black flames.");
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AbyssalFlames").Format(Player.name));
             }
             if (pFlames && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
-                if (Main.rand.NextBool(2))
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + "'s flesh was melted by the plague.");
-                else
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " didn't vaccinate.");
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Plague" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
             }
             if (astralInfection && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
-                if (Main.rand.NextBool(2))
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + "'s infection spread too far.");
-                else
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + "'s skin was replaced by the astral virus.");
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AstralInfection" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
             }
             if (nightwither && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + " was incinerated by lunar rays.");
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Nightwither").Format(Player.name));
             }
             if (vaporfied && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + " vaporized into thin air.");
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Vaporfied").Format(Player.name));
             }
             if (manaOverloader && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + "'s life was completely converted into mana.");
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.ManaOverloader").Format(Player.name));
             }
             if ((bloodyMary || everclear || evergreenGin || fireball || margarita || moonshine || moscowMule || redWine || screwdriver || starBeamRye || tequila || tequilaSunrise || vodka || whiteWine)
                 && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + " succumbed to alcohol sickness.");
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AlcoholActive").Format(Player.name));
             }
             if (profanedCrystalBuffs && !profanedCrystalHide)
             {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + " was summoned too soon.");
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.ProfanedCrystal").Format(Player.name));
             }
 
             if (NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()))
@@ -5293,7 +5281,7 @@ namespace CalRD.CalPlayer
                 {
                     double useTimeMultiplier = 0.85 + (item.useTime * item.useAnimation / 3600D); //28 * 28 = 784 is average so that equals 784 / 3600 = 0.217777 + 1 = 21.7% boost
                     double wingTimeFraction = Player.wingTimeMax / 20D;
-                    double meleeStatMultiplier = (double)(Player.GetDamage(DamageClass.Melee).Multiplicative * (float)(Player.GetCritChance(DamageClass.Melee) / 10D));
+                    double meleeStatMultiplier = (double)(Player.GetDamage(DamageClass.Melee).Additive * (float)(Player.GetCritChance(DamageClass.Melee) / 10D));
 
                     if (Player.wingTime < Player.wingTimeMax)
                         Player.wingTime += (int)(useTimeMultiplier * (wingTimeFraction + meleeStatMultiplier));
@@ -5307,7 +5295,7 @@ namespace CalRD.CalPlayer
                     {
                         if (Player.ownedProjectileCounts[ModContent.ProjectileType<ChaosGeyser>()] < 3)
                         {
-                            Projectile.NewProjectile(Entity.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<ChaosGeyser>(), CalamityUtils.DamageSoftCap((double)modifiers.SourceDamage.Multiplicative * 0.15, 45), 2f, Player.whoAmI, 0f, 0f);
+                            Projectile.NewProjectile(Entity.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<ChaosGeyser>(), CalamityUtils.DamageSoftCap((double)modifiers.SourceDamage.Additive * 0.15, 45), 2f, Player.whoAmI, 0f, 0f);
                         }
                     }
 				}
@@ -5370,7 +5358,7 @@ namespace CalRD.CalPlayer
             {
                 double useTimeMultiplier = 0.85 + (heldItem.useTime * heldItem.useAnimation / 3600D); //28 * 28 = 784 is average so that equals 784 / 3600 = 0.217777 + 1 = 21.7% boost
                 double wingTimeFraction = Player.wingTimeMax / 20D;
-                double meleeStatMultiplier = Player.GetDamage(DamageClass.Melee).Multiplicative * (float)(Player.GetCritChance(DamageClass.Melee) / 10D);
+                double meleeStatMultiplier = Player.GetDamage(DamageClass.Melee).Additive * (float)(Player.GetCritChance(DamageClass.Melee) / 10D);
 
                 if (Player.wingTime < Player.wingTimeMax)
                     Player.wingTime += (int)(useTimeMultiplier * (wingTimeFraction + meleeStatMultiplier));
@@ -7280,7 +7268,7 @@ namespace CalRD.CalPlayer
                 {
                     if (SCalLore)
                     {
-                        string key = "Go to hell.";
+                        string key = "Mods.CalRD.ClassicKeys.SupremeBossText2";
                         Color messageColor = Color.Orange;
                         CalamityUtils.DisplayLocalizedText(key, messageColor);
                     }
@@ -7372,7 +7360,12 @@ namespace CalRD.CalPlayer
 			}
 
 			if (purpleCandle)
-				modifiers.FinalDamage -= (float)(Player.statDefense * 0.05);
+			{
+				// IT HAPPENED AGAIN
+				float currentEffectiveness = Player.DefenseEffectiveness.Value;
+				float desiredEffectiveness = currentEffectiveness + 0.05f;
+				Player.DefenseEffectiveness *= desiredEffectiveness / currentEffectiveness;
+			}
 
 			modifiers.ModifyHurtInfo += GodSlayerCap;
         }
@@ -8060,35 +8053,28 @@ namespace CalRD.CalPlayer
             PlayerDeathReason damageSource = PlayerDeathReason.ByOther(Player.Male ? 14 : 15);
             if (abyssDeath)
             {
-                if (Main.rand.NextBool(2))
-                {
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " is food for the Wyrms.");
-                }
-                else
-                {
-                    damageSource = PlayerDeathReason.ByCustomReason("Oxygen failed to reach " + Player.name + " from the depths of the Abyss.");
-                }
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AbyssDeath" + Main.rand.Next(1, 2 + 1)).Format(Player.name));
             }
             else if (specialDeath)
             {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + " was defeated.");
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.SpecialDeath").Format(Player.name));
             }
             else if (CalamityWorld.death && deathModeBlizzardTime > 1980)
             {
                 deathModeBlizzardTime = 0;
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + " was chilled to the bone by the frigid environment.");
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.DeathModeBlizzard").Format(Player.name));
             }
             else if (SCalLore)
             {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.Male ? Player.name + " was consumed by his inner hatred." : Player.name + " was consumed by her inner hatred.");
+                damageSource = PlayerDeathReason.ByCustomReason(Player.Male ? CalamityUtils.GetText("Status.Death.SCalLore").Format(Player.name, CalamityUtils.GetTextValue("Status.Death.Male")): CalamityUtils.GetText("Status.Death.SCalLore").Format(Player.name, CalamityUtils.GetTextValue("Status.Death.Female")));
             }
             else if (CalamityWorld.armageddon && areThereAnyDamnBosses)
             {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + " failed the challenge at hand.");
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.Armageddon").Format(Player.name));
             }
             else if (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0)
             {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + " was destroyed by a mysterious force.");
+                damageSource = PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.BossRush").Format(Player.name));
             }
             NetworkText deathText = damageSource.GetDeathText(Player.name);
             if (Main.netMode == NetmodeID.MultiplayerClient && Player.whoAmI == Main.myPlayer)
@@ -9376,7 +9362,7 @@ namespace CalRD.CalPlayer
         {
             if (CalamityWorld.death && areThereAnyDamnBosses)
             {
-                chatText = "Now is not the time!";
+                chatText = CalamityUtils.GetTextValue("Vanilla.NurseChat.HealNotAllowed");
                 return false;
             }
 
@@ -10252,7 +10238,7 @@ namespace CalRD.CalPlayer
                     exactMeleeLevel = level;
                     if (shootFireworksLevelUpMelee)
                     {
-                        string key = final ? "Melee weapon proficiency maxed out!" : "Melee weapon proficiency level up!";
+                        string key = final ? "Mods.CalRD.ClassicKeys.MeleeLevelUpFinal" : "Mods.CalRD.ClassicKeys.MeleeLevelUp";
                         shootFireworksLevelUpMelee = false;
                         if (Player.whoAmI == Main.myPlayer)
                         {
@@ -10274,7 +10260,7 @@ namespace CalRD.CalPlayer
                     exactRangedLevel = level;
                     if (shootFireworksLevelUpRanged)
                     {
-                        string key = final ? "Ranged weapon proficiency maxed out!" : "Ranged weapon proficiency level up!";
+                        string key = final ? "Mods.CalRD.ClassicKeys.RangedLevelUpFinal" : "Mods.CalRD.ClassicKeys.RangedLevelUp";
                         messageColor = Color.GreenYellow;
                         shootFireworksLevelUpRanged = false;
                         if (Player.whoAmI == Main.myPlayer)
@@ -10297,7 +10283,7 @@ namespace CalRD.CalPlayer
                     exactMagicLevel = level;
                     if (shootFireworksLevelUpMagic)
                     {
-                        string key = final ? "Magic weapon proficiency maxed out!" : "Magic weapon proficiency level up!";
+                        string key = final ? "Mods.CalRD.ClassicKeys.MagicLevelUpFinal" : "Mods.CalRD.ClassicKeys.MagicLevelUp";
                         messageColor = Color.DodgerBlue;
                         shootFireworksLevelUpMagic = false;
                         if (Player.whoAmI == Main.myPlayer)
@@ -10320,7 +10306,7 @@ namespace CalRD.CalPlayer
                     exactSummonLevel = level;
                     if (shootFireworksLevelUpSummon)
                     {
-                        string key = final ? "Summoner weapon proficiency maxed out!" : "Summoner weapon proficiency level up!";
+                        string key = final ? "Mods.CalRD.ClassicKeys.SummonLevelUpFinal" : "Mods.CalRD.ClassicKeys.SummonLevelUp";
                         messageColor = Color.Aquamarine;
                         shootFireworksLevelUpSummon = false;
                         if (Player.whoAmI == Main.myPlayer)
@@ -10343,7 +10329,7 @@ namespace CalRD.CalPlayer
                     exactRogueLevel = level;
                     if (shootFireworksLevelUpRogue)
                     {
-                        string key = final ? "Rogue weapon proficiency maxed out!" : "Rogue weapon proficiency level up!";
+                        string key = final ? "Mods.CalRD.ClassicKeys.RogueLevelUpFinal" : "Mods.CalRD.ClassicKeys.RogueLevelUp";
                         messageColor = Color.Orchid;
                         shootFireworksLevelUpRogue = false;
                         if (Player.whoAmI == Main.myPlayer)

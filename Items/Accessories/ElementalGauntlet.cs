@@ -41,8 +41,8 @@ namespace CalRD.Items.Accessories
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip6")
 					{
-						line2.Text = "Melee attacks have a chance to instantly kill normal enemies\n" +
-						"Provides heat and cold protection in Death Mode";
+						line2.Text = this.GetLocalizedValue("Extra") + "\n" +
+						CalamityUtils.GetTextValue("Misc.HeatColdProtection");
 					}
 				}
 			}

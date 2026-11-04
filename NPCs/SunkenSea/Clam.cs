@@ -30,7 +30,7 @@ namespace CalRD.NPCs.SunkenSea
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("Regular mollusks that behave like any other.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Clam")
             });
         }
 

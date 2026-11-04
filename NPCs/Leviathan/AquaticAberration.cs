@@ -24,7 +24,7 @@ namespace CalRD.NPCs.Leviathan
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-                new FlavorTextBestiaryInfoElement("This creature devours whole schools of fish entirely by itself.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.AquaticAberration")
             });
         }
 

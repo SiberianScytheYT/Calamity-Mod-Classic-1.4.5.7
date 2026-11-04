@@ -34,7 +34,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheDungeon,
-                new FlavorTextBestiaryInfoElement("A cultist that succumbed to their cult magicks, yet still, they seem to guard something...")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Eidolist")
             });
         }
 

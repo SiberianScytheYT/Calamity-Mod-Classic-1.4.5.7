@@ -43,7 +43,7 @@ namespace CalRD.NPCs.SlimeGod
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
-		        new FlavorTextBestiaryInfoElement("One of the oldest creatures in the world, and a god revered by Statis' clan.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.SlimeGodCore")
 	        });
         }
 

@@ -23,7 +23,7 @@ namespace CalRD.NPCs.Abyss
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("These eels prefer to remain hidden within underwater structures, only ocassionally roaming open water.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.MorayEel")
             });
         }
 

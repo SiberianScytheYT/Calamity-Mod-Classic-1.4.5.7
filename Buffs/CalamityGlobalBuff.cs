@@ -72,27 +72,27 @@ namespace CalRD.Buffs
             switch (type)
             {
                 case BuffID.NebulaUpDmg1:
-                    tip = "7.5% increased damage";
+                    tip = tip.Replace("15", "7.5");
                     break;
 
                 case BuffID.NebulaUpDmg2:
-                    tip = "15% increased damage";
+                    tip = tip.Replace("30", "15");
                     break;
 
                 case BuffID.NebulaUpDmg3:
-                    tip = "22.5% increased damage";
+                    tip = tip.Replace("45", "22.5");
                     break;
 
                 case BuffID.BeetleEndurance1:
-                    tip = "Damage taken reduced by 10%";
+                    tip = tip.Replace("15", "10");
                     break;
 
                 case BuffID.BeetleEndurance2:
-                    tip = "Damage taken reduced by 20%";
+                    tip = tip.Replace("30", "20");
                     break;
 
                 case BuffID.BeetleEndurance3:
-                    tip = "Damage taken reduced by 30%";
+                    tip = tip.Replace("45", "30");
                     break;
 
                 case BuffID.WeaponImbueVenom:
@@ -102,53 +102,53 @@ namespace CalRD.Buffs
                 case BuffID.WeaponImbueIchor:
                 case BuffID.WeaponImbueNanites:
                 case BuffID.WeaponImbuePoison:
-                    tip = "Rogue and " + tip;
+                    tip = CalamityUtils.GetTextValue("Vanilla.BuffDescription.WeaponImbueRogue") + tip;
                     break;
 
                 case BuffID.WeaponImbueConfetti:
-                    tip = "All attacks cause confetti to appear";
+                    tip = CalamityUtils.GetTextValue("Vanilla.BuffDescription.WeaponImbueConfetti");
                     break;
 
                 case BuffID.IceBarrier:
-                    tip = "Damage taken is reduced by 15%";
+                    tip = tip.Replace("25", "15");
                     break;
 
                 case BuffID.ChaosState:
-                    tip = "Rod of Discord teleports are disabled";
+                    tip = CalamityUtils.GetTextValue("Vanilla.BuffDescription.ChaosState");
                     break;
 
                 case BuffID.CursedInferno:
 					if (CalamityWorld.revenge)
-						tip += ". All damage taken increased by 20%";
+						tip += ". " + CalamityUtils.GetTextValue("Vanilla.BuffDescription.CursedInfernoExtra");
                     break;
 
                 case BuffID.Warmth:
-                    tip += ". Immunity to the Chilled, Frozen, and Glacial State debuffs";
+                    tip += ". " + CalamityUtils.GetTextValue("Vanilla.BuffDescription.WarmthExtra");
 					if (CalamityWorld.death)
-						tip += ". Provides cold protection in Death Mode";
+						tip += ". " + CalamityUtils.GetTextValue("Misc.ColdProtection");
                     break;
 
                 case BuffID.Invisibility:
-                    tip += ". Grants rogue bonuses while holding certain rogue weapons";
+                    tip += ". " + CalamityUtils.GetTextValue("Vanilla.BuffDescription.InvisibilityExtra");
                     break;
 
                 case BuffID.ObsidianSkin:
 					if (CalamityWorld.death)
-						tip += ". Provides heat protection in Death Mode";
+						tip += ". " + CalamityUtils.GetTextValue("Misc.HeatProtection");
                     break;
 
                 case BuffID.Inferno:
 					if (CalamityWorld.death)
-						tip += ". Provides cold protection in Death Mode";
+						tip += ". " + CalamityUtils.GetTextValue("Misc.ColdProtection");
                     break;
 
                 case BuffID.Campfire:
 					if (CalamityWorld.death)
-						tip += ". Provides cold protection in Death Mode";
+						tip += ". " + CalamityUtils.GetTextValue("Misc.ColdProtection");
                     break;
 
                 case BuffID.Daybreak:
-                    tip = "Incinerated by solar rays";
+                    tip = CalamityUtils.GetTextValue("Vanilla.BuffDescription.DaybreakExtra");
                     break;
             }
         }

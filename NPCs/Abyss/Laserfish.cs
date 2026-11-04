@@ -28,7 +28,7 @@ namespace CalRD.NPCs.Abyss
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("This fish has a symbiotic relationship with bacteria that gather in large sacs on its head, though they blind it, these bacteria release deadly blasts to clear its path and harm any potential predators.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Laserfish")
             });
         }
 

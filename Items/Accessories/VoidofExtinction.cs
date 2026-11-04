@@ -47,8 +47,7 @@ namespace CalRD.Items.Accessories
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip4")
 					{
-						line2.Text = "Temporary immunity to lava, greatly reduces lava burn damage, and 25% increased damage while in lava\n" +
-						"Provides heat protection in Death Mode";
+						line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.HeatProtection");
 					}
 				}
 			}

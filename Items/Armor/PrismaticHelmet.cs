@@ -47,10 +47,7 @@ namespace CalRD.Items.Armor
 			player.manaCost *= 0.85f;
 			player.manaRegenBonus += 8;
 			string hotkey = CalRD.TarraHotKey.TooltipHotkeyString();
-			player.setBonus = "+40 max mana and 15% reduced mana cost\n" +
-				"Increased mana regeneration rate\n" +
-				"Press " + hotkey + " to unleash a barrage of death lasers at the cursor for the next 5 seconds\n" +
-				"This has a 30 second cooldown";
+			player.setBonus = CalamityUtils.GetText("Misc.CalamitySetBonus.PrismaticHelmet").Format(hotkey);
 		}
 
 		public override void UpdateEquip(Player player)

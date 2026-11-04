@@ -30,14 +30,11 @@ namespace CalRD.Items.Fishing
 
         public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
         {
-			if (player.itemAnimation > 0 && (player.statManaMax < 200 && player.itemTime == 0))
+			if (player.itemAnimation > 0 && (player.ConsumedManaCrystals < Player.ManaCrystalMax && player.itemTime == 0))
 			{
 				player.itemTime = Item.useTime;
-				player.statManaMax = player.statManaMax + 20;
-				player.statManaMax2 = player.statManaMax2 + 20;
-				player.statMana = player.statMana + 20;
-				if (Main.myPlayer == player.whoAmI)
-					player.ManaEffect(20);
+				player.UseManaMaxIncreasingItem(20);
+				player.ConsumedManaCrystals++;
 				AchievementsHelper.HandleSpecialEvent(player, 1);
 			}
 			return false;

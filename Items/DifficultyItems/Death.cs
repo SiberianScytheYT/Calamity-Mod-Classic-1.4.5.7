@@ -53,7 +53,7 @@ namespace CalRD.Items.DifficultyItems
 
             if (CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive)
 			{
-                string key = "You cannot change the rules now.";
+                string key = "Mods.CalRD.ClassicKeys.ChangingTheRules";
                 Color messageColor = Color.Crimson;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
 				return true;
@@ -61,14 +61,14 @@ namespace CalRD.Items.DifficultyItems
             if (!CalamityWorld.death)
             {
                 CalamityWorld.death = true;
-                string key = "Death is active, enjoy the fun.";
+                string key = "Mods.CalRD.ClassicKeys.DeathText";
                 Color messageColor = Color.Crimson;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
             else
             {
                 CalamityWorld.death = false;
-                string key = "Death is not active, not fun enough for you?";
+                string key = "Mods.CalRD.ClassicKeys.DeathText2";
                 Color messageColor = Color.Crimson;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }

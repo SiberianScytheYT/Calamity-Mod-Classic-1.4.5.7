@@ -34,7 +34,7 @@ namespace CalRD.NPCs.BrimstoneElemental
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-                new FlavorTextBestiaryInfoElement("Extensions of the Brimstone Elementals, they possess no mind, and simply serve as additional weapons for the elemental.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Brimling")
             });
         }
 

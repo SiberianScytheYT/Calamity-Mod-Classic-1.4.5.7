@@ -19,7 +19,7 @@ namespace CalRD.NPCs.NormalNPCs
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-                new FlavorTextBestiaryInfoElement("A spiny animal native to the ocean that flings itself around relentlessly in defense of its territory, though mostly helpless when outside water, given enough time they can make it back home.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.SeaUrchin")
             });
         }
 

@@ -32,9 +32,9 @@ namespace CalRD.Items.Accessories
             string hotkey = CalRD.SpectralVeilHotKey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
-                if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
+                if (line2.Mod == "Terraria" && line2.Text.Contains("[KEY]"))
                 {
-                    line2.Text = "Press " + hotkey + " to consume 25% of your maximum stealth to perform a short range teleport and render you momentarily invulnerable";
+                    line2.Text = line2.Text.Replace("[KEY]", hotkey);
                 }
             }
         }

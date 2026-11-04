@@ -34,7 +34,7 @@ namespace CalRD.NPCs.SulphurousSea
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("Despite their ferocious appearance and great jaw, these crocodiles prefer to scavenge for food and leftovers.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Trasher")
             });
         }
 

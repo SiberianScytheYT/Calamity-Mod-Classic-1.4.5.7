@@ -40,7 +40,7 @@ namespace CalRD.NPCs.SupremeCalamitas
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        new MoonLordPortraitBackgroundProviderBestiaryInfoElement(),
-		        new FlavorTextBestiaryInfoElement("The Witch's revived brother, Cataclysm. He is a shell of his former self however.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.SupremeCataclysm")
 	        });
         }
 

@@ -42,7 +42,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
-                new FlavorTextBestiaryInfoElement("A man-made elemental run with clockwork mechanisms, records say its previous design resembled a horse.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Horse")
             });
         }
 

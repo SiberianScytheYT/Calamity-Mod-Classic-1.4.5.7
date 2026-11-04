@@ -31,7 +31,7 @@ namespace CalRD.NPCs.Astral
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("On its face reside multiple pincers they use as weapons to subdue organic creatures.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.StellarCulex")
             });
         }
 

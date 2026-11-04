@@ -47,7 +47,7 @@ namespace CalRD.NPCs.Astral
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("Simple creatures lacking in means of offense or defense, instead they charge at enemies and self destruct in order to defend the infection.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Nova")
             });
         }
 

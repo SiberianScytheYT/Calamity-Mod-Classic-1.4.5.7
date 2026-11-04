@@ -51,7 +51,7 @@ namespace CalRD.NPCs.Abyss
 		{
 			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 			{
-				new FlavorTextBestiaryInfoElement("Despite the cuddly appearance, these squid-like creatures prove capable ambush predators.")
+				new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Cuttlefish")
 			});
 		}
 		

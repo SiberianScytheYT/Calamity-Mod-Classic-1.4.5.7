@@ -49,7 +49,7 @@ namespace CalRD.NPCs.AquaticScourge
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("A distant relative of the Desert Scourge, its appearance has been changed heavily by the sulphurous waters; Due to the ample food supply and its adaptions to its environment, it's far less aggressive than its kin.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.AquaticScourge")
             });
         }
 
@@ -218,7 +218,7 @@ namespace CalRD.NPCs.AquaticScourge
                 if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
                     SoundEngine.PlaySound(new SoundStyle("CalRD/Sounds/Custom/MaulerRoar"), Main.player[Main.myPlayer].position);
 
-                string sulfSeaBoostKey = "The sulphuric sky darkens...";
+                string sulfSeaBoostKey = "Mods.CalRD.ClassicKeys.WetWormBossText";
                 Color sulfSeaBoostColor = AcidRainEvent.TextColor;
 
                 CalamityUtils.DisplayLocalizedText(sulfSeaBoostKey, sulfSeaBoostColor);

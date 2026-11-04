@@ -22,7 +22,7 @@ namespace CalRD.NPCs.Cryogen
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Snow,
-                new FlavorTextBestiaryInfoElement("A servant of the Ice Fortress.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Cryocore")
             });
         }
 

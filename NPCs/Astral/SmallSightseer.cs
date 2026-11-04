@@ -37,7 +37,7 @@ namespace CalRD.NPCs.Astral
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("Smaller variants of sightseers, these lack the ability to spit deadly chemicals, and instead charge at their enemies, much like they once did as Demon Eyes.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.SmallSightseer")
             });
         }
 

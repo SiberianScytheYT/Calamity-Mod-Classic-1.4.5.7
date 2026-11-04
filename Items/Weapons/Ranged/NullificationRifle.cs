@@ -52,7 +52,7 @@ namespace CalRD.Items.Weapons.Ranged
             }
             if (player.statLife <= 0)
             {
-                player.KillMe(PlayerDeathReason.ByCustomReason(player.Male ? player.name + " was vaporized by the imbuement of his life." : player.name + " was vaporized by the imbuement of her life."), 1000.0, 0, false);
+                player.KillMe(PlayerDeathReason.ByCustomReason(player.Male ? CalamityUtils.GetText("Status.Death.Nullification").Format(player.name, CalamityUtils.GetTextValue("Status.Death.Male")) : CalamityUtils.GetText("Status.Death.Nullification").Format(player.name, CalamityUtils.GetTextValue("Status.Death.Female"))), 1000.0, 0, false);
             }
             Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<NullShot>(), damage, Item.knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;

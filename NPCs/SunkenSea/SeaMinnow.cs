@@ -21,7 +21,7 @@ namespace CalRD.NPCs.SunkenSea
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("These small fish lay at the bottom of the food chain, but also make up most of the sunken sea's population; They feed on whatever scraps fall from the desert above.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.SeaMinnow")
             });
         }
 

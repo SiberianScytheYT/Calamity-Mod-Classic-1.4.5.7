@@ -33,7 +33,7 @@ namespace CalRD.NPCs.Calamitas
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
-		        new FlavorTextBestiaryInfoElement("Guardians for the clone, they could be empowered Soul Slurpers.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.SoulSeeker")
 	        });
         }
 

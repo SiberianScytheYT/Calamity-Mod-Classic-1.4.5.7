@@ -25,7 +25,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheDungeon,
-                new FlavorTextBestiaryInfoElement("One of many spirits imprisoned within the dungeon, the ages spent imprisoned have led it to madness.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.PhantomSpiritL")
             });
         }
 

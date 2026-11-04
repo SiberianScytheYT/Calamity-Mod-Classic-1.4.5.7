@@ -24,7 +24,7 @@ namespace CalRD.NPCs.SulphurousSea
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("Relatively simple fish that launch acid towards their prey in order to subdue it.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Flounder")
             });
         }
 

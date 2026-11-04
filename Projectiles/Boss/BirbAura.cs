@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.Enums;
 using Terraria.GameContent;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.Projectiles.Boss
 {
@@ -17,6 +18,7 @@ namespace CalRD.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Draconic Aura");
+            ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
         }
 
         public override void SetDefaults()

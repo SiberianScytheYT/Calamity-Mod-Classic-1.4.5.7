@@ -26,7 +26,7 @@ namespace CalRD.NPCs.AcidRain
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("It would be a regular crab if it weren't for its unusual shell, through which it can expel corrosive water at high speed.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.FlakCrab")
             });
         }
 

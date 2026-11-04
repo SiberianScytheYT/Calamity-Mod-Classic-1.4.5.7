@@ -1,6 +1,7 @@
 using CalRD.Items.Materials;
 using CalRD.Items.Placeables;
 using CalRD.Buffs.Cooldowns;
+using Humanizer;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -66,12 +67,7 @@ namespace CalRD.Items.Armor
 		public override void UpdateArmorSet(Player player)
 		{
 			string hotkey = CalRD.TarraHotKey.TooltipHotkeyString();
-			player.setBonus = "Increases armor penetration by 50\n" +
-			                  "10% increased damage and critical strike chance\n" +
-			                  "Short-ranged tentacles heal you by sucking enemy life\n" +
-			                  "Press " + hotkey + " to activate abyssal madness for 5 seconds\n" +
-			                  "Abyssal madness increases damage, critical strike chance, and tentacle aggression/range\n" +
-			                  "This effect has a 25 second cooldown";
+			player.setBonus = CalamityUtils.GetText("Misc.CalamitySetBonus.OmegaBlueHelmet").Format(hotkey);
 
 			player.GetArmorPenetration(DamageClass.Generic) += 50;
 			player.Calamity().wearingRogueArmor = true;

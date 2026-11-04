@@ -1196,46 +1196,14 @@ namespace CalRD.Items
                 }
             }
 			#endregion
-
-            /*
-			#region Accessory Modifier Display
-			if (item.accessory)
-			{
-				if (!item.social && item.prefix > 0)
-				{
-					float stealthGenBoost = item.Calamity().StealthGenBonus;// - 1f;
-					if (stealthGenBoost > 0)
-					{
-						TooltipLine StealthGen = new TooltipLine(Mod, "PrefixStealthGenBoost", "+" + Math.Round(stealthGenBoost * 100f) + "% stealth generation")
-						{
-							IsModifier = true
-						};
-						tooltips.Add(StealthGen);
-					}
-				}
-			}
-            #endregion
-            */
             
-            /*if (item.ammo == 97)
-            {
-                foreach (TooltipLine line2 in tooltips)
-                {
-                    if (line2.mod == "Terraria")
-                    {
-                        if (line2.Name == "Damage")
-                            line2.text = "";
-                    }
-                }
-            }*/
-
 			if (item.type == ItemID.BottledHoney)
 			{
 				foreach (TooltipLine line2 in tooltips)
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "HealLife")
 					{
-						line2.Text += "\nGrants the Honey buff for 2 minutes";
+						line2.Text += "\n" + CalamityUtils.GetTextValue("Vanilla.ItemTooltips.BottledHoneyExtra");
 					}
 				}
 			}
@@ -1245,7 +1213,7 @@ namespace CalRD.Items
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
 					{
-						line2.Text += "\nTeleportation is disabled while Chaos State is active";
+						line2.Text += "\n" + CalamityUtils.GetTextValue("Vanilla.ItemTooltips.RodofDiscordExtra");
 					}
 				}
 			}
@@ -1255,7 +1223,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text += "\nCannot be used in the Abyss";
+                        line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.NoAbyss");
                     }
                 }
             }
@@ -1265,7 +1233,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Defense")
                     {
-                        line2.Text += "\nCannot be used in the Abyss";
+                        line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.NoAbyss");
                     }
                 }
             }
@@ -1275,7 +1243,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text += "\nProvides a small amount of light in the abyss";
+                        line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.SmallLightAbyss");
                     }
                 }
             }
@@ -1285,7 +1253,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text += "\nProvides a small amount of light in the abyss";
+                        line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.SmallLightAbyss");
                     }
                 }
             }
@@ -1295,7 +1263,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text += "\nProvides a small amount of light in the abyss";
+                        line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.SmallLightAbyss");
                     }
                 }
             }
@@ -1305,8 +1273,8 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
                     {
-                        line2.Text += "\nProvides a small amount of light in the abyss\n" +
-                            "Moderately reduces breath loss in the abyss";
+                        line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.SmallLightAbyss") + "\n" +
+                            CalamityUtils.GetTextValue("Misc.ModerateBreathLoss");
                     }
                 }
             }
@@ -1316,7 +1284,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text += "\nProvides a small amount of light in the abyss";
+                        line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.SmallLightAbyss");
                     }
                 }
             }
@@ -1326,7 +1294,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
                     {
-                        line2.Text += "\nProvides a small amount of light in the abyss";
+                        line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.SmallLightAbyss");
                     }
                 }
             }
@@ -1336,7 +1304,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text += "\nProvides a moderate amount of light in the abyss";
+                        line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.ModerateLightAbyss");
                     }
                 }
             }
@@ -1346,7 +1314,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text += "\nProvides a moderate amount of light in the abyss";
+                        line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.ModerateLightAbyss");
                     }
                 }
             }
@@ -1356,7 +1324,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "BuffTime")
                     {
-                        line2.Text += "\nProvides a moderate amount of light in the abyss";
+                        line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.ModerateLightAbyss");
                     }
                 }
             }
@@ -1366,7 +1334,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text += "\nProvides a large amount of light in the abyss";
+                        line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.LargeLightAbyss");
                     }
                 }
             }
@@ -1376,7 +1344,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
                     {
-                        line2.Text += "\nProvides a large amount of light in the abyss";
+                        line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.LargeLightAbyss");
                     }
                 }
             }
@@ -1386,7 +1354,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "BuffTime")
                     {
-                        line2.Text += "\nGreatly reduces breath loss in the abyss";
+                        line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.LargeBreathLoss");
                     }
                 }
             }
@@ -1396,7 +1364,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text += "\nModerately reduces breath loss in the abyss";
+                        line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.ModerateBreathLoss");
                     }
                 }
             }
@@ -1406,7 +1374,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text += "\nGreatly reduces breath loss in the abyss";
+                        line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.LargeBreathLoss");
                     }
                 }
             }
@@ -1416,7 +1384,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
                     {
-                        line2.Text += "\nGreatly reduces breath loss in the abyss";
+                        line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.LargeBreathLoss");
                     }
                 }
             }
@@ -1428,8 +1396,8 @@ namespace CalRD.Items
 					{
 						if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
 						{
-							line2.Text += "\nMakes you immune to the Chilled, Frozen, and Glacial State debuffs\n" +
-								"Provides cold protection in Death Mode";
+							line2.Text += "\n" + CalamityUtils.GetTextValue("Vanilla.ItemTooltips.WarmthExtra") + "\n" +
+								CalamityUtils.GetTextValue("Misc.ColdProtection");
 						}
 					}
 				}
@@ -1439,7 +1407,7 @@ namespace CalRD.Items
 					{
 						if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
 						{
-							line2.Text += "\nMakes you immune to the Chilled, Frozen, and Glacial State debuffs";
+							line2.Text += "\n" + CalamityUtils.GetTextValue("Vanilla.ItemTooltips.WarmthExtra");
 						}
 					}
 				}
@@ -1450,7 +1418,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Melee and rogue attacks inflict Venom on enemies";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.FlaskofVenom");
                     }
                 }
             }
@@ -1460,7 +1428,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Melee and rogue attacks inflict enemies with cursed flames";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.FlaskofCursedFlames");
                     }
                 }
             }
@@ -1470,7 +1438,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Melee and rogue attacks set enemies on fire";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.FlaskofFire");
                     }
                 }
             }
@@ -1480,7 +1448,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Melee and rogue attacks make enemies drop more gold";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.FlaskofGold");
                     }
                 }
             }
@@ -1490,7 +1458,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Melee and rogue attacks decrease enemy defense";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.FlaskofIchor");
                     }
                 }
             }
@@ -1500,7 +1468,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Melee and rogue attacks confuse enemies";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.FlaskofNanites");
                     }
                 }
             }
@@ -1510,7 +1478,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "All attacks cause confetti to appear";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.BuffDescription.WeaponImbueConfetti");
                     }
                 }
             }
@@ -1520,7 +1488,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Melee and rogue attacks poison enemies";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.FlaskofPoison");
                     }
                 }
             }
@@ -1530,7 +1498,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Reduces damage taken by 10%";
+                        line2.Text = line2.Text.Replace("17", "10");
                     }
                 }
             }
@@ -1540,7 +1508,7 @@ namespace CalRD.Items
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
 					{
-						line2.Text += "\n10% increased true melee damage";
+						line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.TenPercentTrueMelee");
 					}
 				}
 			}
@@ -1550,7 +1518,7 @@ namespace CalRD.Items
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
 					{
-						line2.Text += "\n10% increased true melee damage";
+						line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.TenPercentTrueMelee");
 					}
 				}
 			}
@@ -1560,7 +1528,7 @@ namespace CalRD.Items
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
 					{
-						line2.Text += "\n10% increased true melee damage";
+						line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.TenPercentTrueMelee");
 					}
 				}
 			}
@@ -1572,9 +1540,9 @@ namespace CalRD.Items
 					{
 						if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
 						{
-							line2.Text = "14% increased melee damage and speed\n" +
-								"10% increased true melee damage\n" +
-								"Provides heat and cold protection in Death Mode";
+							line2.Text = line2.Text.Replace("12", "14") + "\n" + 
+                                CalamityUtils.GetTextValue("Misc.TenPercentTrueMelee") + "\n" +
+								CalamityUtils.GetTextValue("Misc.HeatColdProtection");
 						}
 					}
 				}
@@ -1584,8 +1552,8 @@ namespace CalRD.Items
 					{
 						if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
 						{
-							line2.Text = "14% increased melee damage and speed\n" +
-								"10% increased true melee damage";
+							line2.Text = line2.Text.Replace("12", "14") + "\n" + 
+                                CalamityUtils.GetTextValue("Misc.TenPercentTrueMelee");
 						}
 					}
 				}
@@ -1596,33 +1564,29 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "20% decreased magic damage";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.SpectreHood");
                     }
                 }
             }
             if (item.type == ItemID.ObsidianSkinPotion)
             {
-				string heatImmunity = CalamityWorld.death ? "\nProvides heat protection in Death Mode" : "";
+				string heatImmunity = CalamityWorld.death ? "\n" + CalamityUtils.GetTextValue("Misc.HeatProtection") : "";
 				foreach (TooltipLine line2 in tooltips)
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
 					{
-						line2.Text = "Provides immunity to direct damage from touching lava\n" +
-							"Provides temporary immunity to lava burn damage\n" +
-							"Greatly increases lava immunity time regeneration\n" +
-							"Reduces lava burn damage" + heatImmunity;
+						line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.ObsidianSkin") + heatImmunity;
 					}
 				}
             }
             if (item.type == ItemID.ObsidianRose)
             {
-				string heatImmunity = CalamityWorld.death ? "\nProvides heat protection in Death Mode" : "";
+				string heatImmunity = CalamityWorld.death ? "\n" + CalamityUtils.GetTextValue("Misc.HeatProtection") : "";
 				foreach (TooltipLine line2 in tooltips)
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
 					{
-						line2.Text = "Reduced direct damage from touching lava\n" +
-							"Greatly reduces lava burn damage" + heatImmunity;
+						line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.ObsidianRose") + heatImmunity;
 					}
 				}
             }
@@ -1632,7 +1596,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text += "\nProvides heat and cold protection in Death Mode";
+                        line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.HeatColdProtection");
                     }
                 }
             }
@@ -1642,7 +1606,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text += "\nProvides heat protection in Death Mode";
+                        line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.HeatProtection");
                     }
                 }
             }
@@ -1652,7 +1616,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
                     {
-                        line2.Text += "\nProvides heat protection in Death Mode";
+                        line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.HeatProtection");
                     }
                 }
             }
@@ -1662,7 +1626,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text += "\nBoosts certain stats when holding certain types of rogue weapons";
+                        line2.Text += "\n" + CalamityUtils.GetTextValue("Vanilla.ItemTooltips.InvisibilityPotionExtra");
                     }
                 }
             }
@@ -1672,8 +1636,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "NeedsBait")
                     {
-                        line2.Text = "Requires bait to catch fish\n" +
-                            "The line will never break";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GoldenFishingRod");
                     }
                 }
             }
@@ -1684,7 +1647,7 @@ namespace CalRD.Items
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
 						// I'm leaving this intentionally ambiguous so that people have to search for Scoria Ore
-                        line2.Text = "Capable of mining Lihzahrd Bricks and Scoria Ore";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Picksaw");
                     }
                 }
             }
@@ -1694,8 +1657,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Material")
                     {
-                        line2.Text = "Material\n" +
-                            "Can mine Uelibloom Ore";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.MineUelibloom");
                     }
                 }
             }
@@ -1705,8 +1667,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Material")
                     {
-                        line2.Text = "Material\n" +
-                            "Can mine Uelibloom Ore";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.MineUelibloom");
                     }
                 }
             }
@@ -1716,8 +1677,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Material")
                     {
-                        line2.Text = "Material\n" +
-                            "Can mine Uelibloom Ore";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.MineUelibloom");
                     }
                 }
             }
@@ -1727,8 +1687,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Material")
                     {
-                        line2.Text = "Material\n" +
-                            "Can mine Uelibloom Ore";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.MineUelibloom");
                     }
                 }
             }
@@ -1742,7 +1701,7 @@ namespace CalRD.Items
 						if (line2.Mod == "Terraria" && line2.Name == "Damage")
 						{
 							line2.Text += " : " + string.Concat((int)(Main.player[Main.myPlayer].Calamity().actualMeleeDamageStat * item.damage * 
-								(1D + Main.player[Main.myPlayer].Calamity().trueMeleeDamage) + 5E-06f)) + " true melee damage";
+								(1D + Main.player[Main.myPlayer].Calamity().trueMeleeDamage) + 5E-06f)) + CalamityUtils.GetTextValue("Misc.TrueMeleeDamage");
 						}
 					}
 				}
@@ -1754,7 +1713,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "SetBonus")
                     {
-                        line2.Text = "Set Bonus: Reduces the mana cost of the Space Gun by 50%";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.SetBonus.Meteor");
                     }
                 }
             }
@@ -1764,7 +1723,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "SetBonus")
                     {
-                        line2.Text = "Set Bonus: +2 defense and 15% increased mining speed";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.SetBonus.Copper");
                     }
                 }
             }
@@ -1774,7 +1733,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "SetBonus")
                     {
-                        line2.Text = "Set Bonus: +2 defense and 10% increased mining speed";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.SetBonus.Tin");
                     }
                 }
             }
@@ -1784,7 +1743,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "SetBonus")
                     {
-                        line2.Text = "Set Bonus: +2 defense and 25% increased mining speed";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.SetBonus.AncientIron");
                     }
                 }
             }
@@ -1794,7 +1753,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "SetBonus")
                     {
-                        line2.Text = "Set Bonus: +3 defense and 20% increased mining speed";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.SetBonus.Lead");
                     }
                 }
             }
@@ -1804,7 +1763,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "SetBonus")
                     {
-                        line2.Text = "Set Bonus: +3 defense and 35% increased mining speed";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.SetBonus.Silver");
                     }
                 }
             }
@@ -1814,7 +1773,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "SetBonus")
                     {
-                        line2.Text = "Set Bonus: +3 defense and 30% increased mining speed";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.SetBonus.Tungsten");
                     }
                 }
             }
@@ -1824,7 +1783,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "SetBonus")
                     {
-                        line2.Text = "Set Bonus: +3 defense and 45% increased mining speed";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.SetBonus.AncientGold");
                     }
                 }
             }
@@ -1834,7 +1793,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "SetBonus")
                     {
-                        line2.Text = "Set Bonus: +4 defense and 40% increased mining speed";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.SetBonus.Platinum");
                     }
                 }
             }
@@ -1846,7 +1805,7 @@ namespace CalRD.Items
 					{
 						if (line2.Mod == "Terraria" && line2.Name == "SetBonus")
 						{
-							line2.Text += "\nThe minion damage nerf is reduced while wielding magic weapons";
+							line2.Text += "\n" + CalamityUtils.GetTextValue("Vanilla.ItemTooltips.SetBonus.Forbidden");
 						}
 					}
 				}
@@ -1857,8 +1816,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Defense")
                     {
-                        line2.Text = "3 defense\n" +
-                            "3% increased rogue damage";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GladiatorHelmet");
                     }
                 }
             }
@@ -1868,8 +1826,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Defense")
                     {
-                        line2.Text = "5 defense\n" +
-                            "3% increased rogue critical strike chance";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GladiatorBreastplate");
                     }
                 }
             }
@@ -1879,8 +1836,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Defense")
                     {
-                        line2.Text = "4 defense\n" +
-                            "3% increased rogue velocity";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GladiatorLeggings");
                     }
                 }
             }
@@ -1890,8 +1846,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Defense")
                     {
-                        line2.Text = "4 defense\n" +
-                            "3% increased rogue damage";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.ObsidianHelm");
                     }
                 }
             }
@@ -1901,8 +1856,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Defense")
                     {
-                        line2.Text = "5 defense\n" +
-                            "3% increased rogue critical strike chance";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.ObsidianShirt");
                     }
                 }
             }
@@ -1912,8 +1866,7 @@ namespace CalRD.Items
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Defense")
                     {
-                        line2.Text = "4 defense\n" +
-                            "3% increased rogue velocity";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.ObsidianPants");
                     }
                 }
             }
@@ -1925,10 +1878,7 @@ namespace CalRD.Items
 					{
 						if (line2.Mod == "Terraria" && line2.Name == "SetBonus")
 						{
-							line2.Text = @"Set Bonus: 17% extra melee damage
-20% extra true melee damage
-Grants immunity to fire blocks, and temporary immunity to lava
-Provides heat and cold protection in Death Mode";
+							line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.SetBonus.Molten") + "\n" + CalamityUtils.GetTextValue("Misc.HeatColdProtection");
 						}
 					}
                 }
@@ -1938,9 +1888,7 @@ Provides heat and cold protection in Death Mode";
 					{
 						if (line2.Mod == "Terraria" && line2.Name == "SetBonus")
 						{
-							line2.Text = @"Set Bonus: 17% extra melee damage
-20% extra true melee damage
-Grants immunity to fire blocks, and temporary immunity to lava";
+							line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.SetBonus.Molten");
 						}
 					}
                 }
@@ -1953,7 +1901,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 					{
 						if (line2.Mod == "Terraria" && line2.Name == "SetBonus")
 						{
-							line2.Text += "\nProvides heat and cold protection in Death Mode";
+							line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.HeatColdProtection");
 						}
 					}
 				}
@@ -1964,7 +1912,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Increases arrow damage by 10% and greatly increases arrow speed";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.MagicQuiver");
                     }
                 }
             }
@@ -1974,20 +1922,18 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Provides light when worn\n" +
-							"Provides a small amount of light in the Abyss";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.MiningHelmet");
                     }
                 }
             }
             if (item.type == ItemID.HandWarmer)
             {
-				string coldImmunity = CalamityWorld.death ? "\nProvides cold protection in Death Mode" : "";
+				string coldImmunity = CalamityWorld.death ? "\n" + CalamityUtils.GetTextValue("Misc.ColdProtection") : "";
                 foreach (TooltipLine line2 in tooltips)
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Provides immunity to chilling and freezing effects\n" +
-							"Provides a regeneration boost while wearing the Eskimo armor" + coldImmunity;
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.HandWarmer") + coldImmunity;
                     }
                 }
             }
@@ -1997,12 +1943,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-                            "Horizontal speed: 6.25\n" +
-                            "Acceleration multiplier: 1\n" +
-                            "Average vertical speed\n" +
-                            "Flight time: 100\n" +
-                            "+20 max life, +15 defense and +3 life regen";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Angel");
                     }
                 }
             }
@@ -2012,12 +1953,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-                            "Horizontal speed: 6.25\n" +
-                            "Acceleration multiplier: 1\n" +
-                            "Average vertical speed\n" +
-                            "Flight time: 100\n" +
-                            "10% increased damage and critical strike chance";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Demon");
                     }
                 }
             }
@@ -2027,11 +1963,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-                            "Horizontal speed: 6.5\n" +
-                            "Acceleration multiplier: 1\n" +
-                            "Average vertical speed\n" +
-                            "Flight time: 115";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Jetpack");
                     }
                 }
             }
@@ -2041,13 +1973,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-                            "Horizontal speed: 6.75\n" +
-                            "Acceleration multiplier: 1\n" +
-                            "Average vertical speed\n" +
-                            "Flight time: 130\n" +
-                            "+50 max mana, 5% decreased mana usage,\n" +
-                            "10% increased magic damage and 5% increased magic critical strike chance";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Butterfly");
                     }
                 }
             }
@@ -2057,12 +1983,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-                            "Horizontal speed: 6.75\n" +
-                            "Acceleration multiplier: 1\n" +
-                            "Average vertical speed\n" +
-                            "Flight time: 130\n" +
-                            "+80 max life";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Fairy");
                     }
                 }
             }
@@ -2072,12 +1993,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-                            "Horizontal speed: 6.75\n" +
-                            "Acceleration multiplier: 1\n" +
-                            "Average vertical speed\n" +
-                            "Flight time: 130\n" +
-                            "Honey buff at all times";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Bee");
                     }
                 }
             }
@@ -2087,13 +2003,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-                            "Horizontal speed: 7\n" +
-                            "Acceleration multiplier: 1\n" +
-                            "Average vertical speed\n" +
-                            "Flight time: 140\n" +
-                            "30% increased movement speed\n" +
-							"Most attacks have a chance to fire a feather on swing if Harpy Ring or Angel Treads are equipped";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Harpy");
                     }
                 }
             }
@@ -2103,14 +2013,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-                            "Horizontal speed: 7\n" +
-                            "Acceleration multiplier: 1\n" +
-                            "Average vertical speed\n" +
-                            "Flight time: 140\n" +
-                            "15% increased movement speed, 12% increased ranged damage,\n" +
-                            "16% increased ranged critical strike chance\n" +
-                            "and +30 defense while wearing the Necro Armor";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Bone");
                     }
                 }
             }
@@ -2120,13 +2023,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-                            "Horizontal speed: 7.5\n" +
-                            "Acceleration multiplier: 1\n" +
-                            "Average vertical speed\n" +
-                            "Flight time: 160\n" +
-                            "10% increased melee damage\n" +
-                            "and 5% increased melee critical strike chance";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Flame");
                     }
                 }
             }
@@ -2136,14 +2033,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-                            "Horizontal speed: 7.5\n" +
-                            "Acceleration multiplier: 1\n" +
-                            "Average vertical speed\n" +
-                            "Flight time: 160\n" +
-                            "2% increased melee and ranged damage\n" +
-                            "and 1% increased melee and ranged critical strike chance\n" +
-                            "while wearing the Frost Armor";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Frozen");
                     }
                 }
             }
@@ -2153,14 +2043,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-                            "Horizontal speed: 7.5\n" +
-                            "Acceleration multiplier: 1\n" +
-                            "Average vertical speed\n" +
-                            "Flight time: 160\n" +
-                            "+10 defense and 5% increased damage reduction while wearing the Spectre Armor and Hood\n" +
-                            "+20 max mana, 5% increased magic damage and critical strike chance,\n" +
-                            "and 5% decreased mana usage while wearing the Spectre Armor and Mask";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Ghost");
                     }
                 }
             }
@@ -2170,13 +2053,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-                            "Horizontal speed: 7.5\n" +
-                            "Acceleration multiplier: 1\n" +
-                            "Average vertical speed\n" +
-                            "Flight time: 160\n" +
-                            "+15 defense and 10% increased damage reduction while wearing the Beetle Armor and Shell\n" +
-                            "10% increased melee damage and critical strike chance while wearing the Beetle Armor and Scale Mail";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Beetle");
                     }
                 }
             }
@@ -2186,14 +2063,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-                            "Horizontal speed: 0\n" +
-                            "Acceleration multiplier: 0\n" +
-                            "Average vertical speed\n" +
-                            "Flight time: 100\n" +
-                            "Gills effect and you can move freely through liquids\n" +
-                            "You fall faster while submerged in liquid\n" +
-                            "20% increased movement speed and 36% increased jump speed";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Fin");
                     }
                 }
             }
@@ -2203,11 +2073,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-                            "Horizontal speed: 8\n" +
-                            "Acceleration multiplier: 2\n" +
-                            "Good vertical speed\n" +
-                            "Flight time: 180";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Fishron");
                     }
                 }
             }
@@ -2217,13 +2083,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-                            "Horizontal speed: 7.75\n" +
-                            "Acceleration multiplier: 1\n" +
-                            "Average vertical speed\n" +
-                            "Flight time: 180\n" +
-                            "+8 defense, 10% increased movement speed,\n" +
-                            "4% increased damage, and 2% increased critical strike chance";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Steampunk");
                     }
                 }
             }
@@ -2233,13 +2093,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-                            "Horizontal speed: 6.75\n" +
-                            "Acceleration multiplier: 1\n" +
-                            "Average vertical speed\n" +
-                            "Flight time: 160\n" +
-                            "+10 defense, 10% increased damage reduction,\n" +
-							"and the Dryad's permanent blessing while wearing the Tiki Armor";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Leaf");
                     }
                 }
             }
@@ -2249,14 +2103,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-                            "Horizontal speed: 0\n" +
-                            "Acceleration multiplier: 0\n" +
-                            "Average vertical speed\n" +
-                            "Flight time: 140\n" +
-                            "At night or during an eclipse, you will gain the following boosts:\n" +
-							"10% increased movement speed, 20% increased jump speed,\n" +
-                            "+15 defense, 10% increased damage, and 5% increased critical strike chance";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Bat");
                     }
                 }
             }
@@ -2269,11 +2116,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "'Great for impersonating devs!'\n" +
-                            "Horizontal speed: 7\n" +
-                            "Acceleration multiplier: 1\n" +
-                            "Average vertical speed\n" +
-                            "Flight time: 150";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Dev");
                     }
                 }
             }
@@ -2283,12 +2126,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-                            "Horizontal speed: 7.5\n" +
-                            "Acceleration multiplier: 1\n" +
-                            "Average vertical speed\n" +
-                            "Flight time: 180\n" +
-                            "5% increased damage and critical strike chance";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.TatteredFairy");
                     }
                 }
             }
@@ -2298,12 +2136,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-                            "Horizontal speed: 7.5\n" +
-                            "Acceleration multiplier: 1\n" +
-                            "Average vertical speed\n" +
-                            "Flight time: 180\n" +
-                            "Increased minion knockback and 5% increased minion damage while wearing the Spooky Armor";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Spooky");
                     }
                 }
             }
@@ -2313,13 +2146,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
                     {
-                        line2.Text = "Hold DOWN and JUMP to hover\n" +
-                            "Horizontal speed: 6.25\n" +
-                            "Acceleration multiplier: 1\n" +
-                            "Average vertical speed\n" +
-                            "Flight time: 170\n" +
-                            "10% increased damage to bows, guns, rocket launchers, and flamethrowers while wearing the Shroomite Armor\n" +
-							"Boosted weapon type depends on the Shroomite Helmet worn";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Hoverboard");
                     }
                 }
             }
@@ -2329,13 +2156,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-                            "Horizontal speed: 7.5\n" +
-                            "Acceleration multiplier: 1\n" +
-                            "Average vertical speed\n" +
-                            "Flight time: 170\n" +
-                            "+50 max life\n" +
-                            "Ornaments rain down as you fly";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Festive");
                     }
                 }
             }
@@ -2345,13 +2166,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-                            "Horizontal speed: 0\n" +
-                            "Acceleration multiplier: 0\n" +
-                            "Average vertical speed\n" +
-                            "Flight time: 160\n" +
-                            "+5 defense, 5% increased damage,\n" +
-                            "10% increased movement speed and 24% increased jump speed";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Mothron");
                     }
                 }
             }
@@ -2361,13 +2176,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-                            "Horizontal speed: 9\n" +
-                            "Acceleration multiplier: 2.5\n" +
-                            "Great vertical speed\n" +
-                            "Flight time: 180\n" +
-                            "7% increased melee damage and 3% increased melee critical strike chance\n" +
-                            "while wearing the Solar Flare Armor";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Solar");
                     }
                 }
             }
@@ -2377,12 +2186,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-                            "Horizontal speed: 9\n" +
-                            "Acceleration multiplier: 2.5\n" +
-                            "Great vertical speed\n" +
-                            "Flight time: 180\n" +
-                            "+1 max minion and 5% increased minion damage while wearing the Stardust Armor";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Stardust");
                     }
                 }
             }
@@ -2392,14 +2196,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-							"Hold DOWN and JUMP to hover\n" +
-                            "Horizontal speed: 6.5\n" +
-                            "Acceleration multiplier: 1.5\n" +
-                            "Good vertical speed\n" +
-                            "Flight time: 160\n" +
-                            "3% increased ranged damage and 7% increased ranged critical strike chance\n" +
-                            "while wearing the Vortex Armor";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Vortex");
                     }
                 }
             }
@@ -2409,14 +2206,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.Text = "Allows flight and slow fall\n" +
-							"Hold DOWN and JUMP to hover\n" +
-                            "Horizontal speed: 6.5\n" +
-                            "Acceleration multiplier: 1.5\n" +
-                            "Good vertical speed\n" +
-                            "Flight time: 160\n" +
-                            "+20 max mana, 5% increased magic damage and critical strike chance,\n" +
-                            "and 5% decreased mana usage while wearing the Nebula Armor";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Nebula");
                     }
                 }
             }
@@ -2426,13 +2216,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Allows flight and slow fall\n" +
-							"Hold DOWN and JUMP to hover\n" +
-                            "Horizontal speed: 6\n" +
-                            "Acceleration multiplier: 2.5\n" +
-                            "Good vertical speed\n" +
-                            "Flight time: 150";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.Wings.Betsy");
                     }
                 }
             }
@@ -2442,10 +2226,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Reach: 18.75\n" +
-                            "Launch Velocity: 11.5\n" +
-							"Pull Velocity: 11";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GrapplingHooks.Basic");
                     }
                 }
             }
@@ -2455,10 +2236,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Reach: 18.75\n" +
-                            "Launch Velocity: 10\n" +
-							"Pull Velocity: 11";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GrapplingHooks.Amethyst");
                     }
                 }
             }
@@ -2468,10 +2246,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Reach: 20.625\n" +
-                            "Launch Velocity: 10.5\n" +
-							"Pull Velocity: 11.75";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GrapplingHooks.Topaz");
                     }
                 }
             }
@@ -2481,10 +2256,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Reach: 22.5\n" +
-                            "Launch Velocity: 11\n" +
-							"Pull Velocity: 12.5";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GrapplingHooks.Sapphire");
                     }
                 }
             }
@@ -2494,10 +2266,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Reach: 24.375\n" +
-                            "Launch Velocity: 11.5\n" +
-							"Pull Velocity: 13.25";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GrapplingHooks.Emerald");
                     }
                 }
             }
@@ -2507,10 +2276,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Reach: 26.25\n" +
-                            "Launch Velocity: 12\n" +
-							"Pull Velocity: 14";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GrapplingHooks.Ruby");
                     }
                 }
             }
@@ -2520,10 +2286,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Reach: 28.125\n" +
-                            "Launch Velocity: 12.5\n" +
-							"Pull Velocity: 14.75";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GrapplingHooks.Diamond");
                     }
                 }
             }
@@ -2533,10 +2296,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Reach: 15.625\n" +
-                            "Launch Velocity: 10\n" +
-							"Pull Velocity: 11";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GrapplingHooks.WebSlinger");
                     }
                 }
             }
@@ -2546,10 +2306,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Reach: 21.875\n" +
-                            "Launch Velocity: 15\n" +
-							"Pull Velocity: 11";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GrapplingHooks.SkeletronHand");
                     }
                 }
             }
@@ -2559,10 +2316,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Reach: 18.75\n" +
-                            "Launch Velocity: 13\n" +
-							"Pull Velocity: 11";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GrapplingHooks.Slime");
                     }
                 }
             }
@@ -2572,10 +2326,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Reach: 25\n" +
-                            "Launch Velocity: 13\n" +
-							"Pull Velocity: 11";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GrapplingHooks.Fish");
                     }
                 }
             }
@@ -2585,10 +2336,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Reach: 25\n" +
-                            "Launch Velocity: 13\n" +
-							"Pull Velocity: 15";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GrapplingHooks.IvyWhip");
                     }
                 }
             }
@@ -2598,10 +2346,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Reach: 31.25\n" +
-                            "Launch Velocity: 15.5\n" +
-							"Pull Velocity: 20";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GrapplingHooks.Bat");
                     }
                 }
             }
@@ -2611,10 +2356,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Reach: 25\n" +
-                            "Launch Velocity: 11.5\n" +
-							"Pull Velocity: 11";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GrapplingHooks.CandyCane");
                     }
                 }
             }
@@ -2624,10 +2366,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Reach: 27.5\n" +
-                            "Launch Velocity: 14\n" +
-							"Pull Velocity: 17";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GrapplingHooks.Dual");
                     }
                 }
             }
@@ -2637,10 +2376,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Reach: 30\n" +
-                            "Launch Velocity: 15\n" +
-							"Pull Velocity: 18";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GrapplingHooks.Thorn");
                     }
                 }
             }
@@ -2650,10 +2386,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Reach: 30\n" +
-                            "Launch Velocity: 15\n" +
-							"Pull Velocity: 18";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GrapplingHooks.Worm");
                     }
                 }
             }
@@ -2663,10 +2396,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Reach: 30\n" +
-                            "Launch Velocity: 15\n" +
-							"Pull Velocity: 18";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GrapplingHooks.Tendon");
                     }
                 }
             }
@@ -2676,10 +2406,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Reach: 30\n" +
-                            "Launch Velocity: 15\n" +
-							"Pull Velocity: 18";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GrapplingHooks.Illuminant");
                     }
                 }
             }
@@ -2689,10 +2416,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Reach: 31.25\n" +
-                            "Launch Velocity: 14\n" +
-							"Pull Velocity: 20";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GrapplingHooks.AntiGravity");
                     }
                 }
             }
@@ -2702,10 +2426,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Reach: 34.375\n" +
-                            "Launch Velocity: 15.5\n" +
-							"Pull Velocity: 22";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GrapplingHooks.Spooky");
                     }
                 }
             }
@@ -2715,10 +2436,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Reach: 34.375\n" +
-                            "Launch Velocity: 15.5\n" +
-							"Pull Velocity: 17";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GrapplingHooks.Christmas");
                     }
                 }
             }
@@ -2728,10 +2446,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Reach: 34.375\n" +
-                            "Launch Velocity: 16\n" +
-							"Pull Velocity: 24";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GrapplingHooks.Lunar");
                     }
                 }
             }
@@ -2741,10 +2456,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (line2.Mod == "Terraria" && line2.Name == "Equipable")
                     {
-                        line2.Text = "Equipable\n" +
-                            "Reach: 37.5\n" +
-                            "Launch Velocity: 16\n" +
-							"Pull Velocity: 24";
+                        line2.Text = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.GrapplingHooks.Static");
                     }
                 }
             }
@@ -2756,7 +2468,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         if (line2.Mod == "Terraria" && line2.Name == "PrefixAccCritChance")
                         {
-                            line2.Text = "+1% critical strike chance";
+                            line2.Text = line2.Text.Replace("2", "1");
                         }
                     }
                 }
@@ -2766,105 +2478,85 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         if (line2.Mod == "Terraria" && line2.Name == "PrefixAccCritChance")
                         {
-                            line2.Text = "+3% critical strike chance";
+                            line2.Text = line2.Text.Replace("4", "3");
                         }
                     }
                 }
                 if (item.prefix == PrefixID.Hard)
                 {
-					string defenseBoost = "+1 defense\n";
-					if (NPC.downedMoonlord)
-					{
-						defenseBoost = "+3 defense\n";
-					}
-					else if (Main.hardMode)
-					{
-						defenseBoost = "+2 defense\n";
-					}
                     foreach (TooltipLine line2 in tooltips)
                     {
                         if (line2.Mod == "Terraria" && line2.Name == "PrefixAccDefense")
                         {
-                            line2.Text = defenseBoost + "+0.25% damage reduction";
+                            if (NPC.downedMoonlord)
+                                line2.Text = line2.Text.Replace("1", "3");
+                            else if (Main.hardMode)
+                                line2.Text = line2.Text.Replace("1", "2");
+                            line2.Text += "\n" + CalamityUtils.GetText("Vanilla.ItemTooltips.DR").Format(0.25f);
                         }
                     }
                 }
                 if (item.prefix == PrefixID.Guarding)
                 {
-					string defenseBoost = "+2 defense\n";
-					if (NPC.downedMoonlord)
-					{
-						defenseBoost = "+4 defense\n";
-					}
-					else if (Main.hardMode)
-					{
-						defenseBoost = "+3 defense\n";
-					}
 					foreach (TooltipLine line2 in tooltips)
                     {
                         if (line2.Mod == "Terraria" && line2.Name == "PrefixAccDefense")
                         {
-                            line2.Text = defenseBoost + "+0.5% damage reduction";
+                            if (NPC.downedMoonlord)
+                                line2.Text = line2.Text.Replace("2", "4");
+                            else if (Main.hardMode)
+                                line2.Text = line2.Text.Replace("2", "3");
+                            line2.Text += "\n" + CalamityUtils.GetText("Vanilla.ItemTooltips.DR").Format(0.5f);
                         }
                     }
                 }
                 if (item.prefix == PrefixID.Armored)
                 {
-					string defenseBoost = "+3 defense\n";
-					if (NPC.downedMoonlord)
-					{
-						defenseBoost = "+6 defense\n";
-					}
-					else if (Main.hardMode)
-					{
-						defenseBoost = "+4 defense\n";
-					}
 					foreach (TooltipLine line2 in tooltips)
                     {
                         if (line2.Mod == "Terraria" && line2.Name == "PrefixAccDefense")
                         {
-                            line2.Text = defenseBoost + "+0.75% damage reduction";
+                            if (NPC.downedMoonlord)
+                                line2.Text = line2.Text.Replace("3", "6");
+                            else if (Main.hardMode)
+                                line2.Text = line2.Text.Replace("3", "4");
+                            line2.Text += "\n" + CalamityUtils.GetText("Vanilla.ItemTooltips.DR").Format(0.75f);
                         }
                     }
                 }
                 if (item.prefix == PrefixID.Warding)
                 {
-					string defenseBoost = "+4 defense\n";
-					if (NPC.downedMoonlord)
-					{
-						defenseBoost = "+8 defense\n";
-					}
-					else if (Main.hardMode)
-					{
-						defenseBoost = "+6 defense\n";
-					}
 					foreach (TooltipLine line2 in tooltips)
                     {
                         if (line2.Mod == "Terraria" && line2.Name == "PrefixAccDefense")
                         {
-                            line2.Text = defenseBoost + "+1% damage reduction";
+                            if (NPC.downedMoonlord)
+                                line2.Text = line2.Text.Replace("4", "8");
+                            else if (Main.hardMode)
+                                line2.Text = line2.Text.Replace("4", "6");
+                            line2.Text += "\n" + CalamityUtils.GetText("Vanilla.ItemTooltips.DR").Format(1f);
                         }
                     }
                 }
             }
 
-			Mod fargos = ModLoader.HasMod("Fargowiltas") ? ModLoader.GetMod("Fargowiltas") : null;
+            ModLoader.TryGetMod("Fargowiltas", out Mod fargos);
 			if (fargos != null)
 			{
 				//Fargo's fountain effects
 				if (item.type == ModContent.ItemType<SunkenSeaFountain>())
 				{
-					TooltipLine line = new TooltipLine(Mod, "Tooltip0", "Forces surrounding biome state to Sunken Sea upon activation");
+					TooltipLine line = new TooltipLine(Mod, "Tooltip0", CalamityUtils.GetTextValue("Misc.Fargos.SunkenSeaFountain"));
 					tooltips.Add(line);
 				}
 				if (item.type == ModContent.ItemType<SulphurousFountainItem>())
 				{
-					TooltipLine line = new TooltipLine(Mod, "Tooltip0", "Forces surrounding biome state to Sulphurous Sea upon activation");
+					TooltipLine line = new TooltipLine(Mod, "Tooltip0", CalamityUtils.GetTextValue("Misc.Fargos.SulphurousFountain"));
 					tooltips.Add(line);
 				}
 				if (item.type == ModContent.ItemType<AstralFountainItem>())
 				{
-					TooltipLine line = new TooltipLine(Mod, "Tooltip0", "Forces surrounding biome state to Astral upon activation");
+					TooltipLine line = new TooltipLine(Mod, "Tooltip0", CalamityUtils.GetTextValue("Misc.Fargos.AstralFountain"));
 					tooltips.Add(line);
 				}
             }
@@ -2877,7 +2569,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
             {
                 // Convert current charge ratio into a percentage.
                 float displayedPercent = ChargeRatio * 100f;
-                TooltipLine line = new TooltipLine(Mod, "Tooltip0", $"Current Charge: {displayedPercent:N1}%");
+                TooltipLine line = new TooltipLine(Mod, "Tooltip0", CalamityUtils.GetText("Misc.Charge").Format(displayedPercent.ToString("N1")));
                 tooltips.Add(line);
             }
         }
@@ -3096,12 +2788,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 player.Calamity().throwingDamage += 0.05f;
                 player.Calamity().throwingVelocity += 0.1f;
                 player.statDefense += 3;
-                player.setBonus = "+3 defense\n" +
-                            "5% increased rogue damage and 10% increased velocity\n" +
-                            "Rogue stealth builds while not attacking and not moving, up to a max of 70\n" +
-                            "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
-                            "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                            "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+                player.setBonus = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.SetBonus.Gladiator");
             }
             else if (set == "Obsidian")
             {
@@ -3112,14 +2799,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 player.statDefense += 2;
                 player.fireWalk = true;
                 player.lavaMax += 180;
-				string heatImmunity = CalamityWorld.death ? "\nProvides heat protection in Death Mode" : "";
-				player.setBonus = "+2 defense\n" +
-							"5% increased rogue damage and critical strike chance\n" +
-							"Grants immunity to fire blocks and temporary immunity to lava\n" +
-							"Rogue stealth builds while not attacking and not moving, up to a max of 80\n" +
-							"Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
-							"Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-							"The higher your rogue stealth the higher your rogue damage, crit, and movement speed" + heatImmunity;
+				string heatImmunity = CalamityWorld.death ? "\n" + CalamityUtils.GetTextValue("Misc.HeatProtection") : "";
+				player.setBonus = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.SetBonus.Obsidian") + heatImmunity;
             }
             else if (set == "Molten")
             {
@@ -3131,10 +2812,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 				modPlayer.eskimoSet = true;
 				player.buffImmune[BuffID.Frostburn] = true;
 				player.buffImmune[ModContent.BuffType<GlacialState>()] = true;
-				string coldImmunity = CalamityWorld.death ? "\nProvides cold protection in Death Mode" : "";
-				player.setBonus = "All ice-themed weapons receive a 10% damage bonus\n" +
-				"Cold enemies will deal reduced contact damage to the player\n" +
-				"Provides immunity to the Frostburn and Glacial State debuffs" + coldImmunity;
+				string coldImmunity = CalamityWorld.death ? "\n" + CalamityUtils.GetTextValue("Misc.ColdProtection") : "";
+				player.setBonus = CalamityUtils.GetTextValue("Vanilla.ItemTooltips.SetBonus.Eskimo") + coldImmunity;
             }
             else if (set == "Meteor")
             {

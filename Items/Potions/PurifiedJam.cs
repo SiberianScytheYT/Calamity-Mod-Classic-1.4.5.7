@@ -43,7 +43,7 @@ namespace CalRD.Items.Potions
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
 					{
-						line2.Text = "Makes you immune to all damage and most debuffs for 5 seconds";
+						line2.Text = line2.Text.Replace("10", "5");
 					}
 				}
 			}

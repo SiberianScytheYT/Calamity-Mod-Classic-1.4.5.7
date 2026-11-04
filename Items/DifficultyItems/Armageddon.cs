@@ -42,7 +42,7 @@ namespace CalRD.Items.DifficultyItems
 
 			if (CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive)
 			{
-                string key = "You cannot change the rules now.";
+                string key = "Mods.CalRD.ClassicKeys.ChangingTheRules";
                 Color messageColor = Color.Fuchsia;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
 				return true;
@@ -50,7 +50,7 @@ namespace CalRD.Items.DifficultyItems
             CalamityWorld.armageddon = !CalamityWorld.armageddon;
             CalamityWorld.DoGSecondStageCountdown = 0;
 
-            string key2 = CalamityWorld.armageddon ? "Bosses will now kill you instantly." : "Bosses will no longer kill you instantly.";
+            string key2 = CalamityWorld.armageddon ? "Mods.CalRD.ClassicKeys.ArmageddonText" : "Mods.CalRD.ClassicKeys.ArmageddonText2";
             Color messageColor2 = Color.Fuchsia;
             CalamityUtils.DisplayLocalizedText(key2, messageColor2);
 

@@ -28,7 +28,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
-                new FlavorTextBestiaryInfoElement("A slime taken over by the plague nanomachines... Yet, in its slimy wisdom, it behaves the same.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.PlaguedJungleSlime")
             });
         }
 

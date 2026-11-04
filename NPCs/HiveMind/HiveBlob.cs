@@ -22,7 +22,7 @@ namespace CalRD.NPCs.HiveMind
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("A ball of flesh and rotting matter, flung out by its master as fodder.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.HiveBlob")
             });
         }
 

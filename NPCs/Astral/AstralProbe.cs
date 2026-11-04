@@ -26,7 +26,7 @@ namespace CalRD.NPCs.Astral
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("Once a common bird, its only purpose now is to defend the infection.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.AstralProbe")
             });
         }
 

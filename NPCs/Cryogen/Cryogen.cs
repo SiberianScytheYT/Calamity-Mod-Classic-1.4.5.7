@@ -50,7 +50,7 @@ namespace CalRD.NPCs.Cryogen
 	        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 	        {
 		        BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Snow,
-		        new FlavorTextBestiaryInfoElement("An ice cage few have seen in the harshest blizzards, its presence causes an aurora to form in the sky.")
+		        new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Cryogen")
 	        });
         }
 
@@ -734,7 +734,7 @@ namespace CalRD.NPCs.Cryogen
 					}
 					if (Main.rand.NextBool(chance))
 					{
-						string key = "Cryogen is derping out!";
+						string key = "Mods.CalRD.ClassicKeys.CryogenBossText";
 						Color messageColor = Color.Cyan;
                         CalamityUtils.DisplayLocalizedText(key, messageColor);
                     }
@@ -1124,7 +1124,7 @@ namespace CalRD.NPCs.Cryogen
 	        // If Cryogen has not been killed, notify players about Cryonic Ore
 	        if (!CalamityWorld.downedCryogen)
 	        {
-		        string key = "The ice caves are crackling with frigid energy.";
+		        string key = "Mods.CalRD.ClassicKeys.IceOreText";
 		        Color messageColor = Color.LightSkyBlue;
 		        WorldGenerationMethods.SpawnOre(ModContent.TileType<CryonicOre>(), 15E-05, .45f, .65f);
 

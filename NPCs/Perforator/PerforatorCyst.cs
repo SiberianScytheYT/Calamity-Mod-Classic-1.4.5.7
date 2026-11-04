@@ -26,7 +26,7 @@ namespace CalRD.NPCs.Perforator
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
-                new FlavorTextBestiaryInfoElement("The culmination of the crimson's horrific flesh, avoid it at all costs.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.PerforatorCyst")
             });
         }
 

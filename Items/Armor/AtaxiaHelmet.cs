@@ -40,8 +40,7 @@ namespace CalRD.Items.Armor
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip2")
 					{
-						line2.Text = "Temporary immunity to lava and immunity to fire damage\n" +
-						"Provides heat protection in Death Mode";
+						line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.HeatProtection");
 					}
 				}
 			}
@@ -60,10 +59,7 @@ namespace CalRD.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "40% increased minion damage\n" +
-                "Inferno effect when below 50% life\n" +
-                "Summons a hydrothermic vent to protect you\n" +
-                "You have a 20% chance to emit a blazing explosion when you are hit";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.AtaxiaHelmet");
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
             modPlayer.chaosSpirit = true;

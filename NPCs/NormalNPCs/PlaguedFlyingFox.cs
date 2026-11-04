@@ -25,7 +25,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
-                new FlavorTextBestiaryInfoElement("A flying fox overtaken by plague nanomachines, deadly plague oozes from its mouth.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.PlaguedFlyingFox")
             });
         }
 

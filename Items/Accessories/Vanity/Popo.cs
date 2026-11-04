@@ -56,8 +56,7 @@ namespace CalRD.Items.Accessories.Vanity
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
 					{
-						line2.Text = "Transforms the holder into a snowman\n" +
-						"Provides heat and cold protection in Death Mode";
+						line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.HeatColdProtection");
 					}
 				}
 			}

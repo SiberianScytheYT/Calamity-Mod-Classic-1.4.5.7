@@ -42,7 +42,7 @@ namespace CalRD.NPCs.Abyss
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("These colossal fish live in deep sea to avoid turbulent waters, and are likely the source for many myths.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Oarfish")
             });
         }
 

@@ -26,7 +26,7 @@ namespace CalRD.NPCs.Abyss
 		{
 			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
 			{
-				new FlavorTextBestiaryInfoElement("Large fish which can easily resist the crushing pressure of the depths and any efforts to pierce their skin.")
+				new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Bloatfish")
 			});
 		}
         

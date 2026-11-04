@@ -44,7 +44,7 @@ namespace CalRD.Items.DifficultyItems
 
             if (CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive)
 			{
-                string key = "You cannot change the rules now.";
+                string key = "Mods.CalRD.ClassicKeys.ChangingTheRules";
                 Color messageColor = Color.LightSkyBlue;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
 				return true;
@@ -52,14 +52,14 @@ namespace CalRD.Items.DifficultyItems
 			if (!CalamityWorld.ironHeart)
             {
                 CalamityWorld.ironHeart = true;
-                string key = "Iron Heart is active, healing is disabled.";
+                string key = "Mods.CalRD.ClassicKeys.IronHeartText";
                 Color messageColor = Color.LightSkyBlue;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
             else
             {
                 CalamityWorld.ironHeart = false;
-                string key = "Iron Heart is not active, healing is restored.";
+                string key = "Mods.CalRD.ClassicKeys.IronHeartText2";
                 Color messageColor = Color.LightSkyBlue;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }

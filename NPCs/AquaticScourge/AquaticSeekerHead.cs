@@ -34,7 +34,7 @@ namespace CalRD.NPCs.AquaticScourge
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("A peculiar creature similar in appearance to the Aquatic Scourge. These creatures soar far across sky and ocean in search of food.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.AquaticSeeker")
             });
         }
 

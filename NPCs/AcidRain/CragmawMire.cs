@@ -62,7 +62,7 @@ namespace CalRD.NPCs.AcidRain
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("A slime that against all odds developed a calcified shell.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.CragmawMire")
             });
         }
         public bool Phase2

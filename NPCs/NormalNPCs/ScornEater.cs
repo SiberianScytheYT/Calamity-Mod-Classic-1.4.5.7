@@ -34,7 +34,7 @@ namespace CalRD.NPCs.NormalNPCs
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-                new FlavorTextBestiaryInfoElement("The strongest of Providence's regular followers, they make any unfaithful being pray.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.ScornEater")
             });
         }
 

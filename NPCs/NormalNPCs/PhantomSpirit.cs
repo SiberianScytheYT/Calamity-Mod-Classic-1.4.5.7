@@ -23,7 +23,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheDungeon,
-                new FlavorTextBestiaryInfoElement("One of many spirits imprisoned within the dungeon, while not quite as strong as the others, it's still dangerous to fight.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.PhantomSpirit")
             });
         }
 

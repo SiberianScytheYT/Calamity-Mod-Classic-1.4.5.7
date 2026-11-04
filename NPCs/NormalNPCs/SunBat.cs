@@ -21,7 +21,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
-                new FlavorTextBestiaryInfoElement("A light in the dark.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.SunBat")
             });
         }
 

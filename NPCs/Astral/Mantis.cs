@@ -32,7 +32,7 @@ namespace CalRD.NPCs.Astral
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                new FlavorTextBestiaryInfoElement("A swift, nimble creature capable of traversing most terrain thanks to its many legs. It releases high speed scythes by swinging its claws.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.Mantis")
             });
         }
 

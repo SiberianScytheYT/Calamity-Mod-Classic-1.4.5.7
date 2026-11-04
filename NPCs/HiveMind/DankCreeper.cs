@@ -22,7 +22,7 @@ namespace CalRD.NPCs.HiveMind
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("Guardians of the filthy mind.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.DankCreeper")
             });
         }
 

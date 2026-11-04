@@ -20,7 +20,7 @@ namespace CalRD.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("A slime blessed by a higher being, and one of the few of its kind not to consume for itself.")
+                new FlavorTextBestiaryInfoElement("Mods.CalRD.Bestiary.EbonianBlightSlime")
             });
         }
 

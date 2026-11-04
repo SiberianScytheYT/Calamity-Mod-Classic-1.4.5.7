@@ -41,8 +41,7 @@ namespace CalRD.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "20% increased minion damage\n" +
-                "A daedalus crystal floats above you to protect you";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.Headgear");
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.daedalusCrystal = true;
             if (player.whoAmI == Main.myPlayer)

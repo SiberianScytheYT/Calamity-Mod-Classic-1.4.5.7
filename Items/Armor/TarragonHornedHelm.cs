@@ -38,8 +38,7 @@ namespace CalRD.Items.Armor
 				{
 					if (line2.Mod == "Terraria" && line2.Name == "Tooltip2")
 					{
-						line2.Text = "5% increased damage reduction and +3 max minions\n" +
-						"Provides heat protection in Death Mode";
+						line2.Text += "\n" + CalamityUtils.GetTextValue("Misc.HeatProtection");
 					}
 				}
 			}
@@ -61,11 +60,7 @@ namespace CalRD.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.tarraSet = true;
             modPlayer.tarraSummon = true;
-            player.setBonus = "55% increased minion damage\n" +
-                "Reduces enemy spawn rates\n" +
-                "Increased heart pickup range\n" +
-                "Enemies have a chance to drop extra hearts on death\n" +
-                "Summons a life aura around you that damages nearby enemies";
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.TarragonHornedHelm");
             player.GetDamage(DamageClass.Summon) += 0.55f;
         }
 
