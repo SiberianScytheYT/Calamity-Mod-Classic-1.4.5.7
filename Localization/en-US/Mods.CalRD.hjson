@@ -16138,7 +16138,7 @@ Items: {
 			'''
 			Rogue Damage: {0}% | Rogue Crit Chance: {1}%
 			Rogue Velocity Boost: {2}% | Rogue Weapon Consumption Chance: {3}%
-			Max Stealth: {4} | Standing Regen: {5} / sec | Moving Regen: {6} / sec")
+			Max Stealth: {4} | Standing Regen: {5} / sec | Moving Regen: {6} / sec
 			'''
 		Death: "Abyss/Cave Light Strength: "
 		NonDeath: "Abyss Light Strength: "
