@@ -881,6 +881,7 @@ namespace CalRD.Projectiles
             {
                 projectile.hostile = false;
                 projectile.friendly = true;
+                projectile.DamageType = DamageClass.Summon;
                 projectile.minion = true;
                 rogue = false;
             }

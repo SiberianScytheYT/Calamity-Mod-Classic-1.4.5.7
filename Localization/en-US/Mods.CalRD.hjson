@@ -16107,53 +16107,48 @@ Items: {
 	StatMeter: {
 		Tooltip: Displays almost all player stats
 		RealTooltip:
-		    '''
-		    Displays almost all player stats
-		    Offensive stats displayed vary with held item
-		    '''
+			'''
+			Displays almost all player stats
+			Offensive stats displayed vary with held item
+			'''
 		Generic:
-		    ''' 
-		    Defense: {0} | DR: {1}% | Life Regen: {2}
-		    Armor Penetration: {3} | Wing Flight Time: {4} seconds
-            Jump Speed Boost: {5}% | Movement Speed Boost: {6}%
-            
-            Abyss Light Strength: {7}
-		    '''
-		Rippers:
-		    '''
-		    Adrenaline Damage Boost: {0}% | Adrenaline DR Boost: {1}% | Rage Damage Boost: {2}  
-		    '''
+			'''
+			Defense: {0} | DR: {1}% | Life Regen: {2}
+			Armor Penetration: {3} | Wing Flight Time: {4} seconds
+			Jump Speed Boost: {5}% | Movement Speed Boost: {6}%
+			'''
+		Rippers: Adrenaline Damage Boost: {0}% | Adrenaline DR Boost: {1}% | Rage Damage Boost: {2}%
 		Melee:
-		    '''
-		    Melee Damage: {0}% | True Melee Damage: {1}% | Melee Crit Chance: {2}%
-		    Melee Speed Boost: {3}%
-		    '''
-		Ranged: 
-		    '''
-		    Ranged Damage: {0}% | Ranged Crit Chance: {1}%
-		    Ammo Consumption Chance: {2}%
-		    '''
-		Magic: 
-		    '''
-		    Magic Damage: {0}% | Magic Crit Chance: {1}%
-		    Mana Usage: {2}% | Mana Regen: {3}
-		    '''
+			'''
+			Melee Damage: {0}% | True Melee Damage: {1}% | Melee Crit Chance: {2}%
+			Melee Speed Boost: {3}%
+			'''
+		Ranged:
+			'''
+			Ranged Damage: {0}% | Ranged Crit Chance: {1}%
+			Ammo Consumption Chance: {2}%
+			'''
+		Magic:
+			'''
+			Magic Damage: {0}% | Magic Crit Chance: {1}%
+			Mana Usage: {2}% | Mana Regen: {3}
+			'''
 		Summon: Minion Damage: {0}% | Minion Slots: {1}
-		Rogue: 
-		    '''
-		    Rogue Damage: {0}% | Rogue Crit Chance: {1}%
-		    Rogue Velocity Boost: {2}% | Rogue Weapon Consumption Chance: {3}%
-		    Max Stealth: {4} | Standing Regen: {5} / sec | Moving Regen: {6} / sec")
-		    '''
+		Rogue:
+			'''
+			Rogue Damage: {0}% | Rogue Crit Chance: {1}%
+			Rogue Velocity Boost: {2}% | Rogue Weapon Consumption Chance: {3}%
+			Max Stealth: {4} | Standing Regen: {5} / sec | Moving Regen: {6} / sec")
+			'''
 		Death: "Abyss/Cave Light Strength: "
 		NonDeath: "Abyss Light Strength: "
-		Abyss: 
-		    '''
-		    Other Abyss Stats:
-            Breath Lost Per Tick: {0} | Breath Loss Rate: {1}
-            Life Lost Per Tick at Zero Breath: {2}
-            Defense Lost: {3}
-		    '''
+		Abyss:
+			'''
+			Other Abyss Stats:
+			Breath Lost Per Tick: {0} | Breath Loss Rate: {1}
+			Life Lost Per Tick at Zero Breath: {2}
+			Defense Lost: {3}
+			'''
 		NotInAbyss: Other Abyss stats are only displayed while in the Abyss
 		DisplayName: Stat Meter
 	}

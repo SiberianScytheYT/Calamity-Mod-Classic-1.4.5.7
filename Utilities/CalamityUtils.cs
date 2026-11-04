@@ -3478,6 +3478,7 @@ namespace CalRD
 			TileObjectData.newTile.Origin = new Point16(0, 3);
 			TileObjectData.newTile.UsesCustomCanPlace = true;
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 2, 0);
+			TileObjectData.newTile.StyleLineSkip = 2;
 			TileObjectData.addTile(mt.Type);
 		}
 		#endregion

@@ -80,7 +80,7 @@ namespace CalRD.Items.Accessories
 			if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
 			{
 				sb.Append(this.GetLocalization("Rippers").Format(modPlayer.adrenalineDamageStat, modPlayer.adrenalineDRStat, modPlayer.rageDamageStat))
-					.Append("%\n\n");
+					.Append("\n\n");
 			}
 
 			// Append item stats only if the held item isn't null, and base it off of the item's damage type.
@@ -89,12 +89,12 @@ namespace CalRD.Items.Accessories
 				if (heldItem.CountsAsClass(DamageClass.Melee))
 				{
 					sb.Append(this.GetLocalization("Melee").Format(modPlayer.damageStats[0], modPlayer.damageStats[5], modPlayer.critStats[0], meleeSpeed))
-						.Append("%\n\n");
+						.Append("\n\n");
 				}
 				else if (heldItem.CountsAsClass(DamageClass.Ranged))
 				{
 					sb.Append(this.GetLocalization("Ranged").Format(modPlayer.damageStats[1], modPlayer.critStats[1], ammoConsumption))
-						.Append("%\n\n");
+						.Append("\n\n");
 				}
 				else if (heldItem.CountsAsClass(DamageClass.Magic))
 				{
@@ -115,7 +115,7 @@ namespace CalRD.Items.Accessories
 
 			// Generic stats always render.
 			sb.Append(this.GetLocalization("Generic").Format(defense, DR, lifeRegen, armorPenetration, wingFlightTime, jumpSpeed, moveSpeed))
-				.Append("%\n\n");
+				.Append("\n\n");
 			sb.Append(CalamityWorld.death ? this.GetLocalizedValue("Death") : this.GetLocalizedValue("NonDeath")).Append(lightLevel).Append("\n\n");
 
 			// Abyss stats only render if the player is in the Abyss.
