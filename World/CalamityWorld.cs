@@ -1076,10 +1076,10 @@ namespace CalRD.World
         #region ModifyWorldGenTasks
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref double totalWeight)
         {
-            int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Shinies"));
-            if (ShiniesIndex != -1)
+            int GrassIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Spreading Grass")); // fixes grass on island issue
+            if (GrassIndex != -1)
             {
-                tasks.Insert(ShiniesIndex + 2, new PassLegacy("EvilIsland", delegate (GenerationProgress progress, GameConfiguration config)
+                tasks.Insert(GrassIndex + 2, new PassLegacy("EvilIsland", delegate (GenerationProgress progress, GameConfiguration config)
                 {
                     progress.Message = Language.GetOrRegister("Mods.CalRD.UI.EvilIsland").Value;
                     SmallBiomes.PlaceEvilIsland();
