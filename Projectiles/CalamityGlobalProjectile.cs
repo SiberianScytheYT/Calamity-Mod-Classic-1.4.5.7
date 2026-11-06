@@ -980,6 +980,8 @@ namespace CalRD.Projectiles
                         {
                             int projectile1 = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(startAngle) * 8f), (float)(Math.Cos(startAngle) * 8f), projectile.type, CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 150), projectile.knockBack, projectile.owner, 0f, 0f);
                             int projectile2 = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(startAngle) * 8f), (float)(-Math.Cos(startAngle) * 8f), projectile.type, CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 150), projectile.knockBack, projectile.owner, 0f, 0f);
+							Main.projectile[projectile1].DamageType = DamageClass.Default;
+                       		Main.projectile[projectile2].DamageType = DamageClass.Default;
                             Main.projectile[projectile1].timeLeft = 60;
                             Main.projectile[projectile2].timeLeft = 60;
                             Main.projectile[projectile1].noDropItem = true;
