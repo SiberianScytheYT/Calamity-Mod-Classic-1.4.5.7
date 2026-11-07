@@ -549,7 +549,7 @@ namespace CalRD.NPCs.Perforator
 
         public override void BossLoot(ref string name, ref int potionType)
         {
-            name = "The Large Perforator";
+            name = CalamityUtils.GetTextValue("Misc.BossLootNames.LargePerf");
             potionType = ItemID.HealingPotion;
         }
 

@@ -313,7 +313,7 @@ namespace CalRD.NPCs.ProfanedGuardians
 
         public override void BossLoot(ref string name, ref int potionType)
         {
-            name = "A Profaned Guardian";
+            name = CalamityUtils.GetTextValue("Misc.BossLootNames.ProfanedGuardian");
             potionType = ItemID.GreaterHealingPotion;
         }
 

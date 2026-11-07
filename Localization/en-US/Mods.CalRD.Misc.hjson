@@ -665,3 +665,13 @@ CalamitySetBonus: {
 		The higher your rogue stealth the higher your rogue damage, crit, and movement speed
 		'''
 }
+
+BossLootNames: {
+	CalClone: The Calamitas Clone
+	Dragonfolly: A Dragonfolly
+	Ravager: Ravager
+	LargePerf: The Large Perforator
+	MediumPerf: The Medium Perforator
+	SmallPerf: The Small Perforator
+	ProfanedGuardian: A Profaned Guardian
+}

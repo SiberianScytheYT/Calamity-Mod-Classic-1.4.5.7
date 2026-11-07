@@ -842,7 +842,7 @@ namespace CalRD.NPCs.Ravager
 
         public override void BossLoot(ref string name, ref int potionType)
         {
-            name = "Ravager";
+            name = CalamityUtils.GetTextValue("Misc.BossLootNames.Ravager");
             potionType = ItemID.GreaterHealingPotion;
         }
 

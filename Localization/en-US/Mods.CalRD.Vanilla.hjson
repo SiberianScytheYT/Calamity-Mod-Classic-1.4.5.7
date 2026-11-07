@@ -579,7 +579,7 @@ ItemTooltips: {
 			'''
 	}
 
-	DR: +{0:N2}% damage reduction
+	DR: +{0}% damage reduction
 }
 
 GuideChat: {

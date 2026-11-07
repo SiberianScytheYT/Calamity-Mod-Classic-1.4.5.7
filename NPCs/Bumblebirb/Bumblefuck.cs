@@ -423,7 +423,7 @@ namespace CalRD.NPCs.Bumblebirb
 
 		public override void BossLoot(ref string name, ref int potionType)
         {
-            name = "A Dragonfolly";
+            name = CalamityUtils.GetTextValue("Misc.BossLootNames.Dragonfolly");
             potionType = ItemID.SuperHealingPotion;
         }
 

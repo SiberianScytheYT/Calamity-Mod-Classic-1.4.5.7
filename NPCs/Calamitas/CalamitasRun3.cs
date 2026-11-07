@@ -253,7 +253,7 @@ namespace CalRD.NPCs.Calamitas
 
         public override void BossLoot(ref string name, ref int potionType)
         {
-            name = "The Calamitas Clone";
+	        name = CalamityUtils.GetTextValue("Misc.BossLootNames.CalClone");
             potionType = ItemID.GreaterHealingPotion;
         }
 
