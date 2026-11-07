@@ -11,6 +11,7 @@ using CalRD.Items.Weapons.Summon;
 using CalRD.NPCs.Cryogen;
 using CalRD.World;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -24,6 +25,7 @@ namespace CalRD.Items.TreasureBags
 /*
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
 */
+            ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -40,6 +42,9 @@ namespace CalRD.Items.TreasureBags
 
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+            // Money
+            itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<Cryogen>()));
+            
             // Materials
             itemLoot.Add(ModContent.ItemType<CryoBar>(), 1, 20, 40);
             itemLoot.Add(ModContent.ItemType<EssenceofEleum>(), 1, 5, 9);

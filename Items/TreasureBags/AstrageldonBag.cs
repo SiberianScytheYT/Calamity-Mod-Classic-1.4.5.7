@@ -26,6 +26,7 @@ namespace CalRD.Items.TreasureBags
 /*
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
 */
+            ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -42,6 +43,9 @@ namespace CalRD.Items.TreasureBags
 
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+            // Money
+            itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<AstrumAureus>()));
+            
             // Materials
             itemLoot.Add(ModContent.ItemType<AstralJelly>(), 1, 12, 16);
             itemLoot.Add(ModContent.ItemType<Stardust>(), 1, 30, 40);

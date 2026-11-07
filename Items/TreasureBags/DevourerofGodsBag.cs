@@ -15,6 +15,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalRD.Items.TreasureBags
@@ -27,6 +28,7 @@ namespace CalRD.Items.TreasureBags
 /*
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
 */
+            ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -50,6 +52,9 @@ namespace CalRD.Items.TreasureBags
 
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+            // Money
+            itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<DevourerofGodsHeadS>()));
+            
             // Materials
             itemLoot.Add(ModContent.ItemType<CosmiliteBar>(), 1, 30, 39);
             itemLoot.Add(ModContent.ItemType<CosmiliteBrick>(), 1, 200, 320);

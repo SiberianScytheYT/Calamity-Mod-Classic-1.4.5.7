@@ -8,6 +8,7 @@ using CalRD.Items.Weapons.Rogue;
 using CalRD.Items.Weapons.Summon;
 using CalRD.NPCs.HiveMind;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static CalRD.DropHelper;
@@ -22,6 +23,8 @@ namespace CalRD.Items.TreasureBags
 /*
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
 */
+            ItemID.Sets.BossBag[Item.type] = true;
+            ItemID.Sets.PreHardmodeLikeBossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -38,6 +41,9 @@ namespace CalRD.Items.TreasureBags
 
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+            // Money
+            itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<HiveMindP2>()));
+            
             // Materials
             itemLoot.Add(ItemID.RottenChunk, 1, 10, 20);
             itemLoot.Add(ItemID.DemoniteBar, 1, 9, 14);

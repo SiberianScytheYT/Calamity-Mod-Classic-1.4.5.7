@@ -9,6 +9,8 @@ using CalRD.NPCs.Calamitas;
 using CalRD.NPCs.NormalNPCs;
 using CalRD.World;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalRD.Items.TreasureBags
@@ -21,6 +23,7 @@ namespace CalRD.Items.TreasureBags
 /*
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
 */
+            ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -37,6 +40,9 @@ namespace CalRD.Items.TreasureBags
 
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+            // Money
+            itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<CalamitasRun3>()));
+            
             // Materials
             itemLoot.Add(ModContent.ItemType<CalamityDust>(), 1, 14, 18);
             itemLoot.Add(ModContent.ItemType<BlightedLens>(), 1, 1, 3);

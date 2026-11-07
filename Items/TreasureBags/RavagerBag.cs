@@ -11,6 +11,7 @@ using CalRD.NPCs.Ravager;
 using CalRD.World;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalRD.Items.TreasureBags
@@ -23,6 +24,7 @@ namespace CalRD.Items.TreasureBags
 /*
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
 */
+            ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -39,6 +41,9 @@ namespace CalRD.Items.TreasureBags
 
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+            // Money
+            itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<RavagerBody>()));
+            
             // Materials
             itemLoot.AddIf(() => !CalamityWorld.downedProvidence, ModContent.ItemType<FleshyGeodeT1>());
             itemLoot.AddIf(() => CalamityWorld.downedProvidence, ModContent.ItemType<FleshyGeodeT2>());

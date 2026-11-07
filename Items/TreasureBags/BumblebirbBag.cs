@@ -11,6 +11,7 @@ using Terraria;
 using Terraria.ModLoader;
 using CalRD.Items.Armor.Vanity;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
 
 namespace CalRD.Items.TreasureBags
 {
@@ -22,6 +23,7 @@ namespace CalRD.Items.TreasureBags
 /*
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
 */
+            ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -38,6 +40,9 @@ namespace CalRD.Items.TreasureBags
 
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+            // Money
+            itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<Bumblefuck>()));
+            
             // Materials
             itemLoot.Add(ModContent.ItemType<EffulgentFeather>(), 1, 15, 21);
 

@@ -22,6 +22,8 @@ namespace CalRD.Items.TreasureBags
 /*
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
 */
+            ItemID.Sets.BossBag[Item.type] = true;
+            ItemID.Sets.PreHardmodeLikeBossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -38,6 +40,9 @@ namespace CalRD.Items.TreasureBags
 
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+            // Money
+            itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<SlimeGodCore>()));
+            
             // Materials
             itemLoot.Add(ItemID.Gel, 1, 30, 60);
             itemLoot.Add(ModContent.ItemType<PurifiedGel>(), 1, 35, 55);
