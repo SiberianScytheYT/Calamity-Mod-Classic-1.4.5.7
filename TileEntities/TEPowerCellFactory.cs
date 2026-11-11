@@ -119,11 +119,11 @@ namespace CalRD.TileEntities
 			}
 		}
 
-		public override void SaveData(TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */ => new TagCompound
+		public override void SaveData(TagCompound tag)
 		{
-			{ "time", Time },
-			{ "cells", _stack }
-		};
+			tag["time"] = Time;
+			tag["cells"] = _stack;
+		}
 
 		public override void LoadData(TagCompound tag)
 		{

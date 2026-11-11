@@ -160,11 +160,8 @@ namespace CalRD.TileEntities
 
 		public override void SaveData(TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */
 		{
-			TagCompound ret = new TagCompound
-			{
-				{ "time", ChargingTimer },
-				{ "cells", _stack }
-			};
+			tag["time"] = ChargingTimer;
+			tag["cells"] = _stack;
 			Item forSaving;
 			if (PluggedItem is null)
 			{
@@ -173,7 +170,7 @@ namespace CalRD.TileEntities
 			}
 			else
 				forSaving = PluggedItem;
-			ret.Add("item", forSaving);
+			tag.Add("item", forSaving);
 		}
 
 		public override void LoadData(TagCompound tag)

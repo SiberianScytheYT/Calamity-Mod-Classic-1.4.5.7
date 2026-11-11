@@ -2575,10 +2575,14 @@ namespace CalRD.Items
         }
 		#endregion
 
-		// NOTE: this function applies to all treasure bags, even modded ones (despite the name).
         #region Boss Bag Changes
 		public override void ModifyItemLoot(Item item, ItemLoot loot)
         {
+            // Give a chance for Laudanum, Stress Pills and Heart of Darkness from every boss bag
+            
+            if (ItemID.Sets.BossBag[item.type])
+                loot.AddRevBagAccessories();
+            
 			switch (item.type)
 				{
 					case ItemID.WoodenCrate:
@@ -2626,11 +2630,8 @@ namespace CalRD.Items
                         loot.AddIf(() => NPC.downedMoonlord, ModContent.ItemType<GalacticaSingularity>(), 10, 1, 3);
                         break;
                     
-            // Give a chance for Laudanum, Stress Pills and Heart of Darkness from every boss bag
-                    
                     // King Slime
                     case ItemID.KingSlimeBossBag:
-                        loot.AddRevBagAccessories();
                         var ksRev = loot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.revenge));
                         ksRev.Add(ModContent.ItemType<CrownJewel>());
                         break;
@@ -2638,7 +2639,6 @@ namespace CalRD.Items
                     // Eye of Cthulhu
                     case ItemID.EyeOfCthulhuBossBag:
                         var EoCRev = loot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.revenge));
-                        loot.AddRevBagAccessories();
                         loot.Add(new CommonDrop(ModContent.ItemType<VictoryShard>(), 1, 3, 5));
                         loot.Add(new CommonDrop(ModContent.ItemType<TeardropCleaver>(), 3));
                         EoCRev.Add(ModContent.ItemType<CounterScarf>());
@@ -2646,21 +2646,18 @@ namespace CalRD.Items
 
                     // Queen Bee
                     case ItemID.QueenBeeBossBag:
-                        loot.AddRevBagAccessories();
                         loot.Add(new CommonDrop(ItemID.Stinger, 1, 8, 12));
                         loot.Add(new CommonDrop(ModContent.ItemType<HardenedHoneycomb>(), 1, 50, 75));
                         break;
 
                     // Skeletron
                     case ItemID.SkeletronBossBag:
-                        loot.AddRevBagAccessories();
                         loot.Add(new CommonDrop(ModContent.ItemType<ClothiersWrath>(), DropHelper.RareVariantDropRateInt));
                         break;
 
                     // Wall of Flesh
                     case ItemID.WallOfFleshBossBag:
                         var WoFDT = loot.DefineConditionalDropSet(DropHelper.If(() => !CalamityWorld.demonMode));
-                        loot.AddRevBagAccessories();
                         loot.Add(new CommonDrop(ModContent.ItemType<Meowthrower>(), 3));
                         loot.Add(new CommonDrop(ModContent.ItemType<BlackHawkRemote>(), 3));
                         loot.Add(new CommonDrop(ModContent.ItemType<BlastBarrel>(), 3));
@@ -2673,7 +2670,6 @@ namespace CalRD.Items
                     // Destroyer
                     case ItemID.DestroyerBossBag:
                         var destroRev = loot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.revenge));
-                        loot.AddRevBagAccessories();
                         int shpcChance = DropHelper.LegendaryDropRateInt;
                         destroRev.Add(ModContent.ItemType<SHPC>(), shpcChance);
                         break;
@@ -2681,7 +2677,6 @@ namespace CalRD.Items
                     // Plantera
                     case ItemID.PlanteraBossBag:
                         var plantRev = loot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.revenge));
-                        loot.AddRevBagAccessories();
                         loot.Add(new CommonDrop(ModContent.ItemType<LivingShard>(), 1, 16, 22));
                         int bFluxChance = DropHelper.LegendaryDropRateInt;
                         plantRev.Add(ModContent.ItemType<BlossomFlux>(), bFluxChance);
@@ -2691,7 +2686,6 @@ namespace CalRD.Items
                     // Golem
                     case ItemID.GolemBossBag:
                         var golemRev = loot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.revenge));
-                        loot.AddRevBagAccessories();
                         int aegisChance = DropHelper.LegendaryDropRateInt;
                         golemRev.Add(ModContent.ItemType<AegisBlade>(), aegisChance);
                         loot.Add(new CommonDrop(ModContent.ItemType<EssenceofCinder>(), 1, 8, 13));
@@ -2701,7 +2695,6 @@ namespace CalRD.Items
                     // Duke Fishron
                     case ItemID.FishronBossBag:
                         var fishronRev = loot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.revenge));
-                        loot.AddRevBagAccessories();
                         int baronChance = DropHelper.LegendaryDropRateInt;
                         fishronRev.Add(ModContent.ItemType<BrinyBaron>(), baronChance);
                         loot.Add(new CommonDrop(ModContent.ItemType<DukesDecapitator>(), 4));
@@ -2710,14 +2703,12 @@ namespace CalRD.Items
                     // Betsy
                     case ItemID.BossBagBetsy:
                         var betsyRev = loot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.revenge));
-                        loot.AddRevBagAccessories();
                         int vesuviusChance = DropHelper.LegendaryDropRateInt;
                         betsyRev.Add(ModContent.ItemType<Vesuvius>(), vesuviusChance);
                         break;
 
                     // Moon Lord
                     case ItemID.MoonLordBossBag:
-                        loot.AddRevBagAccessories();
                         loot.Add(new CommonDrop(ItemID.LunarOre, 1, 50, 50));
                         loot.Add(new CommonDrop(ModContent.ItemType<MLGRune2>(), 1)); // Celestial Onion
                         loot.Add(new CommonDrop(ModContent.ItemType<UtensilPoker>(), 8));
