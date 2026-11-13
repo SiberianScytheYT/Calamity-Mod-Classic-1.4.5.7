@@ -20,6 +20,7 @@ namespace CalRD.Projectiles.Summon
             Projectile.minion = true;
             Projectile.penetrate = 1;
 			Projectile.coldDamage = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void SetStaticDefaults()

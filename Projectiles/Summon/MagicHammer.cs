@@ -32,6 +32,7 @@ namespace CalRD.Projectiles.Summon
             Projectile.ignoreWater = true;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 6;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

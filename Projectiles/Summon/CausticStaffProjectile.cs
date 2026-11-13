@@ -27,6 +27,7 @@ namespace CalRD.Projectiles.Summon
             Projectile.localNPCHitCooldown = 10;
 			Projectile.extraUpdates = 1;
 			Projectile.tileCollide = false;
+			Projectile.DamageType = DamageClass.Summon;
         }
         public override void AI()
         {

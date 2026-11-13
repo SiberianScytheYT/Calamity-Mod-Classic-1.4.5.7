@@ -34,6 +34,7 @@ namespace CalRD.Projectiles.Summon
             Projectile.timeLeft = 300;
             Projectile.tileCollide = false;
 			Projectile.coldDamage = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

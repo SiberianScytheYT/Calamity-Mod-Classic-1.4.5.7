@@ -21,6 +21,7 @@ namespace CalRD.Projectiles.Summon
 			Projectile.minion = true;
 			Projectile.timeLeft = 180;
 			Projectile.aiStyle = 72;
+			Projectile.DamageType = DamageClass.Summon;
 		}
 
 		public override void OnKill(int timeLeft)

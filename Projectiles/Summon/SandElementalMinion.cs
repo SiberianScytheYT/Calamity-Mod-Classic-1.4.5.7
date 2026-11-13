@@ -39,6 +39,7 @@ namespace CalRD.Projectiles.Summon
                 (NPC.downedMoonlord ? 5 : 0) -
                 (CalamityWorld.downedDoG ? 4 : 0) -
                 (CalamityWorld.downedYharon ? 3 : 0);
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

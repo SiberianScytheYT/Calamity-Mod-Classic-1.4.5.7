@@ -203,6 +203,7 @@ namespace CalRD.Projectiles.Summon
             Projectile.usesLocalNPCImmunity = true;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override bool? CanCutTiles()

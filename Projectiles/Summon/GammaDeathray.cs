@@ -36,6 +36,7 @@ namespace CalRD.Projectiles.Summon
             Projectile.timeLeft = 10000;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 7;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         // Netcode for sending and receiving shit

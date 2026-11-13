@@ -34,6 +34,7 @@ namespace CalRD.Projectiles.Summon
             Projectile.tileCollide = true;
             Projectile.timeLeft *= 5;
             Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
         public override void SendExtraAI(BinaryWriter writer)
         {

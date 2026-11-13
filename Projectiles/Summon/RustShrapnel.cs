@@ -32,6 +32,7 @@ namespace CalRD.Projectiles.Summon
             Projectile.tileCollide = true;
             Projectile.minionSlots = 0f;
             Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
         public override void AI()
         {

@@ -32,6 +32,7 @@ namespace CalRD.Projectiles.Summon
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
             Projectile.alpha = 50;
+            Projectile.DamageType = DamageClass.Summon;
         }
         public override void SendExtraAI(BinaryWriter writer)
         {

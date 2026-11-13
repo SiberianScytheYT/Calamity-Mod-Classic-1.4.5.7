@@ -43,6 +43,7 @@ namespace CalRD.Projectiles.DraedonsArsenal
             Projectile.tileCollide = false;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 12;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

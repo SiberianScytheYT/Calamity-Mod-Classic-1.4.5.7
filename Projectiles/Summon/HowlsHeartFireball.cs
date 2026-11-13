@@ -25,6 +25,7 @@ namespace CalRD.Projectiles.Summon
             Projectile.timeLeft = 180;
             Projectile.minion = true;
             Projectile.minionSlots = 0f;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

@@ -41,7 +41,7 @@ namespace CalRD.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.Headgear");
+            player.setBonus = CalamityUtils.GetTextValue("Misc.CalamitySetBonus.DaedalusHeadgear");
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.daedalusCrystal = true;
             if (player.whoAmI == Main.myPlayer)

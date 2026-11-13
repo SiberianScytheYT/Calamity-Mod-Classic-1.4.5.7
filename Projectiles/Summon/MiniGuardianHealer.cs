@@ -29,6 +29,7 @@ namespace CalRD.Projectiles.Summon
             Projectile.penetrate = -1;
             Projectile.timeLeft = 18000;
             Projectile.timeLeft *= 5;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override bool? CanCutTiles()

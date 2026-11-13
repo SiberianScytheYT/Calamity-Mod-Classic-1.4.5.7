@@ -29,6 +29,7 @@ namespace CalRD.Projectiles.DraedonsArsenal
             Projectile.Calamity().hasInorganicEnemyHitBoost = true;
             Projectile.Calamity().inorganicEnemyHitBoost = 0.002f;
 			Projectile.extraUpdates = 1;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

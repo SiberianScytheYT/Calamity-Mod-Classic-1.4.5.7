@@ -33,6 +33,7 @@ namespace CalRD.Projectiles.Summon
             Projectile.timeLeft *= 5;
             Projectile.penetrate = -1;
             Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

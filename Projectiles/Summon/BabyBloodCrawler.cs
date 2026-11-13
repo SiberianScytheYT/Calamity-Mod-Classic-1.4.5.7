@@ -35,6 +35,7 @@ namespace CalRD.Projectiles.Summon
             Projectile.minion = true;
             AIType = ProjectileID.VenomSpider;
             Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)

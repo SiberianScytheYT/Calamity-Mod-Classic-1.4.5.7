@@ -872,6 +872,9 @@ namespace CalRD.NPCs
             if (YanmeisKnifeSlash.CanRecieveCoolEffectsFrom(npc))
                 npc.buffImmune[BuffType<KamiDebuff>()] = false;
             npc.buffImmune[BuffType<Enraged>()] = false;
+            for (int i = 0; i < BuffID.Count; i++)
+	            if (BuffID.Sets.IsATagBuff[i])
+					npc.buffImmune[i] = false;
         }
         #endregion
 

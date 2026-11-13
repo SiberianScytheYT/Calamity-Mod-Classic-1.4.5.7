@@ -79,6 +79,7 @@ namespace CalRD.Projectiles.Summon
             Projectile.timeLeft = 75;
             Projectile.minion = true;
             Projectile.scale = 0.6f;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override bool PreAI()
