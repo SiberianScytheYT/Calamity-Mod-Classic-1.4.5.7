@@ -2289,7 +2289,13 @@ NPCs: {
 	ProfanedGuardianBoss.DisplayName: Profaned Guardian
 	PolterPhantom.DisplayName: Polterghast
 	PolterghastHook.DisplayName: Polterghast Hook
-	Polterghast.DisplayName: Polterghast
+
+	Polterghast: {
+		DisplayName: Polterghast
+		DisplayName2: Necroghast
+		DisplayName3: Necroplasm
+	}
+
 	PhantomFuckYou.DisplayName: Phantom
 	PlagueMine.DisplayName: Plague Mine
 	PlagueHomingMissile.DisplayName: Plague Homing Missile

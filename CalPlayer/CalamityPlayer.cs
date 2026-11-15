@@ -5267,7 +5267,7 @@ namespace CalRD.CalPlayer
                 {
                     int penetratableDefense = (int)Math.Max(target.defense - Player.GetArmorPenetration(DamageClass.Generic), 0);
                     int penetratedDefense = Math.Min(penetratableDefense, 10);
-                    modifiers.SourceDamage += (int)(0.5f * penetratedDefense);
+                    modifiers.SourceDamage.Flat += (int)(0.5f * penetratedDefense);
                 }
             }
             #endregion
@@ -5548,11 +5548,11 @@ namespace CalRD.CalPlayer
             if (proj.type == ModContent.ProjectileType<AcidBulletProj>())
             {
                 int defenseAdd = (int)(target.defense * 0.05 * (proj.damage / 50D) * acidRoundMultiplier); //100 defense * 0.05 = 5
-                modifiers.SourceDamage += defenseAdd;
+                modifiers.SourceDamage.Flat += defenseAdd;
             }
             if (uberBees && CalamityLists.friendlyBeeList.Contains(proj.type))
             {
-	            modifiers.SourceDamage += Main.rand.Next(20, 31);
+	            modifiers.SourceDamage.Flat += Main.rand.Next(20, 31);
             }
 			if (plaguebringerPatronSummon)
 			{
@@ -5565,7 +5565,7 @@ namespace CalRD.CalPlayer
 							Projectile miniPBG = Main.projectile[j];
 							if (miniPBG.type == ModContent.ProjectileType<PlaguebringerSummon>() && Vector2.Distance(proj.Center, miniPBG.Center) <= PlaguebringerSummon.auraRange && miniPBG.owner == proj.owner)
 							{
-								modifiers.SourceDamage += Main.rand.Next(10, 21);
+								modifiers.SourceDamage.Flat += Main.rand.Next(10, 21);
 								break;
 							}
 						}
@@ -5601,7 +5601,7 @@ namespace CalRD.CalPlayer
             }
 			int penetratableDefense = (int)Math.Max(target.defense - Player.GetArmorPenetration(DamageClass.Generic), 0); //if find how much defense we can penetrate
 			int penetratedDefense = Math.Min(penetratableDefense, penetrateAmt); //if we have more penetrate than enemy defense, use enemy defense
-			modifiers.SourceDamage += (int)(0.5f * penetratedDefense);
+			modifiers.SourceDamage.Flat += (int)(0.5f * penetratedDefense);
             #endregion
 
             #region MultiplicativeReductions

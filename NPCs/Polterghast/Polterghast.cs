@@ -685,7 +685,7 @@ namespace CalRD.NPCs.Polterghast
                     }
                 }
 
-                NPC.GivenName = "Necroghast";
+                NPC.GivenName = this.GetLocalizedValue("DisplayName2");
 
                 NPC.damage = (int)(NPC.defDamage * 1.2f) + damageIncrease * 4;
                 NPC.defense = (int)(NPC.defDefense * 0.8f);
@@ -844,7 +844,7 @@ namespace CalRD.NPCs.Polterghast
                     }
                 }
 
-                NPC.GivenName = "Necroplasm";
+                NPC.GivenName = this.GetLocalizedValue("DisplayName3");
 
                 NPC.damage = (int)(NPC.defDamage * 1.4f) + damageIncrease * 4;
                 NPC.defense = (int)(NPC.defDefense * 0.5f);

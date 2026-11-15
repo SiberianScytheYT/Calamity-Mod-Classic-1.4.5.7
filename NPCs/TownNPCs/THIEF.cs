@@ -136,19 +136,19 @@ namespace CalRD.NPCs.TownNPCs
             {
                 PossibleDialogs.Add(this.GetLocalizedValue("Chat.Party"));
             }
-            if (NPC.GivenName == "Laura")
+            if (NPC.GivenName == this.GetLocalizedValue("Name.Laura"))
             {
                 PossibleDialogs.Add(this.GetLocalizedValue("Chat.NamedLaura"));
             }
-            if (NPC.GivenName == "Penelope")
+            if (NPC.GivenName == this.GetLocalizedValue("Name.Penelope"))
             {
                 PossibleDialogs.Add(this.GetLocalizedValue("Chat.NamedPenelope"));
             }
-            if (NPC.GivenName == "Valerie")
+            if (NPC.GivenName == this.GetLocalizedValue("Name.Valerie"))
             {
                 PossibleDialogs.Add(this.GetLocalizedValue("Chat.NamedValerie"));
             }
-            if (NPC.GivenName == "Rowan")
+            if (NPC.GivenName == this.GetLocalizedValue("Name.Rowan"))
             {
                 PossibleDialogs.Add(this.GetLocalizedValue("Chat.NamedRowan"));
             }
