@@ -33,8 +33,8 @@ namespace CalRD.Items.Fishing.BrimstoneCragCatches
 
 		public override void AnglerQuestChat(ref string description, ref string catchLocation)
 		{
-			description = "When you defeated the ancient goddess, her children fell in the lava as a result of the aftermath. Rumors say they mutated a fish, and I'd love if you fetched one for my new lava-filled fish tank.";
-			catchLocation = "Caught in the Brimstone Crag.";
+			description = this.GetLocalizedValue("QuestDescription");
+			catchLocation = CalamityUtils.GetTextValue("Misc.Fishing.CaughtInBrimstoneCrag");
 		}
 	}
 }

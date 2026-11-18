@@ -36,6 +36,13 @@ Fargos: {
 	AstralFountain: Forces surrounding biome state to Astral upon activation
 }
 
+Fishing: {
+	CaughtInSunkenSea: Caught in the Sunken Sea.
+	CaughtInBrimstoneCrag: Caught in the Brimstone Crag.
+}
+
+TextSeparator: ". "
+
 CalamitySetBonus: {
 	AerospecHat:
 		'''

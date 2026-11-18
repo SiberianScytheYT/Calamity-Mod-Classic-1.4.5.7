@@ -32,7 +32,7 @@ namespace CalRD.Items.Accessories
             {
                 if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
                 {
-                    line2.Text = jumpAmt + "% increased jump speed";
+                    line2.Text = line2.Text.Replace("24", jumpAmt);
                 }
             }
         }

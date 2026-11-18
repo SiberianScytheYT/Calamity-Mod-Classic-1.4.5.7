@@ -5930,26 +5930,31 @@ Items: {
 	SurfClam: {
 		Tooltip: ""
 		DisplayName: Surf Clam
+		QuestDescription: Did you know that clams are a delicacy? Rumor has it that a big colony lives beneath the Desert. Just talking about them makes me hungry. I need you to fetch one for me, so I can practice my culinary skills and curb my hunger.
 	}
 
 	Serpentuna: {
 		Tooltip: ""
 		DisplayName: Serpentuna
+		QuestDescription: Sea serpents are pretty but not as pretty as the look on someone's face when they find one in their chair. I need you to fetch me the props for my next big scare, and the deadline is tomorrow.
 	}
 
 	EutrophicSandfish: {
 		Tooltip: ""
 		DisplayName: Eutrophic Sandfish
+		QuestDescription: You ever get to see what would happen if a lizard that lived in the desert scurried too deep underground? I did, and they sure are cool! But it's way too slippery for me to get my hands on it now. You go and get it so I can keep it as a pet!
 	}
 
 	Slurpfish: {
 		Tooltip: ""
 		DisplayName: Slurpfish
+		QuestDescription: Y'know, it'd be an absolute calamity if I sent you to the ancient ruins in the depths of hell to catch a fish. And I plan to do just that. Now scram! The fish isn't going to catch itself.
 	}
 
 	Brimlish: {
 		Tooltip: ""
 		DisplayName: Brimlish
+		QuestDescription: When you defeated the ancient goddess, her children fell in the lava as a result of the aftermath. Rumors say they mutated a fish, and I'd love if you fetched one for my new lava-filled fish tank.
 	}
 
 	ProcyonidPrawn: {
@@ -18576,6 +18581,13 @@ Buffs: {
 	ProfanedBabs: {
 		Description: The healer will heal your wounds!
 		DisplayName: The Profaned Soul
+		VanityDescription: The Profaned Babs will accompany you!
+		AllActive: The Profaned Babs will fight for and defend you!
+		EitherActive: The {0} Duo will {1}
+		Offense: Offensive
+		OffenseDescription: fight for and heal you!
+		Defense: Defensive
+		DefenseDescription: protect and heal you!
 	}
 
 	PoleWarperBuff: {
@@ -19069,8 +19081,20 @@ Buffs: {
 	}
 
 	ProfanedCrystalBuff: {
-		Description: The profaned soul within has been defiled by the powerful magic of a supreme witch
+		Description: You are an emissary of the profaned goddess now!
 		DisplayName: Devotion
+		Offense: The {0} empowers your offensive capabilities
+		Lava: heat of the lava
+		Day: light of the sun
+		Defense: The {0} your flames, empowering your defensive capabilities
+		Water: water douses
+		Honey: honey cools
+		Night: darkness of night cools
+		Enrage: Your weakened life force fuels your desperate attacks
+		NerfedEndo: An ascended ice construct is suppressing your true potential..
+		NerfedHat: A magical hat overwhelms your senses, squandering your true potential..
+		LockedSlots: Your profaned soul is constrained by your insufficient summoning powers
+		LockedSCal: The profaned soul within has been defiled by the powerful magic of a supreme witch
 	}
 
 	PolarisBuff: {

@@ -25,7 +25,7 @@ namespace CalRD.Buffs.StatBuffs
         public override void ModifyBuffText(ref string buffName, ref string tip, ref int rare)
         {
 			if (CalamityWorld.death)
-				tip += ". Provides cold protection in Death Mode";
+				tip += CalamityUtils.GetTextValue("Misc.TextSeparator") + CalamityUtils.GetTextValue("Misc.ColdProtection");
 		}
     }
 }

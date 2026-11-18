@@ -33,8 +33,8 @@ namespace CalRD.Items.Fishing.SunkenSeaCatches
 
 		public override void AnglerQuestChat(ref string description, ref string catchLocation)
 		{
-			description = "Sea serpents are pretty but not as pretty as the look on someone's face when they find one in their chair. I need you to fetch me the props for my next big scare, and the deadline is tomorrow.";
-			catchLocation = "Caught in the Sunken Sea.";
+			description = this.GetLocalizedValue("QuestDescription");
+			catchLocation = CalamityUtils.GetTextValue("Misc.Fishing.CaughtInSunkenSea");
 		}
 	}
 }

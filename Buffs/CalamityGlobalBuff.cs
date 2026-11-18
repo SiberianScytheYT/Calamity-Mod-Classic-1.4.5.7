@@ -119,32 +119,32 @@ namespace CalRD.Buffs
 
                 case BuffID.CursedInferno:
 					if (CalamityWorld.revenge)
-						tip += ". " + CalamityUtils.GetTextValue("Vanilla.BuffDescription.CursedInfernoExtra");
+						tip += CalamityUtils.GetTextValue("Misc.TextSeparator") + CalamityUtils.GetTextValue("Vanilla.BuffDescription.CursedInfernoExtra");
                     break;
 
                 case BuffID.Warmth:
-                    tip += ". " + CalamityUtils.GetTextValue("Vanilla.BuffDescription.WarmthExtra");
+                    tip += CalamityUtils.GetTextValue("Misc.TextSeparator") + CalamityUtils.GetTextValue("Vanilla.BuffDescription.WarmthExtra");
 					if (CalamityWorld.death)
-						tip += ". " + CalamityUtils.GetTextValue("Misc.ColdProtection");
+						tip += CalamityUtils.GetTextValue("Misc.TextSeparator") + CalamityUtils.GetTextValue("Misc.ColdProtection");
                     break;
 
                 case BuffID.Invisibility:
-                    tip += ". " + CalamityUtils.GetTextValue("Vanilla.BuffDescription.InvisibilityExtra");
+                    tip += CalamityUtils.GetTextValue("Misc.TextSeparator") + CalamityUtils.GetTextValue("Vanilla.BuffDescription.InvisibilityExtra");
                     break;
 
                 case BuffID.ObsidianSkin:
 					if (CalamityWorld.death)
-						tip += ". " + CalamityUtils.GetTextValue("Misc.HeatProtection");
+						tip += CalamityUtils.GetTextValue("Misc.TextSeparator") + CalamityUtils.GetTextValue("Misc.HeatProtection");
                     break;
 
                 case BuffID.Inferno:
 					if (CalamityWorld.death)
-						tip += ". " + CalamityUtils.GetTextValue("Misc.ColdProtection");
+						tip += CalamityUtils.GetTextValue("Misc.TextSeparator") + CalamityUtils.GetTextValue("Misc.ColdProtection");
                     break;
 
                 case BuffID.Campfire:
 					if (CalamityWorld.death)
-						tip += ". " + CalamityUtils.GetTextValue("Misc.ColdProtection");
+						tip += CalamityUtils.GetTextValue("Misc.TextSeparator") + CalamityUtils.GetTextValue("Misc.ColdProtection");
                     break;
 
                 case BuffID.Daybreak:

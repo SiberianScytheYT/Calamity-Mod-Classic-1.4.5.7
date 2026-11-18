@@ -37,15 +37,15 @@ namespace CalRD.Buffs.Summon
 			bool defense = player.Calamity().gDefense;
 			if (player.Calamity().profanedCrystal && (!player.Calamity().profanedCrystalBuffs && !CalamityWorld.downedSCal))
 			{
-				tip = "The Profaned Babs will accompany you!";
+				tip = this.GetLocalizedValue("VanityDescription");
 			}
 			else if (offense && defense)
 			{
-				tip = "The Profaned Babs will fight for and defend you!";
+				tip = this.GetLocalizedValue("AllActive");
 			}
 			else if (offense || defense)
 			{
-				tip = "The " + (offense ? "Offensive" : "Defensive") + " Duo will " + (offense ? "fight for and heal you!" : "protect and heal you!");
+				tip = this.GetLocalization("EitherActive").Format(this.GetLocalizedValue(offense ? "Offense" : "Defense"), this.GetLocalizedValue(offense ? "OffenseDescription" : "DefenseDescription"));
 			}
 		}
     }

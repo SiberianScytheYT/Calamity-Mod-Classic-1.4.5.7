@@ -33,8 +33,8 @@ namespace CalRD.Items.Fishing.BrimstoneCragCatches
 
 		public override void AnglerQuestChat(ref string description, ref string catchLocation)
 		{
-			description = "Y'know, it'd be an absolute calamity if I sent you to the ancient ruins in the depths of hell to catch a fish. And I plan to do just that. Now scram! The fish isn't going to catch itself.";
-			catchLocation = "Caught in the Brimstone Crag.";
+			description = this.GetLocalizedValue("QuestDescription");
+			catchLocation = CalamityUtils.GetTextValue("Misc.Fishing.CaughtInBrimstoneCrag");
 		}
 	}
 }

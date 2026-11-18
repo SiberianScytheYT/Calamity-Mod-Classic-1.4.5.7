@@ -638,8 +638,6 @@ namespace CalRD
 				List<int> bosses = new List<int>() { NPCType<OldDuke>() };
 				//List<int> loot = new List<int>() { ItemType<OldDukeBag>(), ItemType<InsidiousImpaler>(), ItemType<SepticSkewer>(), ItemType<FetidEmesis>(), ItemType<VitriolicViper>(), ItemType<CadaverousCarrion>(), ItemType<ToxicantTwister>(), ItemType<DukeScales>(), ItemType<MutatedTruffle>(), ItemID.SuperHealingPotion };
 				List<int> collection = new List<int>() { ItemType<OldDukeTrophy>(), ItemType<OldDukeMask>(), ItemType<KnowledgeOldDuke>() };
-				string instructions = $"Defeat the Acid Rain event post-Polterghast or fish using a [i:CalRD/BloodwormItem] in the Sulphurous Sea";
-				string despawn = CalamityUtils.ColorMessage("The old duke disappears amidst the acidic downpour.", new Color(0xF0, 0xE6, 0x8C));
 				AddBoss(bossChecklist, calamity, entryName, order, DownedBoomerDuke, bosses, new Dictionary<string, object>()
 				{
 					["displayName"] = GetDisplayName(entryName),
