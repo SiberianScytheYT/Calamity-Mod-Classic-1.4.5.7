@@ -114,12 +114,12 @@ namespace CalRD.Projectiles.Pets
             if (player.name == "Terry")
             {
                 doggoType += "S";
-                Main.NewText("Mods.CalRD.ClassicKeys.EdgyBossText10", Color.Cyan);
+                Main.NewText(Language.GetTextValue("Mods.CalRD.ClassicKeys.EdgyBossText10"), Color.Cyan);
             }
             else
             {
                 doggoType += "2";
-                Main.NewText("Mods.CalRD.ClassicKeys.EdgyBossText", Color.Cyan);
+                Main.NewText(Language.GetTextValue("Mods.CalRD.ClassicKeys.EdgyBossText"), Color.Cyan);
             }
 
             int type = Mod.Find<ModNPC>(doggoType).Type;
