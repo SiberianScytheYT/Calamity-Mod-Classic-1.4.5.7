@@ -103,7 +103,7 @@ namespace CalRD.Items.Accessories
                             line.Text = "";
                         }
                     }
-                    else if (line.Mod == "Terraria" && line.Text.Contains("Sell price"))
+                    else if (line.Mod == "Terraria" && line.Name == "Price")
                     {
                         line.Text = "";
                     }

@@ -13750,6 +13750,8 @@ Items: {
 			However, your defense is reduced by 3 due to your gelatinous body.
 			'''
 		DisplayName: King Slime
+		HasJumpBoost: Favorite this item to gain 5% increased movement speed and 2% increased jump speed.
+		NoJumpBoost: Favorite this item to gain 5% increased movement speed.
 	}
 
 	KnowledgeHiveMind: {

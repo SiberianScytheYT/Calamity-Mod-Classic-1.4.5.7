@@ -30,8 +30,8 @@ namespace CalRD.Items.LoreItems
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             bool autoJump = Main.player[Main.myPlayer].autoJump;
-			string hasJumpBoost = "Favorite this item to gain 5% increased movement speed and 2% increased jump speed.";
-			string noJumpBoost = "Favorite this item to gain 5% increased movement speed.";
+			string hasJumpBoost = this.GetLocalizedValue("HasJumpBoost");
+			string noJumpBoost = this.GetLocalizedValue("NoJumpBoost");
             foreach (TooltipLine line2 in list)
             {
                 if (line2.Mod == "Terraria" && line2.Name == "Tooltip2")
