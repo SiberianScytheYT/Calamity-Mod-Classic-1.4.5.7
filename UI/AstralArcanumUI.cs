@@ -27,7 +27,6 @@ namespace CalRD.UI
         private static bool Open;
 
         private static Texture2D CircleTextures;
-        private static string[] CircleNames;
 
         private static int LastHovered;
 
