@@ -62,7 +62,7 @@ namespace CalRD.UI
 
 			// Pick text to display, if it has not already been picked.
 			if (string.IsNullOrEmpty(mp.CurrentlyViewedHologramText))
-				mp.CurrentlyViewedHologramText = CalamityUtils.GetText("UI.Hologram" + ChooseDialogue()).ToString();
+				mp.CurrentlyViewedHologramText = CalamityUtils.GetText("UI.Hologram." + ChooseDialogue()).ToString();
 
 			Color backgroundColor = new Color(200, 200, 200, 200);
 
