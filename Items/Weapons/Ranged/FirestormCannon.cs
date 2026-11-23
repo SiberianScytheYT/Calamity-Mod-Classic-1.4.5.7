@@ -64,8 +64,7 @@ namespace CalRD.Items.Weapons.Ranged
 		public override float UseSpeedMultiplier(Player player)
 		{
 			if (player.altFunctionUse == 2)
-                return 1 / 3f;
-				//return 0.3333f;
+				return 0.3333f;
 			return 1f;
 		}
 
