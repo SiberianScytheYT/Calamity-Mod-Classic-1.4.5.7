@@ -3072,8 +3072,8 @@ namespace CalRD.NPCs
 			{
 				if (AstrumDeusIDs.Contains(npc.type))
 				{
-					GrenadeResist(projectile, ref projectile.damage);
-					PierceResistGlobal(projectile, ref projectile.damage);
+					GrenadeResist(projectile, ref modifiers);
+					PierceResistGlobal(projectile, ref modifiers);
 
 					if (ProjectileID.Sets.StardustDragon[projectile.type] || projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>())
 					{
@@ -3094,13 +3094,13 @@ namespace CalRD.NPCs
 				}
 				else if (CosmicGuardianIDs.Contains(npc.type) || DarkEnergyIDs.Contains(npc.type))
 				{
-					GrenadeResist(projectile, ref projectile.damage);
-					PierceResistGlobal(projectile, ref projectile.damage);
+					GrenadeResist(projectile, ref modifiers);
+					PierceResistGlobal(projectile, ref modifiers);
 				}
 				else if (StormWeaverIDs.Contains(npc.type))
 				{
-					GrenadeResist(projectile, ref projectile.damage);
-					PierceResistGlobal(projectile, ref projectile.damage);
+					GrenadeResist(projectile, ref modifiers);
+					PierceResistGlobal(projectile, ref modifiers);
 
 					if (projectile.type == ProjectileType<ShatteredSunScorchedBlade>())
 					{
@@ -3131,8 +3131,8 @@ namespace CalRD.NPCs
 				}
 				else if (DestroyerIDs.Contains(npc.type))
 				{
-					GrenadeResist(projectile, ref projectile.damage);
-					PierceResistGlobal(projectile, ref projectile.damage);
+					GrenadeResist(projectile, ref modifiers);
+					PierceResistGlobal(projectile, ref modifiers);
 
 					if (projectile.type == ProjectileType<FossilShardThrown>() || projectile.type == ProjectileType<DesecratedBubble>() || projectile.type == ProjectileType<KelvinCatalystStar>() || projectile.type == ProjectileType<RainbowTrail>())
 					{
@@ -3157,8 +3157,8 @@ namespace CalRD.NPCs
 				}
 				else if (AquaticScourgeIDs.Contains(npc.type))
 				{
-					GrenadeResist(projectile, ref projectile.damage);
-					PierceResistGlobal(projectile, ref projectile.damage);
+					GrenadeResist(projectile, ref modifiers);
+					PierceResistGlobal(projectile, ref modifiers);
 
 					if (projectile.type == ProjectileType<FlameBeamTip>() || projectile.type == ProjectileType<FlameBeamTip2>())
 					{
@@ -3181,15 +3181,15 @@ namespace CalRD.NPCs
 				}
 				else if (PerforatorIDs.Contains(npc.type))
 				{
-					GrenadeResist(projectile, ref projectile.damage);
-					PierceResistGlobal(projectile, ref projectile.damage);
+					GrenadeResist(projectile, ref modifiers);
+					PierceResistGlobal(projectile, ref modifiers);
 				}
 				else if (EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper)
 				{
 					if (npc.type == NPCID.Creeper)
-						GrenadeResist(projectile, ref projectile.damage);
+						GrenadeResist(projectile, ref modifiers);
 
-					PierceResistGlobal(projectile, ref projectile.damage);
+					PierceResistGlobal(projectile, ref modifiers);
 
 					if (projectile.type == ProjectileType<SparklingBeam>())
 					{
@@ -3198,8 +3198,8 @@ namespace CalRD.NPCs
 				}
 				else if (DesertScourgeIDs.Contains(npc.type))
 				{
-					GrenadeResist(projectile, ref projectile.damage);
-					PierceResistGlobal(projectile, ref projectile.damage);
+					GrenadeResist(projectile, ref modifiers);
+					PierceResistGlobal(projectile, ref modifiers);
 				}
 			}
 
@@ -3250,21 +3250,21 @@ namespace CalRD.NPCs
 			}
 		}
 
-		private void GrenadeResist(Projectile projectile, ref int damage)
+		private void GrenadeResist(Projectile projectile, ref NPC.HitModifiers modifiers)
 		{
 			if (GrenadeResistIDs.Contains(projectile.type))
-				damage = (int)(damage * 0.2);
+				modifiers.FinalDamage *= 0.2f;
 		}
 
-		private void PierceResistGlobal(Projectile projectile, ref int damage)
+		private void PierceResistGlobal(Projectile projectile, ref NPC.HitModifiers modifiers)
 		{
 			if (projectile.IsSummon() || projectile.aiStyle == 99)
 				return;
 
 			if (projectile.penetrate == -1)
-				damage = (int)(damage * 0.5);
+				modifiers.FinalDamage *= 0.5f;
 			else if (projectile.penetrate > 1)
-				damage = (int)MathHelper.Clamp(damage * (float)Math.Pow(0.9, projectile.penetrate), damage * 0.5f, damage);
+				modifiers.FinalDamage *= (int)MathHelper.Clamp((float)Math.Pow(0.9, projectile.penetrate), 0.5f, 1f);
 		}
 		#endregion
 
