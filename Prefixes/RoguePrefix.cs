@@ -30,28 +30,24 @@ namespace CalRD.Prefixes
         public override float shootSpeedMult => 1.15f;
     }
 
-    [LegacyName("HeftyWeaponPrefix")]
     public class Hefty : RogueWeaponPrefix
     {
         public override float damageMult => 1.1f;
         public override float stealthDmgMult => 1.15f;
     }
 
-    [LegacyName("MightyWeaponPrefix")]
     public class Mighty : RogueWeaponPrefix
     {
         public override float damageMult => 1.15f;
         public override float stealthDmgMult => 1.05f;
     }
 
-    [LegacyName("GloriousWeaponPrefix")]
     public class Glorious : RogueWeaponPrefix
     {
         public override float damageMult => 1.1f;
         public override float useTimeMult => 0.95f;
     }
 
-    [LegacyName("SerratedWeaponPrefix")]
     public class Serrated : RogueWeaponPrefix
     {
         public override float damageMult => 1.1f;
@@ -59,7 +55,6 @@ namespace CalRD.Prefixes
         public override float shootSpeedMult => 1.05f;
     }
 
-    [LegacyName("ViciousWeaponPrefix")]
     public class Vicious : RogueWeaponPrefix
     {
         public override float damageMult => 1.1f;
@@ -67,7 +62,6 @@ namespace CalRD.Prefixes
         public override float shootSpeedMult => 1.15f;
     }
 
-    [LegacyName("LethalWeaponPrefix")]
     public class Lethal : RogueWeaponPrefix
     {
         public override float damageMult => 1.1f;
@@ -77,7 +71,6 @@ namespace CalRD.Prefixes
         public override float stealthDmgMult => 1.05f;
     }
 
-    [LegacyName("FlawlessWeaponPrefix")]
     public class Flawless : RogueWeaponPrefix
     {
         public override float damageMult => 1.15f;
@@ -87,7 +80,6 @@ namespace CalRD.Prefixes
         public override float stealthDmgMult => 1.15f;
     }
 
-    [LegacyName("RadicalWeaponPrefix")]
     public class Radical : RogueWeaponPrefix
     {
         public override float damageMult => 1.05f;
@@ -96,27 +88,23 @@ namespace CalRD.Prefixes
         public override float stealthDmgMult => 0.9f;
     }
 
-    [LegacyName("BluntWeaponPrefix")]
     public class Blunt : RogueWeaponPrefix
     {
         public override float damageMult => 0.85f;
     }
 
-    [LegacyName("FlimsyWeaponPrefix")]
     public class Flimsy : RogueWeaponPrefix
     {
         public override float damageMult => 0.9f;
         public override float stealthDmgMult => 0.9f;
     }
 
-    [LegacyName("UnbalancedWeaponPrefix")]
     public class Unbalanced : RogueWeaponPrefix
     {
         public override float useTimeMult => 1.15f;
         public override float shootSpeedMult => 0.95f;
     }
 
-    [LegacyName("AtrociousWeaponPrefix")]
     public class Atrocious : RogueWeaponPrefix
     {
         public override float damageMult => 0.85f;
