@@ -29,7 +29,7 @@ namespace CalRD.Items.Weapons.Melee
             Item.useTime = 10;
             Item.knockBack = 50f;
             Item.UseSound = SoundID.Item1;
-            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.height = 160;
             Item.value = Item.buyPrice(5, 0, 0, 0);
             Item.rare = 10;

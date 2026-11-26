@@ -30,7 +30,7 @@ namespace CalRD.Items.Weapons.Melee
         {
             Item.width = 78;
             Item.height = 64;
-            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.damage = BaseDamage;
             Item.knockBack = Knockback;
             Item.useTime = 6;

@@ -40,7 +40,7 @@ namespace CalRD.Items.Weapons.Melee
             Item.rare = 6;
             Item.shoot = ModContent.ProjectileType<KelvinCatalystBoomerang>();
             Item.shootSpeed = 8f;
-            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 

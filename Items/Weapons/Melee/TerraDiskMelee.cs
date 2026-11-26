@@ -40,7 +40,7 @@ namespace CalRD.Items.Weapons.Melee
             Item.value = Item.buyPrice(0, 80, 0, 0);
             Item.rare = 8;
 
-            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.shoot = ModContent.ProjectileType<TerraDiskProjectile>();
             Item.shootSpeed = Speed;
         }

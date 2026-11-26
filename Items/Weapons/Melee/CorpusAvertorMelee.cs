@@ -37,7 +37,7 @@ namespace CalRD.Items.Weapons.Melee
 			Item.Calamity().customRarity = CalamityRarity.Dedicated;
 			Item.shoot = ModContent.ProjectileType<CorpusAvertorProj>();
 			Item.shootSpeed = 5f;
-			Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+			Item.DamageType = DamageClass.MeleeNoSpeed;
 		}
 
 		// Gains 10% of missing health as base damage.
