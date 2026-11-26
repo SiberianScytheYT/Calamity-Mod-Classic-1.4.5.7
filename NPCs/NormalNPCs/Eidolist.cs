@@ -8,6 +8,7 @@ using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalRD.NPCs.NormalNPCs
@@ -320,8 +321,9 @@ namespace CalRD.NPCs.NormalNPCs
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-			npcLoot.Add(ItemID.BlueLunaticHood, 10);
-            npcLoot.Add(ItemID.BlueLunaticRobe, 10);
+			var lunaticRobes = ItemDropRule.Common(ItemID.BlueLunaticHood, 10);
+            lunaticRobes.OnSuccess(ItemDropRule.Common(ItemID.BlueLunaticRobe));
+            npcLoot.Add(lunaticRobes);
             npcLoot.AddIf(() => !NPC.LunarApocalypseIsUp, ModContent.ItemType<EidolonTablet>(), 4);
             npcLoot.AddIf(() => CalamityWorld.downedCalamitas && !Main.expertMode, ModContent.ItemType<Lumenite>(), 1, 8, 10);
             npcLoot.AddIf(() => CalamityWorld.downedCalamitas && Main.expertMode, ModContent.ItemType<Lumenite>(), 2, 2, 4);

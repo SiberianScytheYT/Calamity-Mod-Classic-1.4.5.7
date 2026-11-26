@@ -85,7 +85,7 @@ namespace CalRD
             r.AddIngredient(ItemID.HealingPotion);
             r.AddIngredient(ItemID.Ruby);
             r.AddTile(TileID.Anvils);
-            r.Register();
+            r.Register().DisableDecraft();
 
             // Life Fruit
             r = GetNewRecipe(ItemID.LifeFruit);
